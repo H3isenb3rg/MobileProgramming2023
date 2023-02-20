@@ -1,3 +1,8 @@
+Homeworks/themes
+Homeworks/images
+
+### Default Kotlin .gitignore
+
 # Compiled class file
 *.class
 
