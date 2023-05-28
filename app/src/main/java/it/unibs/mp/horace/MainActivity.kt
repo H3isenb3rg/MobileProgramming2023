@@ -1,9 +1,9 @@
-package it.unibs.mp.timetracker
+package it.unibs.mp.horace
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import it.unibs.mp.timetracker.databinding.ActivityMainBinding
+import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

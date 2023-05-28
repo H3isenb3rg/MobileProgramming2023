@@ -1,4 +1,4 @@
-package it.unibs.mp.timetracker
+package it.unibs.mp.horace
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

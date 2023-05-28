@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'it.unibs.mp.timetracker'
+    namespace 'it.unibs.mp.horace'
     compileSdk 33
 
     defaultConfig {
-        applicationId "it.unibs.mp.timetracker"
+        applicationId "it.unibs.mp.horace"
         minSdk 23
         targetSdk 33
         versionCode 1

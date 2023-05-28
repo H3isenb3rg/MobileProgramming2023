@@ -1,4 +1,4 @@
-package it.unibs.mp.timetracker
+package it.unibs.mp.horace
 
 import android.content.Intent
 import android.os.Bundle
