@@ -1,5 +1,5 @@
-# Time Tracking App
-Time tracking app for a course in Mobile Programming at University of Brescia.
+# Horace
+Horace is a productivity tracking app developed for a course in Mobile Programming at the University of Brescia.
 
 ## Authors
 Matteo Beatrice (<m.beatrice@studenti.unibs.it>)
