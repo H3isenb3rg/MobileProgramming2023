@@ -2,23 +2,25 @@ package it.unibs.mp.horace
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import it.unibs.mp.horace.databinding.AuthBinding
 
 class Auth : AppCompatActivity() {
-    private lateinit var btnLogin: Button
-    private lateinit var btnSignUp: Button
+    private lateinit var binding: AuthBinding
     // private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.authentication)
+        binding = AuthBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnLogin = findViewById(R.id.btnLogin)
-        btnSignUp = findViewById(R.id.btnSignUp)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         // mAuth = FirebaseAuth.getInstance() TODO: Set up Firebase
 
-        btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             val intent = Intent(this, LogIn::class.java)
             startActivity(intent)
         }

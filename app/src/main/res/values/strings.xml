@@ -2,9 +2,9 @@
     <string name="app_name">Horace</string>
     <string name="profile">Profile</string>
     <string name="authentication_desc">Sign in to your account or create a new one to automatically save your data to the cloud, and sync to your other devices.</string>
-    <string name="log_in_question">Already have an account? <b>Sign In</b></string>
+    <string name="log_in_question">Already have an account? Sign In</string>
     <string name="log_in">Log In</string>
-    <string name="sign_up">Need to create a new account? <b>Sign Up</b></string>
+    <string name="sign_up">Need to create a new account? Sign Up</string>
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
     <string name="settings">Settings</string>
