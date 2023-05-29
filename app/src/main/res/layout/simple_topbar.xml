@@ -15,8 +15,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/baseline_arrow_back_24"
-            app:title="@string/sample_topbar" />
+            app:navigationIcon="@drawable/baseline_arrow_back_24"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
