@@ -1,8 +1,12 @@
 <resources>
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Make status bar transparent -->
+        <!-- Make status bar transparent
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+        -->
+
+        <!-- Font -->
+        <item name="android:fontFamily">@font/dm_sans</item>
 
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>

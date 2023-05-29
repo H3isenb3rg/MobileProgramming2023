@@ -3,6 +3,7 @@ package it.unibs.mp.horace
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.login -> {
-                    val intent = Intent(this, Auth::class.java)
-                    startActivity(intent)
+                    val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+                    val navController = navHostFragment.navController
                     true
                 }
 
