@@ -15,7 +15,6 @@ class Auth : AppCompatActivity() {
         binding = AuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // mAuth = FirebaseAuth.getInstance() TODO: Set up Firebase

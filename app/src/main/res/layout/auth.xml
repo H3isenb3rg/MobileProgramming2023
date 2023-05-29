@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+
                 android:text="@string/log_in_question" />
 
             <Button
@@ -55,9 +56,12 @@
                 android:text="@string/sign_up"
                 android:textColor="?attr/colorOnSecondary" />
 
-            <View
-                style="@style/Divider"
-                android:layout_marginTop="24dp" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:dividerInsetEnd="16dp"
+                app:dividerInsetStart="16dp" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
