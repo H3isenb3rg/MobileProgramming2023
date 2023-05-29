@@ -1,38 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    tools:context=".SignInFragment">
 
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/top_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/baseline_arrow_back_24"
-                app:title="@string/sign_in" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <!-- NB: Outline per qualche motivo non funziona nella preview -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedEmailField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top_app_bar"
-        android:layout_centerHorizontal="true"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:hint="@string/email">
@@ -48,8 +27,6 @@
         android:id="@+id/outlinedPwdField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/outlinedEmailField"
-        android:layout_centerHorizontal="true"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:hint="@string/pwd"
@@ -68,8 +45,6 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/outlinedPwdField"
-        android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="50dp"
         android:padding="0dp"
@@ -79,17 +54,6 @@
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/forgot_btn"
-        android:layout_centerHorizontal="true"
         android:layout_marginStart="75dp"
         android:text="@string/sign_in" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bnBottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/nav_menu" />
-
-
-</RelativeLayout>
+</LinearLayout>
