@@ -24,10 +24,38 @@
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/drawer_menu"
                 app:title="@string/horace"
                 app:titleCentered="true" />
 
+            <androidx.drawerlayout.widget.DrawerLayout
+                android:id="@+id/drawerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:openDrawer="start">
+
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true">
+
+                    <!-- Screen content -->
+                    <!-- Use app:layout_behavior="@string/appbar_scrolling_view_behavior" to fit below top app bar -->
+
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                <com.google.android.material.navigation.NavigationView
+                    android:id="@+id/navigationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:menu="@menu/drawer_menu"
+                    android:layout_gravity="start" />
+
+            </androidx.drawerlayout.widget.DrawerLayout>
+
         </com.google.android.material.appbar.AppBarLayout>
+
+
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
