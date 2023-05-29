@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.login -> {
-                    val intent = Intent(this, Auth::class.java)
+                    val intent = Intent(this, AuthActivity::class.java)
                     startActivity(intent)
                     true
                 }

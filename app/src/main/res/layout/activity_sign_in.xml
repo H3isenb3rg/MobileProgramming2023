@@ -13,8 +13,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/grey">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
@@ -74,8 +73,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="50dp"
         android:padding="0dp"
-        android:text="@string/forgot_password"
-        android:textColor="@color/dark_green" />
+        android:text="@string/forgot_password" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -84,7 +82,6 @@
         android:layout_below="@id/forgot_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="75dp"
-        android:backgroundTint="@color/dark_green"
         android:text="@string/sign_in" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -92,8 +89,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/grey"
-        app:itemTextColor="@color/black"
         app:menu="@menu/nav_menu" />
 
 
