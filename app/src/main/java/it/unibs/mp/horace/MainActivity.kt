@@ -2,32 +2,58 @@ package it.unibs.mp.horace
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import com.google.android.material.navigation.NavigationBarView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        NavigationBarView.OnItemSelectedListener { item ->
+        // See https://developer.android.com/codelabs/android-navigation.
+        val host: NavHostFragment =
+            binding.navHostFragment.getFragment() as NavHostFragment? ?: return
+        navController = host.navController
+
+        setUpBottomNav()
+    }
+
+    /**
+     * Sets up the bottom navigation bar to use Navigation
+     * and to navigate to the destinations when an item is clicked.
+     *
+     * For info on the material BottomNavigation component, read the
+     * [material docs](https://github.com/material-components/material-components-android/blob/master/docs/components/BottomNavigation.md)
+     */
+    private fun setUpBottomNav() {
+        // Add nav controller to the bottom bar.
+        // This is needed because the bar is outside of the NavHostFragment container.
+        binding.bottomNav.setupWithNavController(navController)
+
+        binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    findNavController(item.itemId).navigate(MainNavDirections.actionGlobalHomeFragment())
+                    // findNavController should not be used here
+                    // as the nav controller is directly available.
+                    // Also findNav controller can ONlY be used inside the fragments
+                    // (not in the activity) because NavHostFragment has to be a parent.
+                    navController.navigate(MainNavDirections.actionGlobalHomeFragment())
                     true
                 }
 
                 R.id.history -> {
-                    findNavController(item.itemId).navigate(MainNavDirections.actionGlobalHistoryFragment())
+                    navController.navigate(MainNavDirections.actionGlobalHistoryFragment())
                     true
                 }
 
                 R.id.friends -> {
-                    findNavController(item.itemId).navigate(MainNavDirections.actionGlobalFriendsFragment())
+                    navController.navigate(MainNavDirections.actionGlobalFriendsFragment())
                     true
                 }
 
