@@ -2,6 +2,8 @@ package it.unibs.mp.horace
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import com.google.android.material.navigation.NavigationBarView
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -12,15 +14,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.topAppBar.setNavigationOnClickListener {
-            binding.drawerLayout.open()
-        }
+        NavigationBarView.OnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    findNavController(item.itemId).navigate(MainNavDirections.actionGlobalHomeFragment())
+                    true
+                }
 
-        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
-            // Handle menu item selected
-            menuItem.isChecked = true
-            binding.drawerLayout.close()
-            true
+                R.id.history -> {
+                    findNavController(item.itemId).navigate(MainNavDirections.actionGlobalHistoryFragment())
+                    true
+                }
+
+                R.id.friends -> {
+                    findNavController(item.itemId).navigate(MainNavDirections.actionGlobalFriendsFragment())
+                    true
+                }
+
+                else -> false
+            }
         }
     }
 }
