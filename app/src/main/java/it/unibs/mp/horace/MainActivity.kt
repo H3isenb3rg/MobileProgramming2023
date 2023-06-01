@@ -30,7 +30,15 @@ class MainActivity : AppCompatActivity() {
      * Adds navigation to top app bar.
      */
     private fun setUpTopAppBar() {
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        // Set top level destinations.
+        // Up action won't be shown in the top app bar on these screens.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.historyFragment,
+                R.id.friendsFragment
+            )
+        )
         binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
     }
 

@@ -11,6 +11,9 @@
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_authGraph"
             app:destination="@id/authGraph" />
     </fragment>
@@ -52,7 +55,11 @@
         android:id="@+id/friendsFragment"
         android:name="it.unibs.mp.horace.FriendsFragment"
         android:label="@string/friends"
-        tools:layout="@layout/fragment_friends" />
+        tools:layout="@layout/fragment_friends">
+        <action
+            android:id="@+id/action_friendsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_friendsFragment"
         app:destination="@id/friendsFragment" />
@@ -60,7 +67,11 @@
         android:id="@+id/historyFragment"
         android:name="it.unibs.mp.horace.HistoryFragment"
         android:label="@string/history"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history">
+        <action
+            android:id="@+id/action_historyFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_historyFragment"
         app:destination="@id/historyFragment" />
@@ -68,5 +79,9 @@
         android:id="@+id/settingsFragment"
         android:name="it.unibs.mp.horace.SettingsFragment"
         android:label="@string/settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_authGraph2"
+            app:destination="@id/authGraph" />
+    </fragment>
 </navigation>
