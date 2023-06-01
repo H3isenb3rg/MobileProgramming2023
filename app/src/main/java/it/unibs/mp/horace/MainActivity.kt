@@ -2,6 +2,7 @@ package it.unibs.mp.horace
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -22,14 +23,14 @@ class MainActivity : AppCompatActivity() {
         val host: NavHostFragment = binding.navHostFragment.getFragment() as NavHostFragment
         navController = host.navController
 
-        setUpTopAppBar()
         setUpBottomNavigation()
     }
 
     /**
-     * Adds navigation to top app bar.
+     * Adds global config to action bar.
+     * The action bar will be created in the fragments.
      */
-    private fun setUpTopAppBar() {
+    fun setupToolbar(toolbar: Toolbar) {
         // Set top level destinations.
         // Up action won't be shown in the top app bar on these screens.
         val appBarConfiguration = AppBarConfiguration(
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.friendsFragment
             )
         )
-        binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     /**
