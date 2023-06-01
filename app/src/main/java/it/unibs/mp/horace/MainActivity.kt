@@ -27,10 +27,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Adds global config to action bar.
-     * The action bar will be created in the fragments.
+     * Sets up toolbar to use navigation
      */
-    fun setupToolbar(toolbar: Toolbar) {
+    fun setupToolbar(toolbar: Toolbar, hasSettings: Boolean = false) {
         // Set top level destinations.
         // Up action won't be shown in the top app bar on these screens.
         val appBarConfiguration = AppBarConfiguration(
@@ -41,6 +40,20 @@ class MainActivity : AppCompatActivity() {
             )
         )
         toolbar.setupWithNavController(navController, appBarConfiguration)
+        if (hasSettings) {
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.settings -> {
+                        val action =
+                            MainNavDirections.actionGlobalSettingsFragment()
+                        navController.navigate(action)
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }
     }
 
     /**

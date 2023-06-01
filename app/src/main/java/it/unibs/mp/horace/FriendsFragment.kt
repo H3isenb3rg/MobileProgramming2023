@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
 
 class FriendsFragment : Fragment() {
@@ -20,18 +19,7 @@ class FriendsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as MainActivity).setupToolbar(binding.topBarContainer.topAppBar)
-        binding.topBarContainer.topAppBar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.settings -> {
-                    val action = FriendsFragmentDirections.actionFriendsFragmentToSettingsFragment()
-                    view.findNavController().navigate(action)
-                    true
-                }
-
-                else -> false
-            }
-        }
+        (requireActivity() as MainActivity).setupToolbar(binding.topBarContainer.topAppBar, true)
     }
 
     override fun onDestroyView() {
