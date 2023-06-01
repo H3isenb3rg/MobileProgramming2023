@@ -3,6 +3,7 @@ package it.unibs.mp.horace
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,6 +18,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Lay out app behind system bars:
+        // https://developer.android.com/develop/ui/views/layout/edge-to-edge#lay-out-in-full-screen
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // See https://developer.android.com/codelabs/android-navigation.
         // and https://developer.android.com/guide/navigation/integrations/ui
