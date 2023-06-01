@@ -16,7 +16,10 @@ class AuthFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnSignIn.setOnClickListener {
             val action = AuthFragmentDirections.actionAuthFragmentToSignInFragment()
             findNavController().navigate(action)
@@ -25,8 +28,6 @@ class AuthFragment : Fragment() {
             val action = AuthFragmentDirections.actionAuthFragmentToSignUpFragment()
             findNavController().navigate(action)
         }
-
-        return binding.root
     }
 
     override fun onDestroyView() {
