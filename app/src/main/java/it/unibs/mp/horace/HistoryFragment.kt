@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import it.unibs.mp.horace.databinding.FragmentHistoryBinding
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : TopLevelFragment() {
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
@@ -16,10 +15,6 @@ class HistoryFragment : Fragment() {
     ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as MainActivity).setupToolbar(binding.topBarContainer.topAppBar, true)
     }
 
     override fun onDestroyView() {

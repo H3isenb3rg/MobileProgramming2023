@@ -2,17 +2,26 @@ package it.unibs.mp.horace
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
+    // Top level destinations.
+    // Up action won't be shown in the top app bar on these screens.
+    private var appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
+        setOf(
+            R.id.homeFragment, R.id.historyFragment, R.id.friendsFragment
+        )
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,36 +38,18 @@ class MainActivity : AppCompatActivity() {
         navController = host.navController
 
         setUpBottomNavigation()
+        setupActionBar()
     }
 
     /**
-     * Sets up toolbar to use navigation
+     * Sets up action bar to use navigation.
      */
-    fun setupToolbar(toolbar: Toolbar, hasSettings: Boolean = false) {
-        // Set top level destinations.
-        // Up action won't be shown in the top app bar on these screens.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.historyFragment,
-                R.id.friendsFragment
-            )
-        )
-        toolbar.setupWithNavController(navController, appBarConfiguration)
-        if (hasSettings) {
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.settings -> {
-                        val action =
-                            MainNavDirections.actionGlobalSettingsFragment()
-                        navController.navigate(action)
-                        true
-                    }
+    private fun setupActionBar() {
+        // Set material toolbar as action bar
+        setSupportActionBar(binding.topAppBar)
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
-                    else -> false
-                }
-            }
-        }
+
     }
 
     /**
@@ -66,7 +57,6 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setUpBottomNavigation() {
         binding.bottomNav.setupWithNavController(navController)
-
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
@@ -87,5 +77,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
