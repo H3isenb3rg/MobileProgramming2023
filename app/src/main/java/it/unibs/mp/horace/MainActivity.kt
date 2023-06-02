@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity() {
 
         setUpBottomNavigation()
         setupActionBar()
+
+        // val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        // val theme = prefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_NO)
+        // AppCompatDelegate.setDefaultNightMode(theme)
     }
 
     /**

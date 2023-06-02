@@ -28,4 +28,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content_description_settings">Navigate to settings</string>
+
+    <string-array name="listThemeNames">
+        <item>Follow device theme</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="listThemeValues">
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

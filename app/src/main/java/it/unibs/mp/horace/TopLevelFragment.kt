@@ -17,7 +17,7 @@ abstract class TopLevelFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.top_level_top_menu, menu)
+                menuInflater.inflate(R.menu.top_level_app_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

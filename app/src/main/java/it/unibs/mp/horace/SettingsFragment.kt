@@ -1,26 +1,32 @@
 package it.unibs.mp.horace
 
+import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import it.unibs.mp.horace.databinding.FragmentSettingsBinding
+import androidx.preference.PreferenceFragmentCompat
 
-class SettingsFragment : Fragment() {
-    private var _binding: FragmentSettingsBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        return binding.root
-        // Inflate the layout for this fragment
+class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences, rootKey)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as MainActivity).setupToolbar(binding.topBarContainer.topAppBar)
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        // if (key == "theme") {
+        // val newTheme =
+        //     sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        // AppCompatDelegate.setDefaultNightMode(newTheme)
+        // }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        preferenceScreen.sharedPreferences
+            ?.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        preferenceScreen.sharedPreferences
+            ?.unregisterOnSharedPreferenceChangeListener(this)
     }
 }
