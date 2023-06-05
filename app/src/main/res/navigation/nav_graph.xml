@@ -15,6 +15,10 @@
             app:destination="@id/authGraph"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="signUpSuccessful"
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
 
     <navigation
@@ -46,7 +50,11 @@
             android:id="@+id/action_global_homeFragment"
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="signUpSuccessful"
+                android:defaultValue="true" />
+        </action>
     </navigation>
 
     <action

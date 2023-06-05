@@ -26,6 +26,7 @@
     <string name="password_special"><![CDATA[Password must contain at least 1 special character (@#$%^&+=)]]></string>
     <string name="password_does_not_match">Password does not match</string>
     <string name="sign_up_firebase_error">An error happened. Please try again later.</string>
+    <string name="signed_up_successfully">Signed up successfully</string>
 
     <string-array name="listThemeNames">
         <item>Follow device theme</item>
