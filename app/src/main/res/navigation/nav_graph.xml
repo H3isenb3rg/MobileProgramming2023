@@ -21,7 +21,7 @@
         <fragment
             android:id="@+id/authFragment"
             android:name="it.unibs.mp.horace.AuthFragment"
-            android:label="fragment_auth"
+            android:label="@string/auth_fragment"
             tools:layout="@layout/fragment_auth">
             <action
                 android:id="@+id/action_authFragment_to_signInFragment"
@@ -33,12 +33,12 @@
         <fragment
             android:id="@+id/signInFragment"
             android:name="it.unibs.mp.horace.SignInFragment"
-            android:label="fragment_sign_in"
+            android:label="@string/sign_in_fragment"
             tools:layout="@layout/fragment_sign_in" />
         <fragment
             android:id="@+id/signUpFragment"
             android:name="it.unibs.mp.horace.SignUpFragment"
-            android:label="fragment_sign_up"
+            android:label="@string/sign_up_fragment"
             tools:layout="@layout/fragment_sign_up" />
         <action
             android:id="@+id/action_global_homeFragment"
@@ -76,7 +76,7 @@
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings">
         <action
-            android:id="@+id/action_settingsFragment_to_authGraph2"
+            android:id="@+id/action_settingsFragment_to_authGraph"
             app:destination="@id/authGraph" />
     </fragment>
     <action

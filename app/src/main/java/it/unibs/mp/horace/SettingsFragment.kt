@@ -3,11 +3,20 @@ package it.unibs.mp.horace
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
+import androidx.navigation.fragment.findNavController
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 
 class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
+        val preferenceMap = findPreference<Preference>("auth")!!;
+        preferenceMap.setOnPreferenceClickListener {
+            this.findNavController()
+                .navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
+            true
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
