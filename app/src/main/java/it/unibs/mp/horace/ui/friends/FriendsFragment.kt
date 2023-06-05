@@ -1,19 +1,20 @@
-package it.unibs.mp.horace
+package it.unibs.mp.horace.ui.friends
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import it.unibs.mp.horace.databinding.FragmentHomeBinding
+import it.unibs.mp.horace.databinding.FragmentFriendsBinding
+import it.unibs.mp.horace.ui.TopLevelFragment
 
-class HomeFragment : TopLevelFragment() {
-    private var _binding: FragmentHomeBinding? = null
+class FriendsFragment : TopLevelFragment() {
+    private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentFriendsBinding.inflate(inflater, container, false)
         return binding.root
     }
 

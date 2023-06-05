@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="it.unibs.mp.horace.HomeFragment"
+        android:name="it.unibs.mp.horace.ui.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
@@ -20,7 +20,7 @@
         app:startDestination="@id/authFragment">
         <fragment
             android:id="@+id/authFragment"
-            android:name="it.unibs.mp.horace.AuthFragment"
+            android:name="it.unibs.mp.horace.ui.auth.AuthFragment"
             android:label="@string/auth_fragment"
             tools:layout="@layout/fragment_auth">
             <action
@@ -32,12 +32,12 @@
         </fragment>
         <fragment
             android:id="@+id/signInFragment"
-            android:name="it.unibs.mp.horace.SignInFragment"
+            android:name="it.unibs.mp.horace.ui.signin.SignInFragment"
             android:label="@string/sign_in_fragment"
             tools:layout="@layout/fragment_sign_in" />
         <fragment
             android:id="@+id/signUpFragment"
-            android:name="it.unibs.mp.horace.SignUpFragment"
+            android:name="it.unibs.mp.horace.ui.signup.SignUpFragment"
             android:label="@string/sign_up_fragment"
             tools:layout="@layout/fragment_sign_up" />
         <action
@@ -52,7 +52,7 @@
         app:exitAnim="@anim/nav_default_exit_anim" />
     <fragment
         android:id="@+id/friendsFragment"
-        android:name="it.unibs.mp.horace.FriendsFragment"
+        android:name="it.unibs.mp.horace.ui.friends.FriendsFragment"
         android:label="@string/friends"
         tools:layout="@layout/fragment_friends" />
     <action
@@ -62,7 +62,7 @@
         app:exitAnim="@anim/nav_default_exit_anim" />
     <fragment
         android:id="@+id/historyFragment"
-        android:name="it.unibs.mp.horace.HistoryFragment"
+        android:name="it.unibs.mp.horace.ui.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/fragment_history" />
     <action
@@ -72,7 +72,7 @@
         app:exitAnim="@anim/nav_default_exit_anim" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="it.unibs.mp.horace.SettingsFragment"
+        android:name="it.unibs.mp.horace.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings">
         <action

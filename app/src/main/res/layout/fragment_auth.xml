@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".AuthFragment">
+    tools:context=".ui.auth.AuthFragment">
 
     <TextView
         android:id="@+id/auth_desc"

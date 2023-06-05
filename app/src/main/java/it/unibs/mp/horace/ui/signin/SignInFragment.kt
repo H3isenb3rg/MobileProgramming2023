@@ -1,10 +1,11 @@
-package it.unibs.mp.horace
+package it.unibs.mp.horace.ui.signin
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import it.unibs.mp.horace.R
 
 class SignInFragment : Fragment() {
 

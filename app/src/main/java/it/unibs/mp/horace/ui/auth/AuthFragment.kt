@@ -1,4 +1,4 @@
-package it.unibs.mp.horace
+package it.unibs.mp.horace.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
