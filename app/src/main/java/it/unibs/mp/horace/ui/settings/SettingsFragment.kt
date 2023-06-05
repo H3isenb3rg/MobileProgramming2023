@@ -12,7 +12,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val preferenceMap = findPreference<Preference>("auth")!!;
+        val preferenceMap = findPreference<Preference>("auth")!!
         preferenceMap.setOnPreferenceClickListener {
             this.findNavController()
                 .navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
