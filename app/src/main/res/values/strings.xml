@@ -19,6 +19,13 @@
     <string name="sign_up_fragment">Sign Up</string>
     <string name="username">Username</string>
     <string name="password_confirm">Confirm password</string>
+    <string name="email_invalid">Email is not valid</string>
+    <string name="password_min_length">Password must have at least 8 characters</string>
+    <string name="password_uppercase">Password must contain at least 1 uppercase character</string>
+    <string name="password_lowercase">Password must contain at least 1 lowercase character</string>
+    <string name="password_special"><![CDATA[Password must contain at least 1 special character (@#$%^&+=)]]></string>
+    <string name="password_does_not_match">Password does not match</string>
+    <string name="sign_up_firebase_error">An error happened. Please try again later.</string>
 
     <string-array name="listThemeNames">
         <item>Follow device theme</item>
