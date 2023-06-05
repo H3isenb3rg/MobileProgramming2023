@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui
+package it.unibs.mp.horace
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,7 +10,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
-import it.unibs.mp.horace.R
 
 abstract class TopLevelFragment : Fragment() {
 

@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
 
-        android:text="@string/log_in_question" />
+        android:text="@string/sign_in_question" />
 
     <Button
         android:id="@+id/btnSignUp"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/sign_up"
+        android:text="@string/sign_up_question"
         android:textColor="?attr/colorOnSecondary" />
 
     <com.google.android.material.divider.MaterialDivider

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import it.unibs.mp.horace.TopLevelFragment
 import it.unibs.mp.horace.databinding.FragmentHistoryBinding
-import it.unibs.mp.horace.ui.TopLevelFragment
 
 class HistoryFragment : TopLevelFragment() {
     private var _binding: FragmentHistoryBinding? = null
