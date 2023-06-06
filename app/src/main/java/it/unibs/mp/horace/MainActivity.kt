@@ -49,11 +49,11 @@ class MainActivity : AppCompatActivity() {
      * Sets up action bar to use navigation.
      */
     private fun setupActionBar() {
-        // Set material toolbar as action bar
+        // Set material toolbar as action bar.
+        // This is required to use the menu provider.
         setSupportActionBar(binding.topAppBar)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-
     }
 
     /**
@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        // Handle up button navigation
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

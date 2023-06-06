@@ -11,18 +11,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 
+/**
+ * A fragment that is a root of the navigation graph.
+ * In top level fragments the settings icon will be shown in the app bar.
+ */
 abstract class TopLevelFragment : Fragment() {
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // The menu host is the class where the app bar is located
         val menuHost: MenuHost = requireActivity()
 
-        // Adds a menu provider with the settings icon
+        // Adds the menu with the settings icon to the app bar
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.top_level_app_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // When the settings icon is pressed, nav to settings fragment
                 if (menuItem.itemId == R.id.settings) {
                     val action = MainNavDirections.actionGlobalSettingsFragment()
                     view.findNavController().navigate(action)
