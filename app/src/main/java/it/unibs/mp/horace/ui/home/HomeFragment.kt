@@ -23,6 +23,8 @@ class HomeFragment : TopLevelFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // If the fragment is reached after a successful sign up,
         // show a snack bar
         if (args.signUpSuccessful) {
