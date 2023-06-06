@@ -40,7 +40,13 @@
             android:id="@+id/signInFragment"
             android:name="it.unibs.mp.horace.ui.signin.SignInFragment"
             android:label="@string/sign_in_fragment"
-            tools:layout="@layout/fragment_sign_in" />
+            tools:layout="@layout/fragment_sign_in">
+            <action
+                android:id="@+id/action_signInFragment_to_resetPasswordFragment"
+                app:destination="@id/resetPasswordFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+        </fragment>
         <fragment
             android:id="@+id/signUpFragment"
             android:name="it.unibs.mp.horace.ui.signup.SignUpFragment"
@@ -55,6 +61,11 @@
                 android:name="signUpSuccessful"
                 android:defaultValue="true" />
         </action>
+        <fragment
+            android:id="@+id/resetPasswordFragment"
+            android:name="it.unibs.mp.horace.ResetPasswordFragment"
+            android:label="fragment_reset_password"
+            tools:layout="@layout/fragment_reset_password" />
     </navigation>
 
     <action

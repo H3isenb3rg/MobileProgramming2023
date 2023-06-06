@@ -8,8 +8,8 @@
     <string name="content_description_settings">Navigate to settings</string>
     <string name="history">History</string>
     <string name="friends">Friends</string>
-    <string name="sign_in">Sign In</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot your password?</string>
@@ -27,6 +27,7 @@
     <string name="password_does_not_match">Password does not match</string>
     <string name="sign_up_firebase_error">An error happened. Please try again later.</string>
     <string name="signed_up_successfully">Signed up successfully</string>
+    <string name="i_accept_the_terms_and_conditions">I accept the terms and conditions</string>
 
     <string-array name="listThemeNames">
         <item>Follow device theme</item>
@@ -39,4 +40,9 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="terms_error">Terms must be accepted</string>
+    <string name="username_min_length">Username must have at least 3 characters</string>
+    <string name="username_chars">Username can only contain letters, numbers, lines and underscores</string>
 </resources>

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,8 +21,11 @@ class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
+    private val username get() = binding.username.editText?.text.toString()
     private val email get() = binding.email.editText?.text.toString()
     private val password get() = binding.password.editText?.text.toString()
+    private val passwordConfirm get() = binding.passwordConfirm.editText?.text.toString()
+    private val terms get() = binding.terms.isChecked
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,6 +40,8 @@ class SignUpFragment : Fragment() {
         addChangeListeners()
 
         binding.signUp.setOnClickListener {
+            validateAll()
+
             if (!viewModel.isEverythingValid) {
                 return@setOnClickListener
             }
@@ -44,7 +49,11 @@ class SignUpFragment : Fragment() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        findNavController().navigate(SignUpFragmentDirections.actionGlobalHomeFragment())
+                        findNavController().navigate(
+                            SignUpFragmentDirections.actionGlobalHomeFragment(
+                                true
+                            )
+                        )
                     } else {
                         Snackbar.make(
                             view, getString(R.string.sign_up_firebase_error), Snackbar.LENGTH_LONG
@@ -55,30 +64,64 @@ class SignUpFragment : Fragment() {
     }
 
     private fun addChangeListeners() {
-        binding.email.editText?.doOnTextChanged { text, _, _, _ ->
-            if (!viewModel.validateEmail(text.toString())) {
-                binding.email.error = getString(R.string.email_invalid)
-            }
+        binding.username.editText?.addTextChangedListener {
+            validateUsername()
         }
+        binding.email.editText?.addTextChangedListener {
+            validateEmail()
+        }
+        binding.password.editText?.addTextChangedListener {
+            validatePassword()
+        }
+        binding.passwordConfirm.editText?.addTextChangedListener {
+            validatePasswordConfirm()
+        }
+        binding.terms.setOnCheckedChangeListener { _, _ ->
+            validateTerms()
+        }
+    }
 
-        binding.password.editText?.doOnTextChanged { text, _, _, _ ->
-            binding.email.error = when (viewModel.validatePassword(text.toString())) {
-                SignUpViewModel.ERROR_PASSWORD_LENGTH -> getString(R.string.password_min_length)
-                SignUpViewModel.ERROR_PASSWORD_UPPERCASE -> getString(R.string.password_uppercase)
-                SignUpViewModel.ERROR_PASSWORD_LOWERCASE -> getString(R.string.password_lowercase)
-                SignUpViewModel.ERROR_PASSWORD_SPECIAL -> getString(R.string.password_special)
-                else -> null
-            }
-        }
+    private fun validateAll() {
+        validateUsername()
+        validateEmail()
+        validatePassword()
+        validatePasswordConfirm()
+        validateTerms()
+    }
 
-        binding.passwordConfirm.editText?.doOnTextChanged { text, _, _, _ ->
-            if (!viewModel.validatePasswordConfirm(
-                    password, text.toString()
-                )
-            ) {
-                binding.passwordConfirm.error = getString(R.string.password_does_not_match)
-            }
+    private fun validateUsername() {
+        binding.username.error = when (viewModel.updateUsername(username)) {
+            SignUpViewModel.ERROR_USERNAME_LENGTH -> getString(R.string.username_min_length)
+            SignUpViewModel.ERROR_USERNAME_CHARS -> getString(R.string.username_chars)
+            else -> null
         }
+    }
+
+    private fun validateEmail() {
+        binding.email.error =
+            if (viewModel.updateEmail(email)) null else getString(R.string.email_invalid)
+    }
+
+    private fun validatePassword() {
+        binding.password.error = when (viewModel.updatePassword(password)) {
+            SignUpViewModel.ERROR_PASSWORD_LENGTH -> getString(R.string.password_min_length)
+            SignUpViewModel.ERROR_PASSWORD_UPPERCASE -> getString(R.string.password_uppercase)
+            SignUpViewModel.ERROR_PASSWORD_LOWERCASE -> getString(R.string.password_lowercase)
+            SignUpViewModel.ERROR_PASSWORD_SPECIAL -> getString(R.string.password_special)
+            else -> null
+        }
+    }
+
+    private fun validatePasswordConfirm() {
+        binding.passwordConfirm.error = if (viewModel.updatePasswordConfirm(
+                password, passwordConfirm
+            )
+        ) null else getString(R.string.password_does_not_match)
+    }
+
+    private fun validateTerms() {
+        binding.terms.isErrorShown = !viewModel.updateTerms(terms)
+        binding.terms.errorAccessibilityLabel = getString(R.string.terms_error)
     }
 
     override fun onDestroyView() {
