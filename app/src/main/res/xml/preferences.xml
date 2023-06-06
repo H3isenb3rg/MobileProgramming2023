@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Preference
         android:icon="@drawable/baseline_person_24"
@@ -13,5 +14,11 @@
         android:icon="@drawable/baseline_dark_mode_24"
         android:key="theme"
         android:title="Select theme" />
+
+    <Preference
+        android:icon="@drawable/baseline_logout_24"
+        android:key="logout"
+        android:title="Logout"
+        app:isPreferenceVisible="true" />
 
 </PreferenceScreen>
