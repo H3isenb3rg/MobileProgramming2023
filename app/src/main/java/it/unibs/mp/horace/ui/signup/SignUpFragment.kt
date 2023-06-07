@@ -51,7 +51,7 @@ class SignUpFragment : Fragment() {
                     if (task.isSuccessful) {
                         findNavController().navigate(
                             SignUpFragmentDirections.actionGlobalHomeFragment(
-                                true
+                                resources.getString(R.string.source_sign_up)
                             )
                         )
                     } else {

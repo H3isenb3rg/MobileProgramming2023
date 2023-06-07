@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    navController.navigate(MainNavDirections.actionGlobalHomeFragment())
+                    navController.navigate(MainNavDirections.actionGlobalHomeFragment(null))
                     true
                 }
 

@@ -36,7 +36,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         logoutPref.isVisible = isLoggedIn
         logoutPref.setOnPreferenceClickListener {
             auth.signOut()
-            findNavController().navigate(SettingsFragmentDirections.actionGlobalHomeFragment())
+            findNavController().navigate(
+                SettingsFragmentDirections.actionGlobalHomeFragment(
+                    resources.getString(R.string.source_sign_out)
+                )
+            )
             true
         }
     }

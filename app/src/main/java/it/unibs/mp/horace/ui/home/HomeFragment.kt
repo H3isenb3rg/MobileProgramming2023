@@ -10,6 +10,7 @@ import it.unibs.mp.horace.R
 import it.unibs.mp.horace.TopLevelFragment
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 
+
 class HomeFragment : TopLevelFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -25,11 +26,19 @@ class HomeFragment : TopLevelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // If the fragment is reached after a successful sign up,
+        // If the fragment is reached after a successful auth operation,
         // show a snack bar
-        if (args.signUpSuccessful) {
-            Snackbar.make(
+        when (args.source) {
+            resources.getString(R.string.source_sign_up) -> Snackbar.make(
                 view, getString(R.string.signed_up_successfully), Snackbar.LENGTH_SHORT
+            ).show()
+
+            resources.getString(R.string.source_sign_in) -> Snackbar.make(
+                view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
+            ).show()
+
+            resources.getString(R.string.source_sign_out) -> Snackbar.make(
+                view, getString(R.string.signed_out_successfully), Snackbar.LENGTH_SHORT
             ).show()
         }
     }

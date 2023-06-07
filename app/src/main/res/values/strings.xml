@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Horace</string>
     <string name="authentication_desc">Sign in to your account or create a new one to automatically save your data to the cloud, and sync to your other devices.</string>
-    <string name="sign_in_question">Sign in to an existing profile</string>
-    <string name="sign_up_question">Sign up to create a new profile</string>
+    <string name="sign_in_question">Sign in</string>
+    <string name="sign_up_question">Sign up</string>
     <string name="home">Home</string>
     <string name="settings">Settings</string>
     <string name="content_description_settings">Navigate to settings</string>
@@ -27,6 +27,8 @@
     <string name="password_does_not_match">Password does not match</string>
     <string name="sign_up_firebase_error">An error happened. Please try again later.</string>
     <string name="signed_up_successfully">Signed up successfully</string>
+    <string name="signed_in_successfully">Signed in successfully</string>
+    <string name="signed_out_successfully">Signed out successfully</string>
     <string name="i_accept_the_terms_and_conditions">I accept the terms and conditions</string>
     <string name="terms_error">Terms must be accepted</string>
     <string name="username_min_length">Username must have at least 3 characters</string>
@@ -48,4 +50,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="source_sign_up">sign up</string>
+    <string name="source_sign_in">sign in</string>
+    <string name="source_sign_out">sign out</string>
 </resources>

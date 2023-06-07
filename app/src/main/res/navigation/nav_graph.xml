@@ -16,9 +16,10 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
         <argument
-            android:name="signUpSuccessful"
-            android:defaultValue="false"
-            app:argType="boolean" />
+            android:name="source"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <navigation
@@ -56,14 +57,10 @@
             android:id="@+id/action_global_homeFragment"
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim">
-            <argument
-                android:name="signUpSuccessful"
-                android:defaultValue="true" />
-        </action>
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <fragment
             android:id="@+id/resetPasswordFragment"
-            android:name="it.unibs.mp.horace.ResetPasswordFragment"
+            android:name="it.unibs.mp.horace.ui.resetpassword.ResetPasswordFragment"
             android:label="fragment_reset_password"
             tools:layout="@layout/fragment_reset_password" />
     </navigation>
