@@ -45,4 +45,5 @@
     <string name="terms_error">Terms must be accepted</string>
     <string name="username_min_length">Username must have at least 3 characters</string>
     <string name="username_chars">Username can only contain letters, numbers, lines and underscores</string>
+    <string name="profile_photo">Profile photo</string>
 </resources>

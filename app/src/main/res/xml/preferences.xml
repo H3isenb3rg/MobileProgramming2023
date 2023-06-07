@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <it.unibs.mp.horace.ui.settings.ProfilePreference
+        android:key="profileInfo"
+        android:layout="@layout/profile_info"
+        android:selectable="false" />
 
     <Preference
         android:icon="@drawable/baseline_person_24"
@@ -18,7 +22,6 @@
     <Preference
         android:icon="@drawable/baseline_logout_24"
         android:key="logout"
-        android:title="Logout"
-        app:isPreferenceVisible="true" />
+        android:title="Logout" />
 
 </PreferenceScreen>
