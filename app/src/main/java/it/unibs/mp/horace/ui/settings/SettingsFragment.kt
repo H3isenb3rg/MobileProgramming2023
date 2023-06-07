@@ -2,13 +2,13 @@ package it.unibs.mp.horace.ui.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.R
 
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -43,11 +43,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "theme" -> {
-                val newTheme =
-                    sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                // AppCompatDelegate.setDefaultNightMode(newTheme)
-            }
+            "theme" -> (requireActivity() as MainActivity).switchTheme(
+                sharedPreferences.getString(
+                    "theme", resources.getString(R.string.default_theme)
+                )
+            )
         }
     }
 

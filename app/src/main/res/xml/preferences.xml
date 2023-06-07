@@ -12,7 +12,7 @@
         android:title="Authenticate" />
 
     <ListPreference
-        android:defaultValue="-1"
+        android:defaultValue="device"
         android:entries="@array/listThemeNames"
         android:entryValues="@array/listThemeValues"
         android:icon="@drawable/baseline_dark_mode_24"

@@ -2,6 +2,7 @@ package it.unibs.mp.horace
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -9,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -40,9 +42,10 @@ class MainActivity : AppCompatActivity() {
         setUpBottomNavigation()
         setupActionBar()
 
-        // val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        // val theme = prefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_NO)
-        // AppCompatDelegate.setDefaultNightMode(theme)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+
+        // Apply theme selected in preferences on startup
+        switchTheme(prefs.getString("theme", resources.getString(R.string.default_theme)))
     }
 
     /**
@@ -86,5 +89,18 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         // Handle up button navigation
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    /**
+     * Switches the device's theme.
+     */
+    fun switchTheme(theme: String? = resources.getString(R.string.default_theme)) {
+        AppCompatDelegate.setDefaultNightMode(
+            when (theme) {
+                "light" -> AppCompatDelegate.MODE_NIGHT_NO
+                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
+        )
     }
 }
