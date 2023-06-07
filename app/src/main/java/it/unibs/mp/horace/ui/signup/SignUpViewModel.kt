@@ -23,7 +23,6 @@ class SignUpViewModel : ViewModel() {
     val isEverythingValid: Boolean
         get() = _isUsernameValid && _isEmailValid && _isPasswordValid && _isPasswordConfirmValid && _isTermsValid
 
-
     fun updateUsername(username: String): Int? {
         _isUsernameValid = false
 
