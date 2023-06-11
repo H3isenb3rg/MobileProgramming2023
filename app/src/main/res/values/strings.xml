@@ -54,4 +54,7 @@
     <string name="source_sign_up">sign up</string>
     <string name="source_sign_in">sign in</string>
     <string name="source_sign_out">sign out</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

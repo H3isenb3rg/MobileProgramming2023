@@ -11,8 +11,7 @@ import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.R
 
-class SettingsFragment : PreferenceFragmentCompat(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var auth: FirebaseAuth
     private val isLoggedIn: Boolean get() = (auth.currentUser != null)
 

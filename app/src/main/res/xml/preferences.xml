@@ -20,6 +20,11 @@
         android:title="Select theme" />
 
     <Preference
+        android:icon="@drawable/baseline_edit_24"
+        android:key="edit"
+        android:title="Edit Profile" />
+
+    <Preference
         android:icon="@drawable/baseline_logout_24"
         android:key="logout"
         android:title="Logout" />
