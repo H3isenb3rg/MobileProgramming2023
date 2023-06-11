@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
@@ -35,6 +37,7 @@ class SignUpFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val usrProfileChangeBuilder = UserProfileChangeRequest.Builder()
         auth = Firebase.auth
 
         addChangeListeners()
@@ -49,6 +52,8 @@ class SignUpFragment : Fragment() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
+                        usrProfileChangeBuilder.displayName = username
+                        auth.currentUser?.updateProfile(usrProfileChangeBuilder.build())
                         findNavController().navigate(
                             SignUpFragmentDirections.actionGlobalHomeFragment(
                                 resources.getString(R.string.source_sign_up)
@@ -60,6 +65,9 @@ class SignUpFragment : Fragment() {
                         ).show()
                     }
                 }
+
+            // Add display name to new user
+            auth.currentUser
         }
     }
 
