@@ -42,6 +42,9 @@
     <Button
         android:id="@+id/btnGoogle"
         style="?attr/materialButtonOutlinedStyle"
+        app:icon="@drawable/google"
+        app:iconGravity="textStart"
+        app:iconTint="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -50,6 +53,9 @@
     <Button
         android:id="@+id/btnFacebook"
         style="?attr/materialButtonOutlinedStyle"
+        app:icon="@drawable/facebook"
+        app:iconGravity="textStart"
+        app:iconTint="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
