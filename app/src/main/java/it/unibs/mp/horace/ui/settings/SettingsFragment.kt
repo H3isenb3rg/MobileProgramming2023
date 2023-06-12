@@ -31,6 +31,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             true
         }
 
+        val editPref = findPreference<Preference>("edit")!!
+        editPref.isVisible = isLoggedIn
+
         val logoutPref = findPreference<Preference>("logout")!!
         logoutPref.isVisible = isLoggedIn
         logoutPref.setOnPreferenceClickListener {
