@@ -24,19 +24,18 @@
 
     <navigation
         android:id="@+id/authGraph"
-        app:startDestination="@id/authFragment">
-        <fragment
-            android:id="@+id/authFragment"
-            android:name="it.unibs.mp.horace.ui.auth.AuthFragment"
-            android:label="@string/auth_fragment"
-            tools:layout="@layout/fragment_auth">
+        app:startDestination="@id/authBottomSheet">
+        <dialog
+            android:id="@+id/authBottomSheet"
+            android:name="it.unibs.mp.horace.ui.auth.AuthBottomSheet"
+            android:label="@string/auth_bottom_sheet"
+            tools:layout="@layout/bottom_sheet_auth">
             <action
                 android:id="@+id/action_authFragment_to_signInFragment"
-                app:destination="@id/signInFragment" />
-            <action
-                android:id="@+id/action_authFragment_to_signUpFragment"
-                app:destination="@id/signUpFragment" />
-        </fragment>
+                app:destination="@id/signInFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+        </dialog>
         <fragment
             android:id="@+id/signInFragment"
             android:name="it.unibs.mp.horace.ui.signin.SignInFragment"
@@ -45,6 +44,11 @@
             <action
                 android:id="@+id/action_signInFragment_to_resetPasswordFragment"
                 app:destination="@id/resetPasswordFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+            <action
+                android:id="@+id/action_signInFragment_to_signUpFragment"
+                app:destination="@id/signUpFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim" />
         </fragment>
@@ -62,7 +66,13 @@
             android:id="@+id/resetPasswordFragment"
             android:name="it.unibs.mp.horace.ui.resetpassword.ResetPasswordFragment"
             android:label="fragment_reset_password"
-            tools:layout="@layout/fragment_reset_password" />
+            tools:layout="@layout/fragment_reset_password">
+            <action
+                android:id="@+id/action_resetPasswordFragment_to_signInFragment"
+                app:destination="@id/signInFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+        </fragment>
     </navigation>
 
     <action

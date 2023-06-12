@@ -14,7 +14,7 @@
     <string name="password">Password</string>
     <string name="forgot_password">Forgot your password?</string>
     <string name="horace">Horace</string>
-    <string name="auth_fragment">Authentication</string>
+    <string name="auth_bottom_sheet">Authentication</string>
     <string name="sign_in_fragment">Sign In</string>
     <string name="sign_up_fragment">Sign Up</string>
     <string name="username">Username</string>
@@ -54,7 +54,12 @@
     <string name="source_sign_up">sign up</string>
     <string name="source_sign_in">sign in</string>
     <string name="source_sign_out">sign out</string>
+    <string name="continue_with">Continue with</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="authentication">Authentication</string>
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="save_changes">Save Changes</string>
+    <string name="email_and_password">Email and password</string>
 </resources>

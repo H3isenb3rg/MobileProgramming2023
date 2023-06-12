@@ -4,28 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import it.unibs.mp.horace.databinding.FragmentAuthBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import it.unibs.mp.horace.databinding.BottomSheetAuthBinding
 
-class AuthFragment : Fragment() {
-    private var _binding: FragmentAuthBinding? = null
+class AuthBottomSheet : BottomSheetDialogFragment() {
+    private var _binding: BottomSheetAuthBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAuthBinding.inflate(inflater, container, false)
+        _binding = BottomSheetAuthBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.btnSignIn.setOnClickListener {
-            val action = AuthFragmentDirections.actionAuthFragmentToSignInFragment()
-            findNavController().navigate(action)
-        }
-        binding.btnSignUp.setOnClickListener {
-            val action = AuthFragmentDirections.actionAuthFragmentToSignUpFragment()
+        binding.btnEmail.setOnClickListener {
+            val action = AuthBottomSheetDirections.actionAuthFragmentToSignInFragment()
             findNavController().navigate(action)
         }
     }
