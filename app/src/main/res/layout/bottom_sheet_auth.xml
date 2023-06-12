@@ -36,29 +36,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/email_and_password"
-        app:icon="@drawable/baseline_email_24"
-        app:iconGravity="textStart" />
+        app:icon="@drawable/baseline_email_24" />
 
     <Button
         android:id="@+id/btnGoogle"
         style="?attr/materialButtonOutlinedStyle"
-        app:icon="@drawable/google"
-        app:iconGravity="textStart"
-        app:iconTint="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/google" />
+        android:text="@string/google"
+        app:icon="@drawable/google"
+        app:iconTint="@null" />
 
     <Button
         android:id="@+id/btnFacebook"
         style="?attr/materialButtonOutlinedStyle"
-        app:icon="@drawable/facebook"
-        app:iconGravity="textStart"
-        app:iconTint="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/facebook" />
+        android:text="@string/facebook"
+        app:icon="@drawable/facebook"
+        app:iconTint="@null" />
 </LinearLayout>

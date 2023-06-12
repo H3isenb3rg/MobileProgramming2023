@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "535024447430",
+    "firebase_url": "https://mb-beatrice-cotti-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "mb-beatrice-cotti",
     "storage_bucket": "mb-beatrice-cotti.appspot.com"
   },
@@ -14,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "535024447430-18kskqh8so6603h620pemug9kk0mv9sr.apps.googleusercontent.com",
+          "client_id": "535024447430-b6o0ge5g56bl8lj3mrb12vnue0temuqe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.unibs.mp.horace",
+            "certificate_hash": "536ebfe85e5e932068e2f75ac3c288ac17c98fad"
+          }
+        },
+        {
+          "client_id": "535024447430-dgknk24bnvl54ctp0vavfs7b0l79g218.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

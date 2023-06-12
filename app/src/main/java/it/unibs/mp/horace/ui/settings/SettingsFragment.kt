@@ -11,7 +11,8 @@ import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.R
 
-class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var auth: FirebaseAuth
     private val isLoggedIn: Boolean get() = (auth.currentUser != null)
 
@@ -32,7 +33,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
 
         val editPref = findPreference<Preference>("edit")!!
-        editPref.isVisible = isLoggedIn
+        editPref.isVisible = isLoggedIn && isUserProfileEditable()
 
         val logoutPref = findPreference<Preference>("logout")!!
         logoutPref.isVisible = isLoggedIn
@@ -55,6 +56,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 )
             )
         }
+    }
+
+    private fun isUserProfileEditable(): Boolean {
+        val providers = auth.currentUser?.providerData?.map { it.providerId } ?: return false
+        return !providers.contains("google.com")
     }
 
     override fun onResume() {

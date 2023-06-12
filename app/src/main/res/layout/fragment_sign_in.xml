@@ -16,7 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/email"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:startIconContentDescription="@string/email"
+        app:startIconDrawable="@drawable/baseline_email_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -33,7 +35,9 @@
         android:layout_marginTop="16dp"
         android:hint="@string/password"
         app:endIconMode="password_toggle"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:startIconContentDescription="@string/password"
+        app:startIconDrawable="@drawable/baseline_key_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

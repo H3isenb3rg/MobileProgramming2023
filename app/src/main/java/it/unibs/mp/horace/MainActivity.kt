@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -42,10 +43,11 @@ class MainActivity : AppCompatActivity() {
         setUpBottomNavigation()
         setupActionBar()
 
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-
         // Apply theme selected in preferences on startup
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         switchTheme(prefs.getString("theme", resources.getString(R.string.default_theme)))
+
+
     }
 
     /**
