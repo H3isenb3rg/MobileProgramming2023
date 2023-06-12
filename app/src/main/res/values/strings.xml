@@ -17,6 +17,7 @@
     <string name="auth_bottom_sheet">Authentication</string>
     <string name="sign_in_fragment">Sign In</string>
     <string name="sign_up_fragment">Sign Up</string>
+    <string name="reset_password_fragment">Reset Password</string>
     <string name="username">Username</string>
     <string name="password_confirm">Confirm password</string>
     <string name="email_invalid">Email is not valid</string>
@@ -25,7 +26,7 @@
     <string name="password_lowercase">Password must contain at least 1 lowercase character</string>
     <string name="password_special"><![CDATA[Password must contain at least 1 special character (@#$%^&+=)]]></string>
     <string name="password_does_not_match">Password does not match</string>
-    <string name="sign_up_firebase_error">An error happened. Please try again later.</string>
+    <string name="firebase_error">An error happened. Please try again later.</string>
     <string name="signed_up_successfully">Signed up successfully</string>
     <string name="signed_in_successfully">Signed in successfully</string>
     <string name="signed_out_successfully">Signed out successfully</string>
@@ -62,4 +63,6 @@
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="save_changes">Save Changes</string>
     <string name="email_and_password">Email and password</string>
+    <string name="send_reset_link">Send reset link</string>
+    <string name="invalid_email_or_password">Invalid email or password</string>
 </resources>

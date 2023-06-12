@@ -51,6 +51,10 @@
                 app:destination="@id/signUpFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim" />
+            <argument
+                android:name="sourceResetPassword"
+                android:defaultValue="false"
+                app:argType="boolean" />
         </fragment>
         <fragment
             android:id="@+id/signUpFragment"
@@ -65,13 +69,22 @@
         <fragment
             android:id="@+id/resetPasswordFragment"
             android:name="it.unibs.mp.horace.ui.resetpassword.ResetPasswordFragment"
-            android:label="fragment_reset_password"
+            android:label="@string/reset_password_fragment"
             tools:layout="@layout/fragment_reset_password">
             <action
                 android:id="@+id/action_resetPasswordFragment_to_signInFragment"
                 app:destination="@id/signInFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" />
+                app:exitAnim="@anim/nav_default_exit_anim">
+                <argument
+                    android:name="sourceResetPassword"
+                    android:defaultValue="true" />
+            </action>
+            <argument
+                android:name="email"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
         </fragment>
     </navigation>
 

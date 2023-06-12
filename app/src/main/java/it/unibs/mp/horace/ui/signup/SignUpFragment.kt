@@ -12,7 +12,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
@@ -61,13 +60,10 @@ class SignUpFragment : Fragment() {
                         )
                     } else {
                         Snackbar.make(
-                            view, getString(R.string.sign_up_firebase_error), Snackbar.LENGTH_LONG
+                            view, getString(R.string.firebase_error), Snackbar.LENGTH_LONG
                         ).show()
                     }
                 }
-
-            // Add display name to new user
-            auth.currentUser
         }
     }
 
