@@ -1,15 +1,10 @@
 package it.unibs.mp.horace.backend
 
-class User {
-    var name: String? = null
-    var email: String? = null
-    var uid: String? = null
-
-    constructor() { }
-
-    constructor(name: String?, email: String?, uid: String?) {
-        this.name = name
-        this.email = email
-        this.uid = uid
+data class User(var name: String, var email: String, var uid: String) {
+    companion object {
+        const val COLLECTION_NAME: String = "users"
+        const val EMAIL_FIELD: String = "email"
+        const val USERNAME_FIELD: String = "username"
+        const val UID_FIELD: String = "uid"
     }
 }

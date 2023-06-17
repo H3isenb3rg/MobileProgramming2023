@@ -14,6 +14,8 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
+import it.unibs.mp.horace.backend.LoggedUser
+import it.unibs.mp.horace.backend.User
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
@@ -36,9 +38,7 @@ class SignUpFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val usrProfileChangeBuilder = UserProfileChangeRequest.Builder()
         auth = Firebase.auth
-
         addChangeListeners()
 
         binding.signUp.setOnClickListener {
@@ -51,8 +51,9 @@ class SignUpFragment : Fragment() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        usrProfileChangeBuilder.displayName = username
-                        auth.currentUser?.updateProfile(usrProfileChangeBuilder.build())
+                        val currentUser = LoggedUser()
+                        currentUser.createUserDocument()
+                        currentUser.username = username
                         findNavController().navigate(
                             SignUpFragmentDirections.actionGlobalHomeFragment(
                                 resources.getString(R.string.source_sign_up)
