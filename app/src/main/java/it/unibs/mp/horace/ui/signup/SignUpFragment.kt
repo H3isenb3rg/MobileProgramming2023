@@ -10,12 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.LoggedUser
-import it.unibs.mp.horace.backend.User
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
@@ -61,7 +59,7 @@ class SignUpFragment : Fragment() {
                         )
                     } else {
                         Snackbar.make(
-                            view, getString(R.string.firebase_error), Snackbar.LENGTH_LONG
+                            view, getString(R.string.api_error), Snackbar.LENGTH_LONG
                         ).show()
                     }
                 }

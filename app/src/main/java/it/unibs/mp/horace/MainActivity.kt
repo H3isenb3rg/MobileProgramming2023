@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
         // Apply theme selected in preferences on startup
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         switchTheme(prefs.getString("theme", resources.getString(R.string.default_theme)))
-
-
     }
 
     /**
