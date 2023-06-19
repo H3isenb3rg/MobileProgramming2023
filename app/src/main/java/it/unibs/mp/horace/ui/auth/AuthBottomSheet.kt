@@ -8,6 +8,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -15,6 +20,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -28,8 +34,9 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
     private var _binding: BottomSheetAuthBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var callbackManager: CallbackManager
     private lateinit var oneTapClient: SignInClient
-    private lateinit var googleSignInResultLauncher: ActivityResultLauncher<IntentSenderRequest>
+    private lateinit var googleIntentSender: ActivityResultLauncher<IntentSenderRequest>
     private lateinit var apiErrorSnackbar: Snackbar
     private lateinit var noAccountErrorSnackbar: Snackbar
 
@@ -47,6 +54,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
             Snackbar.make(view, getString(R.string.api_error), Snackbar.LENGTH_SHORT)
 
         setupGoogleSignIn()
+        setupFacebookSignIn()
 
         binding.btnEmail.setOnClickListener {
             val action = AuthBottomSheetDirections.actionAuthFragmentToSignInFragment()
@@ -56,11 +64,17 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
         binding.btnGoogle.setOnClickListener {
             signInWithGoogle()
         }
+
+        binding.btnFacebook.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(
+                requireActivity(), listOf("public_profile", "user_friends")
+            )
+        }
     }
 
     private fun setupGoogleSignIn() {
         // Adds a new listener for when the activity is launched after the One Tap UI is closed
-        googleSignInResultLauncher =
+        googleIntentSender =
             registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
                 try {
                     val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
@@ -92,12 +106,12 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                     apiErrorSnackbar.show()
                 }
             }
+
+        // The Google One Tap client that will be used for authentication
+        oneTapClient = Identity.getSignInClient(requireActivity())
     }
 
     private fun signInWithGoogle() {
-        // The Google One Tap client that will be used for authentication
-        oneTapClient = Identity.getSignInClient(requireActivity())
-
         // The request specifies that only Google accounts should be shown
         // as sign-in options. Email and password credentials stored in Google are
         // not supported as an authentication option.
@@ -115,11 +129,40 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
         oneTapClient.beginSignIn(signInRequest).addOnSuccessListener { result ->
             // If the request is successful, open the One Tap UI through the given intent.
             val request = IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
-            googleSignInResultLauncher.launch(request)
+            googleIntentSender.launch(request)
         }.addOnFailureListener {
             // The request is unsuccessful if the user has no available Google account.
             noAccountErrorSnackbar.show()
         }
+    }
+
+    private fun setupFacebookSignIn() {
+        callbackManager = CallbackManager.Factory.create()
+        LoginManager.getInstance()
+            .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult) {
+                    val credential = FacebookAuthProvider.getCredential(result.accessToken.token)
+
+                    auth.signInWithCredential(credential)
+                        .addOnCompleteListener(requireActivity()) { task ->
+                            if (task.isSuccessful) {
+                                AuthBottomSheetDirections.actionGlobalHomeFragment(
+                                    resources.getString(R.string.source_sign_in)
+                                )
+                            } else {
+                                throw IllegalStateException()
+                            }
+                        }
+                }
+
+                override fun onCancel() {
+                    return
+                }
+
+                override fun onError(error: FacebookException) {
+                    apiErrorSnackbar.show()
+                }
+            })
     }
 
     override fun onDestroyView() {

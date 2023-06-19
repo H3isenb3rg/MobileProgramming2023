@@ -60,4 +60,7 @@
     <string name="email_and_password">Email and password</string>
     <string name="send_reset_link">Send reset link</string>
     <string name="invalid_email_or_password">Invalid email or password</string>
+    <string name="facebook_app_id">646330164039157</string>
+    <string name="fb_login_protocol_scheme">fb646330164039157</string>
+    <string name="facebook_client_token">2ee33b5cc97c2118b2e6e280de79a431</string>
 </resources>
