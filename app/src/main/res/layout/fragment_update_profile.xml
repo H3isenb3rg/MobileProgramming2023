@@ -7,7 +7,7 @@
     android:gravity="end"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".ui.settings.UpdateProfileFragment">
+    tools:context=".ui.updateprofile.UpdateProfileFragment">
 
     <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +78,6 @@
 
     <!-- Save Changes button -->
     <Button
-        android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
