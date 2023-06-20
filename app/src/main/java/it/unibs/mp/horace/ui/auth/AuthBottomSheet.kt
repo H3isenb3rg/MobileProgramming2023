@@ -35,7 +35,9 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     private lateinit var callbackManager: CallbackManager
+
     private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
     private lateinit var googleIntentSender: ActivityResultLauncher<IntentSenderRequest>
     private lateinit var apiErrorSnackbar: Snackbar
     private lateinit var noAccountErrorSnackbar: Snackbar
@@ -62,7 +64,14 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnGoogle.setOnClickListener {
-            signInWithGoogle()
+            oneTapClient.beginSignIn(signInRequest).addOnSuccessListener { result ->
+                // If the request is successful, open the One Tap UI through the given intent.
+                val request = IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                googleIntentSender.launch(request)
+            }.addOnFailureListener {
+                // The request is unsuccessful if the user has no available Google account.
+                noAccountErrorSnackbar.show()
+            }
         }
 
         binding.btnFacebook.setOnClickListener {
@@ -109,9 +118,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
 
         // The Google One Tap client that will be used for authentication
         oneTapClient = Identity.getSignInClient(requireActivity())
-    }
 
-    private fun signInWithGoogle() {
         // The request specifies that only Google accounts should be shown
         // as sign-in options. Email and password credentials stored in Google are
         // not supported as an authentication option.
@@ -119,21 +126,11 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
         // setting this to true would only show Google accounts that are already authenticated
         // in the app.
         // Finally, if only one Google account is available, auto select it.
-        val signInRequest = BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(
+        signInRequest = BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(
             BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
                 .setServerClientId(getString(R.string.default_web_client_id))
                 .setFilterByAuthorizedAccounts(false).build()
         ).setAutoSelectEnabled(true).build()
-
-        // Send the sign in request
-        oneTapClient.beginSignIn(signInRequest).addOnSuccessListener { result ->
-            // If the request is successful, open the One Tap UI through the given intent.
-            val request = IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
-            googleIntentSender.launch(request)
-        }.addOnFailureListener {
-            // The request is unsuccessful if the user has no available Google account.
-            noAccountErrorSnackbar.show()
-        }
     }
 
     private fun setupFacebookSignIn() {

@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <it.unibs.mp.horace.ui.settings.ProfilePreference
-        android:key="profileInfo"
-        android:layout="@layout/profile_info"
-        android:selectable="false" />
-
     <Preference
-        android:icon="@drawable/baseline_person_24"
+        android:icon="@drawable/baseline_person_outline_24"
         android:key="auth"
         android:title="Authenticate" />
 
@@ -18,6 +13,11 @@
         android:icon="@drawable/baseline_dark_mode_24"
         android:key="theme"
         android:title="Select theme" />
+
+    <SwitchPreference
+        android:icon="@drawable/baseline_access_time_24"
+        android:key="quickSettings"
+        android:title="Show quick settings" />
 
     <Preference
         android:icon="@drawable/baseline_edit_24"

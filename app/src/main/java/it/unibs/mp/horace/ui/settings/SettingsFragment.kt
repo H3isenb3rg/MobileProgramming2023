@@ -1,75 +1,70 @@
 package it.unibs.mp.horace.ui.settings
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.navigation.fragment.findNavController
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
+import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.R
+import it.unibs.mp.horace.backend.LoggedUser
+import it.unibs.mp.horace.databinding.FragmentSettingsBinding
 
-class SettingsFragment : PreferenceFragmentCompat(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : Fragment() {
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
-    private val isLoggedIn: Boolean get() = (auth.currentUser != null)
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
+        // Add the preferences fragment as a child of this fragment.
+        childFragmentManager.beginTransaction()
+            .replace(binding.preferencesContainer.id, PreferencesFragment()).commit()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         auth = Firebase.auth
 
-        val profilePref = findPreference<Preference>("profileInfo")!!
-        profilePref.isVisible = isLoggedIn
+        if (auth.currentUser == null) {
+            binding.profileInfo.visibility = View.GONE
+        } else {
+            val user = LoggedUser()
+            val pickPhoto =
+                registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                    if (uri != null) {
+                        user.photoUrl = uri
+                    }
+                }
 
-        val authPref = findPreference<Preference>("auth")!!
-        authPref.isVisible = !isLoggedIn
-        authPref.setOnPreferenceClickListener {
-            this.findNavController()
-                .navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
-            true
-        }
+            binding.username.text = user.username
+            binding.email.text = user.email
+            binding.editProfilePhoto.visibility = if (user.provider == LoggedUser.Provider.EMAIL) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
 
-        val editPref = findPreference<Preference>("edit")!!
-        editPref.isVisible = isLoggedIn && isUserProfileEditable()
+            binding.editProfilePhoto.setOnClickListener {
+                pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
 
-        val logoutPref = findPreference<Preference>("logout")!!
-        logoutPref.isVisible = isLoggedIn
-        logoutPref.setOnPreferenceClickListener {
-            auth.signOut()
-            findNavController().navigate(
-                SettingsFragmentDirections.actionGlobalHomeFragment(
-                    resources.getString(R.string.source_sign_out)
-                )
-            )
-            true
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        when (key) {
-            "theme" -> (requireActivity() as MainActivity).switchTheme(
-                sharedPreferences.getString(
-                    "theme", resources.getString(R.string.default_theme)
-                )
-            )
+            binding.photo.load(user.photoUrl ?: R.drawable.default_profile_photo)
         }
     }
 
-    private fun isUserProfileEditable(): Boolean {
-        val providers = auth.currentUser?.providerData?.map { it.providerId } ?: return false
-        return !providers.contains("google.com")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

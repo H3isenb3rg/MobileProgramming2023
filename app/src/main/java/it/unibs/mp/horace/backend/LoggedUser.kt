@@ -15,6 +15,14 @@ class LoggedUser {
     companion object {
         const val TAG = "LoggedUserClass"
     }
+
+    /**
+     * Authentication providers.
+     */
+    enum class Provider {
+        EMAIL, GOOGLE, FACEBOOK
+    }
+
     private val auth: FirebaseAuth = Firebase.auth
     private var db: FirebaseFirestore = Firebase.firestore
 
@@ -26,21 +34,42 @@ class LoggedUser {
             val usrProfileChangeBuilder = UserProfileChangeRequest.Builder()
             usrProfileChangeBuilder.displayName = value
             user.updateProfile(usrProfileChangeBuilder.build())
-            this.updateUserDocument(hashMapOf(User.USERNAME_FIELD to value!!))
+            updateUserDocument(hashMapOf(User.USERNAME_FIELD to value!!))
         }
 
     var email: String
         get() = user.email!!
         set(value) {
             user.updateEmail(value)
-            this.updateUserDocument(hashMapOf(User.EMAIL_FIELD to value))
+            updateUserDocument(hashMapOf(User.EMAIL_FIELD to value))
         }
 
     val uid: String
         get() = user.uid
 
-    val photoURL: Uri?
+    /**
+     * The profile photo of the user.
+     * No default value is provided if no user photo is available.
+     */
+    var photoUrl: Uri?
         get() = user.photoUrl
+        set(value: Uri?) {
+            // TODO: Update user photo
+        }
+
+    /**
+     * The authentication provider of the user.
+     */
+    val provider: Provider
+        get() {
+            val providers = user.providerData.map { it.providerId }
+
+            return when {
+                providers.contains("google.com") -> Provider.GOOGLE
+                providers.contains("facebook.com") -> Provider.FACEBOOK
+                else -> Provider.EMAIL
+            }
+        }
 
     init {
         val loggedUser = auth.currentUser
@@ -55,8 +84,7 @@ class LoggedUser {
 
     fun createUserDocument() {
         val userData = hashMapOf(
-            User.EMAIL_FIELD to email,
-            User.UID_FIELD to uid
+            User.EMAIL_FIELD to email, User.UID_FIELD to uid
         )
         this.updateUserDocument(userData)
     }
@@ -65,8 +93,7 @@ class LoggedUser {
         db.collection(User.COLLECTION_NAME).document(uid).set(user, SetOptions.merge())
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot added with ID: $documentReference")
-            }
-            .addOnFailureListener { e ->
+            }.addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
             }
     }
