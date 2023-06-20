@@ -46,7 +46,7 @@
         <dialog
             android:id="@+id/authBottomSheet"
             android:name="it.unibs.mp.horace.ui.auth.AuthBottomSheet"
-            android:label="@string/auth_bottom_sheet"
+            android:label="@string/authentication"
             tools:layout="@layout/bottom_sheet_auth">
             <action
                 android:id="@+id/action_authFragment_to_signInFragment"
@@ -59,7 +59,7 @@
         <fragment
             android:id="@+id/signInFragment"
             android:name="it.unibs.mp.horace.ui.signin.SignInFragment"
-            android:label="@string/sign_in_fragment"
+            android:label="@string/sign_in"
             tools:layout="@layout/fragment_sign_in">
             <action
                 android:id="@+id/action_signInFragment_to_resetPasswordFragment"
@@ -81,7 +81,7 @@
         <fragment
             android:id="@+id/signUpFragment"
             android:name="it.unibs.mp.horace.ui.signup.SignUpFragment"
-            android:label="@string/sign_up_fragment"
+            android:label="@string/sign_up"
             tools:layout="@layout/fragment_sign_up" />
 
 

@@ -54,7 +54,7 @@ class SignUpFragment : Fragment() {
                         currentUser.username = username
                         findNavController().navigate(
                             SignUpFragmentDirections.actionGlobalHomeFragment(
-                                resources.getString(R.string.source_sign_up)
+                                resources.getString(R.string.sign_up)
                             )
                         )
                     } else {

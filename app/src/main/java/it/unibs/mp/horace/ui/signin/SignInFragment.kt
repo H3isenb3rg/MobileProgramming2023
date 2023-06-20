@@ -56,7 +56,7 @@ class SignInFragment : Fragment() {
                     if (task.isSuccessful) {
                         findNavController().navigate(
                             SignInFragmentDirections.actionGlobalHomeFragment(
-                                resources.getString(R.string.source_sign_in)
+                                resources.getString(R.string.sign_in)
                             )
                         )
                     } else {

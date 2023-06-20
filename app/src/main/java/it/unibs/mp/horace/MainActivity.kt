@@ -45,7 +45,11 @@ class MainActivity : AppCompatActivity() {
 
         // Apply theme selected in preferences on startup
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        switchTheme(prefs.getString("theme", resources.getString(R.string.default_theme)))
+        switchTheme(
+            prefs.getString(
+                getString(R.string.preference_theme), resources.getString(R.string.theme_device)
+            )
+        )
     }
 
     /**
@@ -65,24 +69,13 @@ class MainActivity : AppCompatActivity() {
     private fun setUpBottomNavigation() {
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home -> {
-                    navController.navigate(MainNavDirections.actionGlobalHomeFragment(null))
-                    true
-                }
-
-                R.id.history -> {
-                    navController.navigate(MainNavDirections.actionGlobalHistoryFragment())
-                    true
-                }
-
-                R.id.friends -> {
-                    navController.navigate(MainNavDirections.actionGlobalFriendsFragment())
-                    true
-                }
-
-                else -> false
+            val action = when (item.itemId) {
+                R.id.history -> MainNavDirections.actionGlobalHistoryFragment()
+                R.id.friends -> MainNavDirections.actionGlobalFriendsFragment()
+                else -> MainNavDirections.actionGlobalHomeFragment(null)
             }
+            navController.navigate(action)
+            true
         }
     }
 
@@ -94,11 +87,11 @@ class MainActivity : AppCompatActivity() {
     /**
      * Switches the device's theme.
      */
-    fun switchTheme(theme: String? = resources.getString(R.string.default_theme)) {
+    fun switchTheme(theme: String? = resources.getString(R.string.theme_device)) {
         AppCompatDelegate.setDefaultNightMode(
             when (theme) {
-                "light" -> AppCompatDelegate.MODE_NIGHT_NO
-                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+                getString(R.string.theme_light) -> AppCompatDelegate.MODE_NIGHT_NO
+                getString(R.string.theme_dark) -> AppCompatDelegate.MODE_NIGHT_YES
                 else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )

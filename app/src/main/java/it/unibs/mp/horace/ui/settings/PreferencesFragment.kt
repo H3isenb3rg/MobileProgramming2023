@@ -43,7 +43,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
 
                 findNavController().navigate(
                     SettingsFragmentDirections.actionGlobalHomeFragment(
-                        resources.getString(R.string.source_sign_out)
+                        resources.getString(R.string.sign_out)
                     )
                 )
                 true
@@ -56,7 +56,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
             getString(R.string.preference_theme) -> (requireActivity() as MainActivity).switchTheme(
                 sharedPreferences.getString(
                     getString(R.string.preference_theme),
-                    resources.getString(R.string.default_theme)
+                    resources.getString(R.string.theme_device)
                 )
             )
         }
