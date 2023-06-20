@@ -5,6 +5,7 @@
     android:id="@+id/mainNav"
     app:startDestination="@id/homeFragment">
 
+    <!-- Home -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="it.unibs.mp.horace.ui.home.HomeFragment"
@@ -22,9 +23,26 @@
             app:nullable="true" />
     </fragment>
 
+    <!-- Friends -->
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="it.unibs.mp.horace.ui.friends.FriendsFragment"
+        android:label="@string/friends"
+        tools:layout="@layout/fragment_friends" />
+
+    <!-- History -->
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="it.unibs.mp.horace.ui.history.HistoryFragment"
+        android:label="@string/history"
+        tools:layout="@layout/fragment_history" />
+
+    <!-- Auth subgraph -->
     <navigation
         android:id="@+id/authGraph"
         app:startDestination="@id/authBottomSheet">
+
+        <!-- Auth -->
         <dialog
             android:id="@+id/authBottomSheet"
             android:name="it.unibs.mp.horace.ui.auth.AuthBottomSheet"
@@ -36,6 +54,8 @@
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim" />
         </dialog>
+
+        <!-- Sign in -->
         <fragment
             android:id="@+id/signInFragment"
             android:name="it.unibs.mp.horace.ui.signin.SignInFragment"
@@ -56,16 +76,16 @@
                 android:defaultValue="false"
                 app:argType="boolean" />
         </fragment>
+
+        <!-- Sign up -->
         <fragment
             android:id="@+id/signUpFragment"
             android:name="it.unibs.mp.horace.ui.signup.SignUpFragment"
             android:label="@string/sign_up_fragment"
             tools:layout="@layout/fragment_sign_up" />
-        <action
-            android:id="@+id/action_global_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+
+
+        <!-- Reset password -->
         <fragment
             android:id="@+id/resetPasswordFragment"
             android:name="it.unibs.mp.horace.ui.resetpassword.ResetPasswordFragment"
@@ -88,45 +108,63 @@
         </fragment>
     </navigation>
 
+    <!-- Settings subgraph -->
+    <navigation
+        android:id="@+id/settingsGraph"
+        app:startDestination="@id/settingsFragment">
+
+        <!-- Settings -->
+        <fragment
+            android:id="@+id/settingsFragment"
+            android:name="it.unibs.mp.horace.ui.settings.SettingsFragment"
+            android:label="@string/settings"
+            tools:layout="@layout/fragment_settings">
+            <action
+                android:id="@+id/action_settingsFragment_to_authGraph"
+                app:destination="@id/authGraph"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+            <action
+                android:id="@+id/action_settingsFragment_to_updateProfileFragment"
+                app:destination="@id/updateProfileFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+        </fragment>
+
+        <!-- Update profile -->
+        <fragment
+            android:id="@+id/updateProfileFragment"
+            android:name="it.unibs.mp.horace.ui.updateprofile.UpdateProfileFragment"
+            android:label="fragment_update_profile"
+            tools:layout="@layout/fragment_update_profile">
+            <action
+                android:id="@+id/action_updateProfileFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
+        </fragment>
+    </navigation>
+
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
-    <fragment
-        android:id="@+id/friendsFragment"
-        android:name="it.unibs.mp.horace.ui.friends.FriendsFragment"
-        android:label="@string/friends"
-        tools:layout="@layout/fragment_friends" />
+
     <action
         android:id="@+id/action_global_friendsFragment"
         app:destination="@id/friendsFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
-    <fragment
-        android:id="@+id/historyFragment"
-        android:name="it.unibs.mp.horace.ui.history.HistoryFragment"
-        android:label="@string/history"
-        tools:layout="@layout/fragment_history" />
+
     <action
         android:id="@+id/action_global_historyFragment"
         app:destination="@id/historyFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="it.unibs.mp.horace.ui.settings.SettingsFragment"
-        android:label="@string/settings"
-        tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_authGraph"
-            app:destination="@id/authGraph"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-    </fragment>
+
     <action
         android:id="@+id/action_global_settingsFragment"
-        app:destination="@id/settingsFragment"
+        app:destination="@id/settingsGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
+
 </navigation>
