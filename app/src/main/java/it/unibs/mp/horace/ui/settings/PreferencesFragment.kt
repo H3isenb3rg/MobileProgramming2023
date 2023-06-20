@@ -17,40 +17,46 @@ class PreferencesFragment : PreferenceFragmentCompat(),
     private val isLoggedIn: Boolean get() = (auth.currentUser != null)
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
-
         auth = Firebase.auth
 
-        val authPref = findPreference<Preference>("auth")!!
-        authPref.isVisible = !isLoggedIn
-        authPref.setOnPreferenceClickListener {
-            this.findNavController()
-                .navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
-            true
+        findPreference<Preference>(getString(R.string.preference_auth))!!.apply {
+            isVisible = !isLoggedIn
+            setOnPreferenceClickListener {
+                findNavController()
+                    .navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
+                true
+            }
         }
 
-        val editPref = findPreference<Preference>("edit")!!
-        editPref.isVisible = isLoggedIn && isUserProfileEditable()
+        findPreference<Preference>(getString(R.string.preference_edit))!!.apply {
+            isVisible = isLoggedIn && isUserProfileEditable()
+            setOnPreferenceClickListener {
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUpdateProfileFragment())
+                true
+            }
+        }
 
-        val logoutPref = findPreference<Preference>("logout")!!
-        logoutPref.isVisible = isLoggedIn
-        logoutPref.setOnPreferenceClickListener {
-            auth.signOut()
+        findPreference<Preference>(getString(R.string.preference_sign_out))!!.apply {
+            isVisible = isLoggedIn
+            setOnPreferenceClickListener {
+                auth.signOut()
 
-            findNavController().navigate(
-                SettingsFragmentDirections.actionGlobalHomeFragment(
-                    resources.getString(R.string.source_sign_out)
+                findNavController().navigate(
+                    SettingsFragmentDirections.actionGlobalHomeFragment(
+                        resources.getString(R.string.source_sign_out)
+                    )
                 )
-            )
-            true
+                true
+            }
         }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "theme" -> (requireActivity() as MainActivity).switchTheme(
+            getString(R.string.preference_theme) -> (requireActivity() as MainActivity).switchTheme(
                 sharedPreferences.getString(
-                    "theme", resources.getString(R.string.default_theme)
+                    getString(R.string.preference_theme),
+                    resources.getString(R.string.default_theme)
                 )
             )
         }

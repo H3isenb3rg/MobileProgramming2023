@@ -34,14 +34,14 @@
     <string name="username_chars">Username can only contain letters, numbers, lines and underscores</string>
     <string name="profile_photo">Profile photo</string>
 
-    <string-array name="listThemeNames">
+    <string-array name="themeNames">
         <item>Follow device theme</item>
         <item>Light</item>
         <item>Dark</item>
     </string-array>
 
     <string name="default_theme">device</string>
-    <string-array name="listThemeValues">
+    <string-array name="themeValues">
         <item>device</item>
         <item>light</item>
         <item>dark</item>
@@ -64,4 +64,13 @@
     <string name="fb_login_protocol_scheme">fb646330164039157</string>
     <string name="facebook_client_token">2ee33b5cc97c2118b2e6e280de79a431</string>
     <string name="edit_profile_photo">Edit profile photo</string>
+    <string name="preference_auth">auth</string>
+    <string name="preference_theme">theme</string>
+    <string name="preference_quick_settings">quickSettings</string>
+    <string name="preference_edit">edit</string>
+    <string name="preference_sign_out">signOut</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="select_theme">Select theme</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="sign_out">Sign out</string>
 </resources>
