@@ -7,6 +7,7 @@
     android:gravity="center_vertical|center_horizontal"
     tools:context=".ui.home.HomeFragment">
 
+    <!-- Mode selector -->
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/modeSelector"
         android:layout_width="wrap_content"
@@ -32,18 +33,49 @@
             android:text="@string/stopwatch" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
+    <!-- Timer -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/timer"
+        style="?attr/materialCardViewFilledStyle"
         android:layout_width="280dp"
         android:layout_height="280dp"
         android:layout_marginTop="48dp"
+        android:clickable="true"
+        android:focusable="true"
         app:cardBackgroundColor="?attr/colorPrimaryContainer"
-        app:cardCornerRadius="300dp"
+        app:cardCornerRadius="280dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/modeSelector"
         app:strokeColor="?attr/colorPrimary"
-        app:strokeWidth="12dp">
+        app:strokeWidth="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textAppearance="?attr/textAppearanceDisplayLarge"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tap_to_start"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/time" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -78,6 +110,8 @@
         android:text="@string/select_activity"
         android:textAppearance="?attr/textAppearanceLabelLarge"
         android:textColor="?attr/colorOnSurface"
+        app:icon="@drawable/baseline_task_alt_24"
+        app:iconTint="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timer" />
@@ -88,7 +122,6 @@
         style="?attr/floatingActionButtonSmallSecondaryStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/manual_entry"
         app:layout_constraintBottom_toTopOf="@id/startTimer"
@@ -99,7 +132,6 @@
         android:id="@+id/startTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/start_timer"
         android:text="@string/start_timer"

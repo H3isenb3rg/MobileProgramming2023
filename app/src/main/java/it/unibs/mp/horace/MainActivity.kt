@@ -11,12 +11,16 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var auth: FirebaseAuth
 
     // Top level destinations.
     // Up action won't be shown in the top app bar on these screens.
@@ -30,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        auth = Firebase.auth
 
         // Lay out app behind system bars:
         // https://developer.android.com/develop/ui/views/layout/edge-to-edge#lay-out-in-full-screen
@@ -71,7 +77,12 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setOnItemSelectedListener { item ->
             val action = when (item.itemId) {
                 R.id.history -> MainNavDirections.actionGlobalHistoryFragment()
-                R.id.friends -> MainNavDirections.actionGlobalFriendsFragment()
+                R.id.friends -> if (auth.currentUser == null) {
+                    MainNavDirections.actionGlobalAuthFragment()
+                } else {
+                    MainNavDirections.actionGlobalFriendsFragment()
+                }
+
                 else -> MainNavDirections.actionGlobalHomeFragment(null)
             }
             navController.navigate(action)
