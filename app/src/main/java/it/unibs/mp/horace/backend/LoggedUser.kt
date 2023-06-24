@@ -10,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import okhttp3.internal.notifyAll
 
 class LoggedUser {
     companion object {
@@ -25,23 +27,33 @@ class LoggedUser {
 
     private val auth: FirebaseAuth = Firebase.auth
     private var db: FirebaseFirestore = Firebase.firestore
+    private var storage = Firebase.storage
 
     private val user: FirebaseUser
 
     var username: String?
         get() = user.displayName
         set(value) {
-            val usrProfileChangeBuilder = UserProfileChangeRequest.Builder()
-            usrProfileChangeBuilder.displayName = value
+            val usrProfileChangeBuilder = UserProfileChangeRequest.Builder().setDisplayName(value)
             user.updateProfile(usrProfileChangeBuilder.build())
-            updateUserDocument(hashMapOf(User.USERNAME_FIELD to value!!))
+                .addOnCompleteListener {
+                    updateUserDocument()
+                    Log.d(TAG, "Username Update Success")
+                }.addOnFailureListener {
+                    Log.w(TAG, "Error while updating username")
+                }
         }
 
     var email: String
         get() = user.email!!
         set(value) {
             user.updateEmail(value)
-            updateUserDocument(hashMapOf(User.EMAIL_FIELD to value))
+                .addOnCompleteListener {
+                    updateUserDocument()
+                    Log.d(TAG, "Email Update Success")
+                }.addOnFailureListener {
+                    Log.w(TAG, "Error while updating email")
+                }
         }
 
     val uid: String
@@ -53,8 +65,24 @@ class LoggedUser {
      */
     var photoUrl: Uri?
         get() = user.photoUrl
-        set(value: Uri?) {
-            // TODO: Update user photo
+        set(value) {
+            val photoRef = storage.reference.child("images/profile/${uid}")
+            photoRef.putFile(value!!)
+                .addOnCompleteListener {
+                    photoRef.downloadUrl.addOnCompleteListener {
+                        val usrProfileChangeBuilder =
+                            UserProfileChangeRequest.Builder().setPhotoUri(it.result)
+                        user.updateProfile(usrProfileChangeBuilder.build())
+                            .addOnCompleteListener {
+                                updateUserDocument()
+                                Log.d(TAG, "Photo URI Update Success")
+                            }.addOnFailureListener {
+                                Log.w(TAG, "Error while updating Photo URI")
+                            }
+                    }
+                }.addOnFailureListener {
+                    Log.w(TAG, "Error while updating Photo URI")
+                }
         }
 
     /**
@@ -82,15 +110,10 @@ class LoggedUser {
         }
     }
 
-    fun createUserDocument() {
-        val userData = hashMapOf(
-            User.EMAIL_FIELD to email, User.UID_FIELD to uid
-        )
-        this.updateUserDocument(userData)
-    }
+    private fun updateUserDocument() {
+        val user = User(username, email, uid, photoUrl)
 
-    private fun updateUserDocument(user: HashMap<String, String>) {
-        db.collection(User.COLLECTION_NAME).document(uid).set(user, SetOptions.merge())
+        db.collection(User.COLLECTION_NAME).document(uid).set(user.toHashMap(), SetOptions.merge())
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot added with ID: $documentReference")
             }.addOnFailureListener { e ->

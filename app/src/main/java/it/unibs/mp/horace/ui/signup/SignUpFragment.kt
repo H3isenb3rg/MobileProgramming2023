@@ -50,7 +50,6 @@ class SignUpFragment : Fragment() {
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         val currentUser = LoggedUser()
-                        currentUser.createUserDocument()
                         currentUser.username = username
                         findNavController().navigate(
                             SignUpFragmentDirections.actionGlobalHomeFragment(
