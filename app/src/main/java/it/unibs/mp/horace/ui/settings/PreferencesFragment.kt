@@ -17,6 +17,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
     private val isLoggedIn: Boolean get() = (auth.currentUser != null)
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences, rootKey)
         auth = Firebase.auth
 
         findPreference<Preference>(getString(R.string.preference_auth))!!.apply {

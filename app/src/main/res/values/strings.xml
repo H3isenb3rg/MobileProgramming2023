@@ -65,4 +65,11 @@
     <string name="select_theme" tools:keep="@string/select_theme">Select theme</string>
     <string name="edit_profile" tools:keep="@string/edit_profile">Edit profile</string>
     <string name="sign_out">Sign out</string>
+    <string name="pomodoro">Pomodoro</string>
+    <string name="stopwatch">Stopwatch</string>
+    <string name="select_activity">Select activity</string>
+    <string name="start_timer">Start timer</string>
+    <string name="manual_entry">Manual entry</string>
+    <string name="toggle_volume">Toggle volume</string>
+    <string name="work_group">Work group</string>
 </resources>

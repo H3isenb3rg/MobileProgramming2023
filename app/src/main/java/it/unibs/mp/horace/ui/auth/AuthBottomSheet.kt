@@ -64,6 +64,22 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnGoogle.setOnClickListener {
+            // The Google One Tap client that will be used for authentication
+            oneTapClient = Identity.getSignInClient(requireActivity())
+
+            // The request specifies that only Google accounts should be shown
+            // as sign-in options. Email and password credentials stored in Google are
+            // not supported as an authentication option.
+            // The accounts are not be filtered to include only the authenticated ones:
+            // setting this to true would only show Google accounts that are already authenticated
+            // in the app.
+            // Finally, if only one Google account is available, auto select it.
+            signInRequest = BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
+                    .setServerClientId(getString(R.string.default_web_client_id))
+                    .setFilterByAuthorizedAccounts(false).build()
+            ).setAutoSelectEnabled(true).build()
+
             oneTapClient.beginSignIn(signInRequest).addOnSuccessListener { result ->
                 // If the request is successful, open the One Tap UI through the given intent.
                 val request = IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
@@ -98,7 +114,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
                                 AuthBottomSheetDirections.actionGlobalHomeFragment(
-                                    resources.getString(R.string.source_sign_in)
+                                    resources.getString(R.string.sign_in)
                                 )
                             } else {
                                 // This should never happen
@@ -116,21 +132,6 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                 }
             }
 
-        // The Google One Tap client that will be used for authentication
-        oneTapClient = Identity.getSignInClient(requireActivity())
-
-        // The request specifies that only Google accounts should be shown
-        // as sign-in options. Email and password credentials stored in Google are
-        // not supported as an authentication option.
-        // The accounts are not be filtered to include only the authenticated ones:
-        // setting this to true would only show Google accounts that are already authenticated
-        // in the app.
-        // Finally, if only one Google account is available, auto select it.
-        signInRequest = BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(
-            BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
-                .setServerClientId(getString(R.string.default_web_client_id))
-                .setFilterByAuthorizedAccounts(false).build()
-        ).setAutoSelectEnabled(true).build()
     }
 
     private fun setupFacebookSignIn() {
@@ -144,7 +145,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
                                 AuthBottomSheetDirections.actionGlobalHomeFragment(
-                                    resources.getString(R.string.source_sign_in)
+                                    resources.getString(R.string.sign_in)
                                 )
                             } else {
                                 throw IllegalStateException()
