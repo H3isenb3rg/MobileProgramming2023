@@ -15,8 +15,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.databinding.FragmentSignInBinding
-import it.unibs.mp.horace.ui.signin.SignInFragmentArgs
-import it.unibs.mp.horace.ui.signin.SignInFragmentDirections
 
 class SignInFragment : Fragment() {
     private lateinit var auth: FirebaseAuth

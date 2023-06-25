@@ -15,7 +15,6 @@ import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.LoggedUser
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
-import it.unibs.mp.horace.ui.signup.SignUpFragmentDirections
 
 class SignUpFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
