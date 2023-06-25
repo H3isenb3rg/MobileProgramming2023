@@ -21,6 +21,9 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_workGroupBottomSheet"
+            app:destination="@id/workGroupBottomSheet" />
     </fragment>
 
     <!-- Friends -->
@@ -172,5 +175,9 @@
         app:destination="@id/authGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
+    <dialog
+        android:id="@+id/workGroupBottomSheet"
+        android:name="it.unibs.mp.horace.ui.home.WorkGroupBottomSheet"
+        android:label="WorkGroupBottomSheet" />
 
 </navigation>

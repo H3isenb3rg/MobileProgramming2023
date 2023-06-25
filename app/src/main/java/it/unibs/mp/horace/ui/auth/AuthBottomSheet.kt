@@ -30,10 +30,10 @@ import it.unibs.mp.horace.databinding.BottomSheetAuthBinding
 
 
 class AuthBottomSheet : BottomSheetDialogFragment() {
-    private lateinit var auth: FirebaseAuth
     private var _binding: BottomSheetAuthBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var auth: FirebaseAuth
     private lateinit var callbackManager: CallbackManager
 
     private lateinit var oneTapClient: SignInClient

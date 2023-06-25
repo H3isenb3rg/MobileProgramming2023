@@ -76,4 +76,6 @@
     <string name="preference_mode">mode</string>
     <string name="preference_volume_on">volume_on</string>
     <string name="show_quick_actions">Show quick actions</string>
+    <string name="work_group_text">Earn more points by doing activities with your friends</string>
+    <string name="invite_friends">Invite friends to work group</string>
 </resources>

@@ -6,12 +6,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import okhttp3.internal.notifyAll
 
 class LoggedUser {
     companion object {
@@ -35,29 +35,24 @@ class LoggedUser {
         get() = user.displayName
         set(value) {
             val usrProfileChangeBuilder = UserProfileChangeRequest.Builder().setDisplayName(value)
-            user.updateProfile(usrProfileChangeBuilder.build())
-                .addOnCompleteListener {
-                    updateUserDocument()
-                    Log.d(TAG, "Username Update Success")
-                }.addOnFailureListener {
-                    Log.w(TAG, "Error while updating username")
-                }
+            user.updateProfile(usrProfileChangeBuilder.build()).addOnCompleteListener {
+                updateUserDocument()
+                Log.d(TAG, "Username Update Success")
+            }.addOnFailureListener {
+                Log.w(TAG, "Error while updating username")
+            }
         }
 
     var email: String
         get() = user.email!!
         set(value) {
-            user.updateEmail(value)
-                .addOnCompleteListener {
-                    updateUserDocument()
-                    Log.d(TAG, "Email Update Success")
-                }.addOnFailureListener {
-                    Log.w(TAG, "Error while updating email")
-                }
+            user.updateEmail(value).addOnCompleteListener {
+                updateUserDocument()
+                Log.d(TAG, "Email Update Success")
+            }.addOnFailureListener {
+                Log.w(TAG, "Error while updating email")
+            }
         }
-
-    val uid: String
-        get() = user.uid
 
     /**
      * The profile photo of the user.
@@ -66,23 +61,23 @@ class LoggedUser {
     var photoUrl: Uri?
         get() = user.photoUrl
         set(value) {
-            val photoRef = storage.reference.child("images/profile/${uid}")
-            photoRef.putFile(value!!)
-                .addOnCompleteListener {
-                    photoRef.downloadUrl.addOnCompleteListener {
-                        val usrProfileChangeBuilder =
-                            UserProfileChangeRequest.Builder().setPhotoUri(it.result)
-                        user.updateProfile(usrProfileChangeBuilder.build())
-                            .addOnCompleteListener {
-                                updateUserDocument()
-                                Log.d(TAG, "Photo URI Update Success")
-                            }.addOnFailureListener {
-                                Log.w(TAG, "Error while updating Photo URI")
-                            }
+            val photoRef = storage.reference.child("images/profile/${user.uid}")
+            photoRef.putFile(value!!).addOnCompleteListener {
+                photoRef.downloadUrl.addOnCompleteListener {
+                    val updates =
+                        userProfileChangeRequest {
+                            photoUri = it.result
+                        }
+                    user.updateProfile(updates).addOnCompleteListener {
+                        updateUserDocument()
+                        Log.d(TAG, "Photo URI Update Success")
+                    }.addOnFailureListener {
+                        Log.w(TAG, "Error while updating Photo URI")
                     }
-                }.addOnFailureListener {
-                    Log.w(TAG, "Error while updating Photo URI")
                 }
+            }.addOnFailureListener {
+                Log.w(TAG, "Error while updating Photo URI")
+            }
         }
 
     /**
@@ -99,6 +94,9 @@ class LoggedUser {
             }
         }
 
+    // TODO: Add friends
+    val friends: List<User> = listOf()
+
     init {
         val loggedUser = auth.currentUser
         if (loggedUser != null) {
@@ -111,10 +109,10 @@ class LoggedUser {
     }
 
     private fun updateUserDocument() {
-        val user = User(username, email, uid, photoUrl)
+        val user = User(username, email, user.uid, photoUrl)
 
-        db.collection(User.COLLECTION_NAME).document(uid).set(user.toHashMap(), SetOptions.merge())
-            .addOnSuccessListener { documentReference ->
+        db.collection(User.COLLECTION_NAME).document(user.uid)
+            .set(user.toHashMap(), SetOptions.merge()).addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot added with ID: $documentReference")
             }.addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
