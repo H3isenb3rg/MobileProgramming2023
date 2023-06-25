@@ -17,9 +17,10 @@
         android:title="@string/select_theme" />
 
     <SwitchPreference
+        android:defaultValue="true"
         android:icon="@drawable/baseline_access_time_24"
-        android:key="@string/preference_quick_settings"
-        android:title="Show quick settings" />
+        android:key="@string/preference_quick_actions"
+        android:title="@string/show_quick_actions" />
 
     <Preference
         android:icon="@drawable/baseline_edit_24"

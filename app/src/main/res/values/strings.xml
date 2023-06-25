@@ -58,7 +58,7 @@
     <string name="edit_profile_photo">Edit profile photo</string>
     <string name="preference_auth">auth</string>
     <string name="preference_theme">theme</string>
-    <string name="preference_quick_settings" tools:keep="@string/preference_quick_settings">quickSettings</string>
+    <string name="preference_quick_actions" tools:keep="@string/preference_quick_actions">quickActions</string>
     <string name="preference_edit">edit</string>
     <string name="preference_sign_out">signOut</string>
     <string name="authenticate" tools:keep="@string/authenticate">Authenticate</string>
@@ -75,4 +75,5 @@
     <string name="tap_to_start">Tap to start</string>
     <string name="preference_mode">mode</string>
     <string name="preference_volume_on">volume_on</string>
+    <string name="show_quick_actions">Show quick actions</string>
 </resources>
