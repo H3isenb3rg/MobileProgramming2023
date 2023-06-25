@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.signup
+package it.unibs.mp.horace.ui.auth.signup
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.LoggedUser
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
+import it.unibs.mp.horace.ui.signup.SignUpFragmentDirections
 
 class SignUpFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -52,7 +53,7 @@ class SignUpFragment : Fragment() {
                         val currentUser = LoggedUser()
                         currentUser.username = username
                         findNavController().navigate(
-                            SignUpFragmentDirections.actionGlobalHomeFragment(
+                            SignUpFragmentDirections.actionGlobalHome(
                                 resources.getString(R.string.sign_up)
                             )
                         )

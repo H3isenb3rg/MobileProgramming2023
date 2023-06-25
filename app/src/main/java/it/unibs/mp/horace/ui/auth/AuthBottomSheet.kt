@@ -113,7 +113,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                     auth.signInWithCredential(firebaseCredential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthBottomSheetDirections.actionGlobalHomeFragment(
+                                AuthBottomSheetDirections.actionGlobalHome(
                                     resources.getString(R.string.sign_in)
                                 )
                             } else {
@@ -144,7 +144,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthBottomSheetDirections.actionGlobalHomeFragment(
+                                AuthBottomSheetDirections.actionGlobalHome(
                                     resources.getString(R.string.sign_in)
                                 )
                             } else {

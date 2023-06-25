@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.resetpassword
+package it.unibs.mp.horace.ui.auth.resetpassword
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel

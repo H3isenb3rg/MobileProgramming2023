@@ -23,8 +23,16 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_homeFragment_to_workGroupBottomSheet"
-            app:destination="@id/workGroupBottomSheet" />
+            app:destination="@id/workGroupBottomSheet"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
+
+    <!-- Work group -->
+    <dialog
+        android:id="@+id/workGroupBottomSheet"
+        android:name="it.unibs.mp.horace.ui.home.WorkGroupBottomSheet"
+        android:label="@string/work_group" />
 
     <!-- Friends -->
     <fragment
@@ -61,7 +69,7 @@
         <!-- Sign in -->
         <fragment
             android:id="@+id/signInFragment"
-            android:name="it.unibs.mp.horace.ui.signin.SignInFragment"
+            android:name="it.unibs.mp.horace.ui.auth.signin.SignInFragment"
             android:label="@string/sign_in"
             tools:layout="@layout/fragment_sign_in">
             <action
@@ -83,7 +91,7 @@
         <!-- Sign up -->
         <fragment
             android:id="@+id/signUpFragment"
-            android:name="it.unibs.mp.horace.ui.signup.SignUpFragment"
+            android:name="it.unibs.mp.horace.ui.auth.signup.SignUpFragment"
             android:label="@string/sign_up"
             tools:layout="@layout/fragment_sign_up" />
 
@@ -91,7 +99,7 @@
         <!-- Reset password -->
         <fragment
             android:id="@+id/resetPasswordFragment"
-            android:name="it.unibs.mp.horace.ui.resetpassword.ResetPasswordFragment"
+            android:name="it.unibs.mp.horace.ui.auth.resetpassword.ResetPasswordFragment"
             android:label="@string/reset_password_fragment"
             tools:layout="@layout/fragment_reset_password">
             <action
@@ -137,7 +145,7 @@
         <!-- Update profile -->
         <fragment
             android:id="@+id/updateProfileFragment"
-            android:name="it.unibs.mp.horace.ui.updateprofile.UpdateProfileFragment"
+            android:name="it.unibs.mp.horace.ui.settings.updateprofile.UpdateProfileFragment"
             android:label="fragment_update_profile"
             tools:layout="@layout/fragment_update_profile">
             <action
@@ -147,37 +155,34 @@
     </navigation>
 
     <action
-        android:id="@+id/action_global_homeFragment"
+        android:id="@+id/action_global_home"
         app:destination="@id/homeFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
 
     <action
-        android:id="@+id/action_global_friendsFragment"
+        android:id="@+id/action_global_friends"
         app:destination="@id/friendsFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
 
     <action
-        android:id="@+id/action_global_historyFragment"
+        android:id="@+id/action_global_history"
         app:destination="@id/historyFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
 
     <action
-        android:id="@+id/action_global_settingsFragment"
+        android:id="@+id/action_global_settings"
         app:destination="@id/settingsGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
 
     <action
-        android:id="@+id/action_global_authFragment"
+        android:id="@+id/action_global_auth"
         app:destination="@id/authGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
-    <dialog
-        android:id="@+id/workGroupBottomSheet"
-        android:name="it.unibs.mp.horace.ui.home.WorkGroupBottomSheet"
-        android:label="WorkGroupBottomSheet" />
+
 
 </navigation>

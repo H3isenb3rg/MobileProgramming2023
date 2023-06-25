@@ -43,7 +43,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
                 auth.signOut()
 
                 findNavController().navigate(
-                    SettingsFragmentDirections.actionGlobalHomeFragment(
+                    SettingsFragmentDirections.actionGlobalHome(
                         resources.getString(R.string.sign_out)
                     )
                 )

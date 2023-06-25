@@ -29,7 +29,7 @@ abstract class TopLevelFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // When the settings icon is pressed, nav to settings fragment
                 if (menuItem.itemId == R.id.settings) {
-                    val action = MainNavDirections.actionGlobalSettingsFragment()
+                    val action = MainNavDirections.actionGlobalSettings()
                     view.findNavController().navigate(action)
                     return true
                 }

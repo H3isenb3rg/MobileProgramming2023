@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.resetpassword
+package it.unibs.mp.horace.ui.auth.resetpassword
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.databinding.FragmentResetPasswordBinding
+import it.unibs.mp.horace.ui.resetpassword.ResetPasswordFragmentArgs
+import it.unibs.mp.horace.ui.resetpassword.ResetPasswordFragmentDirections
 
 class ResetPasswordFragment : Fragment() {
     private lateinit var auth: FirebaseAuth

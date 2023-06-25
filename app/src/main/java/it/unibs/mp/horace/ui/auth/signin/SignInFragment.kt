@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.signin
+package it.unibs.mp.horace.ui.auth.signin
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +15,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.databinding.FragmentSignInBinding
+import it.unibs.mp.horace.ui.signin.SignInFragmentArgs
+import it.unibs.mp.horace.ui.signin.SignInFragmentDirections
 
 class SignInFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -55,7 +57,7 @@ class SignInFragment : Fragment() {
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         findNavController().navigate(
-                            SignInFragmentDirections.actionGlobalHomeFragment(
+                            SignInFragmentDirections.actionGlobalHome(
                                 resources.getString(R.string.sign_in)
                             )
                         )

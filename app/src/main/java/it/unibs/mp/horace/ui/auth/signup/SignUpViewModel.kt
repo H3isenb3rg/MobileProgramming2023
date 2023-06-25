@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.signup
+package it.unibs.mp.horace.ui.auth.signup
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel

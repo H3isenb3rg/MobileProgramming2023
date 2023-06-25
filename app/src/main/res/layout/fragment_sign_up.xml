@@ -7,7 +7,7 @@
     android:gravity="end"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".ui.signup.SignUpFragment">
+    tools:context=".ui.auth.signup.SignUpFragment">
 
     <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
