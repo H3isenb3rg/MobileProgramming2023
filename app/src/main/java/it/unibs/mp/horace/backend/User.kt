@@ -3,10 +3,7 @@ package it.unibs.mp.horace.backend
 import android.net.Uri
 
 data class User(
-    var username: String?,
-    var email: String,
-    var uid: String,
-    var photoUrl: Uri? = null
+    var username: String, var email: String, var uid: String, var photoUrl: Uri? = null
 ) {
     companion object {
         const val COLLECTION_NAME = "users"
@@ -23,5 +20,10 @@ data class User(
             USERNAME_FIELD to (username ?: ""),
             PHOTO_FIELD to (photoUrl?.toString() ?: "")
         )
+    }
+
+    fun fitsSearch(searchText: String): Boolean {
+        return username.lowercase().contains(searchText.lowercase()) || email.lowercase()
+            .contains(searchText.lowercase())
     }
 }
