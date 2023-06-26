@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
 
     // Google Play services (for Google auth)
-    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+    implementation 'com.google.android.gms:play-services-auth:20.6.0'
 
     // Facebook SDK (for Facebook auth)
     implementation 'com.facebook.android:facebook-login:16.0.1'

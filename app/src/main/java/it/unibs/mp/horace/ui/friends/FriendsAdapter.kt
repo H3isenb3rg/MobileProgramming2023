@@ -1,6 +1,5 @@
 package it.unibs.mp.horace.ui.friends
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import coil.load
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.User
 
-class FriendsAdapter(private val context: Context, private val dataset: List<User>) :
+class FriendsAdapter(private val dataset: List<User>) :
     RecyclerView.Adapter<FriendsAdapter.ItemViewHolder>(), Filterable {
 
     private val filteredDataset: ArrayList<User> = arrayListOf<User>().apply { addAll(dataset) }
@@ -25,7 +24,7 @@ class FriendsAdapter(private val context: Context, private val dataset: List<Use
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.work_group_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.friend_item, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }
@@ -36,7 +35,8 @@ class FriendsAdapter(private val context: Context, private val dataset: List<Use
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = filteredDataset[position]
-        holder.profilePhoto.load(item.photoUrl)
+        holder.profilePhoto.load(item.photoUrl ?: R.drawable.default_profile_photo)
+        holder.username.text = item.username
     }
 
     override fun getFilter(): Filter {

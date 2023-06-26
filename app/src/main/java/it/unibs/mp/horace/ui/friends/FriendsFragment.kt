@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import it.unibs.mp.horace.TopLevelFragment
 import it.unibs.mp.horace.backend.LoggedUser
-import it.unibs.mp.horace.backend.User
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
+
 
 class FriendsFragment : TopLevelFragment() {
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
-
-    private var friends: List<User> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -26,8 +24,7 @@ class FriendsFragment : TopLevelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val user = LoggedUser()
 
-        val adapter = FriendsAdapter(requireActivity(), user.friends)
-
+        val adapter = FriendsAdapter(user.friends)
         binding.fullFriendsList.adapter = adapter
         binding.filteredFriendsList.adapter = adapter
 

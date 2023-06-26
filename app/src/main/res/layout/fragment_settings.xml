@@ -35,7 +35,7 @@
                     android:contentDescription="@string/profile_photo"
                     android:padding="16dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/baseline_person_outline_24" />
+                    android:src="@drawable/default_profile_photo" />
             </com.google.android.material.card.MaterialCardView>
 
             <Button

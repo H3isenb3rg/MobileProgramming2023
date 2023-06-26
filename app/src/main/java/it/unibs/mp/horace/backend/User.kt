@@ -17,7 +17,7 @@ data class User(
         return hashMapOf(
             EMAIL_FIELD to email,
             UID_FIELD to uid,
-            USERNAME_FIELD to (username ?: ""),
+            USERNAME_FIELD to (username),
             PHOTO_FIELD to (photoUrl?.toString() ?: "")
         )
     }

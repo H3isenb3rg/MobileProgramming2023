@@ -31,8 +31,8 @@ class LoggedUser {
 
     private val user: FirebaseUser
 
-    var username: String?
-        get() = user.displayName
+    var username: String
+        get() = user.displayName!!
         set(value) {
             val usrProfileChangeBuilder = UserProfileChangeRequest.Builder().setDisplayName(value)
             user.updateProfile(usrProfileChangeBuilder.build()).addOnCompleteListener {
@@ -64,10 +64,9 @@ class LoggedUser {
             val photoRef = storage.reference.child("images/profile/${user.uid}")
             photoRef.putFile(value!!).addOnCompleteListener {
                 photoRef.downloadUrl.addOnCompleteListener {
-                    val updates =
-                        userProfileChangeRequest {
-                            photoUri = it.result
-                        }
+                    val updates = userProfileChangeRequest {
+                        photoUri = it.result
+                    }
                     user.updateProfile(updates).addOnCompleteListener {
                         updateUserDocument()
                         Log.d(TAG, "Photo URI Update Success")
@@ -95,7 +94,10 @@ class LoggedUser {
         }
 
     // TODO: Add friends
-    val friends: List<User> = listOf()
+    val friends: List<User> = listOf(
+        User("Mario Rossi", "mario@example.com", "0001", null),
+        User("Luigi Bianchi", "luigi@example.com", "0002", null)
+    )
 
     val workGroup: List<User> = listOf()
 
