@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import it.unibs.mp.horace.TopLevelFragment
+import it.unibs.mp.horace.backend.LoggedUser
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
 
 class FriendsFragment : TopLevelFragment() {
@@ -16,6 +17,11 @@ class FriendsFragment : TopLevelFragment() {
     ): View {
         _binding = FragmentFriendsBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val user = LoggedUser()
+        binding.workGroup.adapter = FriendsAdapter(requireActivity(), user.friends)
     }
 
     override fun onDestroyView() {

@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.home
+package it.unibs.mp.horace.ui.friends
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import coil.load
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.User
 
-class WorkGroupAdapter(private val context: Context, private val dataset: List<User>) :
-    RecyclerView.Adapter<WorkGroupAdapter.ItemViewHolder>() {
+class FriendsAdapter(private val context: Context, private val dataset: List<User>) :
+    RecyclerView.Adapter<FriendsAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)

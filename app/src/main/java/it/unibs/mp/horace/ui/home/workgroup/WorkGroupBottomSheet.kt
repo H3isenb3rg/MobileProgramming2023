@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.home
+package it.unibs.mp.horace.ui.home.workgroup
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +21,7 @@ class WorkGroupBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val user = LoggedUser()
-        binding.friends.adapter = WorkGroupAdapter(requireActivity(), user.friends)
+        binding.workGroup.adapter = WorkGroupAdapter(requireActivity(), user.workGroup)
     }
 
     override fun onDestroyView() {

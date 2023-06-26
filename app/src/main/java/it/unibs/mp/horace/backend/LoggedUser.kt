@@ -97,6 +97,10 @@ class LoggedUser {
     // TODO: Add friends
     val friends: List<User> = listOf()
 
+    val workGroup: List<User> = listOf()
+
+    val friendsNotInWorkGroup: List<User> = friends.filter { it !in workGroup }
+
     init {
         val loggedUser = auth.currentUser
         if (loggedUser != null) {

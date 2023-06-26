@@ -31,7 +31,7 @@
     <!-- Work group -->
     <dialog
         android:id="@+id/workGroupBottomSheet"
-        android:name="it.unibs.mp.horace.ui.home.WorkGroupBottomSheet"
+        android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupBottomSheet"
         android:label="@string/work_group" />
 
     <!-- Friends -->

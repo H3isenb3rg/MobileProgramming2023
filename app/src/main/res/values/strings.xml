@@ -78,4 +78,5 @@
     <string name="show_quick_actions">Show quick actions</string>
     <string name="work_group_text">Earn more points by doing activities with your friends</string>
     <string name="invite_friends">Invite friends to work group</string>
+    <string name="search_by_name_or_email">Search by name or email</string>
 </resources>
