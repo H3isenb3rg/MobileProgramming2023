@@ -96,11 +96,12 @@ class HomeFragment : TopLevelFragment() {
             }
         }
 
+        /**
         // Hide quick actions if set in settings.
         if (!prefs.showQuickActions) {
-            binding.manualAdd.visibility = View.GONE
-            binding.startTimer.visibility = View.GONE
-        }
+        binding.manualAdd.visibility = View.GONE
+        binding.startTimer.visibility = View.GONE
+        }*/
     }
 
     override fun onDestroyView() {
