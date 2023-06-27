@@ -1,6 +1,7 @@
 package it.unibs.mp.horace
 
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
@@ -11,6 +12,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import com.google.android.material.search.SearchBar
+import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -106,5 +109,31 @@ class MainActivity : AppCompatActivity() {
                 else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )
+    }
+
+    /**
+     * Hooks a search bar to the search view.
+     */
+    fun hookSearchBar(searchBar: SearchBar) {
+        // Copy the search bar hint to the search view
+        binding.searchView.setupWithSearchBar(searchBar)
+        binding.searchView.hint = searchBar.hint
+
+        // Handle back button to close search view
+        val closeSearchViewCallback = onBackPressedDispatcher.addCallback(this) {
+            if (binding.searchView.isShowing) {
+                binding.searchView.hide()
+            }
+        }
+
+        closeSearchViewCallback.isEnabled = false
+
+        binding.searchView.addTransitionListener { _, _, newState ->
+            if (newState == SearchView.TransitionState.SHOWING) {
+                closeSearchViewCallback.isEnabled = true
+            } else if (newState == SearchView.TransitionState.HIDING) {
+                closeSearchViewCallback.isEnabled = false
+            }
+        }
     }
 }
