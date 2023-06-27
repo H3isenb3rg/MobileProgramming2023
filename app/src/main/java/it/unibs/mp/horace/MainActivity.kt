@@ -76,8 +76,8 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.setOnItemSelectedListener { item ->
             val action = when (item.itemId) {
-                R.id.history -> MainNavDirections.actionGlobalHistory()
-                R.id.friends -> if (auth.currentUser == null) {
+                R.id.historyFragment -> MainNavDirections.actionGlobalHistory()
+                R.id.friendsFragment -> if (auth.currentUser == null) {
                     MainNavDirections.actionGlobalAuth()
                 } else {
                     MainNavDirections.actionGlobalFriends()
