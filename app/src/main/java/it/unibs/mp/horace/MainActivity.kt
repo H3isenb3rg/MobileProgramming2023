@@ -2,11 +2,13 @@ package it.unibs.mp.horace
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +16,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
@@ -43,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         auth = Firebase.auth
 
@@ -108,18 +112,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateQuickActionsVisibility(shouldShowActions: Boolean) {
-        var visibility = View.GONE
+        val isVisible = shouldShowActions && prefs.getBoolean(
+            getString(R.string.preference_quick_actions), false
+        )
 
-        if (shouldShowActions && prefs.getBoolean(
-                getString(R.string.preference_quick_actions),
-                false
-            )
-        ) {
-            visibility = View.VISIBLE
-        }
-
-        binding.startTimer.visibility = visibility
-        binding.manualAdd.visibility = visibility
+        binding.startTimer.isVisible = isVisible
+        binding.manualAdd.isVisible = isVisible
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -143,27 +141,46 @@ class MainActivity : AppCompatActivity() {
     /**
      * Hooks a search bar to the search view.
      */
-    fun hookSearchBar(searchBar: SearchBar) {
-        // Copy the search bar hint to the search view
-        binding.searchView.setupWithSearchBar(searchBar)
-        binding.searchView.hint = searchBar.hint
+    fun hookSearchBar(
+        searchBar: SearchBar, adapter: Adapter<*>, onTextChange: (String) -> Unit
+    ) {
+        // Add the adapter to the recycler view
+        binding.searchContent.adapter = adapter
 
-        // Handle back button to close search view
-        val closeSearchViewCallback = onBackPressedDispatcher.addCallback(this) {
-            if (binding.searchView.isShowing) {
-                binding.searchView.hide()
+        binding.searchView.apply {
+            // Copy the search bar hint to the search view
+            setupWithSearchBar(searchBar)
+            hint = searchBar.hint
+
+            // Handle back button to close search view
+            val closeSearchViewCallback = onBackPressedDispatcher.addCallback(this@MainActivity) {
+                if (isShowing) {
+                    hide()
+                }
             }
-        }
 
-        closeSearchViewCallback.isEnabled = false
+            closeSearchViewCallback.isEnabled = false
 
-        binding.searchView.addTransitionListener { _, _, newState ->
-            if (newState == SearchView.TransitionState.SHOWING) {
-                closeSearchViewCallback.isEnabled = true
-                updateQuickActionsVisibility(false)
-            } else if (newState == SearchView.TransitionState.HIDING) {
-                closeSearchViewCallback.isEnabled = false
-                updateQuickActionsVisibility(true)
+            addTransitionListener { _, _, newState ->
+                if (newState == SearchView.TransitionState.SHOWING) {
+                    closeSearchViewCallback.isEnabled = true
+                    updateQuickActionsVisibility(false)
+                } else if (newState == SearchView.TransitionState.HIDING) {
+                    // Clear search text when hiding
+                    onTextChange("")
+                    closeSearchViewCallback.isEnabled = false
+                    updateQuickActionsVisibility(true)
+                }
+            }
+
+            // Handle text changes
+            editText.addTextChangedListener {
+                onTextChange(text.toString())
+            }
+
+            editText.setOnEditorActionListener { _, _, _ ->
+                onTextChange("")
+                true
             }
         }
     }

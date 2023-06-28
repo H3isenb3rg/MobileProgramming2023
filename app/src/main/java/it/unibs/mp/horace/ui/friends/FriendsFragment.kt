@@ -24,30 +24,14 @@ class FriendsFragment : TopLevelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as MainActivity).hookSearchBar(binding.searchBar)
-
         val user = LoggedUser()
+        val adapter = FriendsAdapter(ArrayList(user.friends))
 
-        val adapter = FriendsAdapter(user.friends)
         binding.fullFriendsList.adapter = adapter
 
-
-        /**
-        binding.filteredFriendsList.adapter = adapter
-
-        binding.searchView.editText.addTextChangedListener {
-        val searchText = binding.searchView.text.toString()
-        adapter.filter.filter(searchText)
+        (requireActivity() as MainActivity).hookSearchBar(binding.searchBar, adapter) { text ->
+            adapter.filter.filter(text)
         }
-
-        binding.searchView.editText.setOnEditorActionListener { _, _, _ ->
-        val searchText = binding.searchView.text.toString()
-        adapter.filter.filter(searchText)
-        binding.searchBar.text = searchText
-        binding.searchView.hide();
-        true
-        }
-         */
     }
 
     override fun onDestroyView() {
