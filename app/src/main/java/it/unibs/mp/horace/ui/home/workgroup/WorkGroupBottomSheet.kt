@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import it.unibs.mp.horace.backend.LoggedUser
+import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.BottomSheetWorkGroupBinding
 
 class WorkGroupBottomSheet : BottomSheetDialogFragment() {
@@ -20,7 +20,7 @@ class WorkGroupBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val user = LoggedUser()
+        val user = CurrentUser()
         binding.workGroup.adapter = WorkGroupAdapter(requireActivity(), user.workGroup)
     }
 

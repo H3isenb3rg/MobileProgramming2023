@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import coil.load
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.LoggedUser
+import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -29,10 +29,10 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val user: LoggedUser
+        val user: CurrentUser
 
         try {
-            user = LoggedUser()
+            user = CurrentUser()
         } catch (e: IllegalAccessError) {
             binding.profileInfo.visibility = View.GONE
             return
@@ -49,7 +49,7 @@ class SettingsFragment : Fragment() {
 
         binding.username.text = user.username
         binding.email.text = user.email
-        binding.editProfilePhoto.visibility = if (user.provider == LoggedUser.Provider.EMAIL) {
+        binding.editProfilePhoto.visibility = if (user.provider == CurrentUser.Provider.EMAIL) {
             View.VISIBLE
         } else {
             View.GONE

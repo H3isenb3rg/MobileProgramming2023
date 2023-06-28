@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.TopLevelFragment
-import it.unibs.mp.horace.backend.LoggedUser
+import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
 
 
@@ -24,7 +24,7 @@ class FriendsFragment : TopLevelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = LoggedUser()
+        val user = CurrentUser()
         val adapter = FriendsAdapter(ArrayList(user.friends))
 
         binding.fullFriendsList.adapter = adapter

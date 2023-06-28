@@ -12,7 +12,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.LoggedUser
+import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.User
 
 /**
@@ -47,7 +47,7 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = filteredDataset[position]
 
-        val currentUser = LoggedUser()
+        val currentUser = CurrentUser()
 
         holder.profilePhoto.load(item.photoUrl ?: R.drawable.default_profile_photo)
         holder.username.text = item.username

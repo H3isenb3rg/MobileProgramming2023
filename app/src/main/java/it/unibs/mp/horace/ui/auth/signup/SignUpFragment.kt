@@ -12,8 +12,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.LoggedUser
+import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
@@ -49,8 +50,17 @@ class SignUpFragment : Fragment() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        val currentUser = LoggedUser()
+                        val currentUser = CurrentUser()
                         currentUser.username = username
+                        FirebaseMessaging.getInstance().token.addOnCompleteListener { tokenTask ->
+                            if (!tokenTask.isSuccessful) {
+                                throw IllegalStateException("Could not get FCM token")
+                            }
+                            // Get new FCM registration token
+                            currentUser.fcmToken = task.result.toString()
+                            currentUser.update()
+                        }
+
                         findNavController().navigate(
                             SignUpFragmentDirections.actionGlobalHome(
                                 resources.getString(R.string.sign_up)
