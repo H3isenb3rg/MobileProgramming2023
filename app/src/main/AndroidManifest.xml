@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Necessary only on devices with old Play Services versions -->
+    <!-- Necessary only on devices for old Play Services versions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Opt out of advertising id -->
+
+    <!-- We don't use ads so we can opt out of advertising id -->
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
@@ -34,10 +35,10 @@
             android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"
             android:value="false" />
 
-        <!-- Facebook config -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -51,6 +52,8 @@
             </intent-filter>
         </activity>
 
+
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -62,8 +65,29 @@
             </intent-filter>
         </activity>
 
+
+        <!-- FCM service -->
+        <service
+            android:name=".MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher_foreground" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/md_theme_light_background" />
+
+        <!-- Custom fonts -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
+
 </manifest>
