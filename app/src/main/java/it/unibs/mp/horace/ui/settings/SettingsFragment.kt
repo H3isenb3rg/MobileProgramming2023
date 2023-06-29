@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import coil.load
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentSettingsBinding
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -29,21 +33,20 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val user: CurrentUser
-
-        try {
-            user = CurrentUser()
-        } catch (e: IllegalAccessError) {
+        if (Firebase.auth.currentUser == null) {
             binding.profileInfo.visibility = View.GONE
             return
         }
+        val user = CurrentUser()
 
         val pickPhoto =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     user.photoUrl = uri
-                    // FIXME: Foto non viene aggiornata immediatamente. Devo uscire e rientrare nella schermata (Riga sotto deve essere eseguita dopo che aggiornamento della foto è completato)
-                    binding.photo.load(user.photoUrl ?: R.drawable.default_profile_photo)
+                    lifecycleScope.launch {
+                        user.update()
+                        binding.photo.load(user.photoUrl ?: R.drawable.default_profile_photo)
+                    }
                 }
             }
 

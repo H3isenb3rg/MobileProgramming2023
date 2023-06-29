@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
+import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -52,12 +53,7 @@ class SignUpFragment : Fragment() {
                     if (task.isSuccessful) {
                         val currentUser = CurrentUser()
                         currentUser.username = username
-                        FirebaseMessaging.getInstance().token.addOnCompleteListener { tokenTask ->
-                            if (!tokenTask.isSuccessful) {
-                                throw IllegalStateException("Could not get FCM token")
-                            }
-                            // Get new FCM registration token
-                            currentUser.fcmToken = task.result.toString()
+                        lifecycleScope.launch {
                             currentUser.update()
                         }
 
@@ -84,6 +80,9 @@ class SignUpFragment : Fragment() {
         }
         binding.password.editText?.addTextChangedListener {
             validatePassword()
+
+            // Also verify password confirm when password changes.
+            validatePasswordConfirm()
         }
         binding.passwordConfirm.editText?.addTextChangedListener {
             validatePasswordConfirm()

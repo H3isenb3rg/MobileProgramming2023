@@ -1,20 +1,23 @@
 package it.unibs.mp.horace.backend
 
 import android.net.Uri
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 class CurrentUser {
+    companion object {
+        private const val ERROR_USER_NOT_SIGNED_IN = "User is not signed in"
+        private const val PROVIDER_GOOGLE_ID = "google.com"
+        private const val PROVIDER_FACEBOOK_ID = "facebook.com"
+    }
 
     /**
      * Authentication providers.
@@ -30,40 +33,59 @@ class CurrentUser {
         var emailChanged = false
         var photoChanged = false
         var usernameChanged = false
+
+        fun anyChanged(): Boolean = emailChanged || photoChanged || usernameChanged
     }
 
-    private val auth: FirebaseAuth = Firebase.auth
-    private var db: FirebaseFirestore = Firebase.firestore
-    private var storage = Firebase.storage
-
-    // The Firebase user, where the authentication data is stored.
+    /**
+     * The Firebase user, where the authentication data is stored.
+     */
     private val firebaseUser: FirebaseUser
 
-    // The document reference to the user, to update the user data.
-    // Should always be synced to the firebaseUser.
+    /**
+     * The document reference to the user, to update the user data.
+     * Should always be synced to the firebaseUser.
+     */
     private val userDocument: DocumentReference
 
-    // The user data, stored in the database.
+    /**
+     * The reference to the user photo, to update the user photo.
+     */
+    private val photoRef: StorageReference
+
+    /**
+     * The user data, to avoid fetching it from the database every time.
+     */
     private val userData: User
 
-    // To track which fields have been changed.
+    /**
+     * Tracks which profile fields have been changed.
+     */
     private var changesTracker = ProfileChangesTracker()
 
     init {
-        val loggedUser = auth.currentUser
+        val loggedUser = Firebase.auth.currentUser
         if (loggedUser != null) {
             // User is signed in
             firebaseUser = loggedUser
         } else {
             // User is not signed in
-            throw IllegalAccessError("User is not logged")
+            throw IllegalAccessError(ERROR_USER_NOT_SIGNED_IN)
         }
 
-        userDocument = db.collection(User.COLLECTION_NAME).document(loggedUser.uid)
-        userData = User.fromHashMap(userDocument.get().result?.data!! as HashMap<String, Any>)
+        firebaseUser.apply {
+            userDocument = Firebase.firestore.collection(User.COLLECTION_NAME).document(uid)
+            photoRef = Firebase.storage.reference.child("images/profile/${uid}")
+
+            // Initialize user data to firebase values, so there's no need to block
+            // the thread to wait for the data to be fetched from the database.
+            userData = User(
+                uid, displayName, email!!, photoUrl
+            )
+        }
     }
 
-    var username: String
+    var username: String?
         get() = userData.username
         set(value) {
             changesTracker.usernameChanged = true
@@ -88,12 +110,6 @@ class CurrentUser {
             userData.photoUrl = value
         }
 
-    var fcmToken: String?
-        get() = userData.fcmToken
-        set(value) {
-            userData.fcmToken = value
-        }
-
     /**
      * The authentication provider of the user.
      */
@@ -102,16 +118,16 @@ class CurrentUser {
             val providers = firebaseUser.providerData.map { it.providerId }
 
             return when {
-                providers.contains("google.com") -> Provider.GOOGLE
-                providers.contains("facebook.com") -> Provider.FACEBOOK
+                providers.contains(PROVIDER_GOOGLE_ID) -> Provider.GOOGLE
+                providers.contains(PROVIDER_FACEBOOK_ID) -> Provider.FACEBOOK
                 else -> Provider.EMAIL
             }
         }
 
     // TODO: Add friends
     val friends: List<User> = listOf(
-        User("Mario Rossi", "mario@example.com", "0001", null),
-        User("Luigi Bianchi", "luigi@example.com", "0002", null)
+        User("0001", "Mario Rossi", "mario@example.com"),
+        User("0002", "Luigi Bianchi", "luigi@example.com")
     )
 
     val workGroup: List<User> = listOf()
@@ -121,12 +137,18 @@ class CurrentUser {
     /**
      * Updates both the authentication data and the user document.
      */
-    fun update() {
-        runBlocking {
-            updateAuth()
-            updateUserDocument()
+    suspend fun update() {
+        if (!changesTracker.anyChanged()) {
+            return
         }
 
+        // Auth should be updated before document,
+        // so the new photo url is available
+        updateAuth()
+        updateUserDocument()
+
+        // Reset changes tracker
+        changesTracker = ProfileChangesTracker()
     }
 
     /**
@@ -147,10 +169,17 @@ class CurrentUser {
             }
 
             if (photoChanged) {
-                val photoRef = storage.reference.child("images/profile/${firebaseUser.uid}")
+                // Allows eliminating the photo if it's null
+                val url = if (userData.photoUrl != null) {
+                    // Remove current photo
+                    photoRef.delete().await()
 
-                photoRef.putFile(userData.photoUrl!!).await()
-                val url = photoRef.downloadUrl.await()
+                    // Upload new photo
+                    photoRef.putFile(userData.photoUrl!!).await()
+                    photoRef.downloadUrl.await()
+                } else {
+                    null
+                }
 
                 userData.photoUrl = url
                 val updates = userProfileChangeRequest {
@@ -159,9 +188,6 @@ class CurrentUser {
                 firebaseUser.updateProfile(updates).await()
             }
         }
-
-        // Reset changes tracker
-        changesTracker = ProfileChangesTracker()
     }
 
     /**
