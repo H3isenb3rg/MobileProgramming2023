@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/profile_photo"
             android:padding="6dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@drawable/default_profile_photo" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -43,6 +43,7 @@
         style="?attr/materialIconButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/remove_from_group"
         app:icon="@drawable/baseline_close_24"
         app:iconTint="?attr/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"

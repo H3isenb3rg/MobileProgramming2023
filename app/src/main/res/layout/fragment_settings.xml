@@ -33,8 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/profile_photo"
-                    android:padding="16dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="centerInside"
                     android:src="@drawable/default_profile_photo" />
             </com.google.android.material.card.MaterialCardView>
 

@@ -3,7 +3,7 @@
     <string name="facebook_app_id" translatable="false">646330164039157</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb646330164039157</string>
     <string name="facebook_client_token" translatable="false">2ee33b5cc97c2118b2e6e280de79a431</string>
-    <string name="authentication_desc">Sign in to your account or create a new one to automatically save your data to the cloud, and sync to your other devices.</string>
+    <string name="authentication_desc">Sign in to your account or create a new one to work with friends and sync your data to your other devices.</string>
     <string name="home">Home</string>
     <string name="settings">Settings</string>
     <string name="content_description_settings">Navigate to settings</string>
@@ -80,4 +80,5 @@
     <string name="invite_friends">Invite friends to work group</string>
     <string name="search_by_name_or_email">Search by name or email</string>
     <string name="default_search_hint">Type here to search</string>
+    <string name="remove_from_group">Remove from group</string>
 </resources>

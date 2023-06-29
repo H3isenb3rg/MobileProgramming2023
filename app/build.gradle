@@ -49,7 +49,6 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.6.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
 
     // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
@@ -65,7 +64,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
     // Preferences (for settings screen)
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
     // Material UI
     implementation 'com.google.android.material:material:1.9.0'
@@ -77,10 +76,10 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:16.0.1'
 
     // Coil (for downloading images)
-    implementation("io.coil-kt:coil:2.4.0")
+    implementation 'io.coil-kt:coil:2.4.0'
 
     // Splash screen
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // JUnit
     testImplementation 'junit:junit:4.13.2'
