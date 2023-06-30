@@ -58,9 +58,7 @@ class SignUpFragment : Fragment() {
                         }
 
                         findNavController().navigate(
-                            SignUpFragmentDirections.actionGlobalHome(
-                                resources.getString(R.string.sign_up)
-                            )
+                            SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
                         )
                     } else {
                         Snackbar.make(

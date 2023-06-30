@@ -59,7 +59,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
         setupFacebookSignIn()
 
         binding.btnEmail.setOnClickListener {
-            val action = AuthBottomSheetDirections.actionAuthFragmentToSignInFragment()
+            val action = AuthBottomSheetDirections.actionAuthBottomSheetToSignInFragment()
             findNavController().navigate(action)
         }
 
@@ -113,9 +113,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                     auth.signInWithCredential(firebaseCredential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthBottomSheetDirections.actionGlobalHome(
-                                    resources.getString(R.string.sign_in)
-                                )
+                                AuthBottomSheetDirections.actionAuthBottomSheetToHomeFragment()
                             } else {
                                 // This should never happen
                                 throw IllegalStateException()
@@ -144,9 +142,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthBottomSheetDirections.actionGlobalHome(
-                                    resources.getString(R.string.sign_in)
-                                )
+                                AuthBottomSheetDirections.actionAuthBottomSheetToHomeFragment()
                             } else {
                                 throw IllegalStateException()
                             }

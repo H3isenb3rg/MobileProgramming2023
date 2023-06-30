@@ -55,9 +55,7 @@ class SignInFragment : Fragment() {
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         findNavController().navigate(
-                            SignInFragmentDirections.actionGlobalHome(
-                                resources.getString(R.string.sign_in)
-                            )
+                            SignInFragmentDirections.actionSignInFragmentToHomeFragment()
                         )
                     } else {
                         Snackbar.make(

@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                     MainNavDirections.actionGlobalFriends()
                 }
 
-                else -> MainNavDirections.actionGlobalHome(null)
+                else -> MainNavDirections.actionGlobalHome()
             }
             navController.navigate(action)
             true

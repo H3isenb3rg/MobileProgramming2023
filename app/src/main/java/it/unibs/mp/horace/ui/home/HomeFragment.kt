@@ -51,15 +51,15 @@ class HomeFragment : TopLevelFragment() {
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         when (args.source) {
-            resources.getString(R.string.sign_up) -> Snackbar.make(
+            R.string.source_sign_up -> Snackbar.make(
                 view, getString(R.string.signed_up_successfully), Snackbar.LENGTH_SHORT
             ).show()
 
-            resources.getString(R.string.sign_in) -> Snackbar.make(
+            R.string.source_sign_in -> Snackbar.make(
                 view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
             ).show()
 
-            resources.getString(R.string.sign_out) -> Snackbar.make(
+            R.string.source_sign_out -> Snackbar.make(
                 view, getString(R.string.signed_out_successfully), Snackbar.LENGTH_SHORT
             ).show()
         }

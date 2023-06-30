@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="source_none">0</string>
+    <string name="source_sign_in">1</string>
+    <string name="source_sign_up">2</string>
+    <string name="source_sign_out">3</string>
+</resources>
