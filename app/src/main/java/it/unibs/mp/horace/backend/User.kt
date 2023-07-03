@@ -4,8 +4,8 @@ import android.net.Uri
 
 data class User(
     var uid: String,
-    var username: String?,
     var email: String,
+    var username: String?,
     var photoUrl: Uri? = null
 ) {
     companion object {

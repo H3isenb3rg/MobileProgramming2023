@@ -1,12 +1,11 @@
 package it.unibs.mp.horace.backend
 
+import java.time.LocalDateTime
+
 data class TimeEntry(
-    val idActivity: String,
     val description: String,
+    val activity: Activity?,
     val isPomodoro: Boolean,
-    val startTime: String,
-    val endTime: String
-    ) {
-    var uid: String? = null
-    // FIXME: Currently date times are strings we need to find the correct type to use
-}
+    val startTime: LocalDateTime,
+    val endTime: LocalDateTime
+)

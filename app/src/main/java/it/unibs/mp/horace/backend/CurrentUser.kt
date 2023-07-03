@@ -80,7 +80,7 @@ class CurrentUser {
             // Initialize user data to firebase values, so there's no need to block
             // the thread to wait for the data to be fetched from the database.
             userData = User(
-                uid, displayName, email!!, photoUrl
+                uid, email!!, displayName, photoUrl
             )
         }
     }
@@ -126,8 +126,8 @@ class CurrentUser {
 
     // TODO: Add friends
     val friends: MutableList<User> = mutableListOf(
-        User("0001", "Mario Rossi", "mario@example.com"),
-        User("0002", "Luigi Bianchi", "luigi@example.com")
+        User("0001", "mario@example.com", "Mario Rossi"),
+        User("0002", "luigi@example.com", "Luigi Bianchi")
     )
 
     val workGroup: MutableList<User> = mutableListOf()
