@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.ProfileValidator
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.databinding.FragmentSignInBinding
 
@@ -96,12 +97,12 @@ class SignInFragment : Fragment() {
 
     private fun validateEmail() {
         binding.email.error =
-            if (viewModel.updateEmail(email)) null else getString(R.string.email_invalid)
+            if (viewModel.updateEmail(email) == ProfileValidator.OK) null else getString(R.string.email_invalid)
     }
 
     private fun validatePassword() {
         binding.password.error =
-            if (viewModel.updatePassword(password)) null else getString(R.string.password_min_length)
+            if (viewModel.updatePassword(password) == ProfileValidator.OK) null else getString(R.string.password_min_length)
     }
 
     override fun onDestroyView() {

@@ -1,14 +1,13 @@
-package it.unibs.mp.horace.ui.auth.signup
+package it.unibs.mp.horace.ui.settings.updateprofile
 
 import androidx.lifecycle.ViewModel
 import it.unibs.mp.horace.ProfileValidator
 
-class SignUpViewModel : ViewModel() {
+class UpdateProfileViewModel : ViewModel() {
     private var validator = ProfileValidator()
-    private var isTermsValid = false
 
     val isEverythingValid: Boolean
-        get() = validator.isUsernameValid && validator.isEmailValid && validator.isPasswordValid && validator.isPasswordConfirmValid && isTermsValid
+        get() = validator.isUsernameValid && validator.isEmailValid && validator.isPasswordValid && validator.isPasswordConfirmValid
 
     fun updateUsername(username: String): Int {
         return validator.updateUsername(username)
@@ -19,15 +18,17 @@ class SignUpViewModel : ViewModel() {
     }
 
     fun updatePassword(password: String): Int {
+        // Password can be empty
+        if (password.isEmpty()) {
+            return ProfileValidator.OK
+        }
         return validator.updatePassword(password)
     }
 
     fun updatePasswordConfirm(password: String, passwordConfirm: String): Int {
+        if (passwordConfirm.isEmpty() && password.isEmpty()) {
+            return ProfileValidator.OK
+        }
         return validator.updatePasswordConfirm(password, passwordConfirm)
-    }
-
-    fun updateTerms(isChecked: Boolean): Boolean {
-        isTermsValid = isChecked
-        return isTermsValid
     }
 }

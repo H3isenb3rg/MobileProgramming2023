@@ -20,8 +20,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:inputType="text"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -40,6 +40,10 @@
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!-- Password -->
     <com.google.android.material.textfield.TextInputLayout
@@ -76,12 +80,10 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Save Changes button -->
     <Button
+        android:id="@+id/saveChanges"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/save_changes"
-        android:textColor="?attr/colorOnSecondary" />
+        android:text="@string/save_changes" />
 </LinearLayout>

@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.ProfileValidator
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
@@ -100,23 +101,23 @@ class SignUpFragment : Fragment() {
 
     private fun validateUsername() {
         binding.username.error = when (viewModel.updateUsername(username)) {
-            SignUpViewModel.ERROR_USERNAME_LENGTH -> getString(R.string.username_min_length)
-            SignUpViewModel.ERROR_USERNAME_CHARS -> getString(R.string.username_chars)
+            ProfileValidator.ERROR_USERNAME_LENGTH -> getString(R.string.username_min_length)
+            ProfileValidator.ERROR_USERNAME_CHARS -> getString(R.string.username_chars)
             else -> null
         }
     }
 
     private fun validateEmail() {
         binding.email.error =
-            if (viewModel.updateEmail(email)) null else getString(R.string.email_invalid)
+            if (viewModel.updateEmail(email) == ProfileValidator.OK) null else getString(R.string.email_invalid)
     }
 
     private fun validatePassword() {
         binding.password.error = when (viewModel.updatePassword(password)) {
-            SignUpViewModel.ERROR_PASSWORD_LENGTH -> getString(R.string.password_min_length)
-            SignUpViewModel.ERROR_PASSWORD_UPPERCASE -> getString(R.string.password_uppercase)
-            SignUpViewModel.ERROR_PASSWORD_LOWERCASE -> getString(R.string.password_lowercase)
-            SignUpViewModel.ERROR_PASSWORD_SPECIAL -> getString(R.string.password_special)
+            ProfileValidator.ERROR_PASSWORD_LENGTH -> getString(R.string.password_min_length)
+            ProfileValidator.ERROR_PASSWORD_UPPERCASE -> getString(R.string.password_uppercase)
+            ProfileValidator.ERROR_PASSWORD_LOWERCASE -> getString(R.string.password_lowercase)
+            ProfileValidator.ERROR_PASSWORD_SPECIAL -> getString(R.string.password_special)
             else -> null
         }
     }
@@ -124,7 +125,7 @@ class SignUpFragment : Fragment() {
     private fun validatePasswordConfirm() {
         binding.passwordConfirm.error = if (viewModel.updatePasswordConfirm(
                 password, passwordConfirm
-            )
+            ) == ProfileValidator.OK
         ) null else getString(R.string.password_does_not_match)
     }
 
