@@ -1,13 +1,13 @@
-package it.unibs.mp.horace.ui.history
+package it.unibs.mp.horace.ui.activities.history
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import it.unibs.mp.horace.TopLevelFragment
+import androidx.fragment.app.Fragment
 import it.unibs.mp.horace.databinding.FragmentHistoryBinding
 
-class HistoryFragment : TopLevelFragment() {
+class HistoryFragment : Fragment() {
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 

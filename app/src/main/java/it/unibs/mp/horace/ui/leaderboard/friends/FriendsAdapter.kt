@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.friends
+package it.unibs.mp.horace.ui.leaderboard.friends
 
 import android.view.LayoutInflater
 import android.view.View

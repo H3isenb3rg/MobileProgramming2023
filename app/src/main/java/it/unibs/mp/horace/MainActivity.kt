@@ -159,11 +159,11 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.setOnItemSelectedListener { item ->
             val action = when (item.itemId) {
-                R.id.historyFragment -> MainNavDirections.actionGlobalHistory()
-                R.id.friendsFragment -> if (auth.currentUser == null) {
+                R.id.historyFragment -> MainNavDirections.actionGlobalActivities()
+                R.id.leaderboardFragment -> if (auth.currentUser == null) {
                     MainNavDirections.actionGlobalAuth()
                 } else {
-                    MainNavDirections.actionGlobalFriends()
+                    MainNavDirections.actionGlobalLeaderboard()
                 }
 
                 else -> MainNavDirections.actionGlobalHome()

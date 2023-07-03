@@ -1,16 +1,16 @@
-package it.unibs.mp.horace.ui.friends
+package it.unibs.mp.horace.ui.leaderboard.friends
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import it.unibs.mp.horace.MainActivity
-import it.unibs.mp.horace.TopLevelFragment
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
 
 
-class FriendsFragment : TopLevelFragment() {
+class FriendsFragment : Fragment() {
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
 

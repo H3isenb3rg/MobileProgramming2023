@@ -82,4 +82,8 @@
     <string name="default_search_hint">Type here to search</string>
     <string name="remove_from_group">Remove from group</string>
     <string name="invite_selected">Invite selected</string>
+    <string name="view_all_friends">View all friends</string>
+    <string name="activities">Activities</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="view_journal">View journal</string>
 </resources>

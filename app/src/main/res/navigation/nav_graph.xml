@@ -24,19 +24,61 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
-    <!-- Friends -->
-    <fragment
-        android:id="@+id/friendsFragment"
-        android:name="it.unibs.mp.horace.ui.friends.FriendsFragment"
-        android:label="@string/friends"
-        tools:layout="@layout/fragment_friends" />
+    <!-- Leaderboard subgraph -->
+    <navigation
+        android:id="@+id/leaderboardGraph"
+        app:startDestination="@id/leaderboardFragment">
 
-    <!-- History -->
-    <fragment
-        android:id="@+id/historyFragment"
-        android:name="it.unibs.mp.horace.ui.history.HistoryFragment"
-        android:label="@string/history"
-        tools:layout="@layout/fragment_history" />
+        <!-- Leaderboard -->
+        <fragment
+            android:id="@+id/leaderboardFragment"
+            android:name="it.unibs.mp.horace.ui.leaderboard.LeaderboardFragment"
+            android:label="@string/leaderboard"
+            tools:layout="@layout/fragment_leaderboard">
+            <action
+                android:id="@+id/action_leaderboardFragment_to_friendsFragment"
+                app:destination="@id/friendsFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        </fragment>
+
+        <!-- Friends -->
+        <fragment
+            android:id="@+id/friendsFragment"
+            android:name="it.unibs.mp.horace.ui.leaderboard.friends.FriendsFragment"
+            android:label="@string/friends"
+            tools:layout="@layout/fragment_friends" />
+    </navigation>
+
+    <!-- Activities subgraph -->
+    <navigation
+        android:id="@+id/activitiesGraph"
+        app:startDestination="@id/activitiesFragment">
+
+        <!-- Activities -->
+        <fragment
+            android:id="@+id/activitiesFragment"
+            android:name="it.unibs.mp.horace.ui.activities.ActivitiesFragment"
+            android:label="fragment_activities"
+            tools:layout="@layout/fragment_activities">
+            <action
+                android:id="@+id/action_activitiesFragment_to_historyFragment"
+                app:destination="@id/historyFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        </fragment>
+
+        <!-- History -->
+        <fragment
+            android:id="@+id/historyFragment"
+            android:name="it.unibs.mp.horace.ui.activities.history.HistoryFragment"
+            android:label="@string/history"
+            tools:layout="@layout/fragment_history" />
+    </navigation>
 
     <!-- Work group subgraph -->
     <navigation
@@ -254,22 +296,6 @@
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
-        android:id="@+id/action_global_friends"
-        app:destination="@id/friendsFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-
-    <action
-        android:id="@+id/action_global_history"
-        app:destination="@id/historyFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-
-    <action
         android:id="@+id/action_global_settings"
         app:destination="@id/settingsGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
@@ -280,6 +306,22 @@
     <action
         android:id="@+id/action_global_auth"
         app:destination="@id/authGraph"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_leaderboard"
+        app:destination="@id/leaderboardGraph"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_activities"
+        app:destination="@id/activitiesGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"

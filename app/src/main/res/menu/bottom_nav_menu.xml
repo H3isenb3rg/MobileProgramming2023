@@ -6,13 +6,13 @@
         android:icon="@drawable/baseline_home_24"
         android:title="@string/home" />
     <item
-        android:id="@+id/historyFragment"
+        android:id="@+id/activitiesFragment"
         android:enabled="true"
-        android:icon="@drawable/baseline_bar_chart_24"
-        android:title="@string/history" />
+        android:icon="@drawable/baseline_event_note_24"
+        android:title="@string/activities" />
     <item
-        android:id="@+id/friendsFragment"
+        android:id="@+id/leaderboardFragment"
         android:enabled="true"
-        android:icon="@drawable/baseline_people_alt_24"
-        android:title="@string/friends" />
+        android:icon="@drawable/baseline_leaderboard_24"
+        android:title="@string/leaderboard" />
 </menu>
