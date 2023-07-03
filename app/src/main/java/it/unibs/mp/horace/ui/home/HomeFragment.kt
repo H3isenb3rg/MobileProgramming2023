@@ -91,17 +91,14 @@ class HomeFragment : TopLevelFragment() {
         }
 
         binding.workGroup.setOnClickListener {
-            if (auth.currentUser == null) {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAuthGraph())
-            }
+            findNavController().navigate(
+                if (auth.currentUser == null) {
+                    HomeFragmentDirections.actionGlobalAuth()
+                } else {
+                    HomeFragmentDirections.actionHomeFragmentToWorkGroupGraph()
+                }
+            )
         }
-
-        /**
-        // Hide quick actions if set in settings.
-        if (!prefs.showQuickActions) {
-        binding.manualAdd.visibility = View.GONE
-        binding.startTimer.visibility = View.GONE
-        }*/
     }
 
     override fun onDestroyView() {

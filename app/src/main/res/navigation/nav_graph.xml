@@ -11,27 +11,18 @@
         android:name="it.unibs.mp.horace.ui.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_authGraph"
-            app:destination="@id/authGraph"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
         <argument
             android:name="source"
             android:defaultValue="@string/source_none"
             app:argType="reference" />
         <action
-            android:id="@+id/action_homeFragment_to_workGroupBottomSheet"
-            app:destination="@id/workGroupBottomSheet"
+            android:id="@+id/action_homeFragment_to_workGroupGraph"
+            app:destination="@id/workGroupGraph"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
-
-    <!-- Work group -->
-    <dialog
-        android:id="@+id/workGroupBottomSheet"
-        android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupBottomSheet"
-        android:label="@string/work_group" />
 
     <!-- Friends -->
     <fragment
@@ -46,6 +37,43 @@
         android:name="it.unibs.mp.horace.ui.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/fragment_history" />
+
+    <!-- Work group subgraph -->
+    <navigation
+        android:id="@+id/workGroupGraph"
+        app:startDestination="@id/workGroupBottomSheet">
+        <!-- Work group -->
+        <dialog
+            android:id="@+id/workGroupBottomSheet"
+            android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupBottomSheet"
+            android:label="@string/work_group"
+            tools:layout="@layout/bottom_sheet_work_group">
+            <action
+                android:id="@+id/action_workGroupBottomSheet_to_inviteFriendsBottomSheet"
+                app:destination="@id/inviteFriendsBottomSheet"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        </dialog>
+
+        <!-- Invite friends -->
+        <dialog
+            android:id="@+id/inviteFriendsBottomSheet"
+            android:name="it.unibs.mp.horace.ui.home.workgroup.InviteFriendsBottomSheet"
+            android:label="InviteFriendsBottomSheet"
+            tools:layout="@layout/bottom_sheet_invite_friends">
+            <action
+                android:id="@+id/action_inviteFriendsBottomSheet_to_workGroupBottomSheet"
+                app:destination="@id/workGroupBottomSheet"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:popUpTo="@id/workGroupBottomSheet"
+                app:popUpToInclusive="true" />
+        </dialog>
+    </navigation>
 
     <!-- Auth subgraph -->
     <navigation
@@ -148,7 +176,11 @@
                 android:id="@+id/action_resetPasswordFragment_to_signInFragment"
                 app:destination="@id/signInFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim">
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:popUpTo="@id/signInFragment"
+                app:popUpToInclusive="true">
                 <argument
                     android:name="sourceResetPassword"
                     android:defaultValue="true" />
@@ -173,15 +205,12 @@
             android:label="@string/settings"
             tools:layout="@layout/fragment_settings">
             <action
-                android:id="@+id/action_settingsFragment_to_authGraph"
-                app:destination="@id/authGraph"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" />
-            <action
                 android:id="@+id/action_settingsFragment_to_updateProfileFragment"
                 app:destination="@id/updateProfileFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" />
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
             <action
                 android:id="@+id/action_settingsFragment_to_homeFragment"
                 app:destination="@id/homeFragment"
@@ -207,6 +236,10 @@
             <action
                 android:id="@+id/action_updateProfileFragment_to_settingsFragment"
                 app:destination="@id/settingsFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/settingsGraph"
                 app:popUpToInclusive="true" />
         </fragment>
@@ -216,30 +249,40 @@
         android:id="@+id/action_global_home"
         app:destination="@id/homeFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim" />
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_friends"
         app:destination="@id/friendsFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim" />
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_history"
         app:destination="@id/historyFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim" />
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_settings"
         app:destination="@id/settingsGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim" />
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_auth"
         app:destination="@id/authGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim" />
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
 </navigation>

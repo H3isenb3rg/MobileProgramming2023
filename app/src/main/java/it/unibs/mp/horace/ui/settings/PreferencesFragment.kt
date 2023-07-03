@@ -24,7 +24,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
             isVisible = !isLoggedIn
             setOnPreferenceClickListener {
                 findNavController()
-                    .navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
+                    .navigate(SettingsFragmentDirections.actionGlobalAuth())
                 true
             }
         }

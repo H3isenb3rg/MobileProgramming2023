@@ -125,14 +125,21 @@ class CurrentUser {
         }
 
     // TODO: Add friends
-    val friends: List<User> = listOf(
+    val friends: MutableList<User> = mutableListOf(
         User("0001", "Mario Rossi", "mario@example.com"),
         User("0002", "Luigi Bianchi", "luigi@example.com")
     )
 
-    val workGroup: List<User> = listOf()
+    val workGroup: MutableList<User> = mutableListOf()
 
-    val friendsNotInWorkGroup: List<User> = friends.filter { it !in workGroup }
+    val friendsNotInWorkGroup: MutableList<User> =
+        friends.filter { it !in workGroup }.toMutableList()
+
+    val activities: MutableList<Activity> = mutableListOf()
+
+    val areas: MutableList<Area> = mutableListOf()
+
+    val timeEntries: MutableList<TimeEntry> = mutableListOf()
 
     /**
      * Updates both the authentication data and the user document.
@@ -188,6 +195,10 @@ class CurrentUser {
                 firebaseUser.updateProfile(updates).await()
             }
         }
+    }
+
+    fun invite(user: User) {
+        workGroup.add(user)
     }
 
     /**

@@ -2,10 +2,10 @@ package it.unibs.mp.horace
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -16,7 +16,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
+    private lateinit var prefs: SharedPreferences
+
+    // Callback to close search view on back button press
+    private lateinit var closeSearchViewCallback: OnBackPressedCallback
 
     // Top level destinations.
     // Up action won't be shown in the top app bar on these screens.
@@ -38,32 +42,29 @@ class MainActivity : AppCompatActivity() {
     private var appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
         topLevelDestinations
     )
-    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         auth = Firebase.auth
-
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
-
-        // Lay out app behind system bars:
-        // https://developer.android.com/develop/ui/views/layout/edge-to-edge#lay-out-in-full-screen
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // See https://developer.android.com/codelabs/android-navigation.
         // and https://developer.android.com/guide/navigation/integrations/ui
         val host: NavHostFragment = binding.navHostFragment.getFragment() as NavHostFragment
         navController = host.navController
 
+        // Lay out app behind system bars:
+        // https://developer.android.com/develop/ui/views/layout/edge-to-edge#lay-out-in-full-screen
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setUpBottomNavigation()
         setupActionBar()
         setupQuickActions()
+        setupSearchView()
 
         // Apply theme selected in preferences on startup
         switchTheme(
@@ -73,52 +74,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    /**
-     * Sets up action bar to use navigation.
-     */
-    private fun setupActionBar() {
-        // Set material toolbar as action bar.
-        // This is required to use the menu provider.
-        setSupportActionBar(binding.topAppBar)
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
-    }
-
-    /**
-     * Adds navigation to the bottom nav.
-     */
-    private fun setUpBottomNavigation() {
-        binding.bottomNav.setupWithNavController(navController)
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            val action = when (item.itemId) {
-                R.id.historyFragment -> MainNavDirections.actionGlobalHistory()
-                R.id.friendsFragment -> if (auth.currentUser == null) {
-                    MainNavDirections.actionGlobalAuth()
-                } else {
-                    MainNavDirections.actionGlobalFriends()
-                }
-
-                else -> MainNavDirections.actionGlobalHome()
-            }
-            navController.navigate(action)
-            true
-        }
-    }
-
-    private fun setupQuickActions() {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            updateQuickActionsVisibility(destination.id in topLevelDestinations)
-        }
-    }
-
-    private fun updateQuickActionsVisibility(shouldShowActions: Boolean) {
-        val isVisible = shouldShowActions && prefs.getBoolean(
-            getString(R.string.preference_quick_actions), false
-        )
-
-        binding.startTimer.isVisible = isVisible
-        binding.manualAdd.isVisible = isVisible
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         // Handle up button navigation
@@ -142,7 +97,7 @@ class MainActivity : AppCompatActivity() {
      * Hooks a search bar to the search view.
      */
     fun hookSearchBar(
-        searchBar: SearchBar, adapter: Adapter<*>, onTextChange: (String) -> Unit
+        searchBar: SearchBar, adapter: RecyclerView.Adapter<*>, onTextChange: (String) -> Unit
     ) {
         // Add the adapter to the recycler view
         binding.searchContent.adapter = adapter
@@ -182,6 +137,66 @@ class MainActivity : AppCompatActivity() {
                 onTextChange("")
                 true
             }
+        }
+    }
+
+    /**
+     * Sets up action bar to use navigation.
+     */
+    private fun setupActionBar() {
+        // Set material toolbar as action bar.
+        // This is required to use the menu provider.
+        setSupportActionBar(binding.topAppBar)
+
+        // Adds navigation config to the action bar.
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    /**
+     * Adds navigation to the bottom nav.
+     */
+    private fun setUpBottomNavigation() {
+        binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            val action = when (item.itemId) {
+                R.id.historyFragment -> MainNavDirections.actionGlobalHistory()
+                R.id.friendsFragment -> if (auth.currentUser == null) {
+                    MainNavDirections.actionGlobalAuth()
+                } else {
+                    MainNavDirections.actionGlobalFriends()
+                }
+
+                else -> MainNavDirections.actionGlobalHome()
+            }
+            navController.navigate(action)
+            true
+        }
+    }
+
+    private fun setupQuickActions() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            updateQuickActionsVisibility(destination.id in topLevelDestinations)
+        }
+    }
+
+    private fun updateQuickActionsVisibility(shouldShowActions: Boolean) {
+        val isVisible = shouldShowActions && prefs.getBoolean(
+            getString(R.string.preference_quick_actions), false
+        )
+
+        binding.startTimer.isVisible = isVisible
+        binding.manualAdd.isVisible = isVisible
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.apply {
+            closeSearchViewCallback = onBackPressedDispatcher.addCallback(this@MainActivity) {
+                if (isShowing) {
+                    hide()
+                }
+            }
+
+            closeSearchViewCallback.isEnabled = false
         }
     }
 }
