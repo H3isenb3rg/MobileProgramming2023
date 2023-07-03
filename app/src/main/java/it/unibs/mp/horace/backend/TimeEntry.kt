@@ -1,7 +1,5 @@
 package it.unibs.mp.horace.backend
 
-import java.time.Instant
-
 data class TimeEntry(
     val idActivity: String,
     val description: String,

@@ -37,8 +37,16 @@ class MainActivity : AppCompatActivity() {
     // Top level destinations.
     // Up action won't be shown in the top app bar on these screens.
     private val topLevelDestinations = setOf(
-        R.id.homeFragment, R.id.historyFragment, R.id.friendsFragment
+        R.id.homeFragment, R.id.activitiesFragment, R.id.leaderboardFragment
     )
+
+    // The destinations in which quick actions should be shown, if enabled.
+    private val quickActionsDestinations = topLevelDestinations.union(
+        setOf(
+            R.id.friendsFragment, R.id.journalFragment
+        )
+    )
+
     private var appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
         topLevelDestinations
     )
@@ -159,7 +167,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.setOnItemSelectedListener { item ->
             val action = when (item.itemId) {
-                R.id.historyFragment -> MainNavDirections.actionGlobalActivities()
+                R.id.activitiesFragment -> MainNavDirections.actionGlobalActivities()
                 R.id.leaderboardFragment -> if (auth.currentUser == null) {
                     MainNavDirections.actionGlobalAuth()
                 } else {
@@ -175,7 +183,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupQuickActions() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            updateQuickActionsVisibility(destination.id in topLevelDestinations)
+            updateQuickActionsVisibility(destination.id in quickActionsDestinations)
         }
     }
 

@@ -1,20 +1,20 @@
-package it.unibs.mp.horace.ui.activities.history
+package it.unibs.mp.horace.ui.activities.journal
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import it.unibs.mp.horace.databinding.FragmentHistoryBinding
+import it.unibs.mp.horace.databinding.FragmentJournalBinding
 
-class HistoryFragment : Fragment() {
-    private var _binding: FragmentHistoryBinding? = null
+class JournalFragment : Fragment() {
+    private var _binding: FragmentJournalBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        _binding = FragmentJournalBinding.inflate(inflater, container, false)
         return binding.root
     }
 

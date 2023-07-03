@@ -61,11 +61,11 @@
         <fragment
             android:id="@+id/activitiesFragment"
             android:name="it.unibs.mp.horace.ui.activities.ActivitiesFragment"
-            android:label="fragment_activities"
+            android:label="@string/activities"
             tools:layout="@layout/fragment_activities">
             <action
                 android:id="@+id/action_activitiesFragment_to_historyFragment"
-                app:destination="@id/historyFragment"
+                app:destination="@id/journalFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -74,10 +74,10 @@
 
         <!-- History -->
         <fragment
-            android:id="@+id/historyFragment"
-            android:name="it.unibs.mp.horace.ui.activities.history.HistoryFragment"
-            android:label="@string/history"
-            tools:layout="@layout/fragment_history" />
+            android:id="@+id/journalFragment"
+            android:name="it.unibs.mp.horace.ui.activities.journal.JournalFragment"
+            android:label="@string/journal"
+            tools:layout="@layout/fragment_journal" />
     </navigation>
 
     <!-- Work group subgraph -->
@@ -112,7 +112,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/workGroupBottomSheet"
+                app:popUpTo="@id/workGroupGraph"
                 app:popUpToInclusive="true" />
         </dialog>
     </navigation>
@@ -140,7 +140,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/homeFragment"
+                app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true">
                 <argument
                     android:name="source"
@@ -176,7 +176,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/homeFragment"
+                app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true">
                 <argument
                     android:name="source"
@@ -221,7 +221,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/signInFragment"
+                app:popUpTo="@id/authBottomSheet"
                 app:popUpToInclusive="true">
                 <argument
                     android:name="sourceResetPassword"
