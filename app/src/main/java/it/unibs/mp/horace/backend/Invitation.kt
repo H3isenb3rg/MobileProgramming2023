@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class Invitation(
     @DocumentId
     val id: String,
-    val senderUid: String,
+    val sender: User,
     val type: Int,
     val dateSent: LocalDateTime = LocalDateTime.now(),
     var accepted: Boolean = false,

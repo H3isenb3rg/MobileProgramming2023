@@ -27,7 +27,7 @@ class InviteFriendsBottomSheet : BottomSheetDialogFragment() {
         val user = CurrentUser()
 
         // Initialize values to empty list
-        var friendsNotInWorkGroup: List<User> = listOf()
+        val friendsNotInWorkGroup: MutableList<User> = mutableListOf()
         var invited: MutableMap<User, Boolean> = mutableMapOf()
 
         val adapter =
@@ -38,7 +38,7 @@ class InviteFriendsBottomSheet : BottomSheetDialogFragment() {
 
         // Load actual values in background so the app doesn't freeze
         lifecycleScope.launch {
-            friendsNotInWorkGroup = user.friendsNotInWorkGroup()
+            friendsNotInWorkGroup.addAll(user.friendsNotInWorkGroup())
             invited = friendsNotInWorkGroup.associateWith { false }.toMutableMap()
 
             adapter.notifyItemRangeInserted(0, friendsNotInWorkGroup.size)

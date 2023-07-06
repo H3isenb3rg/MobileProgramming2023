@@ -238,7 +238,7 @@
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="it.unibs.mp.horace.ui.notifications.NotificationsFragment"
-        android:label="fragment_notifications"
+        android:label="@string/notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <!-- Settings subgraph -->

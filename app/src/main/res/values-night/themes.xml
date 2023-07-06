@@ -3,6 +3,8 @@
     <style name="AppTheme" parent="BaseDarkTheme" />
 
     <style name="BaseDarkTheme" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:fontFamily">@font/dm_sans_regular</item>
+
         <item name="windowSplashScreenBackground">@color/md_theme_dark_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_dark_foreground</item>
         <item name="windowSplashScreenAnimationDuration">200</item>

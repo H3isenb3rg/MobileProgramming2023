@@ -88,6 +88,10 @@
     <string name="view_journal">View journal</string>
     <string name="navigate_to_notifications">Navigate to notifications</string>
     <string name="notifications">Notifications</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accept">Accept</string>
+    <string name="text_goes_here">Text goes here</string>
+    <string name="join">Join</string>
+    <string name="friend_request">%1$s wants to be friends</string>
+    <string name="workgroup_request">%1$s invited you to work together</string>
+    <string name="nothing_to_see_here">Nothing to see here.</string>
 </resources>

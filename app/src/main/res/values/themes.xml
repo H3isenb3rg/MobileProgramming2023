@@ -3,6 +3,8 @@
     <style name="AppTheme" parent="BaseLightTheme" />
 
     <style name="BaseLightTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:fontFamily">@font/dm_sans_regular</item>
+
         <!-- Splash screen -->
         <item name="windowSplashScreenBackground">@color/md_theme_light_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>

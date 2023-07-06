@@ -29,14 +29,14 @@ class FriendsFragment : Fragment() {
 
         val user = CurrentUser()
         // Set friends initially to an empty list
-        var friends = ArrayList<User>()
+        val friends = ArrayList<User>()
         val adapter = FriendsAdapter(friends)
 
         binding.fullFriendsList.adapter = adapter
 
         // Load friends in background
         lifecycleScope.launch {
-            friends = ArrayList(user.friends())
+            friends.addAll(user.friends())
 
             // Notify adapter of the new data
             adapter.notifyItemRangeInserted(0, friends.size)

@@ -24,14 +24,13 @@ class WorkGroupBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var workGroup: List<User> = listOf()
+        val workGroup: MutableList<User> = mutableListOf()
         val adapter = WorkGroupAdapter(workGroup)
         binding.workGroup.adapter = adapter
 
         lifecycleScope.launch {
             val user = CurrentUser()
-
-            workGroup = user.workGroup()
+            workGroup.addAll(user.workGroup())
             adapter.notifyItemRangeInserted(0, workGroup.size)
         }
 
