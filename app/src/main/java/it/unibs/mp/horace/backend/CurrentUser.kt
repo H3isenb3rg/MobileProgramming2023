@@ -5,11 +5,14 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import it.unibs.mp.horace.backend.User.Companion.FRIENDS_COLLECTION_NAME
+import it.unibs.mp.horace.backend.User.Companion.WORKGROUP_COLLECTION_NAME
 import kotlinx.coroutines.tasks.await
 
 class CurrentUser {
@@ -36,6 +39,8 @@ class CurrentUser {
 
         fun anyChanged(): Boolean = emailChanged || photoChanged || usernameChanged
     }
+
+    private val db: FirebaseFirestore = Firebase.firestore
 
     /**
      * The Firebase user, where the authentication data is stored.
@@ -74,7 +79,7 @@ class CurrentUser {
         }
 
         firebaseUser.apply {
-            userDocument = Firebase.firestore.collection(User.COLLECTION_NAME).document(uid)
+            userDocument = db.collection(User.COLLECTION_NAME).document(uid)
             photoRef = Firebase.storage.reference.child("images/profile/${uid}")
 
             // Initialize user data to firebase values, so there's no need to block
@@ -124,22 +129,144 @@ class CurrentUser {
             }
         }
 
-    // TODO: Add friends
-    val friends: MutableList<User> = mutableListOf(
-        User("0001", "mario@example.com", "Mario Rossi"),
-        User("0002", "luigi@example.com", "Luigi Bianchi")
-    )
-
-    val workGroup: MutableList<User> = mutableListOf()
-
-    val friendsNotInWorkGroup: MutableList<User> =
-        friends.filter { it !in workGroup }.toMutableList()
-
+    // TODO: These should not necessarily be tied to the CurrentUser class
     val activities: MutableList<Activity> = mutableListOf()
-
     val areas: MutableList<Area> = mutableListOf()
-
     val timeEntries: MutableList<TimeEntry> = mutableListOf()
+
+    /**
+     * The friends of the current user.
+     */
+    suspend fun friends(): List<User> {
+        // Get the friends ids
+        val friendsIds = userDocument.collection(FRIENDS_COLLECTION_NAME).get().await()
+            .mapNotNull { it.getString(User.UID_FIELD) }
+
+        if (friendsIds.isEmpty()) {
+            return emptyList()
+        }
+
+        // Get the friends data from the ids
+        return db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, friendsIds).get().await()
+            .toObjects(User::class.java)
+    }
+
+    /**
+     * The workgroup of the current user.
+     */
+    suspend fun workGroup(): List<User> {
+        // Get the workgroup ids
+        val workgroupIds = userDocument.collection(WORKGROUP_COLLECTION_NAME).get().await()
+            .mapNotNull { it.getString(User.UID_FIELD) }
+
+        if (workgroupIds.isEmpty()) {
+            return emptyList()
+        }
+
+        // Get the workgroup data from the ids
+        return db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, workgroupIds).get()
+            .await().toObjects(User::class.java)
+    }
+
+    suspend fun friendsNotInWorkGroup(): List<User> {
+        // Get the workgroup ids
+        val workgroupIds = userDocument.collection(WORKGROUP_COLLECTION_NAME).get().await()
+            .mapNotNull { it.getString(User.UID_FIELD) }
+
+        // If workgroup is empty, return all friends
+        if (workgroupIds.isEmpty()) {
+            return friends()
+        }
+
+        // Return all friends not in workgroup
+        return userDocument.collection(FRIENDS_COLLECTION_NAME)
+            .whereNotIn(User.UID_FIELD, workgroupIds).get().await().toObjects(User::class.java)
+    }
+
+    /**
+     * The invitations sent to the current user.
+     */
+    suspend fun invitations(): List<Invitation> {
+        return userDocument.collection(Invitation.COLLECTION_NAME).get().await()
+            .toObjects(Invitation::class.java)
+    }
+
+    /**
+     * Accepts the specified invitation.
+     */
+    suspend fun acceptInvitation(invitation: Invitation) {
+        val collection = if (invitation.type == Invitation.TYPE_FRIEND_INVITATION) {
+            FRIENDS_COLLECTION_NAME
+        } else {
+            WORKGROUP_COLLECTION_NAME
+        }
+
+        // Add invitation sender to the current user friends/workgroup
+        userDocument.collection(collection).add(invitation.senderUid).await()
+
+        // Add current user to the invitation sender friends/workgroup
+        db.collection(User.COLLECTION_NAME).document(invitation.senderUid).collection(collection)
+            .add(firebaseUser.uid).await()
+
+        // Update the invitation status
+        invitation.accepted = true
+        userDocument.collection(Invitation.COLLECTION_NAME).document(invitation.id).set(invitation)
+            .await()
+    }
+
+    /**
+     * Sends a friend invitation to the specified user.
+     */
+    suspend fun sendFriendRequest(user: User) {
+        // If the user is already a friend, throw an exception
+
+
+        sendInvitation(user, Invitation.TYPE_FRIEND_INVITATION)
+    }
+
+    /**
+     * Sends a work group invitation to the specified user.
+     */
+    suspend fun sendWorkGroupRequest(user: User) {
+        sendInvitation(user, Invitation.TYPE_WORKGROUP_INVITATION)
+    }
+
+    /**
+     * Sends an invitation to the specified user.
+     */
+    private suspend fun sendInvitation(user: User, type: Int) {
+        val collection = if (type == Invitation.TYPE_FRIEND_INVITATION) {
+            FRIENDS_COLLECTION_NAME
+        } else {
+            WORKGROUP_COLLECTION_NAME
+        }
+
+        // Check if the user is already a friend/workgroup member
+        if (userDocument.collection(collection).whereEqualTo(User.UID_FIELD, user.uid)
+                .get().await().any()
+        ) {
+            throw IllegalArgumentException()
+        }
+
+        // The invitation document reference for the destination user
+        val destInvitations = db.collection(User.COLLECTION_NAME).document(user.uid)
+            .collection(Invitation.COLLECTION_NAME)
+
+        // Check if there's already a pending invitation of the same type sent by the current user
+        val hasPendingInvitation = destInvitations.get().await().any {
+            val invitation = it.toObject(Invitation::class.java)
+            invitation.type == type && !invitation.isExpired && invitation.senderUid == firebaseUser.uid
+        }
+
+        // If there's already a pending invitation, don't send another one
+        if (hasPendingInvitation) {
+            return
+        }
+
+        // Otherwise, send the invitation
+        val ref = destInvitations.document()
+        ref.set(Invitation(ref.id, user.uid, type)).await()
+    }
 
     /**
      * Updates both the authentication data and the user document.
@@ -195,10 +322,6 @@ class CurrentUser {
                 firebaseUser.updateProfile(updates).await()
             }
         }
-    }
-
-    fun invite(user: User) {
-        workGroup.add(user)
     }
 
     /**

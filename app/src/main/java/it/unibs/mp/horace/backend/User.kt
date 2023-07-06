@@ -10,6 +10,8 @@ data class User(
 ) {
     companion object {
         const val COLLECTION_NAME = "users"
+        const val FRIENDS_COLLECTION_NAME = "friends"
+        const val WORKGROUP_COLLECTION_NAME = "workgroup"
         const val EMAIL_FIELD = "email"
         const val USERNAME_FIELD = "username"
         const val PHOTO_FIELD = "photo_uri"

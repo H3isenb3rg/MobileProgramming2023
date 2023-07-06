@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.User
 import it.unibs.mp.horace.databinding.BottomSheetWorkGroupBinding
+import kotlinx.coroutines.launch
 
 class WorkGroupBottomSheet : BottomSheetDialogFragment() {
     private var _binding: BottomSheetWorkGroupBinding? = null
@@ -21,8 +24,16 @@ class WorkGroupBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val user = CurrentUser()
-        binding.workGroup.adapter = WorkGroupAdapter(user.workGroup)
+        var workGroup: List<User> = listOf()
+        val adapter = WorkGroupAdapter(workGroup)
+        binding.workGroup.adapter = adapter
+
+        lifecycleScope.launch {
+            val user = CurrentUser()
+
+            workGroup = user.workGroup()
+            adapter.notifyItemRangeInserted(0, workGroup.size)
+        }
 
         binding.invite.setOnClickListener {
             findNavController().navigate(

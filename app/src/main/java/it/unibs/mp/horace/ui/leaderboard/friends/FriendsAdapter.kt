@@ -3,16 +3,13 @@ package it.unibs.mp.horace.ui.leaderboard.friends
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.User
 
 /**
@@ -24,7 +21,6 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
         val username: TextView = view.findViewById(R.id.username)
-        val addFriend: Button = view.findViewById(R.id.addFriend)
     }
 
     // Contains only the items that match the search query.
@@ -47,11 +43,8 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = filteredDataset[position]
 
-        val currentUser = CurrentUser()
-
         holder.profilePhoto.load(item.photoUrl ?: R.drawable.default_profile_photo)
         holder.username.text = item.username
-        holder.addFriend.isVisible = !currentUser.friends.contains(item)
     }
 
     // Returns a filter that can be used to search the dataset.
@@ -77,13 +70,11 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
 
                     // Here we are sure that the values are of type ArrayList<User>.
                     // So the cast is safe.
-                    @Suppress("UNCHECKED_CAST")
-                    filteredDataset.addAll(results.values as ArrayList<User>)
+                    @Suppress("UNCHECKED_CAST") filteredDataset.addAll(results.values as ArrayList<User>)
 
                     // Tracking what changed in the dataset is too expensive,
                     // so we just notify the adapter that the whole dataset changed.
-                    @Suppress("NotifyDataSetChanged")
-                    notifyDataSetChanged()
+                    @Suppress("NotifyDataSetChanged") notifyDataSetChanged()
                 }
             }
         }
