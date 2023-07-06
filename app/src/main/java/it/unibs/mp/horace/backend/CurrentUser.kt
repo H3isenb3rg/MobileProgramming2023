@@ -202,10 +202,10 @@ class CurrentUser {
         }
 
         // Add invitation sender to the current user friends/workgroup
-        userDocument.collection(collection).add(invitation.senderUid).await()
+        userDocument.collection(collection).add(invitation.sender.uid).await()
 
         // Add current user to the invitation sender friends/workgroup
-        db.collection(User.COLLECTION_NAME).document(invitation.senderUid).collection(collection)
+        db.collection(User.COLLECTION_NAME).document(invitation.sender.uid).collection(collection)
             .add(firebaseUser.uid).await()
 
         // Update the invitation status
@@ -255,7 +255,7 @@ class CurrentUser {
         // Check if there's already a pending invitation of the same type sent by the current user
         val hasPendingInvitation = destInvitations.get().await().any {
             val invitation = it.toObject(Invitation::class.java)
-            invitation.type == type && !invitation.isExpired && invitation.senderUid == firebaseUser.uid
+            invitation.type == type && !invitation.isExpired && invitation.sender.uid == firebaseUser.uid
         }
 
         // If there's already a pending invitation, don't send another one
@@ -265,7 +265,7 @@ class CurrentUser {
 
         // Otherwise, send the invitation
         val ref = destInvitations.document()
-        ref.set(Invitation(ref.id, user.uid, type)).await()
+        ref.set(Invitation(ref.id, user, type)).await()
     }
 
     /**

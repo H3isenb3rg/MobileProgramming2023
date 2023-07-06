@@ -10,6 +10,8 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 /**
  * A fragment that is a root of the navigation graph.
@@ -23,7 +25,11 @@ abstract class TopLevelFragment : Fragment() {
         // Adds the menu with the settings icon to the app bar
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.top_level_app_menu, menu)
+                if (Firebase.auth.currentUser != null) {
+                    menuInflater.inflate(R.menu.auth_app_menu, menu)
+                } else {
+                    menuInflater.inflate(R.menu.no_auth_app_menu, menu)
+                }
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
