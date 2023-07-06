@@ -26,6 +26,9 @@ android {
         }
     }
     compileOptions {
+        // Required for using Java 8 features in old SDK versions.
+        coreLibraryDesugaringEnabled = true
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -75,6 +78,9 @@ dependencies {
 
     // Splash screen
     implementation 'androidx.core:core-splashscreen:1.0.1'
+
+    // Core library desugaring, to make Java 8 features available in older SDK versions
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.3"
 
     // JUnit
     testImplementation 'junit:junit:4.13.2'

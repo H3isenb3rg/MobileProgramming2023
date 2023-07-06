@@ -86,4 +86,8 @@
     <string name="activities">Activities</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="view_journal">View journal</string>
+    <string name="navigate_to_notifications">Navigate to notifications</string>
+    <string name="notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

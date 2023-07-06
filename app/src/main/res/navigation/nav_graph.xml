@@ -207,7 +207,6 @@
             </action>
         </fragment>
 
-
         <!-- Reset password -->
         <fragment
             android:id="@+id/resetPasswordFragment"
@@ -234,6 +233,13 @@
                 app:nullable="true" />
         </fragment>
     </navigation>
+
+    <!-- Notifications -->
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="it.unibs.mp.horace.ui.notifications.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
 
     <!-- Settings subgraph -->
     <navigation
@@ -322,6 +328,14 @@
     <action
         android:id="@+id/action_global_activities"
         app:destination="@id/activitiesGraph"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_notifications"
+        app:destination="@id/notificationsFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"

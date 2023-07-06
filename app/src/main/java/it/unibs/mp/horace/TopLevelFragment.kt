@@ -33,6 +33,11 @@ abstract class TopLevelFragment : Fragment() {
                     view.findNavController().navigate(action)
                     return true
                 }
+                if (menuItem.itemId == R.id.notifications) {
+                    val action = MainNavDirections.actionGlobalNotifications()
+                    view.findNavController().navigate(action)
+                    return true
+                }
                 return false
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
