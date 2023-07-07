@@ -72,7 +72,7 @@ class HomeFragment : TopLevelFragment() {
 
         // Set timer mode from value stored in preferences.
         binding.modeSelector.check(
-            if (prefs.isModePomodoro) binding.stopwatch.id else binding.pomodoro.id
+            if (prefs.isModePomodoro) binding.pomodoro.id else binding.stopwatch.id
         )
 
         // Change mode in preferences on selector change.

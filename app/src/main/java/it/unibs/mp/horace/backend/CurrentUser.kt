@@ -40,6 +40,9 @@ class CurrentUser {
         fun anyChanged(): Boolean = emailChanged || photoChanged || usernameChanged
     }
 
+    /**
+     * The Firebase Firestore database.
+     */
     private val db: FirebaseFirestore = Firebase.firestore
 
     /**
@@ -89,6 +92,9 @@ class CurrentUser {
             )
         }
     }
+
+    val uid: String
+        get() = userData.uid
 
     var username: String?
         get() = userData.username
@@ -181,91 +187,6 @@ class CurrentUser {
         // Return all friends not in workgroup
         return userDocument.collection(FRIENDS_COLLECTION_NAME)
             .whereNotIn(User.UID_FIELD, workgroupIds).get().await().toObjects(User::class.java)
-    }
-
-    /**
-     * The invitations sent to the current user.
-     */
-    suspend fun invitations(): List<Invitation> {
-        return userDocument.collection(Invitation.COLLECTION_NAME).get().await()
-            .toObjects(Invitation::class.java)
-    }
-
-    /**
-     * Accepts the specified invitation.
-     */
-    suspend fun acceptInvitation(invitation: Invitation) {
-        val collection = if (invitation.type == Invitation.TYPE_FRIEND_INVITATION) {
-            FRIENDS_COLLECTION_NAME
-        } else {
-            WORKGROUP_COLLECTION_NAME
-        }
-
-        // Add invitation sender to the current user friends/workgroup
-        userDocument.collection(collection).add(invitation.sender.uid).await()
-
-        // Add current user to the invitation sender friends/workgroup
-        db.collection(User.COLLECTION_NAME).document(invitation.sender.uid).collection(collection)
-            .add(firebaseUser.uid).await()
-
-        // Update the invitation status
-        invitation.accepted = true
-        userDocument.collection(Invitation.COLLECTION_NAME).document(invitation.id).set(invitation)
-            .await()
-    }
-
-    /**
-     * Sends a friend invitation to the specified user.
-     */
-    suspend fun sendFriendRequest(user: User) {
-        // If the user is already a friend, throw an exception
-
-
-        sendInvitation(user, Invitation.TYPE_FRIEND_INVITATION)
-    }
-
-    /**
-     * Sends a work group invitation to the specified user.
-     */
-    suspend fun sendWorkGroupRequest(user: User) {
-        sendInvitation(user, Invitation.TYPE_WORKGROUP_INVITATION)
-    }
-
-    /**
-     * Sends an invitation to the specified user.
-     */
-    private suspend fun sendInvitation(user: User, type: Int) {
-        val collection = if (type == Invitation.TYPE_FRIEND_INVITATION) {
-            FRIENDS_COLLECTION_NAME
-        } else {
-            WORKGROUP_COLLECTION_NAME
-        }
-
-        // Check if the user is already a friend/workgroup member
-        if (userDocument.collection(collection).whereEqualTo(User.UID_FIELD, user.uid)
-                .get().await().any()
-        ) {
-            throw IllegalArgumentException()
-        }
-
-        // The invitation document reference for the destination user
-        val destInvitations = db.collection(User.COLLECTION_NAME).document(user.uid)
-            .collection(Invitation.COLLECTION_NAME)
-
-        // Check if there's already a pending invitation of the same type sent by the current user
-        val hasPendingInvitation = destInvitations.get().await().any {
-            val invitation = it.toObject(Invitation::class.java)
-            invitation.type == type && !invitation.isExpired && invitation.sender.uid == firebaseUser.uid
-        }
-
-        // If there's already a pending invitation, don't send another one
-        if (hasPendingInvitation) {
-            return
-        }
-
-        // Otherwise, send the invitation
-        val ref = destInvitations.document()
-        ref.set(Invitation(ref.id, user, type)).await()
     }
 
     /**

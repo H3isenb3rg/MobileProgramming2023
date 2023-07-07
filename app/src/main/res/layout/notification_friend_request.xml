@@ -22,7 +22,7 @@
             android:contentDescription="@string/profile_photo"
             android:padding="6dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/baseline_people_alt_24"
+            android:src="@drawable/baseline_person_add_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_goes_here"
+            android:text="@string/accept"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

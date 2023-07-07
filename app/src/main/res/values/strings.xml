@@ -76,7 +76,7 @@
     <string name="preference_mode">mode</string>
     <string name="preference_volume_on">volume_on</string>
     <string name="show_quick_actions">Show quick actions</string>
-    <string name="work_group_text">Earn more points by doing activities with your friends</string>
+    <string name="work_group_text">Earn more points by doing activities with your friends.</string>
     <string name="invite_friends">Invite friends to work group</string>
     <string name="search_by_name_or_email">Search friends by name or email</string>
     <string name="default_search_hint">Type here to search</string>
@@ -91,7 +91,10 @@
     <string name="accept">Accept</string>
     <string name="text_goes_here">Text goes here</string>
     <string name="join">Join</string>
-    <string name="friend_request">%1$s wants to be friends</string>
-    <string name="workgroup_request">%1$s invited you to work together</string>
+    <string name="friend_request">%1$s wants to be friends.</string>
+    <string name="friend_accepted">%1$s accepted your friend request.</string>
+    <string name="workgroup_request">%1$s invited you to work together.</string>
+    <string name="workgroup_accepted">%1$s joined your workgroup.</string>
     <string name="nothing_to_see_here">Nothing to see here.</string>
+    <string name="your_work_group_is_empty">Your work group is empty.</string>
 </resources>

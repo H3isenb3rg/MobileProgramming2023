@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.User
+import it.unibs.mp.horace.backend.UserNotificationManager
 import it.unibs.mp.horace.databinding.BottomSheetInviteFriendsBinding
 import kotlinx.coroutines.launch
 
@@ -25,6 +26,7 @@ class InviteFriendsBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val user = CurrentUser()
+        val manager = UserNotificationManager()
 
         // Initialize values to empty list
         val friendsNotInWorkGroup: MutableList<User> = mutableListOf()
@@ -46,7 +48,7 @@ class InviteFriendsBottomSheet : BottomSheetDialogFragment() {
 
         binding.invite.setOnClickListener {
             lifecycleScope.launch {
-                invited.filter { it.value }.forEach { user.sendWorkGroupRequest(it.key) }
+                invited.filter { it.value }.forEach { manager.sendWorkGroupRequest(it.key) }
             }
             findNavController().navigate(
                 InviteFriendsBottomSheetDirections.actionInviteFriendsBottomSheetToWorkGroupBottomSheet()
