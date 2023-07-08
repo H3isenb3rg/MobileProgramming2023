@@ -290,6 +290,30 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/settingsGraph"
                 app:popUpToInclusive="true" />
+            <action
+                android:id="@+id/action_updateProfileFragment_to_bottomSheetConfirmDelete"
+                app:destination="@id/bottomSheetConfirmDelete"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        </fragment>
+
+        <!-- Confirm delete -->
+        <fragment
+            android:id="@+id/bottomSheetConfirmDelete"
+            android:name="it.unibs.mp.horace.ui.settings.updateprofile.BottomSheetConfirmDelete"
+            android:label="@string/confirm_delete"
+            tools:layout="@layout/bottom_sheet_confirm_delete">
+            <action
+                android:id="@+id/action_bottomSheetConfirmDelete_to_homeFragment"
+                app:destination="@id/homeFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:popUpTo="@id/mainNav"
+                app:popUpToInclusive="true" />
         </fragment>
     </navigation>
 

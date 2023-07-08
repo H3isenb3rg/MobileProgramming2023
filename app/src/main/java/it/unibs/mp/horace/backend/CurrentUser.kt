@@ -135,11 +135,6 @@ class CurrentUser {
             }
         }
 
-    // TODO: These should not necessarily be tied to the CurrentUser class
-    val activities: MutableList<Activity> = mutableListOf()
-    val areas: MutableList<Area> = mutableListOf()
-    val timeEntries: MutableList<TimeEntry> = mutableListOf()
-
     /**
      * The friends of the current user.
      */
@@ -250,5 +245,37 @@ class CurrentUser {
      */
     private suspend fun updateUserDocument() {
         userDocument.set(userData.toHashMap(), SetOptions.merge()).await()
+    }
+
+    /**
+     * Deletes the current user from both Firebase Auth and Firestore.
+     * NB: This really should be done by a cloud function or server, not by the client.
+     * It's is also very inefficient, and does not include deleting the
+     * current user's subcollections.
+     */
+    suspend fun delete() {
+        // Delete user from friends' friends list
+        val friendsIds = userDocument.collection(FRIENDS_COLLECTION_NAME).get().await()
+            .mapNotNull { it.getString(User.UID_FIELD) }
+
+        db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, friendsIds).get().await()
+            .forEach { friendDocument ->
+                friendDocument.reference.collection(FRIENDS_COLLECTION_NAME).document(uid).delete()
+                    .await()
+            }
+
+        // Delete user from friends' work group
+        val workgroupIds = userDocument.collection(WORKGROUP_COLLECTION_NAME).get().await()
+            .mapNotNull { it.getString(User.UID_FIELD) }
+
+        db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, workgroupIds).get().await()
+            .forEach { workgroupDocument ->
+                workgroupDocument.reference.collection(WORKGROUP_COLLECTION_NAME).document(uid)
+                    .delete().await()
+            }
+
+        firebaseUser.delete().await()
+        userDocument.delete().await()
+        photoRef.delete().await()
     }
 }

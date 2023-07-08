@@ -18,6 +18,9 @@ data class User(
         const val UID_FIELD = "uid"
     }
 
+    /**
+     * Checks if the user matches the search text.
+     */
     fun fitsSearch(searchText: String): Boolean {
         return (username?.lowercase()
             ?.contains(searchText.lowercase()) == true) || email.lowercase()

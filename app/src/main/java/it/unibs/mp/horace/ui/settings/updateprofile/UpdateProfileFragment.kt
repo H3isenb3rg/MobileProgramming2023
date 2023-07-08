@@ -37,6 +37,12 @@ class UpdateProfileFragment : Fragment() {
         val user = CurrentUser()
         addChangeListeners()
 
+        binding.deleteProfile.setOnClickListener {
+            findNavController().navigate(
+                UpdateProfileFragmentDirections.actionUpdateProfileFragmentToBottomSheetConfirmDelete()
+            )
+        }
+
         binding.saveChanges.setOnClickListener {
             validateAll()
 
