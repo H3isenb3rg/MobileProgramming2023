@@ -27,21 +27,21 @@ class FriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = CurrentUser()
         // Set friends initially to an empty list
         val friends = ArrayList<User>()
         val adapter = FriendsAdapter(friends)
-
         binding.fullFriendsList.adapter = adapter
 
         // Load friends in background
         lifecycleScope.launch {
-            friends.addAll(user.friends())
+            friends.addAll(CurrentUser().friends())
 
             // Notify adapter of the new data
             adapter.notifyItemRangeInserted(0, friends.size)
         }
 
+        // Hook search bar to search view.
+        // On text change, filter the adapter.
         (requireActivity() as MainActivity).hookSearchBar(binding.searchBar, adapter) { text ->
             adapter.filter.filter(text)
         }

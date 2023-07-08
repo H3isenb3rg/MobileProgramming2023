@@ -14,6 +14,7 @@ import it.unibs.mp.horace.backend.User
 
 /**
  * RecyclerView adapter for the friends list.
+ * Implementing the Filterable interface allows us to filter the dataset.
  */
 class FriendsAdapter(private val dataset: ArrayList<User>) :
     RecyclerView.Adapter<FriendsAdapter.ItemViewHolder>(), Filterable {
@@ -24,6 +25,7 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     }
 
     // Contains only the items that match the search query.
+    // The elements of the original dataset are copied.
     private val filteredDataset: ArrayList<User> = arrayListOf<User>().apply { addAll(dataset) }
 
     // Called when RecyclerView needs a new ViewHolder of the given type.
