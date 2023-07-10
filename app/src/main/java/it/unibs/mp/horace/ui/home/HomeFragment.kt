@@ -69,6 +69,15 @@ class HomeFragment : TopLevelFragment() {
         }
         arguments?.remove("source")
 
+        val uid = HomeFragmentArgs.fromBundle(requireArguments()).uid
+        if (uid != null && auth.currentUser != null) {
+            arguments?.remove("source")
+
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToUserDetailsBottomSheet(uid)
+            )
+        }
+
 
         // Set timer mode from value stored in preferences.
         binding.modeSelector.check(

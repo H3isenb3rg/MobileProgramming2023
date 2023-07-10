@@ -22,7 +22,35 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <deepLink
+            android:id="@+id/userDetailsDeepLink"
+            app:mimeType="text/plain"
+            app:uri="http://www.horace.it/users/?uid={uid}" />
+        <action
+            android:id="@+id/action_homeFragment_to_userDetailsBottomSheet"
+            app:destination="@id/userDetailsBottomSheet"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="uid"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
+
+    <!-- User details -->
+    <dialog
+        android:id="@+id/userDetailsBottomSheet"
+        android:name="it.unibs.mp.horace.ui.home.UserDetailsBottomSheet"
+        android:label="bottom_sheet_user_details"
+        tools:layout="@layout/bottom_sheet_user_details">
+        <argument
+            android:name="uid"
+            app:argType="string" />
+    </dialog>
+
 
     <!-- Leaderboard subgraph -->
     <navigation
@@ -364,5 +392,4 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-
 </navigation>

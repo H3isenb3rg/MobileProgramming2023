@@ -8,6 +8,16 @@
         android:key="@string/preference_auth"
         android:title="@string/authenticate" />
 
+    <Preference
+        android:icon="@drawable/baseline_share_24"
+        android:key="@string/preference_share"
+        android:title="@string/share_profile" />
+
+    <Preference
+        android:icon="@drawable/baseline_edit_24"
+        android:key="@string/preference_edit"
+        android:title="@string/edit_profile" />
+
     <ListPreference
         android:defaultValue="device"
         android:entries="@array/themeNames"
@@ -21,11 +31,6 @@
         android:icon="@drawable/baseline_access_time_24"
         android:key="@string/preference_quick_actions"
         android:title="@string/show_quick_actions" />
-
-    <Preference
-        android:icon="@drawable/baseline_edit_24"
-        android:key="@string/preference_edit"
-        android:title="@string/edit_profile" />
 
     <Preference
         android:icon="@drawable/baseline_logout_24"

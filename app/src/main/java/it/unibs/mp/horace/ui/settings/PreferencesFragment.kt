@@ -2,6 +2,7 @@ package it.unibs.mp.horace.ui.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.core.app.ShareCompat
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -10,6 +11,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.R
+import it.unibs.mp.horace.backend.CurrentUser
 
 class PreferencesFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
@@ -20,11 +22,25 @@ class PreferencesFragment : PreferenceFragmentCompat(),
         setPreferencesFromResource(R.xml.preferences, rootKey)
         auth = Firebase.auth
 
+        val user = CurrentUser()
+
         findPreference<Preference>(getString(R.string.preference_auth))!!.apply {
             isVisible = !isLoggedIn
             setOnPreferenceClickListener {
                 findNavController()
                     .navigate(SettingsFragmentDirections.actionGlobalAuth())
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.preference_share))!!.apply {
+            isVisible = isLoggedIn
+            setOnPreferenceClickListener {
+                ShareCompat.IntentBuilder(requireActivity())
+                    .setType("text/plain")
+                    .setChooserTitle(getString(R.string.share_with))
+                    .setText(getString(R.string.share_text, user.uid))
+                    .startChooser()
                 true
             }
         }

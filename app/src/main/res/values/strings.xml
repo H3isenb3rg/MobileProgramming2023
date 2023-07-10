@@ -102,4 +102,9 @@
     <string name="confirm_delete">Confirm delete</string>
     <string name="delete_confirm">Are you sure you want to delete your profile? This action cannot be undone.</string>
     <string name="yes_delete_my_profile">Yes, delete my profile</string>
+    <string name="preference_share">Share</string>
+    <string name="share_profile">Share profile</string>
+    <string name="share_text">Add me as a friend on Horace: http://www.horace.it/users/?uid=%1$s</string>
+    <string name="share_with">Share with</string>
+    <string name="request_friendship">Request friendship</string>
 </resources>
