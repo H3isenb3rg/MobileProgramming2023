@@ -7,7 +7,6 @@
     tools:context=".ui.leaderboard.LeaderboardFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_marginTop="24dp"
         android:id="@+id/viewAllFriends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
