@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.ProfileValidator
@@ -51,21 +52,25 @@ class SignUpFragment : Fragment() {
 
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
+                    if (!task.isSuccessful) {
+                        if (task.exception is FirebaseAuthUserCollisionException) {
+                            binding.email.error = getString(R.string.email_already_used)
+                        } else {
+                            Snackbar.make(
+                                view, getString(R.string.api_error), Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                        return@addOnCompleteListener
+                    }
+
+                    // Add username and save user to database.
+                    lifecycleScope.launch {
                         val currentUser = CurrentUser()
                         currentUser.username = username
-                        lifecycleScope.launch {
-                            currentUser.update()
-
-                            findNavController().navigate(
-                                SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
-                            )
-                        }
-
-                    } else {
-                        Snackbar.make(
-                            view, getString(R.string.api_error), Snackbar.LENGTH_LONG
-                        ).show()
+                        currentUser.update()
+                        findNavController().navigate(
+                            SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
+                        )
                     }
                 }
         }

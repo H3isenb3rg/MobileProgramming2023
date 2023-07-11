@@ -8,21 +8,22 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.User
 import it.unibs.mp.horace.backend.UserNotificationManager
 import it.unibs.mp.horace.databinding.BottomSheetUserDetailsBinding
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class UserDetailsBottomSheet : BottomSheetDialogFragment() {
+    companion object {
+        const val UID_ARGUMENT = "uid"
+    }
+
     private var _binding: BottomSheetUserDetailsBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,30 +34,36 @@ class UserDetailsBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        db = Firebase.firestore
 
-        val uid = requireArguments().getString("uid")!!
+        val db = Firebase.firestore
+        val uid = requireArguments().getString(UID_ARGUMENT)!!
 
         // If the user is viewing their own profile, hide the request friendship button.
         if (CurrentUser().uid == uid) {
             binding.requestFriendship.visibility = View.INVISIBLE
         }
 
+        // Load the user's data.
         db.collection(User.COLLECTION_NAME).document(uid).get().addOnSuccessListener {
-            binding.photo.load(it.getString(User.PHOTO_FIELD))
-            binding.username.text = it.getString(User.USERNAME_FIELD)
-            binding.email.text = it.getString(User.EMAIL_FIELD)
-        }
+            // This should never fail
+            val user = it.toObject(User::class.java)!!
 
-        binding.requestFriendship.setOnClickListener {
-            lifecycleScope.launch {
-                UserNotificationManager().sendFriendRequest(
-                    db.collection(User.COLLECTION_NAME).document(uid).get().await()
-                        .toObject(User::class.java)!!,
-                )
+            // load() is provided by the Coil library.
+            binding.photo.load(user.profilePhoto)
+            binding.username.text = user.username
+            binding.email.text = user.email
 
-                findNavController().navigate(UserDetailsBottomSheetDirections.actionGlobalHome())
+            binding.requestFriendship.setOnClickListener {
+                lifecycleScope.launch {
+                    UserNotificationManager().sendFriendRequest(user)
+                    findNavController().navigate(
+                        UserDetailsBottomSheetDirections.actionGlobalHome(R.string.source_friend_request)
+                    )
+                }
             }
+        }.addOnFailureListener {
+            // If the user does not exist, go back to the home screen.
+            findNavController().navigate(UserDetailsBottomSheetDirections.actionGlobalHome())
         }
     }
 
