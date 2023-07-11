@@ -8,7 +8,7 @@ data class Notification(
     val type: Int,
     val senderUid: String?,
     val dateSent: String = LocalDateTime.now().toString(),
-    var accepted: Boolean = false,
+    var isAccepted: Boolean = false,
     var isRead: Boolean = false
 ) {
     companion object {
@@ -22,6 +22,8 @@ data class Notification(
         const val DEFAULT_EXPIRATION_DAYS = 1
         const val FRIEND_INVITATION_EXPIRATION_DAYS = 7
         const val WORKGROUP_INVITATION_EXPIRATION_DAYS = 1
+
+        const val IS_READ_FIELD = "isRead"
     }
 
     // No-argument constructor required for Firestore.

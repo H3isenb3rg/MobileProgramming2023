@@ -73,7 +73,7 @@ class UserNotificationManager {
         response.set(Notification(response.id, responseType, user.uid)).await()
 
         // Update the invitation status
-        notification.accepted = true
+        notification.isAccepted = true
         userDocument.collection(Notification.COLLECTION_NAME).document(notification.id)
             .set(notification).await()
     }
@@ -131,8 +131,8 @@ class UserNotificationManager {
 
 
     fun addOnNotificationListener(callback: (List<Notification>) -> Unit) {
-        userDocument.collection(Notification.COLLECTION_NAME).whereEqualTo("isRead", false)
-            .addSnapshotListener { snapshot, e ->
+        userDocument.collection(Notification.COLLECTION_NAME)
+            .whereEqualTo(Notification.IS_READ_FIELD, false).addSnapshotListener { snapshot, e ->
                 if (e != null) {
                     return@addSnapshotListener
                 }

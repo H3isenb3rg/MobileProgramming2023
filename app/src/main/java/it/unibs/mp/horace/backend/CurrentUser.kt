@@ -6,7 +6,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -244,7 +243,7 @@ class CurrentUser {
      * Updates the user document.
      */
     private suspend fun updateUserDocument() {
-        userDocument.set(userData.toHashMap(), SetOptions.merge()).await()
+        userDocument.set(userData).await()
     }
 
     /**

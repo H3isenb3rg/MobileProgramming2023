@@ -92,7 +92,7 @@ class NotificationsAdapter(
                     (holder as FriendViewHolder).apply {
                         message.text = context.getString(R.string.friend_request, user.username)
                         profilePhoto.load(user.profilePhoto)
-                        action.isEnabled = !item.isExpired && !item.accepted
+                        action.isEnabled = !item.isExpired && !item.isAccepted
                         action.setOnClickListener {
                             onAction(item)
                         }
@@ -102,7 +102,7 @@ class NotificationsAdapter(
                 Notification.TYPE_WORKGROUP_INVITATION -> {
                     (holder as WorkGroupViewHolder).apply {
                         message.text = context.getString(R.string.workgroup_request, user.username)
-                        action.isEnabled = !item.isExpired && !item.accepted
+                        action.isEnabled = !item.isExpired && !item.isAccepted
                         action.setOnClickListener {
                             onAction(item)
                         }
