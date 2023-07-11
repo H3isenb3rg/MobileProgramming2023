@@ -6,6 +6,7 @@ import android.util.Patterns
  * Base class for profile validation.
  */
 class ProfileValidator {
+    // Return codes
     companion object {
         const val OK = 0
         const val ERROR_USERNAME_LENGTH = 1
@@ -18,6 +19,7 @@ class ProfileValidator {
         const val ERROR_PASSWORD_CONFIRM = 8
     }
 
+    // Validation flags
     var isUsernameValid = false
         private set
     var isEmailValid = false

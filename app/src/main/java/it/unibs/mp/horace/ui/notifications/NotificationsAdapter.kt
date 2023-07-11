@@ -8,8 +8,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.Notification
+import it.unibs.mp.horace.backend.User
 
 class NotificationsAdapter(
     private val context: Context, private val dataset: List<Notification>
@@ -53,26 +56,33 @@ class NotificationsAdapter(
             holder.action.visibility = View.INVISIBLE
         }
 
-        holder.message.text = when (item.type) {
-            Notification.TYPE_FRIEND_INVITATION -> context.getString(
-                R.string.friend_request, item.sender.username
-            )
-
-            Notification.TYPE_WORKGROUP_INVITATION -> context.getString(
-                R.string.workgroup_request, item.sender.username
-            )
-
-            Notification.TYPE_FRIEND_ACCEPTED -> context.getString(
-                R.string.friend_accepted, item.sender.username
-            )
-
-            Notification.TYPE_WORKGROUP_ACCEPTED -> context.getString(
-                R.string.workgroup_accepted, item.sender.username
-            )
-
-            else -> context.getString(
-                R.string.text_goes_here
-            )
+        if (item.senderUid == null) {
+            return
         }
+
+        Firebase.firestore.collection(User.COLLECTION_NAME).document(item.senderUid).get()
+            .addOnSuccessListener {
+                holder.message.text = when (item.type) {
+                    Notification.TYPE_FRIEND_INVITATION -> context.getString(
+                        R.string.friend_request, it.getString(User.USERNAME_FIELD)
+                    )
+
+                    Notification.TYPE_WORKGROUP_INVITATION -> context.getString(
+                        R.string.workgroup_request, it.getString(User.USERNAME_FIELD)
+                    )
+
+                    Notification.TYPE_FRIEND_ACCEPTED -> context.getString(
+                        R.string.friend_accepted, it.getString(User.USERNAME_FIELD)
+                    )
+
+                    Notification.TYPE_WORKGROUP_ACCEPTED -> context.getString(
+                        R.string.workgroup_accepted, it.getString(User.USERNAME_FIELD)
+                    )
+
+                    else -> context.getString(
+                        R.string.text_goes_here
+                    )
+                }
+            }
     }
 }

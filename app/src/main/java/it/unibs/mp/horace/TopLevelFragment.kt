@@ -33,18 +33,20 @@ abstract class TopLevelFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // When the settings icon is pressed, nav to settings fragment
-                if (menuItem.itemId == R.id.settings) {
-                    val action = MainNavDirections.actionGlobalSettings()
-                    view.findNavController().navigate(action)
-                    return true
+                return when (menuItem.itemId) {
+                    R.id.settings -> {
+                        view.findNavController().navigate(MainNavDirections.actionGlobalSettings())
+                        true
+                    }
+
+                    R.id.notifications -> {
+                        view.findNavController()
+                            .navigate(MainNavDirections.actionGlobalNotifications())
+                        true
+                    }
+
+                    else -> false
                 }
-                if (menuItem.itemId == R.id.notifications) {
-                    val action = MainNavDirections.actionGlobalNotifications()
-                    view.findNavController().navigate(action)
-                    return true
-                }
-                return false
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }

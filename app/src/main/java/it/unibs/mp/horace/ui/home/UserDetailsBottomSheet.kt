@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,10 +36,9 @@ class UserDetailsBottomSheet : BottomSheetDialogFragment() {
         db = Firebase.firestore
 
         val uid = requireArguments().getString("uid")!!
-        val user = CurrentUser()
 
         // If the user is viewing their own profile, hide the request friendship button.
-        if (user.uid == uid) {
+        if (CurrentUser().uid == uid) {
             binding.requestFriendship.visibility = View.INVISIBLE
         }
 
@@ -51,9 +51,11 @@ class UserDetailsBottomSheet : BottomSheetDialogFragment() {
         binding.requestFriendship.setOnClickListener {
             lifecycleScope.launch {
                 UserNotificationManager().sendFriendRequest(
-                    db.collection(User.COLLECTION_NAME).document().get().await()
+                    db.collection(User.COLLECTION_NAME).document(uid).get().await()
                         .toObject(User::class.java)!!,
                 )
+
+                findNavController().navigate(UserDetailsBottomSheetDirections.actionGlobalHome())
             }
         }
     }

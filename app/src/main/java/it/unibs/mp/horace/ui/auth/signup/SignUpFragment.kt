@@ -56,11 +56,12 @@ class SignUpFragment : Fragment() {
                         currentUser.username = username
                         lifecycleScope.launch {
                             currentUser.update()
+
+                            findNavController().navigate(
+                                SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
+                            )
                         }
 
-                        findNavController().navigate(
-                            SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
-                        )
                     } else {
                         Snackbar.make(
                             view, getString(R.string.api_error), Snackbar.LENGTH_LONG

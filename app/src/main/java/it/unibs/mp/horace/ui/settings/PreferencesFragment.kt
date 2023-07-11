@@ -22,8 +22,6 @@ class PreferencesFragment : PreferenceFragmentCompat(),
         setPreferencesFromResource(R.xml.preferences, rootKey)
         auth = Firebase.auth
 
-        val user = CurrentUser()
-
         findPreference<Preference>(getString(R.string.preference_auth))!!.apply {
             isVisible = !isLoggedIn
             setOnPreferenceClickListener {
@@ -39,7 +37,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
                 ShareCompat.IntentBuilder(requireActivity())
                     .setType("text/plain")
                     .setChooserTitle(getString(R.string.share_with))
-                    .setText(getString(R.string.share_text, user.uid))
+                    .setText(getString(R.string.share_text, CurrentUser().uid))
                     .startChooser()
                 true
             }

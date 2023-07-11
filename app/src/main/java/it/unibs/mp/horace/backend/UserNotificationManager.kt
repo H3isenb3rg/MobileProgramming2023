@@ -41,11 +41,15 @@ class UserNotificationManager {
             WORKGROUP_COLLECTION_NAME
         }
 
+        if (notification.senderUid == null) {
+            throw IllegalStateException()
+        }
+
         // Add invitation sender to the current user friends/workgroup.
-        userDocument.collection(collection).add(notification.sender.uid).await()
+        userDocument.collection(collection).add(notification.senderUid).await()
 
         // The document of the other user.
-        val senderDocument = db.collection(User.COLLECTION_NAME).document(notification.sender.uid)
+        val senderDocument = db.collection(User.COLLECTION_NAME).document(notification.senderUid)
 
         // Add current user to the invitation sender friends/workgroup.
         senderDocument.collection(collection).add(user.uid).await()
@@ -59,7 +63,7 @@ class UserNotificationManager {
         // Generate a new notification ID
         val response = senderDocument.collection(Notification.COLLECTION_NAME).document()
         // Set actual content of the response notification
-        response.set(Notification(response.id, responseType, notification.sender)).await()
+        response.set(Notification(response.id, responseType, user.uid)).await()
 
         // Update the invitation status
         notification.accepted = true
@@ -108,7 +112,7 @@ class UserNotificationManager {
         // Check if there's already a pending invitation of the same type sent by the current user
         val hasPendingInvitation = destInvitations.get().await().any {
             val notification = it.toObject(Notification::class.java)
-            notification.type == type && !notification.isExpired && notification.sender.uid == user.uid
+            notification.type == type && !notification.isExpired && notification.senderUid == user.uid
         }
 
         // If there's already a pending invitation, don't send another one
@@ -118,7 +122,7 @@ class UserNotificationManager {
 
         // Otherwise, send the invitation
         val ref = destInvitations.document()
-        ref.set(Notification(ref.id, type, user)).await()
+        ref.set(Notification(ref.id, type, user.uid)).await()
     }
 
 

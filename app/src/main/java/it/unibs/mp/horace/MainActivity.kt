@@ -29,29 +29,32 @@ import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        // Up action won't be shown in the top app bar on these screens.
+        val TOP_LEVEL_DESTINATIONS = setOf(
+            R.id.homeFragment, R.id.activitiesFragment, R.id.leaderboardFragment
+        )
+
+        // The destinations in which quick actions should be shown, if enabled.
+        val QUICK_ACTIONS_DESTINATIONS = TOP_LEVEL_DESTINATIONS.union(
+            setOf(
+                R.id.friendsFragment, R.id.journalFragment
+            )
+        )
+    }
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
+
+    // Application preferences
     private lateinit var prefs: SharedPreferences
 
     // Callback to close search view on back button press
     private lateinit var closeSearchViewCallback: OnBackPressedCallback
 
-    // Top level destinations.
-    // Up action won't be shown in the top app bar on these screens.
-    private val topLevelDestinations = setOf(
-        R.id.homeFragment, R.id.activitiesFragment, R.id.leaderboardFragment
-    )
-
-    // The destinations in which quick actions should be shown, if enabled.
-    private val quickActionsDestinations = topLevelDestinations.union(
-        setOf(
-            R.id.friendsFragment, R.id.journalFragment
-        )
-    )
-
     private var appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
-        topLevelDestinations
+        TOP_LEVEL_DESTINATIONS
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +87,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         // Handle up button navigation
@@ -195,12 +197,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Sets up quick actions to be shown on certain destinations.
+     */
     private fun setupQuickActions() {
+        // When the destination changes, update the visibility of the quick actions
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            updateQuickActionsVisibility(destination.id in quickActionsDestinations)
+            updateQuickActionsVisibility(destination.id in QUICK_ACTIONS_DESTINATIONS)
         }
     }
 
+    /**
+     * Updates the visibility of the quick actions.
+     * If the user disables quick actions in settings, they will always be hidden.
+     */
     private fun updateQuickActionsVisibility(shouldShowActions: Boolean) {
         val isVisible = shouldShowActions && prefs.getBoolean(
             getString(R.string.preference_quick_actions), false
@@ -210,6 +220,10 @@ class MainActivity : AppCompatActivity() {
         binding.manualAdd.isVisible = isVisible
     }
 
+    /**
+     * Sets up the global search view,
+     * where search results of search bars will be shown.
+     */
     private fun setupSearchView() {
         binding.searchView.apply {
             closeSearchViewCallback = onBackPressedDispatcher.addCallback(this@MainActivity) {

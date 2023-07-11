@@ -4,11 +4,10 @@ import com.google.firebase.firestore.DocumentId
 import java.time.LocalDateTime
 
 data class Notification(
-    @DocumentId
-    val id: String,
+    @DocumentId val id: String,
     val type: Int,
-    val sender: User,
-    val dateSent: LocalDateTime = LocalDateTime.now(),
+    val senderUid: String?,
+    val dateSent: String = LocalDateTime.now().toString(),
     var accepted: Boolean = false,
     var isRead: Boolean = false
 ) {
@@ -25,13 +24,16 @@ data class Notification(
         const val WORKGROUP_INVITATION_EXPIRATION_DAYS = 1
     }
 
-    private val expiresAfterDays =
-        when (type) {
-            TYPE_FRIEND_INVITATION -> FRIEND_INVITATION_EXPIRATION_DAYS
-            TYPE_WORKGROUP_INVITATION -> WORKGROUP_INVITATION_EXPIRATION_DAYS
-            else -> DEFAULT_EXPIRATION_DAYS
-        }
+    // No-argument constructor required for Firestore.
+    constructor() : this("", 0, null)
+
+    private val expiresAfterDays = when (type) {
+        TYPE_FRIEND_INVITATION -> FRIEND_INVITATION_EXPIRATION_DAYS
+        TYPE_WORKGROUP_INVITATION -> WORKGROUP_INVITATION_EXPIRATION_DAYS
+        else -> DEFAULT_EXPIRATION_DAYS
+    }
 
     val isExpired: Boolean
-        get() = dateSent.plusDays(expiresAfterDays.toLong()).isBefore(LocalDateTime.now())
+        get() = LocalDateTime.parse(dateSent)
+            .plusDays(expiresAfterDays.toLong()) < LocalDateTime.now()
 }

@@ -18,6 +18,9 @@ data class User(
         const val UID_FIELD = "uid"
     }
 
+    // No-argument constructor required for Firestore.
+    constructor() : this("", "", null)
+
     /**
      * Checks if the user matches the search text.
      */

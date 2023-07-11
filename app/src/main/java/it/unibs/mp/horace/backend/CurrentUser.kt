@@ -250,8 +250,7 @@ class CurrentUser {
     /**
      * Deletes the current user from both Firebase Auth and Firestore.
      * NB: This really should be done by a cloud function or server, not by the client.
-     * It's is also very inefficient, and does not include deleting the
-     * current user's subcollections.
+     * It's also very inefficient and should be improved in a production app.
      */
     suspend fun delete() {
         // Delete user from friends' friends list
@@ -273,6 +272,16 @@ class CurrentUser {
                 workgroupDocument.reference.collection(WORKGROUP_COLLECTION_NAME).document(uid)
                     .delete().await()
             }
+
+        // Delete friends subcollection
+        userDocument.collection(FRIENDS_COLLECTION_NAME).get().await().forEach {
+            it.reference.delete().await()
+        }
+
+        // Delete workgroup subcollection
+        userDocument.collection(WORKGROUP_COLLECTION_NAME).get().await().forEach {
+            it.reference.delete().await()
+        }
 
         firebaseUser.delete().await()
         userDocument.delete().await()
