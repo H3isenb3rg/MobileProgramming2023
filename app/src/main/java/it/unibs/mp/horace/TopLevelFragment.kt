@@ -10,8 +10,11 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.backend.UserNotificationManager
 
 /**
  * A fragment that is a root of the navigation graph.
@@ -24,9 +27,23 @@ abstract class TopLevelFragment : Fragment() {
 
         // Adds the menu with the settings icon to the app bar
         menuHost.addMenuProvider(object : MenuProvider {
+            @androidx.annotation.OptIn(com.google.android.material.badge.ExperimentalBadgeUtils::class)
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 if (Firebase.auth.currentUser != null) {
                     menuInflater.inflate(R.menu.auth_app_menu, menu)
+
+                    // Badge for new notifications
+                    val badge = BadgeDrawable.create(requireActivity())
+                    badge.isVisible = false
+                    BadgeUtils.attachBadgeDrawable(
+                        badge, requireActivity().findViewById(R.id.topAppBar), R.id.notifications
+                    )
+
+                    // Show badge on notifications icon if there are new notifications
+                    val manager = UserNotificationManager()
+                    manager.addOnNotificationListener {
+                        badge.isVisible = true
+                    }
                 } else {
                     menuInflater.inflate(R.menu.no_auth_app_menu, menu)
                 }

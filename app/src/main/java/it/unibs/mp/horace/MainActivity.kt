@@ -17,14 +17,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.backend.UserNotificationManager
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 
@@ -164,16 +161,6 @@ class MainActivity : AppCompatActivity() {
 
         // Adds navigation config to the action bar.
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        // Show badge on notifications icon if there are new notifications
-        if (auth.currentUser != null) {
-            val manager = UserNotificationManager()
-            manager.addOnNotificationListener {
-                BadgeUtils.attachBadgeDrawable(
-                    BadgeDrawable.create(this), binding.topAppBar, R.id.notificationsFragment
-                )
-            }
-        }
     }
 
     /**
