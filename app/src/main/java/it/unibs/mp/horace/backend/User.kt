@@ -1,6 +1,7 @@
 package it.unibs.mp.horace.backend
 
 import android.net.Uri
+import it.unibs.mp.horace.R
 
 data class User(
     var uid: String,
@@ -20,6 +21,11 @@ data class User(
 
     // No-argument constructor required for Firestore.
     constructor() : this("", "", null)
+
+    /**
+     * Returns the user's profile photo, or the default one if it's null.
+     */
+    val profilePhoto: Any get() = photoUrl ?: R.drawable.default_profile_photo
 
     /**
      * Checks if the user matches the search text.

@@ -25,23 +25,36 @@ class NotificationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val manager = UserNotificationManager()
+
+        // List of notifications is initially empty
         val notifications: MutableList<Notification> = mutableListOf()
 
-        val adapter = NotificationsAdapter(requireContext(), notifications)
+        // What to do when the current user performs an action on a notification
+        fun onAction(notification: Notification) {
+            lifecycleScope.launch { manager.acceptInvitation(notification) }
+        }
+
+        val adapter = NotificationsAdapter(requireContext(), notifications, ::onAction)
         binding.notificationsList.adapter = adapter
 
+        // Load notification in background
         lifecycleScope.launch {
-            val manager = UserNotificationManager()
             val userNotifications = manager.notifications()
 
-            notifications.addAll(userNotifications)
+            // If there are no notifications, show a message
             if (userNotifications.isEmpty()) {
                 binding.noNotificationsText.visibility = View.VISIBLE
-            } else {
-                binding.noNotificationsText.visibility = View.GONE
+                return@launch
             }
+
+            binding.noNotificationsText.visibility = View.GONE
+
+            // Add notification to list and notify the adapter
+            notifications.addAll(userNotifications)
             adapter.notifyItemRangeInserted(0, notifications.size)
 
+            // Mark the displayed notifications as read
             notifications.forEach { manager.markNotificationAsRead(it) }
         }
     }

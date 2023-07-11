@@ -26,6 +26,11 @@ class UserNotificationManager {
      * Marks the specified notification as read.
      */
     suspend fun markNotificationAsRead(notification: Notification) {
+        // If the notification is already read, don't do anything
+        if (notification.isRead) {
+            return
+        }
+
         notification.isRead = true
         userDocument.collection(Notification.COLLECTION_NAME).document(notification.id)
             .set(notification).await()
@@ -35,31 +40,33 @@ class UserNotificationManager {
      * Accepts the specified notification.
      */
     suspend fun acceptInvitation(notification: Notification) {
-        val collection = if (notification.type == Notification.TYPE_FRIEND_INVITATION) {
-            FRIENDS_COLLECTION_NAME
-        } else {
-            WORKGROUP_COLLECTION_NAME
-        }
-
         if (notification.senderUid == null) {
-            throw IllegalStateException()
+            throw IllegalArgumentException("The notification must have a sender.")
         }
 
-        // Add invitation sender to the current user friends/workgroup.
-        userDocument.collection(collection).add(notification.senderUid).await()
-
-        // The document of the other user.
+        // The document of the sender.
         val senderDocument = db.collection(User.COLLECTION_NAME).document(notification.senderUid)
 
-        // Add current user to the invitation sender friends/workgroup.
-        senderDocument.collection(collection).add(user.uid).await()
+        // The response type.
+        var responseType: Int = Notification.TYPE_FRIEND_ACCEPTED
 
-        // Send a response notification to the invitation sender.
-        val responseType = if (notification.type == Notification.TYPE_FRIEND_INVITATION) {
-            Notification.TYPE_FRIEND_ACCEPTED
+        if (notification.type == Notification.TYPE_FRIEND_INVITATION) {
+            // Add invitation sender to the current user friends.
+            userDocument.collection(FRIENDS_COLLECTION_NAME).add(Friend(notification.senderUid))
+                .await()
+
+            // Add current user to the invitation sender friends.
+            senderDocument.collection(FRIENDS_COLLECTION_NAME).add(Friend(user.uid)).await()
         } else {
-            Notification.TYPE_WORKGROUP_ACCEPTED
+            userDocument.collection(WORKGROUP_COLLECTION_NAME)
+                .add(WorkGroupMember(notification.senderUid)).await()
+
+            senderDocument.collection(WORKGROUP_COLLECTION_NAME).add(WorkGroupMember(user.uid))
+                .await()
+
+            responseType = Notification.TYPE_WORKGROUP_ACCEPTED
         }
+
         // Generate a new notification ID
         val response = senderDocument.collection(Notification.COLLECTION_NAME).document()
         // Set actual content of the response notification
@@ -75,9 +82,6 @@ class UserNotificationManager {
      * Sends a friend invitation to the specified user.
      */
     suspend fun sendFriendRequest(user: User) {
-        // If the user is already a friend, throw an exception
-
-
         sendInvitation(user, Notification.TYPE_FRIEND_INVITATION)
     }
 
@@ -91,7 +95,7 @@ class UserNotificationManager {
     /**
      * Sends an invitation to the specified user.
      */
-    private suspend fun sendInvitation(user: User, type: Int) {
+    private suspend fun sendInvitation(destinationUser: User, type: Int) {
         val collection = if (type == Notification.TYPE_FRIEND_INVITATION) {
             FRIENDS_COLLECTION_NAME
         } else {
@@ -99,20 +103,20 @@ class UserNotificationManager {
         }
 
         // Check if the user is already a friend/workgroup member
-        if (userDocument.collection(collection).whereEqualTo(User.UID_FIELD, user.uid).get().await()
-                .any()
+        if (userDocument.collection(collection).whereEqualTo(User.UID_FIELD, destinationUser.uid)
+                .get().await().any()
         ) {
             throw IllegalArgumentException()
         }
 
         // The invitation document reference for the destination user
-        val destInvitations = db.collection(User.COLLECTION_NAME).document(user.uid)
+        val destInvitations = db.collection(User.COLLECTION_NAME).document(destinationUser.uid)
             .collection(Notification.COLLECTION_NAME)
 
         // Check if there's already a pending invitation of the same type sent by the current user
         val hasPendingInvitation = destInvitations.get().await().any {
             val notification = it.toObject(Notification::class.java)
-            notification.type == type && !notification.isExpired && notification.senderUid == user.uid
+            notification.type == type && !notification.isExpired && notification.senderUid == destinationUser.uid
         }
 
         // If there's already a pending invitation, don't send another one
@@ -135,7 +139,9 @@ class UserNotificationManager {
 
                 if (snapshot != null) {
                     val notifications = snapshot.toObjects(Notification::class.java)
-                    callback(notifications)
+                    if (notifications.isNotEmpty()) {
+                        callback(notifications)
+                    }
                 }
             }
     }
