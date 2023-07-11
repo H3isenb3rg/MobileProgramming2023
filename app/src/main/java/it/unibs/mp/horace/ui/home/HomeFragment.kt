@@ -66,6 +66,10 @@ class HomeFragment : TopLevelFragment() {
             R.string.source_sign_out -> Snackbar.make(
                 view, getString(R.string.signed_out_successfully), Snackbar.LENGTH_SHORT
             ).show()
+
+            R.string.source_friend_request -> Snackbar.make(
+                view, getString(R.string.friend_request_successful), Snackbar.LENGTH_SHORT
+            ).show()
         }
         arguments?.remove("source")
 
@@ -74,7 +78,7 @@ class HomeFragment : TopLevelFragment() {
             arguments?.remove("source")
 
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToUserDetailsBottomSheet(uid)
+                HomeFragmentDirections.actionGlobalUserDetails(uid)
             )
         }
 

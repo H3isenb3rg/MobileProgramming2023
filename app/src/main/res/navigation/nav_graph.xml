@@ -26,13 +26,6 @@
             android:id="@+id/userDetailsDeepLink"
             app:mimeType="text/plain"
             app:uri="http://www.horace.it/users/?uid={uid}" />
-        <action
-            android:id="@+id/action_homeFragment_to_userDetailsBottomSheet"
-            app:destination="@id/userDetailsBottomSheet"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="uid"
             android:defaultValue="@null"
@@ -307,7 +300,7 @@
         <fragment
             android:id="@+id/updateProfileFragment"
             android:name="it.unibs.mp.horace.ui.settings.updateprofile.UpdateProfileFragment"
-            android:label="fragment_update_profile"
+            android:label="@string/update_profile"
             tools:layout="@layout/fragment_update_profile">
             <action
                 android:id="@+id/action_updateProfileFragment_to_settingsFragment"
@@ -392,4 +385,12 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_userDetails"
+        app:destination="@id/userDetailsBottomSheet"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@animator/nav_default_pop_exit_anim" />
 </navigation>

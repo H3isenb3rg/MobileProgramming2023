@@ -63,7 +63,7 @@
     <string name="preference_sign_out">signOut</string>
     <string name="authenticate" tools:keep="@string/authenticate">Authenticate</string>
     <string name="select_theme" tools:keep="@string/select_theme">Select theme</string>
-    <string name="edit_profile" tools:keep="@string/edit_profile">Edit profile</string>
+    <string name="update_profile" tools:keep="@string/update_profile">Update profile</string>
     <string name="sign_out">Sign out</string>
     <string name="pomodoro">Pomodoro</string>
     <string name="stopwatch">Stopwatch</string>
@@ -107,4 +107,7 @@
     <string name="share_text">Add me as a friend on Horace: http://www.horace.it/users/?uid=%1$s</string>
     <string name="share_with">Share with</string>
     <string name="request_friendship">Request friendship</string>
+    <string name="email_already_used">Email already in use</string>
+    <string name="source_friend_request">4</string>
+    <string name="friend_request_successful">Friend request sent</string>
 </resources>
