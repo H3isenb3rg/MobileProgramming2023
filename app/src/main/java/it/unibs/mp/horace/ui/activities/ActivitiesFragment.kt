@@ -5,8 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import it.unibs.mp.horace.TopLevelFragment
+import it.unibs.mp.horace.backend.TimeEntry
 import it.unibs.mp.horace.databinding.FragmentActivitiesBinding
+import java.time.LocalDateTime
 
 class ActivitiesFragment : TopLevelFragment() {
     private var _binding: FragmentActivitiesBinding? = null
@@ -27,6 +32,21 @@ class ActivitiesFragment : TopLevelFragment() {
                 ActivitiesFragmentDirections.actionActivitiesFragmentToHistoryFragment()
             )
         }
+
+        val timeEntries: List<TimeEntry> = listOf(TimeEntry(), TimeEntry(), TimeEntry())
+        val mapOfTimeEntries =
+            timeEntries.groupBy { entry -> LocalDateTime.parse(entry.startTime).toLocalDate() }
+                .mapValues { group -> group.value.size }
+
+        val chartEntries: List<Entry> = mapOfTimeEntries.map {
+            Entry(
+                it.key.dayOfMonth.toFloat(), it.value.toFloat()
+            )
+        }
+        val dataset = LineDataSet(chartEntries, "Activities")
+
+        binding.recentActivitiesChart.data = LineData(dataset)
+        binding.recentActivitiesChart.invalidate()
     }
 
     override fun onDestroyView() {
