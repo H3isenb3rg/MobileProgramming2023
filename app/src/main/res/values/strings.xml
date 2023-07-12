@@ -105,9 +105,16 @@
     <string name="preference_share">Share</string>
     <string name="share_profile">Share profile</string>
     <string name="share_text">Add me as a friend on Horace: http://www.horace.it/users/?uid=%1$s</string>
-    <string name="share_with">Share with</string>
+    <string name="share_with">Share profile with</string>
     <string name="request_friendship">Request friendship</string>
     <string name="email_already_used">Email already in use</string>
     <string name="source_friend_request">4</string>
     <string name="friend_request_successful">Friend request sent</string>
+    <string name="activities_in_last_7_days">Activities in last 7 days</string>
+    <string name="most_frequent_activities">Most frequent activities</string>
+    <string name="no_friends">You don\'t have any friends :(</string>
+    <string name="tap_to_share_profile">Tap here to share your profile</string>
+    <string name="add_friends_leaderboard">Add some friends to see the leaderboard</string>
+    <string name="suggested_friends">Suggested friends</string>
+    <string name="send_request">Send request</string>
 </resources>

@@ -10,6 +10,7 @@ import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.User
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
+import it.unibs.mp.horace.shareUserProfile
 import kotlinx.coroutines.launch
 
 
@@ -35,6 +36,12 @@ class FriendsFragment : Fragment() {
         // Load friends in background
         lifecycleScope.launch {
             friends.addAll(CurrentUser().friends())
+
+            if (friends.isEmpty()) {
+                binding.noFriends.visibility = View.VISIBLE
+                binding.shareProfile.setOnClickListener { requireContext().shareUserProfile() }
+                return@launch
+            }
 
             // Notify adapter of the new data
             adapter.notifyItemRangeInserted(0, friends.size)

@@ -28,4 +28,30 @@
         app:layout_constraintTop_toBottomOf="@id/searchBar"
         tools:listitem="@layout/friend_item" />
 
+    <LinearLayout
+        android:id="@+id/noFriends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="?attr/textAppearanceBodyLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_friends" />
+
+        <Button
+            android:id="@+id/shareProfile"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tap_to_share_profile" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,6 +22,7 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
         val username: TextView = view.findViewById(R.id.username)
+        val email: TextView = view.findViewById(R.id.email)
     }
 
     // Contains only the items that match the search query.
@@ -47,6 +48,7 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
 
         holder.profilePhoto.load(item.photoUrl ?: R.drawable.default_profile_photo)
         holder.username.text = item.username
+        holder.email.text = item.email
     }
 
     // Returns a filter that can be used to search the dataset.

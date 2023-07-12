@@ -1,11 +1,13 @@
 package it.unibs.mp.horace
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ShareCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -22,8 +24,17 @@ import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
+
+fun Context.shareUserProfile() {
+    ShareCompat.IntentBuilder(this)
+        .setType("text/plain")
+        .setChooserTitle(getString(R.string.share_with))
+        .setText(getString(R.string.share_text, CurrentUser().uid))
+        .startChooser()
+}
 
 class MainActivity : AppCompatActivity() {
     companion object {
