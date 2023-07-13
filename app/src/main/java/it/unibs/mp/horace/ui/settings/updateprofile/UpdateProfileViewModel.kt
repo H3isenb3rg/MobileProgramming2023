@@ -1,7 +1,7 @@
 package it.unibs.mp.horace.ui.settings.updateprofile
 
 import androidx.lifecycle.ViewModel
-import it.unibs.mp.horace.ProfileValidator
+import it.unibs.mp.horace.backend.ProfileValidator
 
 class UpdateProfileViewModel : ViewModel() {
     private var validator = ProfileValidator()

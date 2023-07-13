@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.User
+import it.unibs.mp.horace.models.User
 
 /**
  * RecyclerView adapter for the friends list.

@@ -14,9 +14,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.ProfileValidator
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.ProfileValidator
 import it.unibs.mp.horace.databinding.FragmentSignUpBinding
 import kotlinx.coroutines.launch
 

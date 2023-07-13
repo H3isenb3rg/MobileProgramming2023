@@ -1,4 +1,4 @@
-package it.unibs.mp.horace
+package it.unibs.mp.horace.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -14,6 +14,8 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.MainNavDirections
+import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.UserNotificationManager
 
 /**

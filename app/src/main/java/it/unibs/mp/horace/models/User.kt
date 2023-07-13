@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.models
 
 import android.net.Uri
 import it.unibs.mp.horace.R

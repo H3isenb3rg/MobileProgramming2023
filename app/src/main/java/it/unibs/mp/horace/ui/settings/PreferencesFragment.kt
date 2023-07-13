@@ -8,9 +8,10 @@ import androidx.preference.PreferenceFragmentCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.MainActivity
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.shareUserProfile
+import it.unibs.mp.horace.backend.Settings
+import it.unibs.mp.horace.ui.MainActivity
+import it.unibs.mp.horace.ui.shareUserProfile
 
 class PreferencesFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
@@ -61,9 +62,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             getString(R.string.preference_theme) -> (requireActivity() as MainActivity).switchTheme(
-                sharedPreferences.getString(
-                    getString(R.string.preference_theme), resources.getString(R.string.theme_device)
-                )
+                Settings(requireContext()).theme
             )
         }
     }

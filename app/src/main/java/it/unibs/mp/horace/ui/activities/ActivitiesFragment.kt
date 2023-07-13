@@ -8,9 +8,9 @@ import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import it.unibs.mp.horace.TopLevelFragment
-import it.unibs.mp.horace.backend.TimeEntry
 import it.unibs.mp.horace.databinding.FragmentActivitiesBinding
+import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.ui.TopLevelFragment
 import java.time.LocalDateTime
 
 class ActivitiesFragment : TopLevelFragment() {

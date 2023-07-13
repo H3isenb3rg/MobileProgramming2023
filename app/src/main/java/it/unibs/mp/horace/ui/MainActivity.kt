@@ -1,7 +1,6 @@
-package it.unibs.mp.horace
+package it.unibs.mp.horace.ui
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -17,23 +16,23 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import it.unibs.mp.horace.MainNavDirections
+import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 
 fun Context.shareUserProfile() {
-    ShareCompat.IntentBuilder(this)
-        .setType("text/plain")
+    ShareCompat.IntentBuilder(this).setType("text/plain")
         .setChooserTitle(getString(R.string.share_with))
-        .setText(getString(R.string.share_text, CurrentUser().uid))
-        .startChooser()
+        .setText(getString(R.string.share_text, CurrentUser().uid)).startChooser()
 }
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     // Application preferences
-    private lateinit var prefs: SharedPreferences
+    private lateinit var settings: Settings
 
     // Callback to close search view on back button press
     private lateinit var closeSearchViewCallback: OnBackPressedCallback
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
-        prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        settings = Settings(this)
 
         // See https://developer.android.com/codelabs/android-navigation.
         // and https://developer.android.com/guide/navigation/integrations/ui
@@ -89,11 +88,7 @@ class MainActivity : AppCompatActivity() {
         setupSearchView()
 
         // Apply theme selected in preferences on startup
-        switchTheme(
-            prefs.getString(
-                getString(R.string.preference_theme), resources.getString(R.string.theme_device)
-            )
-        )
+        switchTheme(settings.theme)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -104,11 +99,11 @@ class MainActivity : AppCompatActivity() {
     /**
      * Switches the device's theme.
      */
-    fun switchTheme(theme: String? = resources.getString(R.string.theme_device)) {
+    fun switchTheme(theme: Settings.Theme) {
         AppCompatDelegate.setDefaultNightMode(
             when (theme) {
-                getString(R.string.theme_light) -> AppCompatDelegate.MODE_NIGHT_NO
-                getString(R.string.theme_dark) -> AppCompatDelegate.MODE_NIGHT_YES
+                Settings.Theme.Light -> AppCompatDelegate.MODE_NIGHT_NO
+                Settings.Theme.Dark -> AppCompatDelegate.MODE_NIGHT_YES
                 else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )
@@ -210,9 +205,7 @@ class MainActivity : AppCompatActivity() {
      * If the user disables quick actions in settings, they will always be hidden.
      */
     private fun updateQuickActionsVisibility(shouldShowActions: Boolean) {
-        val isVisible = shouldShowActions && prefs.getBoolean(
-            getString(R.string.preference_quick_actions), false
-        )
+        val isVisible = shouldShowActions && settings.isQuickActionsEnabled
 
         binding.startTimer.isVisible = isVisible
         binding.manualAdd.isVisible = isVisible

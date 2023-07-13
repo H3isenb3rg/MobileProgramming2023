@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.TopLevelFragment
 import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
+import it.unibs.mp.horace.ui.TopLevelFragment
 
 
 class HomeFragment : TopLevelFragment() {
@@ -43,9 +42,7 @@ class HomeFragment : TopLevelFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = Firebase.auth
-        prefs = Settings(
-            PreferenceManager.getDefaultSharedPreferences(requireContext()), requireContext()
-        )
+        prefs = Settings(requireContext())
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         // Source is not read from navArgs because, for example,

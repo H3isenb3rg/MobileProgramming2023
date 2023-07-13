@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.models
 
 import com.google.firebase.firestore.DocumentId
 import java.time.LocalDateTime

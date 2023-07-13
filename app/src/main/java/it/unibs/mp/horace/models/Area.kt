@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.models
 
 data class Area(var name: String) {
 

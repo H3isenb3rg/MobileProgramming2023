@@ -8,8 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.CurrentUser
-import it.unibs.mp.horace.backend.User
 import it.unibs.mp.horace.databinding.BottomSheetWorkGroupBinding
+import it.unibs.mp.horace.models.User
 import kotlinx.coroutines.launch
 
 class WorkGroupBottomSheet : BottomSheetDialogFragment() {

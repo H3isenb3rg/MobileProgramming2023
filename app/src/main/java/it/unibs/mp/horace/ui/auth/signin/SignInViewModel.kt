@@ -1,7 +1,7 @@
 package it.unibs.mp.horace.ui.auth.signin
 
 import androidx.lifecycle.ViewModel
-import it.unibs.mp.horace.ProfileValidator
+import it.unibs.mp.horace.backend.ProfileValidator
 
 class SignInViewModel : ViewModel() {
     private var validator = ProfileValidator()

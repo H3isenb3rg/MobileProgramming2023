@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.models
 
 data class Activity(var name: String, var area: Area?) {
 

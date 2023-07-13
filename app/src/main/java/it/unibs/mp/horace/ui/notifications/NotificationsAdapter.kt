@@ -14,8 +14,8 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.Notification
-import it.unibs.mp.horace.backend.User
+import it.unibs.mp.horace.models.Notification
+import it.unibs.mp.horace.models.User
 
 class NotificationsAdapter(
     private val context: Context,

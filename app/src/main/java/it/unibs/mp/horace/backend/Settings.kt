@@ -2,15 +2,39 @@ package it.unibs.mp.horace.backend
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import it.unibs.mp.horace.R
 
-class Settings(private val prefs: SharedPreferences, val context: Context) {
+class Settings(val context: Context) {
+
+    private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
     /**
      * The supported timer modes.
      */
     enum class Mode {
         Pomodoro, Stopwatch
     }
+
+    enum class Theme {
+        Light, Dark, System
+    }
+
+    var theme: Theme
+        get() = Theme.values()[prefs.getInt(
+            context.getString(R.string.preference_theme), Theme.System.ordinal
+        )]
+        private set(value) {
+            prefs.edit().putInt(context.getString(R.string.preference_theme), value.ordinal).apply()
+        }
+
+    var isQuickActionsEnabled: Boolean
+        get() = prefs.getBoolean(context.getString(R.string.preference_quick_actions), true)
+        set(value) {
+            prefs.edit().putBoolean(context.getString(R.string.preference_quick_actions), value)
+                .apply()
+        }
+
 
     /**
      * The current timer mode.

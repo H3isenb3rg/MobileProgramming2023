@@ -4,8 +4,12 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.backend.User.Companion.FRIENDS_COLLECTION_NAME
-import it.unibs.mp.horace.backend.User.Companion.WORKGROUP_COLLECTION_NAME
+import it.unibs.mp.horace.models.Friend
+import it.unibs.mp.horace.models.Notification
+import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.models.User.Companion.FRIENDS_COLLECTION_NAME
+import it.unibs.mp.horace.models.User.Companion.WORKGROUP_COLLECTION_NAME
+import it.unibs.mp.horace.models.WorkGroupMember
 import kotlinx.coroutines.tasks.await
 
 class UserNotificationManager {

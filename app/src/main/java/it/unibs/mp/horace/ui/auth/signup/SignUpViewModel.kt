@@ -1,7 +1,7 @@
 package it.unibs.mp.horace.ui.auth.signup
 
 import androidx.lifecycle.ViewModel
-import it.unibs.mp.horace.ProfileValidator
+import it.unibs.mp.horace.backend.ProfileValidator
 
 class SignUpViewModel : ViewModel() {
     private var validator = ProfileValidator()

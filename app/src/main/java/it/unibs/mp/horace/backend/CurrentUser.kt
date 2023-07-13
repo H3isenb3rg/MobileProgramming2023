@@ -10,8 +10,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import it.unibs.mp.horace.backend.User.Companion.FRIENDS_COLLECTION_NAME
-import it.unibs.mp.horace.backend.User.Companion.WORKGROUP_COLLECTION_NAME
+import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.models.User.Companion.FRIENDS_COLLECTION_NAME
+import it.unibs.mp.horace.models.User.Companion.WORKGROUP_COLLECTION_NAME
 import kotlinx.coroutines.tasks.await
 
 class CurrentUser {
