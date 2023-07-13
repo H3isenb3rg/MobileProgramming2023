@@ -21,11 +21,26 @@ class Settings(val context: Context) {
     }
 
     var theme: Theme
-        get() = Theme.values()[prefs.getInt(
-            context.getString(R.string.preference_theme), Theme.System.ordinal
-        )]
+        get() {
+            val themeString = prefs.getString(
+                context.getString(R.string.preference_theme),
+                context.getString(R.string.theme_device)
+            )
+
+            return when (themeString) {
+                context.getString(R.string.theme_light) -> Theme.Light
+                context.getString(R.string.theme_dark) -> Theme.Dark
+                else -> Theme.System
+            }
+        }
         private set(value) {
-            prefs.edit().putInt(context.getString(R.string.preference_theme), value.ordinal).apply()
+            val themeString = when (value) {
+                Theme.Light -> context.getString(R.string.theme_light)
+                Theme.Dark -> context.getString(R.string.theme_dark)
+                else -> context.getString(R.string.theme_device)
+            }
+            prefs.edit().putString(context.getString(R.string.preference_theme), themeString)
+                .apply()
         }
 
     var isQuickActionsEnabled: Boolean
@@ -83,11 +98,4 @@ class Settings(val context: Context) {
     fun toggleVolume() {
         isVolumeOn = !isVolumeOn
     }
-
-    var showQuickActions: Boolean
-        get() = prefs.getBoolean(context.getString(R.string.preference_quick_actions), true)
-        set(value) {
-            prefs.edit().putBoolean(context.getString(R.string.preference_quick_actions), value)
-                .apply()
-        }
 }
