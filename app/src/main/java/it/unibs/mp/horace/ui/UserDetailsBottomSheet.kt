@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.home
+package it.unibs.mp.horace.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
