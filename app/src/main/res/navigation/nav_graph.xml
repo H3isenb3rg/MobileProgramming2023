@@ -255,6 +255,13 @@
         </fragment>
     </navigation>
 
+    <!-- Manual Log -->
+    <fragment
+        android:id="@+id/manualLogFragment"
+        android:name="it.unibs.mp.horace.ui.manuallog.ManualLogFragment"
+        android:label="@string/manual_log"
+        tools:layout="@layout/fragment_manual_log" />
+
     <!-- Notifications -->
     <fragment
         android:id="@+id/notificationsFragment"
@@ -393,4 +400,12 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_manualLogFragment"
+        app:destination="@id/manualLogFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@animator/nav_default_exit_anim"
+        app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 </navigation>

@@ -1,18 +1,25 @@
 package it.unibs.mp.horace.models
 
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 data class TimeEntry(
-    val description: String,
-    val activity: Activity?,
-    val isPomodoro: Boolean,
+    val date: String,
     val startTime: String,
     val endTime: String,
+    val activity: Activity?,
+    val description: String?,
     val points: Int
 ) {
     // No-argument constructor required for Firestore.
     constructor() : this(
-        "", null, false, LocalDateTime.now().toString(), LocalDateTime.now().toString(), 0
+        LocalDate.now().toString(),
+        LocalTime.now().toString(),
+        LocalTime.now().toString(),
+        null,
+        null,
+        0
     )
 
     fun isInCurrentWeek(): Boolean {
