@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.backend.journal
 
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area

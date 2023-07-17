@@ -1,10 +1,10 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.backend.journal
 
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.TimeEntry
 
-class FirestoreJournal : Journal {
+class RoomJournal : Journal {
     override suspend fun entries(): List<TimeEntry> {
         TODO("Not yet implemented")
     }
