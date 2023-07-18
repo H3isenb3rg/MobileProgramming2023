@@ -15,6 +15,10 @@ class SuggestedFriendsAdapter(
     private val dataset: MutableList<User>, private val sendFriendRequest: (User) -> Unit
 ) : RecyclerView.Adapter<SuggestedFriendsAdapter.ItemViewHolder>() {
 
+    // Will only contain friends to which a friend request has not been sent yet
+    private val suggestedFriends: MutableList<User> =
+        mutableListOf<User>().apply { addAll(dataset) }
+
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
         val username: TextView = view.findViewById(R.id.username)
@@ -32,20 +36,24 @@ class SuggestedFriendsAdapter(
 
     // Total number of items in the data set held by the adapter.
     override fun getItemCount(): Int {
-        return dataset.size
+        return suggestedFriends.size
     }
 
     // Called by RecyclerView to display the data at the specified position.
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = dataset[position]
+        val item = suggestedFriends[position]
 
         holder.profilePhoto.load(item.profilePhoto)
         holder.username.text = item.username
         holder.email.text = item.email
 
         holder.sendFriendRequest.setOnClickListener {
-            sendFriendRequest(item)
             holder.sendFriendRequest.isEnabled = false
+
+            suggestedFriends.removeAt(position)
+            notifyItemRemoved(position)
+
+            sendFriendRequest(item)
         }
     }
 }

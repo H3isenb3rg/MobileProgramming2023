@@ -40,7 +40,7 @@ class NotificationsFragment : Fragment() {
 
         // Load notification in background
         lifecycleScope.launch {
-            val userNotifications = manager.notifications()
+            val userNotifications = manager.fetchNotifications()
 
             // If there are no notifications, show a message
             if (userNotifications.isEmpty()) {
