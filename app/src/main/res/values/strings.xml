@@ -129,4 +129,8 @@
     <string name="end_time">End time</string>
     <string name="description">Description (optional)</string>
     <string name="save">Save</string>
+    <string name="manual_logs_warning">Manual logs won\'t give you any points and won\'t count towards your streak.</string>
+    <string name="weekly_leaderboard">Weekly leaderboard</string>
+    <string name="_1">1</string>
+    <string name="_100_pts">100 pts</string>
 </resources>
