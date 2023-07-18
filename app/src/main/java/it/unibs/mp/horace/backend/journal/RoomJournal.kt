@@ -52,4 +52,12 @@ class RoomJournal : Journal {
     override suspend fun removeArea(area: Area) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun streak(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun increaseStreak() {
+        TODO("Not yet implemented")
+    }
 }

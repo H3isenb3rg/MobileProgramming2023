@@ -31,6 +31,10 @@ interface Journal {
 
     suspend fun removeArea(area: Area)
 
+    suspend fun streak(): Int
+
+    suspend fun increaseStreak()
+
     suspend fun totalActivitiesInLastWeek(): Map<LocalDate, Int> {
         return entries().filter { entry -> entry.isInCurrentWeek() }
             .groupBy { entry -> LocalDateTime.parse(entry.startTime).toLocalDate() }

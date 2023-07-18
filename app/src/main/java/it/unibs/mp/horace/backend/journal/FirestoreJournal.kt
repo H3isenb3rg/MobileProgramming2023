@@ -4,7 +4,7 @@ import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.TimeEntry
 
-class FirestoreJournal : Journal {
+class FirestoreJournal() : Journal {
     override suspend fun entries(): List<TimeEntry> {
         TODO("Not yet implemented")
     }
@@ -50,6 +50,14 @@ class FirestoreJournal : Journal {
     }
 
     override suspend fun removeArea(area: Area) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun streak(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun increaseStreak() {
         TODO("Not yet implemented")
     }
 }
