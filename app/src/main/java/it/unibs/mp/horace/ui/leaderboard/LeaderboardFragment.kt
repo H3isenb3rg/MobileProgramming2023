@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.backend.CurrentUser
@@ -15,7 +14,6 @@ import it.unibs.mp.horace.databinding.FragmentLeaderboardBinding
 import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.ui.TopLevelFragment
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 class LeaderboardFragment : TopLevelFragment() {
@@ -38,41 +36,47 @@ class LeaderboardFragment : TopLevelFragment() {
             )
         }
 
-        if (Firebase.auth.currentUser == null) {
-            return
-        }
+        setupSuggestedFriends()
+    }
 
+    private fun setupSuggestedFriends() {
+        // List of suggested friends, initially empty
         val suggestedFriends: MutableList<User> = mutableListOf()
-
+        // The notification manager is used to send friend requests
         val manager = UserNotificationManager()
-        fun sendFriendRequest(user: User) {
+
+        // The adapter for the carousel
+        val adapter = SuggestedFriendsAdapter(suggestedFriends) {
+            // When a friend is clicked, send a friend request
             lifecycleScope.launch {
-                manager.sendFriendRequest(user)
-                suggestedFriends.remove(user)
+                manager.sendFriendRequest(it)
             }
         }
 
-        val adapter = SuggestedFriendsAdapter(suggestedFriends, ::sendFriendRequest)
-
         binding.suggestedFriends.adapter = adapter
+
+        // Carousel settings
         binding.suggestedFriends.apply {
             setFlat(true)
             setInfinite(true)
         }
 
-        runBlocking {
+        // Load the suggested friends
+        lifecycleScope.launch {
             val user = CurrentUser()
 
+            // Query all users that are not the current user
             var query = Firebase.firestore.collection(User.COLLECTION_NAME)
                 .whereNotEqualTo(User.UID_FIELD, user.uid)
 
             val friendsIds = user.friends().map { it.uid }
-
+            // If the user has friends, exclude them from the query
             if (friendsIds.isNotEmpty()) {
                 query = query.whereNotIn(User.UID_FIELD, friendsIds)
             }
 
-            val userNotFriends = query.limit(4).get().await()
+            // Only get 5 users
+            val userNotFriends = query.limit(5).get().await()
 
             suggestedFriends.addAll(userNotFriends.toObjects(User::class.java))
             adapter.notifyItemRangeInserted(0, suggestedFriends.size)
