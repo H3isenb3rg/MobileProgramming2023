@@ -9,15 +9,20 @@ import java.time.LocalTime
 
 class ManualLogViewModel : ViewModel() {
     companion object {
-        const val ERROR_DATE_IN_FUTURE = "Date cannot be in the future"
-        const val ERROR_START_TIME_AFTER_END_TIME = "Start time cannot be after end time"
-        const val ERROR_END_TIME_BEFORE_START_TIME = "End time cannot be before start time"
-        const val ERROR_DESCRIPTION_LENGTH = "Description cannot be longer than 255 characters"
-        const val ERROR_DATE_NULL = "Date cannot be null"
-        const val ERROR_START_TIME_NULL = "Start time cannot be null"
-        const val ERROR_END_TIME_NULL = "End time cannot be null"
-        const val ERROR_ACTIVITY_NULL = "Activity cannot be null"
+        const val ERROR_DATE_IN_FUTURE = "Date can't be in the future"
+        const val ERROR_START_TIME_AFTER_END_TIME = "Start is after end"
+        const val ERROR_END_TIME_BEFORE_START_TIME = "End is before start"
+        const val ERROR_DESCRIPTION_LENGTH = "Description can't be longer than 255 characters"
+        const val ERROR_DATE_NULL = "Date is required"
+        const val ERROR_START_TIME_NULL = "Start time is required"
+        const val ERROR_END_TIME_NULL = "End time is required"
+        const val ERROR_ACTIVITY_NULL = "Activity is required"
     }
+
+    /**
+     * The activities journal
+     */
+    val journal = JournalFactory.getJournal()
 
     private var _activity: Activity? = null
     private var _date: LocalDate? = null
@@ -25,49 +30,69 @@ class ManualLogViewModel : ViewModel() {
     private var _endTime: LocalTime? = null
     private var _description: String? = null
 
-    val journal = JournalFactory.getJournal()
-
     var activity: Activity?
         get() = _activity
         set(value) {
-            validateActivity(value)
             _activity = value
+            validateActivity()
         }
 
     var date: LocalDate?
         get() = _date
         set(value) {
-            validateDate(value)
             _date = value
+            validateDate()
         }
 
     var startTime: LocalTime?
         get() = _startTime
         set(value) {
-            validateStartTime(value)
             _startTime = value
+            validateStartTime()
         }
 
     var endTime: LocalTime?
         get() = _endTime
         set(value) {
-            validateEndTime(value)
             _endTime = value
+            validateEndTime()
         }
 
     var description: String?
         get() = _description
         set(value) {
-            validateDescription(value)
             _description = value
+            validateDescription()
         }
 
+    var activityError: String? = null
+        private set
+    var dateError: String? = null
+        private set
+    var startTimeError: String? = null
+        private set
+    var endTimeError: String? = null
+        private set
+    var descriptionError: String? = null
+        private set
+
+    private val isEverythingValid =
+        activityError != null && dateError != null && startTimeError != null && endTimeError != null && descriptionError != null
+
+    /**
+     * Save the time entry to the journal, if everything is valid.
+     * Otherwise throws an [IllegalStateException].
+     */
     suspend fun save() {
-        validateActivity(_activity)
-        validateDate(_date)
-        validateStartTime(_startTime)
-        validateEndTime(_endTime)
-        validateDescription(_description)
+        validateActivity()
+        validateDate()
+        validateStartTime()
+        validateEndTime()
+        validateDescription()
+
+        if (!isEverythingValid) {
+            throw IllegalStateException()
+        }
 
         val entry = TimeEntry(
             _date.toString(), _startTime.toString(), _endTime.toString(), _activity, _description, 0
@@ -75,42 +100,41 @@ class ManualLogViewModel : ViewModel() {
         journal.addEntry(entry)
     }
 
-    private fun validateActivity(activity: Activity?) {
-        if (activity == null) {
-            throw IllegalArgumentException(ERROR_ACTIVITY_NULL)
+    private fun validateActivity() {
+        activityError = when (_activity) {
+            null -> ERROR_ACTIVITY_NULL
+            else -> null
         }
     }
 
-    private fun validateDate(date: LocalDate?) {
-        if (date == null) {
-            throw IllegalArgumentException(ERROR_DATE_NULL)
-        }
-        if (date.isAfter(LocalDate.now())) {
-            throw IllegalArgumentException(ERROR_DATE_IN_FUTURE)
-        }
-    }
-
-    private fun validateStartTime(startTime: LocalTime?) {
-        if (startTime == null) {
-            throw IllegalArgumentException(ERROR_START_TIME_NULL)
-        }
-        if (startTime.isAfter(_endTime)) {
-            throw IllegalArgumentException(ERROR_START_TIME_AFTER_END_TIME)
+    private fun validateDate() {
+        dateError = when {
+            _date == null -> ERROR_DATE_NULL
+            _date!!.isAfter(LocalDate.now()) -> ERROR_DATE_IN_FUTURE
+            else -> null
         }
     }
 
-    private fun validateEndTime(endTime: LocalTime?) {
-        if (endTime == null) {
-            throw IllegalArgumentException(ERROR_END_TIME_NULL)
-        }
-        if (endTime.isBefore(_startTime)) {
-            throw IllegalArgumentException(ERROR_END_TIME_BEFORE_START_TIME)
+    private fun validateStartTime() {
+        startTimeError = when {
+            _startTime == null -> ERROR_START_TIME_NULL
+            _endTime != null && _startTime!!.isAfter(_endTime) -> ERROR_START_TIME_AFTER_END_TIME
+            else -> null
         }
     }
 
-    private fun validateDescription(description: String?) {
-        if (description != null && description.length > 255) {
-            throw IllegalArgumentException(ERROR_DESCRIPTION_LENGTH)
+    private fun validateEndTime() {
+        endTimeError = when {
+            _endTime == null -> ERROR_END_TIME_NULL
+            _startTime != null && _endTime!!.isBefore(_startTime) -> ERROR_END_TIME_BEFORE_START_TIME
+            else -> null
+        }
+    }
+
+    private fun validateDescription() {
+        descriptionError = when {
+            _description != null && _description!!.length > 255 -> ERROR_DESCRIPTION_LENGTH
+            else -> null
         }
     }
 }

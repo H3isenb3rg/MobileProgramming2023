@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Filter
 import android.widget.TextView
 import com.google.android.material.chip.Chip
 import it.unibs.mp.horace.R
@@ -15,9 +16,13 @@ import it.unibs.mp.horace.models.Activity
  */
 class ActivitiesAdapter(
     context: Context,
-    private val dataset: MutableList<Activity>,
-    private val onSelect: (Activity) -> Unit
+    private val dataset: ArrayList<Activity>,
 ) : ArrayAdapter<Activity>(context, R.layout.activity_item, dataset) {
+
+    // Contains only the items that match the search query.
+    // The elements of the original dataset are copied.
+    private val filteredDataset: ArrayList<Activity> =
+        arrayListOf<Activity>().apply { addAll(dataset) }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return createViewFromResource(position, convertView, parent)
@@ -25,6 +30,44 @@ class ActivitiesAdapter(
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return createViewFromResource(position, convertView, parent)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterResults = when {
+                    // If the search query is empty, return the original dataset.
+                    constraint.isNullOrEmpty() -> dataset
+
+                    // Otherwise, check if there are items that match the search query.
+                    // If there are no matches, search the database for users with
+                    // the given email or username.
+                    else -> dataset.filter { it.fitsSearch(constraint.toString()) }
+                }
+                return FilterResults().apply {
+                    values = filterResults
+                    count = filterResults.size
+                }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                if (results?.values is ArrayList<*>) {
+                    filteredDataset.clear()
+
+                    // Here we are sure that the values are of type ArrayList<User>.
+                    // So the cast is safe.
+                    @Suppress("UNCHECKED_CAST") filteredDataset.addAll(results.values as ArrayList<Activity>)
+
+                    if (results.count > 0) {
+                        // Tracking what changed in the dataset is too expensive,
+                        // so we just notify the adapter that the whole dataset changed.
+                        @Suppress("NotifyDataSetChanged") notifyDataSetChanged()
+                    } else {
+                        notifyDataSetInvalidated()
+                    }
+                }
+            }
+        }
     }
 
     private fun createViewFromResource(
@@ -38,7 +81,7 @@ class ActivitiesAdapter(
         val activity: TextView = layout.findViewById(R.id.activity)
         val area: Chip = layout.findViewById(R.id.area)
 
-        val item = dataset[position]
+        val item = filteredDataset[position]
 
         activity.text = item.name
 
@@ -48,11 +91,6 @@ class ActivitiesAdapter(
             area.visibility = View.GONE
         } else {
             area.text = item.area?.name
-        }
-
-        // Set the click listener
-        layout.setOnClickListener {
-            onSelect(item)
         }
 
         return layout

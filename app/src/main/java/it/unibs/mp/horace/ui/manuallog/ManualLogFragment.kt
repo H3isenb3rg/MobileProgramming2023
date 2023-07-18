@@ -1,5 +1,7 @@
 package it.unibs.mp.horace.ui.manuallog
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
@@ -10,25 +12,14 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointBackward
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
+import androidx.navigation.fragment.findNavController
 import it.unibs.mp.horace.databinding.FragmentManualLogBinding
 import it.unibs.mp.horace.models.Activity
 import kotlinx.coroutines.launch
-import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneId
 
 class ManualLogFragment : Fragment() {
-    companion object {
-        const val DATE_PICKER_TAG = "datePicker"
-        const val START_TIME_PICKER_TAG = "startTimePicker"
-        const val END_TIME_PICKER_TAG = "endTimePicker"
-    }
-
     private var _binding: FragmentManualLogBinding? = null
     private val binding get() = _binding!!
 
@@ -45,104 +36,113 @@ class ManualLogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Create the adapter for the activity autocomplete
-        val activities: MutableList<Activity> = mutableListOf()
-        val adapter = ActivitiesAdapter(
-            requireContext(), activities
-        ) { activity -> viewModel.activity = activity }
+        setupActivitiesAutocomplete()
 
+        // When the date EditText is clicked, show the date picker
+        binding.date.editText?.setOnClickListener {
+            showDatePicker { date ->
+                viewModel.date = date
+                binding.date.editText?.setText(viewModel.date.toString())
+                binding.date.error = viewModel.dateError
+            }
+        }
+
+        // When the start time EditText is clicked, show the time picker
+        binding.startTime.editText?.setOnClickListener {
+            showTimePicker { time ->
+                viewModel.startTime = time
+                binding.startTime.editText?.setText(viewModel.startTime.toString())
+                binding.startTime.error = viewModel.startTimeError
+            }
+        }
+
+        // When the end time EditText is clicked, show the time picker
+        binding.endTime.editText?.setOnClickListener {
+            showTimePicker { time ->
+                viewModel.endTime = time
+                binding.endTime.editText?.setText(viewModel.endTime.toString())
+                binding.endTime.error = viewModel.endTimeError
+            }
+        }
+
+        binding.description.editText?.addTextChangedListener {
+            viewModel.description = it.toString()
+            binding.description.error = viewModel.descriptionError
+        }
+
+        binding.save.setOnClickListener {
+            // Save the time entry in background
+            lifecycleScope.launch {
+                try {
+                    // Try to save the time entry
+                    viewModel.save()
+
+                    // If everything is ok, go back to previous screen
+                    findNavController().navigateUp()
+                } catch (e: IllegalStateException) {
+                    // Show the errors
+                    binding.activity.error = viewModel.activityError
+                    binding.date.error = viewModel.dateError
+                    binding.startTime.error = viewModel.startTimeError
+                    binding.endTime.error = viewModel.endTimeError
+                    binding.description.error = viewModel.descriptionError
+                }
+            }
+        }
+    }
+
+    private fun setupActivitiesAutocomplete() {
+        // List of activities to show in the autocomplete, initially empty
+        val activities: ArrayList<Activity> = arrayListOf()
+        // Adapter for the autocomplete
+        val adapter = ActivitiesAdapter(requireContext(), activities)
+
+        val autoCompleteTextView = binding.activity.editText as? AutoCompleteTextView
+
+        // When the user selects an activity, set it in the ViewModel and update ui
+        autoCompleteTextView?.setOnItemClickListener { _, _, position, _ ->
+            viewModel.activity = activities[position]
+            autoCompleteTextView.setText(activities[position].name, false)
+            binding.activity.error = viewModel.activityError
+        }
+
+        // Load the activities in background
         lifecycleScope.launch {
             activities.addAll(viewModel.journal.activities())
             adapter.notifyDataSetChanged()
         }
 
-        (binding.activity.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-
-
-        // When the date EditText is clicked, show the date picker
-        binding.date.setOnClickListener {
-            val datePicker = createDatePicker()
-
-            datePicker.addOnPositiveButtonClickListener { date ->
-                // The date picker returns a Long representing the date in milliseconds,
-                // which we convert to a LocalDate
-                try {
-                    viewModel.date =
-                        Instant.ofEpochMilli(date).atZone(ZoneId.systemDefault()).toLocalDate()
-
-                    // Set the text of the EditText to the date picked
-                    binding.date.editText?.setText(viewModel.date.toString())
-                } catch (e: IllegalArgumentException) {
-                    // If the date is invalid, show the error message
-                    binding.date.error = e.message
-                }
-            }
-
-            datePicker.show(parentFragmentManager, DATE_PICKER_TAG)
-        }
-
-        binding.startTime.setOnClickListener {
-            val timePicker = createTimePicker()
-
-            timePicker.addOnPositiveButtonClickListener {
-                try {
-                    viewModel.startTime = LocalTime.of(timePicker.hour, timePicker.minute)
-                    binding.startTime.editText?.setText(viewModel.startTime.toString())
-                } catch (e: IllegalArgumentException) {
-                    binding.startTime.error = e.message
-                }
-            }
-
-            timePicker.show(parentFragmentManager, START_TIME_PICKER_TAG)
-        }
-
-        binding.endTime.setOnClickListener {
-            val timePicker = createTimePicker()
-
-            timePicker.addOnPositiveButtonClickListener {
-                try {
-                    viewModel.endTime = LocalTime.of(timePicker.hour, timePicker.minute)
-                    binding.endTime.editText?.setText(viewModel.endTime.toString())
-                } catch (e: IllegalArgumentException) {
-                    binding.endTime.error = e.message
-                }
-            }
-
-            timePicker.show(parentFragmentManager, END_TIME_PICKER_TAG)
-        }
-
-        binding.description.editText?.addTextChangedListener {
-            try {
-                viewModel.description = it.toString()
-            } catch (e: IllegalArgumentException) {
-                binding.description.error = e.message
-            }
-        }
-
-        binding.save.setOnClickListener {
-            // Save the time entry in background
-            lifecycleScope.launch { viewModel.save() }
-        }
+        autoCompleteTextView?.setAdapter(adapter)
     }
 
     /**
-     * Creates a date picker which only allows picking dates in the past
+     * Shows a date picker which only allows picking dates in the past
      * and defaults to today's date.
      */
-    private fun createDatePicker(): MaterialDatePicker<Long> {
-        return MaterialDatePicker.Builder.datePicker().setCalendarConstraints(
-            CalendarConstraints.Builder().setValidator(DateValidatorPointBackward.now()).build()
-        ).setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build()
+    private fun showDatePicker(onSelected: (date: LocalDate) -> Unit) {
+        val picker = DatePickerDialog(
+            requireContext(), { _, year, month, dayOfMonth ->
+                onSelected(LocalDate.of(year, month + 1, dayOfMonth))
+            }, LocalDate.now().year, LocalDate.now().monthValue, LocalDate.now().dayOfMonth
+        )
+        picker.datePicker.maxDate = System.currentTimeMillis()
+
+        picker.show()
     }
 
     /**
-     * Creates a time picker which defaults to the system's time format.
+     * Shows a time picker which defaults to the system's time format.
      */
-    private fun createTimePicker(): MaterialTimePicker {
+    private fun showTimePicker(onSelected: (time: LocalTime) -> Unit) {
         val isSystem24Hour = is24HourFormat(requireContext())
-        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
-        return MaterialTimePicker.Builder().setTimeFormat(clockFormat).build()
+        val picker = TimePickerDialog(
+            requireContext(), { _, hourOfDay, minute ->
+                onSelected(LocalTime.of(hourOfDay, minute))
+            }, LocalTime.now().hour, LocalTime.now().minute, isSystem24Hour
+        )
+
+        picker.show()
     }
 
     override fun onDestroyView() {
