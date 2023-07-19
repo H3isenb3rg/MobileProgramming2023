@@ -12,6 +12,10 @@ data class TimeEntry(
     val description: String?,
     val points: Int
 ) {
+    companion object {
+        const val COLLECTION_NAME = "timeEntries"
+    }
+
     // No-argument constructor required for Firestore.
     constructor() : this(
         LocalDate.now().toString(),
