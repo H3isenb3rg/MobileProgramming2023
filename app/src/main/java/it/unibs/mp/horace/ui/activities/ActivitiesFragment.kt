@@ -11,7 +11,9 @@ import com.github.mikephil.charting.data.LineDataSet
 import it.unibs.mp.horace.databinding.FragmentActivitiesBinding
 import it.unibs.mp.horace.models.TimeEntry
 import it.unibs.mp.horace.ui.TopLevelFragment
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.Calendar
 
 class ActivitiesFragment : TopLevelFragment() {
     private var _binding: FragmentActivitiesBinding? = null
@@ -35,7 +37,7 @@ class ActivitiesFragment : TopLevelFragment() {
 
         val timeEntries: List<TimeEntry> = listOf(TimeEntry(), TimeEntry(), TimeEntry())
         val mapOfTimeEntries =
-            timeEntries.groupBy { entry -> LocalDateTime.parse(entry.startTime).toLocalDate() }
+            timeEntries.groupBy { entry -> entry.startLocalDateTime().toLocalDate() }
                 .mapValues { group -> group.value.size }
 
         val chartEntries: List<Entry> = mapOfTimeEntries.map {

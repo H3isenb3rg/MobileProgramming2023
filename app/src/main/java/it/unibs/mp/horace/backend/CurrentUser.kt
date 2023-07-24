@@ -64,7 +64,7 @@ class CurrentUser {
     /**
      * The user data, to avoid fetching it from the database every time.
      */
-    private val userData: User
+    val userData: User
 
     /**
      * Tracks which profile fields have been changed.

@@ -4,10 +4,11 @@ import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.TimeEntry
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 interface Journal {
     suspend fun entries(): List<TimeEntry>
+
+    suspend fun userEntries(userId: String): List<TimeEntry>
 
     suspend fun addEntry(entry: TimeEntry)
 
@@ -33,7 +34,7 @@ interface Journal {
 
     suspend fun totalActivitiesInLastWeek(): Map<LocalDate, Int> {
         return entries().filter { entry -> entry.isInCurrentWeek() }
-            .groupBy { entry -> LocalDateTime.parse(entry.startTime).toLocalDate() }
+            .groupBy { entry -> entry.startLocalDateTime().toLocalDate() }
             .mapValues { group -> group.value.size }
     }
 
