@@ -5,21 +5,31 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import it.unibs.mp.horace.R
 
+/**
+ * Wraps app settings.
+ */
 class Settings(val context: Context) {
 
+    // The settings are stored in the default shared preferences.
     private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     /**
-     * The supported timer modes.
+     * Supported timer modes.
      */
     enum class Mode {
         Pomodoro, Stopwatch
     }
 
+    /*
+     * Supported themes.
+     */
     enum class Theme {
         Light, Dark, System
     }
 
+    /**
+     * The current app theme.
+     */
     var theme: Theme
         get() {
             val themeString = prefs.getString(
@@ -43,6 +53,10 @@ class Settings(val context: Context) {
                 .apply()
         }
 
+    /**
+     * Whether the quick actions are enabled or not.
+     * The default value is `true`.
+     */
     var isQuickActionsEnabled: Boolean
         get() = prefs.getBoolean(context.getString(R.string.preference_quick_actions), true)
         set(value) {
@@ -50,10 +64,8 @@ class Settings(val context: Context) {
                 .apply()
         }
 
-
     /**
-     * The current timer mode.
-     * The default is `Pomodoro`.
+     * The current timer mode. The default value is [Mode.Pomodoro].
      */
     private var mode: Mode
         get() = Mode.values()[prefs.getInt(
@@ -64,7 +76,7 @@ class Settings(val context: Context) {
         }
 
     /**
-     * Whether the current mode is `Pomodoro`.
+     * Whether the current mode is [Mode.Pomodoro]
      */
     val isModePomodoro: Boolean get() = mode == Mode.Pomodoro
 
@@ -89,7 +101,7 @@ class Settings(val context: Context) {
     var isVolumeOn: Boolean
         get() = prefs.getBoolean(context.getString(R.string.preference_volume_on), false)
         private set(value) {
-            prefs.edit().putBoolean("volume_on", value).apply()
+            prefs.edit().putBoolean(context.getString(R.string.preference_volume_on), value).apply()
         }
 
     /**

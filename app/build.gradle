@@ -56,7 +56,7 @@ dependencies {
 
     // Firebase
     // Only the version of the BOM should be specified
-    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    implementation platform('com.google.firebase:firebase-bom:32.2.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
 
     // Facebook SDK (for Facebook auth)
-    implementation 'com.facebook.android:facebook-login:16.0.1'
+    implementation 'com.facebook.android:facebook-login:16.1.3'
 
     // Coil (for downloading images)
     implementation 'io.coil-kt:coil:2.4.0'

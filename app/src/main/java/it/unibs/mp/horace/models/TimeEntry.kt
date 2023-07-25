@@ -3,10 +3,11 @@ package it.unibs.mp.horace.models
 import com.google.firebase.Timestamp
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import kotlin.reflect.typeOf
 
 data class TimeEntry(
-    var _id: String?,
-    val description: String,
+    var id: String?,
+    val description: String?,
     val activity: Activity?,
     val isPomodoro: Boolean,
     val startTime: Timestamp,
@@ -15,8 +16,9 @@ data class TimeEntry(
     val owner: User?
 ) {
     companion object {
+        const val COLLECTION_NAME = "entries"
         const val oneWeek: Long = 7*24*3600
-        const val ID_FIELD = "_id"
+        const val ID_FIELD = "id"
         const val DESC_FIELD = "description"
         const val ACT_FIELD = "activity"
         const val POM_FIELD = "isPomodoro"
@@ -25,39 +27,48 @@ data class TimeEntry(
         const val POINTS_FIELD = "points"
         const val OWNER_FIELD = "owner"
         fun parse(raw_data: Map<String, Any>): TimeEntry{
+            var user: User? = null
+            var desc: String? = null
+
             val id = raw_data[ID_FIELD].toString()
-            val desc = raw_data[DESC_FIELD].toString()
+            if (raw_data.containsKey(DESC_FIELD)) {
+                desc = raw_data[DESC_FIELD].toString()
+            }
             // TODO: Costruttore di Activity che recupera oggetto completo
             // val act = raw_data[ACT_FIELD]
-            val act = Activity("Mobile Programming", Area("UNI"))
+            val act = Activity("testidact", "Mobile Programming", Area("testid", "UNI"))
             val pom = raw_data[POM_FIELD] as Boolean
             val start = raw_data[START_FIELD] as Timestamp
             val end = raw_data[END_FIELD] as Timestamp
-            val points = raw_data[POINTS_FIELD] as Long
-            // TODO: Costruttore di User che recupera oggetto completo
-            // val user = raw_data[OWNER_FIELD]
-            val user = User(raw_data[OWNER_FIELD].toString(), "matteo@mail.com", "matteo")
+            val points = raw_data[POINTS_FIELD] as Int
+            if (raw_data.containsKey(OWNER_FIELD)) {
+                user = raw_data[OWNER_FIELD] as User
+            }
+
             return TimeEntry(
-                id, desc, act, pom, start, end, points.toInt(), user
+                id, desc, act, pom, start, end, points, user
             )
         }
     }
     // No-argument constructor required for Firestore.
     constructor() : this(
-        null, "", null, false, Timestamp.now(), Timestamp.now(), 0, null
+        null, null, null, false, Timestamp.now(), Timestamp.now(), 0, null
     )
 
     fun stringify(): HashMap<String, Any> {
-        return hashMapOf(
-            ID_FIELD to _id!!,
-            DESC_FIELD to description,
-            ACT_FIELD to activity!!.name,
-            POM_FIELD to isPomodoro,
-            START_FIELD to startTime,
-            END_FIELD to endTime,
-            POINTS_FIELD to points,
-            OWNER_FIELD to owner!!.uid
-        )
+        val entryMap: HashMap<String, Any> = hashMapOf(
+                ID_FIELD to id!!,
+                ACT_FIELD to activity!!.name,
+                POM_FIELD to isPomodoro,
+                START_FIELD to startTime,
+                END_FIELD to endTime,
+                POINTS_FIELD to points,
+                OWNER_FIELD to owner!!.uid
+            )
+        if (description != null) {
+            entryMap[DESC_FIELD] = description
+        }
+        return entryMap
     }
 
     fun isInCurrentWeek(): Boolean {

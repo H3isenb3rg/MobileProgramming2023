@@ -198,6 +198,10 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             updateQuickActionsVisibility(destination.id in QUICK_ACTIONS_DESTINATIONS)
         }
+
+        binding.manualAdd.setOnClickListener {
+            navController.navigate(MainNavDirections.actionGlobalManualLog())
+        }
     }
 
     /**

@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.backend.journal
 
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
@@ -10,7 +10,7 @@ interface Journal {
 
     suspend fun userEntries(userId: String): List<TimeEntry>
 
-    suspend fun addEntry(entry: TimeEntry)
+    suspend fun addEntry(raw_entry: HashMap<String, Any>): TimeEntry
 
     suspend fun updateEntry(entry: TimeEntry)
 
@@ -18,7 +18,9 @@ interface Journal {
 
     suspend fun activities(): List<Activity>
 
-    suspend fun addActivity(activity: Activity)
+    suspend fun userActivities(userId: String): List<Activity>
+
+    suspend fun addActivity(raw_activity: HashMap<String, Any>): Activity
 
     suspend fun updateActivity(activity: Activity)
 
@@ -31,6 +33,10 @@ interface Journal {
     suspend fun updateArea(area: Area)
 
     suspend fun removeArea(area: Area)
+
+    suspend fun streak(): Int
+
+    suspend fun increaseStreak()
 
     suspend fun totalActivitiesInLastWeek(): Map<LocalDate, Int> {
         return entries().filter { entry -> entry.isInCurrentWeek() }

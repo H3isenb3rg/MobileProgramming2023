@@ -6,30 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.Timestamp
 import it.unibs.mp.horace.backend.CurrentUser
-import it.unibs.mp.horace.backend.FirestoreJournal
+import it.unibs.mp.horace.backend.journal.FirestoreJournal
 import it.unibs.mp.horace.databinding.FragmentJournalBinding
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.JournalDay
 import it.unibs.mp.horace.models.TimeEntry
-import it.unibs.mp.horace.models.User
-import it.unibs.mp.horace.ui.MainActivity
-import it.unibs.mp.horace.ui.leaderboard.friends.FriendsAdapter
-import it.unibs.mp.horace.ui.shareUserProfile
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import java.sql.Time
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 class JournalFragment : Fragment() {
     private var _binding: FragmentJournalBinding? = null
     private val binding get() = _binding!!
 
     val user = CurrentUser()
+
+    // TODO: Usare factory per prendere journal
     val firestoreJournal = FirestoreJournal()
 
     override fun onCreateView(
@@ -48,7 +38,7 @@ class JournalFragment : Fragment() {
 
         // FIXME: First debug version
         lifecycleScope.launch {
-            entries = firestoreJournal.userEntries(user.uid)
+            entries = firestoreJournal.entries()
         }.invokeOnCompletion {
             daysList.add(JournalDay(entries, entries[0].startLocalDateTime().toLocalDate()))
             val adapter = JournalAdapter()

@@ -15,14 +15,25 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp">
 
+        <TextView
+            android:id="@+id/position"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/profilePhotoContainer"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="16dp"
             app:cardBackgroundColor="?attr/colorPrimaryContainer"
             app:cardCornerRadius="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/position"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeWidth="0dp">
 
@@ -47,13 +58,12 @@
             app:layout_constraintStart_toEndOf="@id/profilePhotoContainer"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            style="?attr/materialIconButtonStyle"
+        <TextView
+            android:id="@+id/points"
+            style="?attr/textAppearanceBodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/remove_from_group"
-            app:icon="@drawable/baseline_close_24"
-            app:iconTint="?attr/colorOnSurface"
+            android:text="@string/_100_pts"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

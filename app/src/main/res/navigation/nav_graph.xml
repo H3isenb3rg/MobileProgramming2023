@@ -36,7 +36,7 @@
     <!-- User details -->
     <dialog
         android:id="@+id/userDetailsBottomSheet"
-        android:name="it.unibs.mp.horace.ui.home.UserDetailsBottomSheet"
+        android:name="it.unibs.mp.horace.ui.UserDetailsBottomSheet"
         android:label="bottom_sheet_user_details"
         tools:layout="@layout/bottom_sheet_user_details">
         <argument
@@ -232,7 +232,7 @@
         <fragment
             android:id="@+id/resetPasswordFragment"
             android:name="it.unibs.mp.horace.ui.auth.resetpassword.ResetPasswordFragment"
-            android:label="@string/reset_password_fragment"
+            android:label="@string/reset_password"
             tools:layout="@layout/fragment_reset_password">
             <action
                 android:id="@+id/action_resetPasswordFragment_to_signInFragment"
@@ -254,6 +254,13 @@
                 app:nullable="true" />
         </fragment>
     </navigation>
+
+    <!-- Manual Log -->
+    <fragment
+        android:id="@+id/manualLogFragment"
+        android:name="it.unibs.mp.horace.ui.manuallog.ManualLogFragment"
+        android:label="@string/manual_log"
+        tools:layout="@layout/fragment_manual_log" />
 
     <!-- Notifications -->
     <fragment
@@ -393,4 +400,12 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_manualLog"
+        app:destination="@id/manualLogFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@animator/nav_default_exit_anim"
+        app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 </navigation>

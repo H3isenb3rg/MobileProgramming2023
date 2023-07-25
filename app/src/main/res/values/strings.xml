@@ -1,8 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Horace</string>
+    <!-- Facebook stuff -->
+    <!-- These are not secrets so it's fine to have them here -->
     <string name="facebook_app_id" translatable="false">646330164039157</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb646330164039157</string>
     <string name="facebook_client_token" translatable="false">2ee33b5cc97c2118b2e6e280de79a431</string>
+
+    <string name="app_name">Horace</string>
     <string name="authentication_desc">Sign in to your account or create a new one to work with friends and sync your data to your other devices.</string>
     <string name="home">Home</string>
     <string name="settings">Settings</string>
@@ -14,7 +17,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot your password?</string>
-    <string name="reset_password_fragment">Reset Password</string>
+    <string name="reset_password">Reset password</string>
     <string name="username">Username</string>
     <string name="password_confirm">Confirm password</string>
     <string name="email_invalid">Email is not valid</string>
@@ -22,13 +25,13 @@
     <string name="password_uppercase">Password must contain at least 1 uppercase character</string>
     <string name="password_lowercase">Password must contain at least 1 lowercase character</string>
     <string name="password_special"><![CDATA[Password must contain at least 1 special character (@#$%^&+=)]]></string>
-    <string name="password_does_not_match">Password does not match</string>
+    <string name="password_does_not_match">Password does not match with confirmation</string>
     <string name="api_error">An error happened. Please try again later.</string>
     <string name="signed_up_successfully">Signed up successfully</string>
     <string name="signed_in_successfully">Signed in successfully</string>
     <string name="signed_out_successfully">Signed out successfully</string>
     <string name="i_accept_the_terms_and_conditions">I accept the terms and conditions</string>
-    <string name="terms_error">Terms must be accepted</string>
+    <string name="terms_error">Terms and conditions must be accepted</string>
     <string name="username_min_length">Username must have at least 3 characters</string>
     <string name="username_chars">Username can only contain letters, numbers, lines and underscores</string>
     <string name="profile_photo">Profile photo</string>
@@ -50,8 +53,8 @@
     <string name="facebook">Facebook</string>
     <string name="authentication">Authentication</string>
     <string name="new_password">New Password</string>
-    <string name="confirm_new_password">Confirm New Password</string>
-    <string name="save_changes">Save Changes</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="save_changes">Save changes</string>
     <string name="email_and_password">Email and password</string>
     <string name="send_reset_link">Send reset link</string>
     <string name="invalid_email_or_password">Invalid email or password</string>
@@ -67,17 +70,17 @@
     <string name="sign_out">Sign out</string>
     <string name="pomodoro">Pomodoro</string>
     <string name="stopwatch">Stopwatch</string>
-    <string name="select_activity">Select activity</string>
+    <string name="select_activity">Which activity are you doing?</string>
     <string name="start_timer">Start timer</string>
     <string name="manual_entry">Manual entry</string>
     <string name="toggle_volume">Toggle volume</string>
-    <string name="work_group">Work group</string>
+    <string name="work_group">Your work group</string>
     <string name="tap_to_start">Tap to start</string>
     <string name="preference_mode">mode</string>
     <string name="preference_volume_on">volume_on</string>
     <string name="show_quick_actions">Show quick actions</string>
     <string name="work_group_text">Earn more points by doing activities with your friends.</string>
-    <string name="invite_friends">Invite friends to work group</string>
+    <string name="invite_friends">Invite friends to your work group</string>
     <string name="search_by_name_or_email">Search friends by name or email</string>
     <string name="default_search_hint">Type here to search</string>
     <string name="remove_from_group">Remove from group</string>
@@ -85,7 +88,7 @@
     <string name="view_all_friends">View all friends</string>
     <string name="activities">Activities</string>
     <string name="leaderboard">Leaderboard</string>
-    <string name="view_journal">View journal</string>
+    <string name="view_journal">View your activities journal</string>
     <string name="navigate_to_notifications">Navigate to notifications</string>
     <string name="notifications">Notifications</string>
     <string name="accept">Accept</string>
@@ -122,4 +125,17 @@
     <string name="activity_name">Activity Name</string>
     <string name="activity_details">%.2f hours from %s to %s</string>
     <string name="entry_points">%d points</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="manual_log">Manual log</string>
+    <string name="activity">Activity</string>
+    <string name="date">Date</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="description">Description (optional)</string>
+    <string name="save">Save</string>
+    <string name="manual_logs_warning">Manual logs won\'t give you any points and won\'t count towards your streak.</string>
+    <string name="weekly_leaderboard">Weekly leaderboard</string>
+    <string name="_1">1</string>
+    <string name="_100_pts">100 pts</string>
 </resources>

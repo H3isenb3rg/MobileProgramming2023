@@ -12,6 +12,10 @@ import it.unibs.mp.horace.models.User.Companion.WORKGROUP_COLLECTION_NAME
 import it.unibs.mp.horace.models.WorkGroupMember
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Provides utilities for managing notifications for the current user.
+ * In a production app pretty much everything in this class should be done server-side.
+ */
 class UserNotificationManager {
     private val user = CurrentUser()
     private val db: FirebaseFirestore = Firebase.firestore
@@ -19,9 +23,9 @@ class UserNotificationManager {
         db.collection(User.COLLECTION_NAME).document(user.uid)
 
     /**
-     * The notifications sent to the current user.
+     * Fetches notifications sent to the current user.
      */
-    suspend fun notifications(): List<Notification> {
+    suspend fun fetchNotifications(): List<Notification> {
         return userDocument.collection(Notification.COLLECTION_NAME).get().await()
             .toObjects(Notification::class.java)
     }
@@ -41,7 +45,7 @@ class UserNotificationManager {
     }
 
     /**
-     * Accepts the specified notification.
+     * Accepts the specified invitation.
      */
     suspend fun acceptInvitation(notification: Notification) {
         if (notification.senderUid == null) {
@@ -133,7 +137,9 @@ class UserNotificationManager {
         ref.set(Notification(ref.id, type, user.uid)).await()
     }
 
-
+    /**
+     * Adds a listener for new notifications.
+     */
     fun addOnNotificationListener(callback: (List<Notification>) -> Unit) {
         userDocument.collection(Notification.COLLECTION_NAME)
             .whereEqualTo(Notification.IS_READ_FIELD, false).addSnapshotListener { snapshot, e ->

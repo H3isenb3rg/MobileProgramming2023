@@ -17,11 +17,6 @@ class EntryAdapter(memberData: List<TimeEntry>) :
     var onItemClick: ((String) -> Unit)? = null
 
     inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(membersList[adapterPosition].description)
-            }
-        }
 
         fun bind(result: TimeEntry) {
             itemView.findViewById<TextView>(R.id.activity_name).text = result.activity?.name

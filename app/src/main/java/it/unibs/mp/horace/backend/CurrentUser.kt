@@ -10,10 +10,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import it.unibs.mp.horace.models.LeaderboardItem
+import it.unibs.mp.horace.models.TimeEntry
 import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.models.User.Companion.FRIENDS_COLLECTION_NAME
 import it.unibs.mp.horace.models.User.Companion.WORKGROUP_COLLECTION_NAME
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDate
 
 class CurrentUser {
     companion object {
@@ -150,6 +153,40 @@ class CurrentUser {
         // Get the friends data from the ids
         return db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, friendsIds).get().await()
             .toObjects(User::class.java)
+    }
+
+    suspend fun weeklyLeaderboard(): List<LeaderboardItem> {
+        val leaderboard: MutableList<LeaderboardItem> = mutableListOf()
+
+        // Add the current user to the leaderboard
+        val userPointsInLastWeek = userDocument.collection(TimeEntry.COLLECTION_NAME).get().await()
+            .toObjects(TimeEntry::class.java).sumOf { it.points }
+        leaderboard.add(
+            LeaderboardItem(userData, userPointsInLastWeek)
+        )
+
+        // Get the friends ids
+        val friendsIds = userDocument.collection(FRIENDS_COLLECTION_NAME).get().await()
+            .mapNotNull { it.getString(User.UID_FIELD) }
+
+        // If the user has friends, add them to the leaderboard
+        if (friendsIds.isNotEmpty()) {
+            friends().forEach {
+                val friendEntries = db.collection(User.COLLECTION_NAME).document(it.uid)
+                    .collection(TimeEntry.COLLECTION_NAME).get().await()
+                    .toObjects(TimeEntry::class.java)
+
+                val lastWeekEntries = friendEntries.filter { entry ->
+                    entry.isInCurrentWeek()
+                }
+
+                leaderboard.add(
+                    LeaderboardItem(it, lastWeekEntries.sumOf { entry -> entry.points })
+                )
+            }
+        }
+
+        return leaderboard
     }
 
     /**
