@@ -40,6 +40,7 @@ class FirestoreJournal : Journal {
         return result
     }
 
+    // TODO: Entra con mappa
     override suspend fun addEntry(entry: TimeEntry) {
         val entriesCollection = db.collection(ENTRY_COLLECTION_NAME)
         val newDocument = entriesCollection.document()
