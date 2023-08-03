@@ -12,12 +12,15 @@ data class JournalDay(
         }
     }
 
+    /**
+     * Total time (in hours) of all the time entries
+     */
     var totalTime: Float = 0.0f
     var totalPoints: Int = 0
 
     init {
         for (entry in entries) {
-            totalTime += entry.timeDiffFloat()
+            totalTime += (entry.timeDiff() / 3600.0).toFloat()
             totalPoints += entry.points
         }
     }

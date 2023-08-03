@@ -1,6 +1,7 @@
 package it.unibs.mp.horace.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentActivitiesBinding
 import it.unibs.mp.horace.models.TimeEntry
 import it.unibs.mp.horace.ui.TopLevelFragment
@@ -30,14 +32,19 @@ class ActivitiesFragment : TopLevelFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewJournal.setOnClickListener {
-            findNavController().navigate(
-                ActivitiesFragmentDirections.actionActivitiesFragmentToHistoryFragment()
-            )
+            try {
+                CurrentUser()
+                findNavController().navigate(
+                    ActivitiesFragmentDirections.actionActivitiesFragmentToHistoryFragment()
+                )
+            } catch (e: IllegalAccessError) {
+                Log.w("Journal Disabled", e)
+            }
         }
 
         val timeEntries: List<TimeEntry> = listOf(TimeEntry(), TimeEntry(), TimeEntry())
         val mapOfTimeEntries =
-            timeEntries.groupBy { entry -> entry.startLocalDateTime().toLocalDate() }
+            timeEntries.groupBy { entry -> entry.startTime.toLocalDate() }
                 .mapValues { group -> group.value.size }
 
         val chartEntries: List<Entry> = mapOfTimeEntries.map {

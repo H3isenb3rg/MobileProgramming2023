@@ -54,7 +54,6 @@ open class JournalAdapter() :
 
 
     fun addData(list: List<JournalDay>) {
-        // TODO: Sort by most recent
         daysList.addAll(list.sortedByDescending { it.day })
         notifyItemRangeInserted(0, list.size)
     }

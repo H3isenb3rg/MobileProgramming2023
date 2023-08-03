@@ -1,17 +1,16 @@
 package it.unibs.mp.horace.models
 
-import com.google.firebase.Timestamp
+import android.util.Log
 import java.time.LocalDateTime
-import java.time.ZoneOffset
-import kotlin.reflect.typeOf
+import java.time.temporal.ChronoUnit
 
 data class TimeEntry(
     var id: String?,
     val description: String?,
     val activity: Activity?,
     val isPomodoro: Boolean,
-    val startTime: Timestamp,
-    val endTime: Timestamp,
+    val startTime: LocalDateTime,
+    val endTime: LocalDateTime,
     val points: Int,
     val owner: User?
 ) {
@@ -26,7 +25,7 @@ data class TimeEntry(
         const val END_FIELD = "endTime"
         const val POINTS_FIELD = "points"
         const val OWNER_FIELD = "owner"
-        fun parse(raw_data: Map<String, Any>): TimeEntry{
+        suspend fun parse(raw_data: Map<String, Any>): TimeEntry{
             var user: User? = null
             var desc: String? = null
 
@@ -38,11 +37,16 @@ data class TimeEntry(
             // val act = raw_data[ACT_FIELD]
             val act = Activity("testidact", "Mobile Programming", Area("testid", "UNI"))
             val pom = raw_data[POM_FIELD] as Boolean
-            val start = raw_data[START_FIELD] as Timestamp
-            val end = raw_data[END_FIELD] as Timestamp
-            val points = raw_data[POINTS_FIELD] as Int
+            val start = LocalDateTime.parse(raw_data[START_FIELD].toString())
+            val end = LocalDateTime.parse(raw_data[END_FIELD].toString())
+            val points = raw_data[POINTS_FIELD].toString().toInt()
             if (raw_data.containsKey(OWNER_FIELD)) {
-                user = raw_data[OWNER_FIELD] as User
+                val rawUser = raw_data[OWNER_FIELD]
+                user = if (rawUser is User) {
+                    rawUser
+                } else {
+                    User.fetchUser(rawUser.toString())
+                }
             }
 
             return TimeEntry(
@@ -52,7 +56,7 @@ data class TimeEntry(
     }
     // No-argument constructor required for Firestore.
     constructor() : this(
-        null, null, null, false, Timestamp.now(), Timestamp.now(), 0, null
+        null, null, null, false, LocalDateTime.now(), LocalDateTime.now(), 0, null
     )
 
     fun stringify(): HashMap<String, Any> {
@@ -60,11 +64,12 @@ data class TimeEntry(
                 ID_FIELD to id!!,
                 ACT_FIELD to activity!!.name,
                 POM_FIELD to isPomodoro,
-                START_FIELD to startTime,
-                END_FIELD to endTime,
+                START_FIELD to startTime.toString(),
+                END_FIELD to endTime.toString(),
                 POINTS_FIELD to points,
                 OWNER_FIELD to owner!!.uid
             )
+
         if (description != null) {
             entryMap[DESC_FIELD] = description
         }
@@ -72,30 +77,29 @@ data class TimeEntry(
     }
 
     fun isInCurrentWeek(): Boolean {
-        return startTime.seconds > (Timestamp.now().seconds - oneWeek)
+        return startTime.isAfter(LocalDateTime.now().minusWeeks(1))
     }
 
     fun startTimeString(): String {
-        val minutes = startLocalDateTime().minute.toString()
-        val hours = startLocalDateTime().hour.toString()
+        val minutes = startTime.minute.toString()
+        val hours = startTime.hour.toString()
         return hours + ":" + if (minutes.length < 2) "0${minutes}" else minutes
     }
 
     fun endTimeString(): String {
-        val minutes = endLocalDateTime().minute.toString()
-        val hours = endLocalDateTime().hour.toString()
+        val minutes = endTime.minute.toString()
+        val hours = endTime.hour.toString()
         return hours + ":" + if (minutes.length < 2) "0${minutes}" else minutes
     }
 
-    fun timeDiffFloat(): Float {
-        return ((endTime.seconds - startTime.seconds)/3600.0).toFloat()
+    /**
+     * Returns the duration of the time entry. By default uses unit = ChronoUnit.SECONDS
+     */
+    fun timeDiff(unit: ChronoUnit = ChronoUnit.SECONDS): Int {
+        return unit.between(startTime, endTime).toInt()
     }
 
-    fun startLocalDateTime(): LocalDateTime {
-        return LocalDateTime.ofEpochSecond(this.startTime.seconds, this.startTime.nanoseconds, ZoneOffset.UTC)
-    }
-
-    fun endLocalDateTime(): LocalDateTime {
-        return LocalDateTime.ofEpochSecond(this.endTime.seconds, this.endTime.nanoseconds, ZoneOffset.UTC)
+    fun timeDiffHoursFloat(): Float {
+        return (timeDiff() / 3600.0).toFloat()
     }
 }

@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.models.TimeEntry
-import java.time.Duration
 
 class EntryAdapter(memberData: List<TimeEntry>) :
     RecyclerView.Adapter<EntryAdapter.DataViewHolder>() {
@@ -21,7 +20,7 @@ class EntryAdapter(memberData: List<TimeEntry>) :
         fun bind(result: TimeEntry) {
             itemView.findViewById<TextView>(R.id.activity_name).text = result.activity?.name
             itemView.findViewById<TextView>(R.id.points).text = itemView.context.getString(R.string.entry_points, result.points)
-            itemView.findViewById<TextView>(R.id.activity_details).text = itemView.context.getString(R.string.activity_details, result.timeDiffFloat(), result.startTimeString(), result.endTimeString())
+            itemView.findViewById<TextView>(R.id.activity_details).text = itemView.context.getString(R.string.activity_details, result.timeDiffHoursFloat(), result.startTimeString(), result.endTimeString())
         }
     }
 

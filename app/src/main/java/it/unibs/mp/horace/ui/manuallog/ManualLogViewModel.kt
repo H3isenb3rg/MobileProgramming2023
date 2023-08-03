@@ -5,7 +5,9 @@ import com.google.firebase.Timestamp
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.models.User
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.Date
 
@@ -95,13 +97,13 @@ class ManualLogViewModel : ViewModel() {
         if (!isEverythingValid) {
             throw IllegalStateException()
         }
-        val startTimestamp = Timestamp(Date(startTime!!.toString()))
-        val endTimestamp = Timestamp(Date(endTime!!.toString()))
+        val startDateTime = LocalDateTime.of(date, startTime)
+        val endDateTime = LocalDateTime.of(date, endTime)
         val entry = hashMapOf<String, Any>(
             TimeEntry.ACT_FIELD to activity!!,
             TimeEntry.POM_FIELD to false,
-            TimeEntry.START_FIELD to startTimestamp,
-            TimeEntry.END_FIELD to endTimestamp,
+            TimeEntry.START_FIELD to startDateTime,
+            TimeEntry.END_FIELD to endDateTime,
             TimeEntry.POINTS_FIELD to 0,
         )
 

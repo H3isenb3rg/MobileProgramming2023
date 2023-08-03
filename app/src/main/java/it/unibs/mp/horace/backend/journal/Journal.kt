@@ -6,6 +6,13 @@ import it.unibs.mp.horace.models.TimeEntry
 import java.time.LocalDate
 
 interface Journal {
+    suspend fun getCurrentUid(): String {
+        return "local_user"
+    }
+
+    /**
+     * Returns a List of TimeEntry of all the time entries of the current user
+     */
     suspend fun entries(): List<TimeEntry>
 
     suspend fun userEntries(userId: String): List<TimeEntry>
@@ -40,7 +47,7 @@ interface Journal {
 
     suspend fun totalActivitiesInLastWeek(): Map<LocalDate, Int> {
         return entries().filter { entry -> entry.isInCurrentWeek() }
-            .groupBy { entry -> entry.startLocalDateTime().toLocalDate() }
+            .groupBy { entry -> entry.startTime.toLocalDate() }
             .mapValues { group -> group.value.size }
     }
 

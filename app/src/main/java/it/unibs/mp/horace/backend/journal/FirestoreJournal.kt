@@ -2,6 +2,7 @@ package it.unibs.mp.horace.backend.journal
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.backend.CurrentUser
@@ -14,6 +15,10 @@ import kotlinx.coroutines.tasks.await
 class FirestoreJournal : Journal {
     companion object {
         const val TAG = "Firestore Journal"
+    }
+
+    override suspend fun getCurrentUid(): String {
+        return user.uid
     }
 
     /**
@@ -46,18 +51,20 @@ class FirestoreJournal : Journal {
     }
 
     override suspend fun userEntries(userId: String): List<TimeEntry> {
-        val result: ArrayList<TimeEntry> = ArrayList()
-        entriesCollection.whereEqualTo(TimeEntry.OWNER_FIELD, userId).get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    result.add(TimeEntry.parse(document.data))
-                }
-                return@addOnSuccessListener
-            }
+        val getEntriesTask = entriesCollection.whereEqualTo(TimeEntry.OWNER_FIELD, userId).get()
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents: ", exception)
                 throw exception
-            }.await()
+            }.addOnCanceledListener {
+                Log.w(TAG, "Entries Fetch job cancelled")
+                throw UnknownError("Perché dio madonna ha cancellato il job")
+            }
+        getEntriesTask.await()
+        val querySnapshot: QuerySnapshot = getEntriesTask.result
+        val result: ArrayList<TimeEntry> = ArrayList()
+        for (doc in querySnapshot) {
+            result.add(TimeEntry.parse(doc.data))
+        }
         return result
     }
 
