@@ -121,7 +121,7 @@
     <string name="suggested_friends">Suggested friends</string>
     <string name="send_request">Send request</string>
     <string name="today">Today</string>
-    <string name="journal_item_summary">%.2f hours - %d points</string>
+    <string name="journal_item_summary">%s hours - %d points</string>
     <string name="activity_name">Activity Name</string>
     <string name="activity_details">%.2f hours from %s to %s</string>
     <string name="entry_points">%d points</string>

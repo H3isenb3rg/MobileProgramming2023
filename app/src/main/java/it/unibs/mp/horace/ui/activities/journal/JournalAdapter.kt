@@ -45,7 +45,7 @@ open class JournalAdapter() :
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val result = daysList[position]
         holder.date_tv.text = result.getDayString()
-        holder.summary_tv.text = holder.itemView.context.getString(R.string.journal_item_summary, result.totalTime, result.totalPoints)
+        holder.summary_tv.text = holder.itemView.context.getString(R.string.journal_item_summary, result.totalTimeString(), result.totalPoints)
         val childMembersAdapter = EntryAdapter(result.entries)
         holder.entries_rw.adapter = childMembersAdapter
     }

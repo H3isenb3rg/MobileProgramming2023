@@ -43,7 +43,6 @@ data class JournalDay(
         }
     }
 
-    // FIXME: Totale ore togliere .00
     fun getDayString(): String {
         val today: LocalDate = LocalDate.now()
         if (today == this.day) {
@@ -55,5 +54,13 @@ data class JournalDay(
         }
 
         return this.day.dayOfMonth.toString() + "/" + this.day.monthValue.toString() + "/" + this.day.year.toString()
+    }
+
+    fun totalTimeString(): String {
+        val intTotal = totalTime.toInt()
+        if (totalTime == intTotal.toFloat()) {
+            return intTotal.toString()
+        }
+        return "%.2f".format(totalTime)
     }
 }
