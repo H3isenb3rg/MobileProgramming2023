@@ -3,12 +3,30 @@ package it.unibs.mp.horace.models
 import java.time.LocalDate
 
 data class JournalDay(
-    val entries: List<TimeEntry>,
+    val entries: ArrayList<TimeEntry>,
     val day: LocalDate
 ){
     companion object {
         fun split(entries: List<TimeEntry>): List<JournalDay> {
-            TODO("Implement method to split raw list of entries")
+            val daysList = ArrayList<JournalDay>()
+            if (entries.isEmpty()) {
+                return daysList
+            }
+            val days = HashMap<String, JournalDay>()
+            for (entry in entries) {
+                val currDay = entry.startTime.toLocalDate()
+                val currDayString = currDay.toString()
+                if (days.containsKey(currDayString)) {
+                    val currJournalDay = days[currDayString]!!
+                    currJournalDay.entries.add(entry)
+                } else {
+                    val newEntries = ArrayList<TimeEntry>()
+                    newEntries.add(entry)
+                    days[currDayString] = JournalDay(newEntries, currDay)
+                }
+            }
+            daysList.addAll(days.values)
+            return daysList
         }
     }
 

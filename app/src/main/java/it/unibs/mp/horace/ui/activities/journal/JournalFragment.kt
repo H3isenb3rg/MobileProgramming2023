@@ -33,20 +33,18 @@ class JournalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var entries: List<TimeEntry> = ArrayList()
-        val daysList: ArrayList<JournalDay> = ArrayList()
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
-        // FIXME: First debug version
         lifecycleScope.launch {
             entries = firestoreJournal.entries()
         }.invokeOnCompletion {
             if (entries.isEmpty()) {
                 return@invokeOnCompletion
             }
-            daysList.add(JournalDay(entries, entries[0].startTime.toLocalDate()))
+            journalDays.addAll(JournalDay.split(entries))
             val adapter = JournalAdapter()
             binding.journalsView.adapter = adapter
-            adapter.addData(daysList)
+            adapter.addData(journalDays)
         }
     }
 
