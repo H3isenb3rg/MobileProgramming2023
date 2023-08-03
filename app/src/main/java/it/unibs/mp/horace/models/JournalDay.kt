@@ -33,15 +33,22 @@ data class JournalDay(
     /**
      * Total time (in hours) of all the time entries
      */
-    var totalTime: Float = 0.0f
-    var totalPoints: Int = 0
-
-    init {
-        for (entry in entries) {
-            totalTime += (entry.timeDiff() / 3600.0).toFloat()
-            totalPoints += entry.points
+    private val totalTime: Float
+        get() {
+            var sum = 0.0f
+            entries.forEach {
+                sum += (it.timeDiff() / 3600.0).toFloat()
+            }
+            return sum
         }
-    }
+    val totalPoints: Int
+        get() {
+            var sum = 0
+            entries.forEach {
+                sum += it.points
+            }
+            return sum
+        }
 
     fun getDayString(): String {
         val today: LocalDate = LocalDate.now()
