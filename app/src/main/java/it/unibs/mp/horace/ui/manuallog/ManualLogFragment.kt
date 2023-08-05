@@ -13,12 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import it.unibs.mp.horace.ManualLogGraphDirections
 import it.unibs.mp.horace.databinding.FragmentManualLogBinding
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.ui.activities.ActivitiesFragmentDirections
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import java.time.LocalDate
 import java.time.LocalTime
 

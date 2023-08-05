@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.manualAdd.setOnClickListener {
-            navController.navigate(MainNavDirections.actionGlobalManualLog())
+            navController.navigate(MainNavDirections.actionGlobalManualLogFragment())
         }
     }
 

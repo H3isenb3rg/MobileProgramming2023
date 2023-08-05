@@ -142,8 +142,8 @@ class HomeFragment : TopLevelFragment() {
                     binding.activityPicker.text = pickedActivity!!.name
                     dialog.dismiss()
                 }
-                .setNeutralButton("Close") { dialog, _ ->
-                    dialog.dismiss()
+                .setNeutralButton("Create new Activity") { dialog, _ ->
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewActivityFragment())
                 }
                 .setNegativeButton("Clear") { dialog, _ ->
                     binding.activityPicker.text = resources.getString(R.string.select_activity)
