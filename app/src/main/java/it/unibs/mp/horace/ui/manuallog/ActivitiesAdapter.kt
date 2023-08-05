@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import com.google.android.material.chip.Chip
+import com.google.android.material.textview.MaterialTextView
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.models.Activity
 
@@ -79,7 +80,7 @@ class ActivitiesAdapter(
 
         // Get the views
         val activity: TextView = layout.findViewById(R.id.activity)
-        val area: Chip = layout.findViewById(R.id.area)
+        val area: MaterialTextView = layout.findViewById(R.id.area)
 
         val item = filteredDataset[position]
 
@@ -91,7 +92,7 @@ class ActivitiesAdapter(
             area.visibility = View.GONE
         } else {
             area.text = item.area?.name
-            area.visibility = View.VISIBLE  // FIXME: Il chip per qualche motivo rende l'opzione non cliccabile
+            area.visibility = View.VISIBLE
         }
 
         return layout
