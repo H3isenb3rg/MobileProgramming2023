@@ -5,10 +5,6 @@ import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.TimeEntry
 
 class RoomJournal : Journal {
-    override suspend fun entries(): List<TimeEntry> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun userEntries(userId: String): List<TimeEntry> {
         TODO("Not yet implemented")
     }
@@ -25,11 +21,11 @@ class RoomJournal : Journal {
         TODO("Not yet implemented")
     }
 
-    override suspend fun activities(): List<Activity> {
+    override suspend fun userActivities(userId: String): List<Activity> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun userActivities(userId: String): List<Activity> {
+    override suspend fun getUserActivity(activityID: String, userID: String): Activity {
         TODO("Not yet implemented")
     }
 
@@ -42,10 +38,6 @@ class RoomJournal : Journal {
     }
 
     override suspend fun removeActivity(activity: Activity) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun areas(): List<Area> {
         TODO("Not yet implemented")
     }
 
@@ -62,10 +54,6 @@ class RoomJournal : Journal {
     }
 
     override suspend fun removeArea(area: Area) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getArea(areaID: String): Area {
         TODO("Not yet implemented")
     }
 

@@ -12,10 +12,10 @@ interface Journal {
 
     /**
      * Returns a List of [TimeEntry] of all the time entries of the current user.
-     *
-     * (Should call [userEntries] with the current logged user id)
      */
-    suspend fun entries(): List<TimeEntry>
+    suspend fun entries(): List<TimeEntry> {
+        return userEntries(getCurrentUid())
+    }
 
     /**
      * Returns a List of [TimeEntry] of all the time entries of the specified user
@@ -28,9 +28,17 @@ interface Journal {
 
     suspend fun removeEntry(entry: TimeEntry)
 
-    suspend fun activities(): List<Activity>
+    suspend fun activities(): List<Activity> {
+        return userActivities(getCurrentUid())
+    }
 
     suspend fun userActivities(userId: String): List<Activity>
+
+    suspend fun getActivity(activityID: String): Activity {
+        return getUserActivity(activityID, getCurrentUid())
+    }
+
+    suspend fun getUserActivity(activityID: String, userID: String): Activity
 
     suspend fun addActivity(raw_activity: HashMap<String, Any>): Activity
 
@@ -38,7 +46,9 @@ interface Journal {
 
     suspend fun removeActivity(activity: Activity)
 
-    suspend fun areas(): List<Area>
+    suspend fun areas(): List<Area> {
+        return userAreas(getCurrentUid())
+    }
 
     suspend fun userAreas(uid: String): List<Area>
 
@@ -48,7 +58,9 @@ interface Journal {
 
     suspend fun removeArea(area: Area)
 
-    suspend fun getArea(areaID: String): Area
+    suspend fun getArea(areaID: String): Area {
+        return getUserArea(getCurrentUid(), areaID)
+    }
 
     suspend fun getUserArea(userID: String, areaID: String): Area
 

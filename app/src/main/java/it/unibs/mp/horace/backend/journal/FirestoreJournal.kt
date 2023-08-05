@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.backend.CurrentUser
@@ -61,10 +60,6 @@ class FirestoreJournal : Journal {
         return getUserDocument(uid).collection(Area.COLLECTION_NAME)
     }
 
-    override suspend fun entries(): List<TimeEntry> {
-        return userEntries(user.uid)
-    }
-
     override suspend fun userEntries(userId: String): List<TimeEntry> {
         val querySnapshot = getEntriesCollection(userId).whereEqualTo(TimeEntry.OWNER_FIELD, userId).get()
             .addOnFailureListener { exception ->
@@ -72,20 +67,21 @@ class FirestoreJournal : Journal {
                 throw exception
             }.addOnCanceledListener {
                 Log.w(TAG, "Entries Fetch job cancelled")
-                throw UnknownError("Perché dio madonna ha cancellato il job")
             }.await()
 
         val result: ArrayList<TimeEntry> = ArrayList()
         for (doc in querySnapshot) {
-            result.add(TimeEntry.parse(doc.data))
+            val docData = fillEntryMap(doc.data.toMutableMap(), userId)
+            result.add(TimeEntry.parse(docData))
         }
         return result
     }
 
     override suspend fun addEntry(raw_entry: HashMap<String, Any>): TimeEntry {
-        val newDocument = getEntriesCollection(user.uid).document()
+        val newDocument = getEntriesCollection(getCurrentUid()).document()
         raw_entry[TimeEntry.ID_FIELD] = newDocument.id
         raw_entry[TimeEntry.OWNER_FIELD] = user.userData
+
         val timeEntry: TimeEntry = TimeEntry.parse(raw_entry)
         newDocument.set(timeEntry.stringify()).await()
         return timeEntry
@@ -99,10 +95,6 @@ class FirestoreJournal : Journal {
         TODO("Not yet implemented")
     }
 
-    override suspend fun activities(): List<Activity> {
-        return userActivities(user.uid)
-    }
-
     override suspend fun userActivities(userId: String): List<Activity> {
         val result: ArrayList<Activity> = ArrayList()
         val documents = getActivitiesCollection(userId).get()
@@ -112,24 +104,24 @@ class FirestoreJournal : Journal {
             }.await()
 
         for (document in documents) {
-            val docData = document.data
-            if (docData.containsKey(Activity.AREA_FIELD) && docData[Activity.AREA_FIELD] != null) {
-                docData[Activity.AREA_FIELD] = getUserArea(userId, docData[Activity.AREA_FIELD].toString())
-            }
+            val docData = fillActivityMap(document.data, userId)
             result.add(Activity.parse(docData))
         }
         return result
     }
 
+    override suspend fun getUserActivity(activityID: String, userID: String): Activity {
+        val documentData = fillActivityMap(getActivitiesCollection(userID).document(activityID).get().await().data?.toMutableMap()!!, userID)
+        return Activity.parse(documentData)
+    }
+
     override suspend fun addActivity(raw_activity: HashMap<String, Any>): Activity {
-        val newDocument = getActivitiesCollection(user.uid).document()
-        raw_activity[Activity.ID_FIELD] = newDocument.id
-        if (raw_activity.containsKey(Activity.AREA_FIELD) && raw_activity[Activity.AREA_FIELD] != null) {
-            if (raw_activity[Activity.AREA_FIELD] is String) {
-                raw_activity[Activity.AREA_FIELD] = getUserArea(user.uid, raw_activity[Activity.AREA_FIELD].toString())
-            }
-        }
-        val activity: Activity = Activity.parse(raw_activity)
+        val userID = getCurrentUid()
+        val newDocument = getActivitiesCollection(userID).document()
+        val completeActivity = fillActivityMap(raw_activity, userID)
+        completeActivity[Activity.ID_FIELD] = newDocument.id
+
+        val activity: Activity = Activity.parse(completeActivity)
         newDocument.set(activity.stringify()).await()
         return activity
     }
@@ -140,10 +132,6 @@ class FirestoreJournal : Journal {
 
     override suspend fun removeActivity(activity: Activity) {
         TODO("Not yet implemented")
-    }
-
-    override suspend fun areas(): List<Area> {
-        return userAreas(user.uid)
     }
 
     override suspend fun userAreas(uid: String): List<Area> {
@@ -161,7 +149,7 @@ class FirestoreJournal : Journal {
     }
 
     override suspend fun addArea(name: String): Area {
-        val newDocument = getAreaCollection(user.uid).document()
+        val newDocument = getAreaCollection(getCurrentUid()).document()
         val newID = newDocument.id
         val area: Area = Area.parse(hashMapOf(Area.ID_FIELD to newID, Area.NAME_FIELD to name))
         newDocument.set(area.stringify()).await()
@@ -174,10 +162,6 @@ class FirestoreJournal : Journal {
 
     override suspend fun removeArea(area: Area) {
         TODO("Not yet implemented")
-    }
-
-    override suspend fun getArea(areaID: String): Area {
-        return getUserArea(user.uid, areaID)
     }
 
     override suspend fun getUserArea(userID: String, areaID: String): Area {
@@ -195,5 +179,29 @@ class FirestoreJournal : Journal {
 
     override suspend fun increaseStreak() {
         TODO("Not yet implemented")
+    }
+
+    /**
+     * Fills the given raw MutableMap of the Activity document. Fills the Area fild with the correct Area object
+     */
+    suspend fun fillActivityMap(raw_activity: MutableMap<String, Any>, userID: String): MutableMap<String, Any> {
+        if (raw_activity.containsKey(Activity.AREA_FIELD) && raw_activity[Activity.AREA_FIELD] != null) {
+            if (raw_activity[Activity.AREA_FIELD] is String) {
+                raw_activity[Activity.AREA_FIELD] = getUserArea(userID, raw_activity[Activity.AREA_FIELD].toString())
+            }
+        }
+        return raw_activity
+    }
+
+    /**
+     * Fills the given raw MutableMap of the TimeEntry document. Fills the Activity field with the correct Activity object
+     */
+    suspend fun fillEntryMap(raw_entry: MutableMap<String, Any>, userID: String): MutableMap<String, Any> {
+        if (raw_entry.containsKey(TimeEntry.ACT_FIELD) && raw_entry[TimeEntry.ACT_FIELD] != null) {
+            if (raw_entry[TimeEntry.ACT_FIELD] is String) {
+                raw_entry[TimeEntry.ACT_FIELD] = getUserActivity(raw_entry[TimeEntry.ACT_FIELD].toString(), userID)
+            }
+        }
+        return raw_entry
     }
 }

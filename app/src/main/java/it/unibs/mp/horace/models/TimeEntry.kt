@@ -34,8 +34,8 @@ data class TimeEntry(
                 desc = raw_data[DESC_FIELD].toString()
             }
             // TODO: Costruttore di Activity che recupera oggetto completo
-            // val act = raw_data[ACT_FIELD]
-            val act = Activity("testidact", "Mobile Programming", Area("testid", "UNI"))
+            val act = raw_data[ACT_FIELD] as Activity
+            // val act = Activity("testidact", "Mobile Programming", Area("testid", "UNI"))
             val pom = raw_data[POM_FIELD] as Boolean
             val start = LocalDateTime.parse(raw_data[START_FIELD].toString())
             val end = LocalDateTime.parse(raw_data[END_FIELD].toString())
@@ -62,7 +62,7 @@ data class TimeEntry(
     fun stringify(): HashMap<String, Any> {
         val entryMap: HashMap<String, Any> = hashMapOf(
                 ID_FIELD to id!!,
-                ACT_FIELD to activity!!.name,
+                ACT_FIELD to activity!!.id,
                 POM_FIELD to isPomodoro,
                 START_FIELD to startTime.toString(),
                 END_FIELD to endTime.toString(),
