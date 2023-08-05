@@ -42,4 +42,12 @@ data class Activity(var id: String, var name: String, var area: Area?) {
     fun fitsSearch(searchText: String): Boolean {
         return name.lowercase().contains(searchText.lowercase())
     }
+
+    override fun toString(): String {
+        return if (area != null) {
+            "[${area!!.name}] $name"
+        } else {
+            name
+        }
+    }
 }
