@@ -49,7 +49,11 @@ class RoomJournal : Journal {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addArea(area: Area) {
+    override suspend fun userAreas(uid: String): List<Area> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun addArea(name: String): Area {
         TODO("Not yet implemented")
     }
 
@@ -58,6 +62,14 @@ class RoomJournal : Journal {
     }
 
     override suspend fun removeArea(area: Area) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getArea(areaID: String): Area {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getUserArea(userID: String, areaID: String): Area {
         TODO("Not yet implemented")
     }
 

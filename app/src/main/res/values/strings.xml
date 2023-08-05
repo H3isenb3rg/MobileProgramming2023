@@ -138,4 +138,9 @@
     <string name="weekly_leaderboard">Weekly leaderboard</string>
     <string name="_1">1</string>
     <string name="_100_pts">100 pts</string>
+    <string name="area">Area</string>
+    <string name="add">Add</string>
+    <string name="areaPrompt">Area (Optional)</string>
+    <string name="add_new">Add New</string>
+    <string name="add_new_activity">Add New Activity</string>
 </resources>

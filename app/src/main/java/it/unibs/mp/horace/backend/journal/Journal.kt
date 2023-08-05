@@ -11,10 +11,15 @@ interface Journal {
     }
 
     /**
-     * Returns a List of TimeEntry of all the time entries of the current user
+     * Returns a List of [TimeEntry] of all the time entries of the current user.
+     *
+     * (Should call [userEntries] with the current logged user id)
      */
     suspend fun entries(): List<TimeEntry>
 
+    /**
+     * Returns a List of [TimeEntry] of all the time entries of the specified user
+     */
     suspend fun userEntries(userId: String): List<TimeEntry>
 
     suspend fun addEntry(raw_entry: HashMap<String, Any>): TimeEntry
@@ -35,11 +40,17 @@ interface Journal {
 
     suspend fun areas(): List<Area>
 
-    suspend fun addArea(area: Area)
+    suspend fun userAreas(uid: String): List<Area>
+
+    suspend fun addArea(name: String): Area
 
     suspend fun updateArea(area: Area)
 
     suspend fun removeArea(area: Area)
+
+    suspend fun getArea(areaID: String): Area
+
+    suspend fun getUserArea(userID: String, areaID: String): Area
 
     suspend fun streak(): Int
 

@@ -15,22 +15,44 @@
         android:text="@string/manual_logs_warning"
         android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-    <!-- Activity -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/activity"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+
+    <!-- activity -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/activity"
-        app:errorEnabled="true">
+        android:orientation="vertical">
 
-        <AutoCompleteTextView
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/new_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            app:icon="@drawable/baseline_add_24"
+            app:iconGravity="textStart"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/add_new_activity"
+            android:paddingHorizontal="5dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/activity"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/activity" />
+            android:hint="@string/activity"
+            android:paddingBottom="0dp"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toBottomOf="@id/new_activity">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/activity"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Date -->
     <com.google.android.material.textfield.TextInputLayout

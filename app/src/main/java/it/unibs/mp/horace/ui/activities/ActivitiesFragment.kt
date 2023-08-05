@@ -13,9 +13,6 @@ import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentActivitiesBinding
 import it.unibs.mp.horace.models.TimeEntry
 import it.unibs.mp.horace.ui.TopLevelFragment
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.Calendar
 
 class ActivitiesFragment : TopLevelFragment() {
     private var _binding: FragmentActivitiesBinding? = null

@@ -12,7 +12,7 @@ data class Activity(var id: String, var name: String, var area: Area?) {
             val id = raw_data[ID_FIELD].toString()
             val name = raw_data[NAME_FIELD].toString()
             var area: Area? = null
-            if (raw_data.containsKey(AREA_FIELD)) {
+            if (raw_data.containsKey(AREA_FIELD) && raw_data[AREA_FIELD] != null) {
                 area = raw_data[AREA_FIELD] as Area
             }
 

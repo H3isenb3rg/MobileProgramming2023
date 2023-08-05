@@ -256,11 +256,6 @@
     </navigation>
 
     <!-- Manual Log -->
-    <fragment
-        android:id="@+id/manualLogFragment"
-        android:name="it.unibs.mp.horace.ui.manuallog.ManualLogFragment"
-        android:label="@string/manual_log"
-        tools:layout="@layout/fragment_manual_log" />
 
     <!-- Notifications -->
     <fragment
@@ -403,9 +398,28 @@
 
     <action
         android:id="@+id/action_global_manualLog"
-        app:destination="@id/manualLogFragment"
+        app:destination="@id/manualLogGraph"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@animator/nav_default_exit_anim"
         app:popEnterAnim="@animator/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <navigation android:id="@+id/manualLogGraph"
+        app:startDestination="@id/manualLogFragment">
+        <fragment
+            android:id="@+id/manualLogFragment"
+            android:name="it.unibs.mp.horace.ui.manuallog.ManualLogFragment"
+            android:label="@string/manual_log"
+            tools:layout="@layout/fragment_manual_log">
+            <action
+                android:id="@+id/action_manualLogFragment_to_newActivityFragment"
+                app:destination="@id/newActivityFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+        </fragment>
+        <fragment
+            android:id="@+id/newActivityFragment"
+            android:name="it.unibs.mp.horace.ui.activities.NewActivityFragment"
+            android:label="fragment_new_activity"
+            tools:layout="@layout/fragment_new_activity" />
+    </navigation>
 </navigation>

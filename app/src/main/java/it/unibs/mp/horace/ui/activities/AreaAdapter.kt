@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.manuallog
+package it.unibs.mp.horace.ui.activities
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,20 +9,17 @@ import android.widget.Filter
 import android.widget.TextView
 import com.google.android.material.chip.Chip
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.Activity
+import it.unibs.mp.horace.models.Area
 
-/**
- * Adapter for the activities dropdown.
- */
-class ActivitiesAdapter(
+class AreaAdapter(
     context: Context,
-    private val dataset: List<Activity>,
-) : ArrayAdapter<Activity>(context, R.layout.activity_item, dataset) {
+    private val dataset: List<Area>,
+) : ArrayAdapter<Area>(context, R.layout.area_item, dataset) {
 
     // Contains only the items that match the search query.
     // The elements of the original dataset are copied.
-    private val filteredDataset: ArrayList<Activity> =
-        arrayListOf<Activity>().apply { addAll(dataset) }
+    private val filteredDataset: ArrayList<Area> =
+        arrayListOf<Area>().apply { addAll(dataset) }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return createViewFromResource(position, convertView, parent)
@@ -32,7 +29,7 @@ class ActivitiesAdapter(
         return createViewFromResource(position, convertView, parent)
     }
 
-    override fun getFilter(): Filter {  // FIXME: Scrivendo sbomba perchè sembra
+    override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = when {
@@ -56,12 +53,12 @@ class ActivitiesAdapter(
 
                     // Here we are sure that the values are of type ArrayList<Activity>.
                     // So the cast is safe.
-                    @Suppress("UNCHECKED_CAST") filteredDataset.addAll(results.values as ArrayList<Activity>)
+                    @Suppress("UNCHECKED_CAST") filteredDataset.addAll(results.values as ArrayList<Area>)
 
                     if (results.count > 0) {
                         // Tracking what changed in the dataset is too expensive,
                         // so we just notify the adapter that the whole dataset changed.
-                        notifyDataSetChanged()
+                        @Suppress("NotifyDataSetChanged") notifyDataSetChanged()
                     } else {
                         notifyDataSetInvalidated()
                     }
@@ -75,24 +72,14 @@ class ActivitiesAdapter(
     ): View {
         // If there is no view to reuse, inflate a new one
         val layout = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.activity_item, parent, false)
+            .inflate(R.layout.area_item, parent, false)
 
         // Get the views
-        val activity: TextView = layout.findViewById(R.id.activity)
-        val area: Chip = layout.findViewById(R.id.area)
+        val area: TextView = layout.findViewById(R.id.area)
 
         val item = filteredDataset[position]
 
-        activity.text = item.name
-
-        // Hide the area chip if the activity has no area,
-        // otherwise set the area name
-        if (item.area == null) {
-            area.visibility = View.GONE
-        } else {
-            area.text = item.area?.name
-            area.visibility = View.VISIBLE  // FIXME: Il chip per qualche motivo rende l'opzione non cliccabile
-        }
+        area.text = item.name
 
         return layout
     }
