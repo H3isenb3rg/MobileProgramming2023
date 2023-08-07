@@ -26,8 +26,8 @@ class UserNotificationManager {
      * Fetches notifications sent to the current user.
      */
     suspend fun fetchNotifications(): List<Notification> {
-        return userDocument.collection(Notification.COLLECTION_NAME).get().await().documents
-            .map { Notification.parse(it.data!!) }
+        return userDocument.collection(Notification.COLLECTION_NAME).get().await()
+            .mapNotNull { Notification.parse(it.data) }
     }
 
     /**
@@ -148,7 +148,7 @@ class UserNotificationManager {
                 }
 
                 if (snapshot != null) {
-                    val notifications = snapshot.documents.map { Notification.parse(it.data!!) }
+                    val notifications = snapshot.mapNotNull { Notification.parse(it.data) }
                     if (notifications.isNotEmpty()) {
                         callback(notifications)
                     }

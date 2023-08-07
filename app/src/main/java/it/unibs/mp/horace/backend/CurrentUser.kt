@@ -10,13 +10,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import it.unibs.mp.horace.models.LeaderboardItem
 import it.unibs.mp.horace.models.TimeEntry
 import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.models.User.Companion.FRIENDS_COLLECTION_NAME
 import it.unibs.mp.horace.models.User.Companion.WORKGROUP_COLLECTION_NAME
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
 
 class CurrentUser {
     companion object {
@@ -152,7 +150,7 @@ class CurrentUser {
 
         // Get the friends data from the ids
         return db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, friendsIds).get().await()
-            .toObjects(User::class.java)
+            .mapNotNull { User.parse(it.data) }
     }
 
     suspend fun weeklyLeaderboard(): List<LeaderboardItem> {
@@ -160,7 +158,8 @@ class CurrentUser {
 
         // Add the current user to the leaderboard
         val userPointsInLastWeek = userDocument.collection(TimeEntry.COLLECTION_NAME).get().await()
-            .toObjects(TimeEntry::class.java).sumOf { it.points }
+            .mapNotNull { TimeEntry.parse(it.data) }
+            .sumOf { it.points }
         leaderboard.add(
             LeaderboardItem(userData, userPointsInLastWeek)
         )
@@ -174,7 +173,7 @@ class CurrentUser {
             friends().forEach {
                 val friendEntries = db.collection(User.COLLECTION_NAME).document(it.uid)
                     .collection(TimeEntry.COLLECTION_NAME).get().await()
-                    .toObjects(TimeEntry::class.java)
+                    .mapNotNull { TimeEntry.parse(it.data) }
 
                 val lastWeekEntries = friendEntries.filter { entry ->
                     entry.isInCurrentWeek()
@@ -203,7 +202,7 @@ class CurrentUser {
 
         // Get the workgroup data from the ids
         return db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, workgroupIds).get()
-            .await().toObjects(User::class.java)
+            .await().mapNotNull { User.parse(it.data) }
     }
 
     suspend fun friendsNotInWorkGroup(): List<User> {
@@ -218,7 +217,8 @@ class CurrentUser {
 
         // Return all friends not in workgroup
         return userDocument.collection(FRIENDS_COLLECTION_NAME)
-            .whereNotIn(User.UID_FIELD, workgroupIds).get().await().toObjects(User::class.java)
+            .whereNotIn(User.UID_FIELD, workgroupIds).get().await()
+            .mapNotNull { User.parse(it.data) }
     }
 
     /**
@@ -281,7 +281,7 @@ class CurrentUser {
      * Updates the user document.
      */
     private suspend fun updateUserDocument() {
-        userDocument.set(userData).await()
+        userDocument.set(userData.stringify()).await()
     }
 
     /**
