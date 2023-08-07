@@ -1,19 +1,25 @@
 package it.unibs.mp.horace.models
 
+/**
+ * Represents an activity that can be tracked.
+ */
 data class Activity(var id: String, var name: String, var area: Area?) {
-
     companion object {
         const val COLLECTION_NAME = "activities"
         const val ID_FIELD = "id"
         const val NAME_FIELD = "name"
         const val AREA_FIELD = "area"
 
-        fun parse(raw_data: Map<String, Any>): Activity{
-            val id = raw_data[ID_FIELD].toString()
-            val name = raw_data[NAME_FIELD].toString()
-            var area: Area? = null
-            if (raw_data.containsKey(AREA_FIELD) && raw_data[AREA_FIELD] != null) {
-                area = raw_data[AREA_FIELD] as Area
+        /**
+         * Parses a map into an Activity object.
+         */
+        fun parse(data: Map<String, Any>): Activity {
+            val id = data[ID_FIELD].toString()
+            val name = data[NAME_FIELD].toString()
+            val area = if (data.containsKey(AREA_FIELD) && data[AREA_FIELD] != null) {
+                data[AREA_FIELD] as Area
+            } else {
+                null
             }
 
             return Activity(id, name, area)
@@ -25,6 +31,9 @@ data class Activity(var id: String, var name: String, var area: Area?) {
         "", "", null
     )
 
+    /**
+     * Parses the object into a map.
+     */
     fun stringify(): HashMap<String, Any> {
         val activityMap: HashMap<String, Any> = hashMapOf(
             ID_FIELD to id,
@@ -41,13 +50,5 @@ data class Activity(var id: String, var name: String, var area: Area?) {
      */
     fun fitsSearch(searchText: String): Boolean {
         return name.lowercase().contains(searchText.lowercase())
-    }
-
-    override fun toString(): String {
-        return if (area != null) {
-            "[${area!!.name}] $name"
-        } else {
-            name
-        }
     }
 }

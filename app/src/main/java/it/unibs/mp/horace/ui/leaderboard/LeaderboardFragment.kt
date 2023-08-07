@@ -10,9 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.LeaderboardItem
 import it.unibs.mp.horace.backend.UserNotificationManager
 import it.unibs.mp.horace.databinding.FragmentLeaderboardBinding
-import it.unibs.mp.horace.models.LeaderboardItem
 import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.ui.TopLevelFragment
 import kotlinx.coroutines.launch

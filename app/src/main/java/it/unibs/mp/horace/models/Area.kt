@@ -6,9 +6,9 @@ data class Area(var id: String, var name: String) {
         const val ID_FIELD = "id"
         const val NAME_FIELD = "name"
 
-        fun parse(raw_data: Map<String, Any>): Area{
-            val id = raw_data[ID_FIELD].toString()
-            val name = raw_data[NAME_FIELD].toString()
+        fun parse(data: Map<String, Any>): Area {
+            val id = data[ID_FIELD].toString()
+            val name = data[NAME_FIELD].toString()
             return Area(id, name)
         }
     }
@@ -21,6 +21,7 @@ data class Area(var id: String, var name: String) {
     }
 
     // No-argument constructor required for Firestore.
+    @Suppress("unused")
     constructor() : this("", "")
 
     /**

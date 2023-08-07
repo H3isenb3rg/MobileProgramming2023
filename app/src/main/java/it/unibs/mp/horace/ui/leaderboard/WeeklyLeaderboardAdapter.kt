@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.LeaderboardItem
+import it.unibs.mp.horace.backend.LeaderboardItem
 
 class WeeklyLeaderboardAdapter(
     private val dataset: List<LeaderboardItem>

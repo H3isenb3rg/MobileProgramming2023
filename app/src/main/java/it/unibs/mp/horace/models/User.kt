@@ -1,12 +1,7 @@
 package it.unibs.mp.horace.models
 
 import android.net.Uri
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.CurrentUser
-import kotlinx.coroutines.tasks.await
 
 data class User(
     var uid: String,
@@ -21,39 +16,46 @@ data class User(
         const val UID_FIELD = "uid"
         const val EMAIL_FIELD = "email"
         const val PHOTO_URL_FIELD = "photoUrl"
-        const val PROFILE_PHOTO_FIELD = "profilePhoto"
         const val USERNAME_FIELD = "username"
-        suspend fun fetchUser(uid: String): User? {
-            var user: User? = null
-            Firebase.firestore.collection(COLLECTION_NAME).document(uid).get()
-                .addOnSuccessListener {
-                    if (it == null) {
-                        user = null
-                        return@addOnSuccessListener
-                    }
-                    user = it.data?.let { it1 -> User.parse(it1) }
-                }.addOnFailureListener {
-                    user = null
-                }.await()
-            return user
-        }
 
-        fun parse(raw_data: Map<String, Any>): User {
-            val uid = raw_data[UID_FIELD].toString()
-            val email = raw_data[EMAIL_FIELD].toString()
-
-            var username: String? = null
-            if (raw_data[USERNAME_FIELD] != null) {
-                username = raw_data[USERNAME_FIELD].toString()
+        /**
+         * Parses a [Map] into a [User] object.
+         */
+        fun parse(data: Map<String, Any>): User {
+            val uid = data[UID_FIELD].toString()
+            val email = data[EMAIL_FIELD].toString()
+            val username = if (data[USERNAME_FIELD] != null) {
+                data[USERNAME_FIELD].toString()
+            } else {
+                null
             }
-
-            var photoUrl: Uri? = null
-            if (raw_data[PHOTO_URL_FIELD] != null) {
-                photoUrl = Uri.parse(raw_data[PROFILE_PHOTO_FIELD].toString())
+            val photoUrl = if (data[PHOTO_URL_FIELD] != null) {
+                Uri.parse(data[PHOTO_URL_FIELD].toString())
+            } else {
+                null
             }
 
             return User(uid, email, username, photoUrl)
         }
+    }
+
+    /**
+     * Convert the user to a map of data.
+     */
+    fun stringify(): Map<String, Any> {
+        val data = mutableMapOf<String, Any>()
+        data[UID_FIELD] = uid
+        data[EMAIL_FIELD] = email
+
+        if (username != null) {
+            data[USERNAME_FIELD] = username.toString()
+        }
+
+        if (photoUrl != null) {
+            data[PHOTO_URL_FIELD] = photoUrl.toString()
+        }
+
+        return data
     }
 
     // No-argument constructor required for Firestore.

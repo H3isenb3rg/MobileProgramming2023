@@ -7,22 +7,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.models.TimeEntry
+import java.time.LocalDateTime
 
 class EntryAdapter(memberData: List<TimeEntry>) :
     RecyclerView.Adapter<EntryAdapter.DataViewHolder>() {
 
-    private var membersList: List<TimeEntry> = memberData
-
-    var onItemClick: ((String) -> Unit)? = null
-
-    inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bind(result: TimeEntry) {
-            itemView.findViewById<TextView>(R.id.activity_name).text = result.activity?.name
-            itemView.findViewById<TextView>(R.id.points).text = itemView.context.getString(R.string.entry_points, result.points)
-            itemView.findViewById<TextView>(R.id.activity_details).text = itemView.context.getString(R.string.activity_details, result.timeDiffHoursFloat(), result.startTimeString(), result.endTimeString())
-        }
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val activityName: TextView = itemView.findViewById(R.id.activity_name)
+        val points: TextView = itemView.findViewById(R.id.points)
+        val activityDetails: TextView = itemView.findViewById(R.id.activity_details)
     }
+
+    private var membersList: List<TimeEntry> = memberData
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DataViewHolder(
         LayoutInflater.from(parent.context).inflate(
@@ -32,10 +28,23 @@ class EntryAdapter(memberData: List<TimeEntry>) :
     )
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(membersList[position])
+        val item = membersList[position]
+
+        holder.activityName.text = item.activity?.name
+        holder.points.text = holder.itemView.context.getString(R.string.entry_points, item.points)
+        holder.activityDetails.text = holder.itemView.context.getString(
+            R.string.activity_details,
+            item.durationInHours(),
+            formatTime(item.startTime),
+            formatTime(item.endTime)
+        )
     }
 
     override fun getItemCount(): Int = membersList.size
 
-
+    private fun formatTime(time: LocalDateTime): String {
+        val minutes = time.minute.toString()
+        val hours = time.hour.toString()
+        return hours + ":" + if (minutes.length < 2) "0${minutes}" else minutes
+    }
 }

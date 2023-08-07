@@ -1,5 +1,6 @@
-package it.unibs.mp.horace.models
+package it.unibs.mp.horace.backend
 
+import it.unibs.mp.horace.models.TimeEntry
 import java.time.LocalDate
 
 data class JournalDay(
@@ -37,7 +38,7 @@ data class JournalDay(
         get() {
             var sum = 0.0f
             entries.forEach {
-                sum += (it.timeDiff() / 3600.0).toFloat()
+                sum += (it.duration() / 3600.0).toFloat()
             }
             return sum
         }

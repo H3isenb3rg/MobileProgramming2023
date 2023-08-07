@@ -1,15 +1,12 @@
 package it.unibs.mp.horace.ui.manuallog
 
 import androidx.lifecycle.ViewModel
-import com.google.firebase.Timestamp
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.TimeEntry
-import it.unibs.mp.horace.models.User
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.Date
 
 class ManualLogViewModel : ViewModel() {
     companion object {
@@ -100,15 +97,15 @@ class ManualLogViewModel : ViewModel() {
         val startDateTime = LocalDateTime.of(date, startTime)
         val endDateTime = LocalDateTime.of(date, endTime)
         val entry = hashMapOf<String, Any>(
-            TimeEntry.ACT_FIELD to activity!!,
-            TimeEntry.POM_FIELD to false,
+            TimeEntry.ACTIVITY_FIELD to activity!!,
+            TimeEntry.POMODORO_FIELD to false,
             TimeEntry.START_FIELD to startDateTime,
             TimeEntry.END_FIELD to endDateTime,
             TimeEntry.POINTS_FIELD to 0,
         )
 
         if (description != null) {
-            entry[TimeEntry.DESC_FIELD] = description!!
+            entry[TimeEntry.DESCRIPTION_FIELD] = description!!
         }
         journal.addEntry(entry)
     }

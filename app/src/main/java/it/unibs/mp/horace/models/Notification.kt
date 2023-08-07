@@ -1,10 +1,9 @@
 package it.unibs.mp.horace.models
 
-import com.google.firebase.firestore.DocumentId
 import java.time.LocalDateTime
 
 data class Notification(
-    @DocumentId val id: String,
+    val id: String,
     val type: Int,
     val senderUid: String?,
     val dateSent: String = LocalDateTime.now().toString(),
@@ -24,9 +23,21 @@ data class Notification(
         const val WORKGROUP_INVITATION_EXPIRATION_DAYS = 1
 
         const val IS_READ_FIELD = "isRead"
+
+        fun parse(data: Map<String, Any>): Notification {
+            return Notification(
+                id = data["id"] as String,
+                type = (data["type"] as Long).toInt(),
+                senderUid = data["senderUid"] as String?,
+                dateSent = data["dateSent"] as String,
+                isAccepted = data["isAccepted"] as Boolean,
+                isRead = data["isRead"] as Boolean
+            )
+        }
     }
 
     // No-argument constructor required for Firestore.
+    @Suppress("unused")
     constructor() : this("", 0, null)
 
     private val expiresAfterDays = when (type) {
@@ -35,6 +46,9 @@ data class Notification(
         else -> DEFAULT_EXPIRATION_DAYS
     }
 
+    /**
+     * Checks if the notification is expired.
+     */
     val isExpired: Boolean
         get() = LocalDateTime.parse(dateSent)
             .plusDays(expiresAfterDays.toLong()) < LocalDateTime.now()

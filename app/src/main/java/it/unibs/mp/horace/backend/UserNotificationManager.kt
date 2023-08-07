@@ -26,8 +26,8 @@ class UserNotificationManager {
      * Fetches notifications sent to the current user.
      */
     suspend fun fetchNotifications(): List<Notification> {
-        return userDocument.collection(Notification.COLLECTION_NAME).get().await()
-            .toObjects(Notification::class.java)
+        return userDocument.collection(Notification.COLLECTION_NAME).get().await().documents
+            .map { Notification.parse(it.data!!) }
     }
 
     /**
@@ -123,7 +123,7 @@ class UserNotificationManager {
 
         // Check if there's already a pending invitation of the same type sent by the current user
         val hasPendingInvitation = destInvitations.get().await().any {
-            val notification = it.toObject(Notification::class.java)
+            val notification = Notification.parse(it.data)
             notification.type == type && !notification.isExpired && notification.senderUid == destinationUser.uid
         }
 
@@ -148,7 +148,7 @@ class UserNotificationManager {
                 }
 
                 if (snapshot != null) {
-                    val notifications = snapshot.toObjects(Notification::class.java)
+                    val notifications = snapshot.documents.map { Notification.parse(it.data!!) }
                     if (notifications.isNotEmpty()) {
                         callback(notifications)
                     }

@@ -197,9 +197,10 @@ class FirestoreJournal : Journal {
      * Fills the given raw MutableMap of the TimeEntry document. Fills the Activity field with the correct Activity object
      */
     suspend fun fillEntryMap(raw_entry: MutableMap<String, Any>, userID: String): MutableMap<String, Any> {
-        if (raw_entry.containsKey(TimeEntry.ACT_FIELD) && raw_entry[TimeEntry.ACT_FIELD] != null) {
-            if (raw_entry[TimeEntry.ACT_FIELD] is String) {
-                raw_entry[TimeEntry.ACT_FIELD] = getUserActivity(raw_entry[TimeEntry.ACT_FIELD].toString(), userID)
+        if (raw_entry.containsKey(TimeEntry.ACTIVITY_FIELD) && raw_entry[TimeEntry.ACTIVITY_FIELD] != null) {
+            if (raw_entry[TimeEntry.ACTIVITY_FIELD] is String) {
+                raw_entry[TimeEntry.ACTIVITY_FIELD] =
+                    getUserActivity(raw_entry[TimeEntry.ACTIVITY_FIELD].toString(), userID)
             }
         }
         return raw_entry
