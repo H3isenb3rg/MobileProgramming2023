@@ -3,7 +3,9 @@ package it.unibs.mp.horace.models
 /**
  * Represents an activity that can be tracked.
  */
-data class Activity(var id: String, var name: String, var area: Area?) {
+data class Activity(
+    var id: String, var name: String, var area: Area?
+) {
     companion object {
         const val COLLECTION_NAME = "activities"
         const val ID_FIELD = "id"
@@ -36,8 +38,7 @@ data class Activity(var id: String, var name: String, var area: Area?) {
      */
     fun stringify(): HashMap<String, Any> {
         val activityMap: HashMap<String, Any> = hashMapOf(
-            ID_FIELD to id,
-            NAME_FIELD to name
+            ID_FIELD to id, NAME_FIELD to name
         )
         if (area != null) {
             activityMap[AREA_FIELD] = area!!.id

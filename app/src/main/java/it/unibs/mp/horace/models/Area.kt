@@ -15,8 +15,7 @@ data class Area(var id: String, var name: String) {
 
     fun stringify(): HashMap<String, Any> {
         return hashMapOf(
-            ID_FIELD to id,
-            NAME_FIELD to name
+            ID_FIELD to id, NAME_FIELD to name
         )
     }
 

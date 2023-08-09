@@ -121,9 +121,9 @@
     <string name="suggested_friends">Suggested friends</string>
     <string name="send_request">Send request</string>
     <string name="today">Today</string>
-    <string name="journal_item_summary">%s hours - %d points</string>
+    <string name="journal_item_summary">%1$s hours - %2$d points</string>
     <string name="activity_name">Activity Name</string>
-    <string name="activity_details">%.2f hours from %s to %s</string>
+    <string name="activity_details">%1$.2f hours from %2$s to %3$s</string>
     <string name="entry_points">%d points</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
