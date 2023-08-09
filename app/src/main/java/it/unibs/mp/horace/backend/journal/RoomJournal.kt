@@ -1,10 +1,14 @@
 package it.unibs.mp.horace.backend.journal
 
+import android.content.Context
+import it.unibs.mp.horace.backend.room.LocalDatabase
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.TimeEntry
 
-class RoomJournal : Journal {
+class RoomJournal(context: Context) : Journal {
+    private val database: LocalDatabase by lazy { LocalDatabase.getInstance(context) }
+
     override suspend fun userEntries(userId: String): List<TimeEntry> {
         TODO("Not yet implemented")
     }

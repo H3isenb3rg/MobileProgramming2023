@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.models.room
+package it.unibs.mp.horace.backend.room.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -11,13 +11,13 @@ import java.time.LocalDateTime
  */
 @Entity(
     tableName = "entries", foreignKeys = [ForeignKey(
-        entity = Activity::class,
+        entity = LocalActivity::class,
         parentColumns = ["id"],
         childColumns = ["activity_id"],
         onDelete = ForeignKey.SET_NULL
     )]
 )
-data class TimeEntry(
+data class LocalTimeEntry(
     @PrimaryKey(autoGenerate = true) var id: String,
     val description: String?,
     @ColumnInfo(name = "activity_id", index = true) val activityId: Int?,

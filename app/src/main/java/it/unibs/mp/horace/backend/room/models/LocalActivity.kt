@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.models.room
+package it.unibs.mp.horace.backend.room.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -11,13 +11,13 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "activities",
     foreignKeys = [ForeignKey(
-        entity = Area::class,
+        entity = LocalArea::class,
         parentColumns = ["id"],
         childColumns = ["area_id"],
         onDelete = ForeignKey.SET_NULL
     )]
 )
-data class Activity(
+data class LocalActivity(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
     @ColumnInfo(name = "area_id", index = true) val areaId: Int?
