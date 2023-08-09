@@ -29,7 +29,6 @@ data class TimeEntry(
         const val START_FIELD = "startTime"
         const val END_FIELD = "endTime"
         const val POINTS_FIELD = "points"
-        const val OWNER_FIELD = "owner"
 
         /**
          * Parse a map of data into a TimeEntry object.

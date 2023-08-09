@@ -107,7 +107,7 @@ class ManualLogViewModel : ViewModel() {
         if (description != null) {
             entry[TimeEntry.DESCRIPTION_FIELD] = description!!
         }
-        journal.addEntry(entry)
+        journal.addTimeEntry(entry)
     }
 
     private fun validateActivity() {

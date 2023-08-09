@@ -36,7 +36,7 @@ class JournalFragment : Fragment() {
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
         lifecycleScope.launch {
-            entries = firestoreJournal.entries()
+            entries = firestoreJournal.getAllTimeEntries()
         }.invokeOnCompletion {
             if (entries.isEmpty()) {
                 return@invokeOnCompletion

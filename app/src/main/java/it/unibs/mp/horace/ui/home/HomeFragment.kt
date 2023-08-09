@@ -1,6 +1,5 @@
 package it.unibs.mp.horace.ui.home
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -128,7 +127,7 @@ class HomeFragment : TopLevelFragment() {
         binding.activityPicker.setOnClickListener {
             val activities: List<Activity>
             runBlocking {
-                activities = journal.activities()
+                activities = journal.getAllActivities()
             }
 
             // TODO: per personalizzare meglio il pick si può passare un adapter a setSingleChoiceItems
@@ -142,7 +141,7 @@ class HomeFragment : TopLevelFragment() {
                     binding.activityPicker.text = pickedActivity!!.name
                     dialog.dismiss()
                 }
-                .setNeutralButton("Create new Activity") { dialog, _ ->
+                .setNeutralButton("Create new Activity") { _, _ ->
                     findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewActivityFragment())
                 }
                 .setNegativeButton("Clear") { dialog, _ ->

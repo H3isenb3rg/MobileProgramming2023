@@ -64,7 +64,7 @@ class NewActivityFragment : Fragment() {
         // Load the activities in background
         lifecycleScope.launch {
             val autoCompleteTextView = binding.area.editText as? AutoCompleteTextView
-            val currAreas = viewModel.journal.areas()
+            val currAreas = viewModel.journal.getAllAreas()
 
             // When the user selects an activity, set it in the ViewModel and update ui
             autoCompleteTextView?.setOnItemClickListener { _, _, position, _ ->

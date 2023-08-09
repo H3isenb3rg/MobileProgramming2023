@@ -106,7 +106,7 @@ class ManualLogFragment : Fragment() {
         // Load the activities in background
         lifecycleScope.launch {
             val autoCompleteTextView = binding.activity.editText as? AutoCompleteTextView
-            val currActivities = viewModel.journal.activities()
+            val currActivities = viewModel.journal.getAllActivities()
 
             // When the user selects an activity, set it in the ViewModel and update ui
             autoCompleteTextView?.setOnItemClickListener { _, _, position, _ ->

@@ -86,7 +86,7 @@ class NewActivityViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            val filteredAct = journal.activities().filter {
+            val filteredAct = journal.getAllActivities().filter {
                 it.name == _activity
             }
             if (filteredAct.isNotEmpty()) {
@@ -106,7 +106,7 @@ class NewActivityViewModel : ViewModel() {
         runBlocking {
             currArea = viewModelScope.run {
                 try {
-                    return@run journal.areas().single {
+                    return@run journal.getAllAreas().single {
                         it.name == _area
                     }
                 } catch (e: NoSuchElementException) {
