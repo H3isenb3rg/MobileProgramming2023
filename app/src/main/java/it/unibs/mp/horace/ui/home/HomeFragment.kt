@@ -50,7 +50,7 @@ class HomeFragment : TopLevelFragment() {
 
         auth = Firebase.auth
         prefs = Settings(requireContext())
-        journal = JournalFactory.getJournal()
+        journal = JournalFactory.getJournal(requireContext())
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         // Source is not read from navArgs because, for example,

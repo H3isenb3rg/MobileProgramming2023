@@ -1,22 +1,18 @@
 package it.unibs.mp.horace.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 /**
  * Represents a time entry in the user's journal.
  */
-@Entity(tableName = "entries")
 data class TimeEntry(
-    @PrimaryKey(autoGenerate = true) var id: String,
+    var id: String,
     val description: String?,
     val activity: Activity?,
-    @ColumnInfo(name = "is_pomodoro") val isPomodoro: Boolean,
-    @ColumnInfo(name = "start_time") val startTime: LocalDateTime,
-    @ColumnInfo(name = "end_time") val endTime: LocalDateTime,
+    val isPomodoro: Boolean,
+    val startTime: LocalDateTime,
+    val endTime: LocalDateTime,
     val points: Int,
 ) {
     companion object {

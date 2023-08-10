@@ -10,9 +10,10 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentManualLogBinding
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -23,7 +24,9 @@ class ManualLogFragment : Fragment() {
     private val binding get() = _binding!!
 
     // All the validation logic is in the ViewModel
-    private val viewModel: ManualLogViewModel by viewModels()
+    private val viewModel: ManualLogViewModel by activityViewModels {
+        ManualLogViewModelFactory(JournalFactory.getJournal(requireContext()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

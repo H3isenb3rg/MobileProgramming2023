@@ -1,25 +1,32 @@
 package it.unibs.mp.horace.ui.activities
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import it.unibs.mp.horace.backend.journal.JournalFactory
+import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class NewActivityViewModel : ViewModel() {
+/**
+ * Factory for creating a [NewActivityViewModel] with a constructor that takes a [Journal].
+ * Required given that [NewActivityViewModel] takes a constructor argument.
+ */
+class NewActivityViewModelFactory(private val journal: Journal) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(NewActivityViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST") return NewActivityViewModel(journal) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+class NewActivityViewModel(val journal: Journal) : ViewModel() {
     companion object {
         const val ERROR_ACTIVITY_NULL = "Activity is required"
         const val ERROR_ACTIVITY_EXISTS = "Activity already exists"
-        // FIXME: Fa cagare, per il momento segnalo così che sarà creata una nuova area
-        const val WARNING_AREA_EXISTS = "WARNING: new Area"
     }
-
-    /**
-     * The activities journal
-     */
-    val journal = JournalFactory.getJournal()
 
     private var _activity: String? = null
     private var _area: String? = null
@@ -44,8 +51,8 @@ class NewActivityViewModel : ViewModel() {
     var areaError: String? = null
         private set
 
-    private val isEverythingValid get() =
-        activityError == null && areaError == null
+    private val isEverythingValid
+        get() = activityError == null && areaError == null
 
     /**
      * Save the time entry to the journal, if everything is valid.
@@ -65,8 +72,7 @@ class NewActivityViewModel : ViewModel() {
                 currArea = journal.addArea(area!!)
             }
             rawActivity = hashMapOf(
-                Activity.NAME_FIELD to activity!!,
-                Activity.AREA_FIELD to currArea
+                Activity.NAME_FIELD to activity!!, Activity.AREA_FIELD to currArea
             )
         } else {
             rawActivity = hashMapOf(Activity.NAME_FIELD to activity!!)

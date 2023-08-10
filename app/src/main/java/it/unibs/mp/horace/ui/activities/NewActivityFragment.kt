@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentNewActivityBinding
 import kotlinx.coroutines.launch
 
@@ -18,7 +19,10 @@ class NewActivityFragment : Fragment() {
     private val binding get() = _binding!!
 
     // All the validation logic is in the ViewModel
-    private val viewModel: NewActivityViewModel by viewModels()
+    private val viewModel: NewActivityViewModel by activityViewModels {
+        // Create the ViewModel with the Journal.
+        NewActivityViewModelFactory(JournalFactory.getJournal(requireContext()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

@@ -1,14 +1,28 @@
 package it.unibs.mp.horace.ui.manuallog
 
 import androidx.lifecycle.ViewModel
-import it.unibs.mp.horace.backend.journal.JournalFactory
+import androidx.lifecycle.ViewModelProvider
+import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.TimeEntry
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class ManualLogViewModel : ViewModel() {
+/**
+ * Factory for creating a [ManualLogViewModel] with a constructor that takes a [Journal].
+ * Required given that [ManualLogViewModel] takes a constructor argument.
+ */
+class ManualLogViewModelFactory(private val journal: Journal) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(ManualLogViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST") return ManualLogViewModel(journal) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+class ManualLogViewModel(val journal: Journal) : ViewModel() {
     companion object {
         const val ERROR_DATE_IN_FUTURE = "Date can't be in the future"
         const val ERROR_START_TIME_AFTER_END_TIME = "Start is after end"
@@ -19,11 +33,6 @@ class ManualLogViewModel : ViewModel() {
         const val ERROR_END_TIME_NULL = "End time is required"
         const val ERROR_ACTIVITY_NULL = "Activity is required"
     }
-
-    /**
-     * The activities journal
-     */
-    val journal = JournalFactory.getJournal()
 
     private var _activity: Activity? = null
     private var _date: LocalDate? = null
