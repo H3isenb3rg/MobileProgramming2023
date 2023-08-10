@@ -11,6 +11,7 @@ import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.TimeEntry
 import it.unibs.mp.horace.models.User
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDateTime
 
 /**
  * Implementation of [Journal] that uses Firebase Firestore as a backend.
@@ -65,13 +66,25 @@ class FirestoreJournal : Journal {
         return if (data != null) TimeEntry.parse(fillEntryMap(data)) else null
     }
 
-    override suspend fun addTimeEntry(entry: HashMap<String, Any>): TimeEntry {
+    override suspend fun addTimeEntry(
+        description: String?,
+        activity: Activity?,
+        isPomodoro: Boolean,
+        startTime: LocalDateTime,
+        endTime: LocalDateTime,
+        points: Int
+    ): TimeEntry {
         // Create a new document and set the Id field
         val newDocument = entriesCollection.document()
-        entry[TimeEntry.ID_FIELD] = newDocument.id
-
-        // Parse the entry and set it in the database
-        val timeEntry: TimeEntry = TimeEntry.parse(entry)
+        val timeEntry = TimeEntry(
+            id = newDocument.id,
+            description = description,
+            activity = activity,
+            isPomodoro = isPomodoro,
+            startTime = startTime,
+            endTime = endTime,
+            points = points
+        )
         newDocument.set(timeEntry.stringify()).await()
 
         return timeEntry
@@ -94,13 +107,11 @@ class FirestoreJournal : Journal {
         return if (data != null) Activity.parse(fillActivityMap(data)) else null
     }
 
-    override suspend fun addActivity(activity: HashMap<String, Any>): Activity {
+    override suspend fun addActivity(name: String, area: Area?): Activity {
         val newDocument = activitiesCollection.document()
-        val completeActivity = fillActivityMap(activity)
-        completeActivity[Activity.ID_FIELD] = newDocument.id
-
-        val activity: Activity = Activity.parse(completeActivity)
+        val activity = Activity(newDocument.id, name, area)
         newDocument.set(activity.stringify()).await()
+
         return activity
     }
 

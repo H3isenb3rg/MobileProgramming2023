@@ -4,17 +4,26 @@ import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
 import it.unibs.mp.horace.models.TimeEntry
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface Journal {
     suspend fun getAllTimeEntries(): List<TimeEntry>
     suspend fun getTimeEntry(id: String): TimeEntry?
-    suspend fun addTimeEntry(entry: HashMap<String, Any>): TimeEntry
+    suspend fun addTimeEntry(
+        description: String?,
+        activity: Activity?,
+        isPomodoro: Boolean,
+        startTime: LocalDateTime,
+        endTime: LocalDateTime,
+        points: Int
+    ): TimeEntry
+
     suspend fun updateTimeEntry(entry: TimeEntry)
     suspend fun removeTimeEntry(entry: TimeEntry)
 
     suspend fun getAllActivities(): List<Activity>
     suspend fun getActivity(id: String): Activity?
-    suspend fun addActivity(activity: HashMap<String, Any>): Activity
+    suspend fun addActivity(name: String, area: Area?): Activity
     suspend fun updateActivity(activity: Activity)
     suspend fun removeActivity(activity: Activity)
 

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import it.unibs.mp.horace.backend.journal.Journal
-import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.models.Area
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -65,20 +64,14 @@ class NewActivityViewModel(val journal: Journal) : ViewModel() {
         if (!isEverythingValid) {
             throw IllegalStateException()
         }
-        val rawActivity: HashMap<String, Any>
 
         if (area != null) {
             if (currArea == null) {
                 currArea = journal.addArea(area!!)
             }
-            rawActivity = hashMapOf(
-                Activity.NAME_FIELD to activity!!, Activity.AREA_FIELD to currArea
-            )
-        } else {
-            rawActivity = hashMapOf(Activity.NAME_FIELD to activity!!)
         }
 
-        journal.addActivity(rawActivity)
+        journal.addActivity(activity!!, currArea)
     }
 
     // TODO: Decidere se possono esistere activity con stesso nome in aree diverse o no

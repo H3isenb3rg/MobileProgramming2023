@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.TimeEntry
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -105,18 +104,8 @@ class ManualLogViewModel(val journal: Journal) : ViewModel() {
         }
         val startDateTime = LocalDateTime.of(date, startTime)
         val endDateTime = LocalDateTime.of(date, endTime)
-        val entry = hashMapOf<String, Any>(
-            TimeEntry.ACTIVITY_FIELD to activity!!,
-            TimeEntry.POMODORO_FIELD to false,
-            TimeEntry.START_FIELD to startDateTime,
-            TimeEntry.END_FIELD to endDateTime,
-            TimeEntry.POINTS_FIELD to 0,
-        )
 
-        if (description != null) {
-            entry[TimeEntry.DESCRIPTION_FIELD] = description!!
-        }
-        journal.addTimeEntry(entry)
+        journal.addTimeEntry(description, activity, false, startDateTime, endDateTime, 0)
     }
 
     private fun validateActivity() {
