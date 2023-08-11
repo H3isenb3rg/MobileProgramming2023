@@ -18,7 +18,16 @@ import androidx.room.PrimaryKey
     )]
 )
 data class LocalActivity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val name: String,
-    @ColumnInfo(name = "area_id", index = true) val areaId: Int?
-)
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    var name: String,
+    @ColumnInfo(name = "area_id", index = true) var areaId: Long?
+) {
+    companion object {
+        fun fromActivity(activity: it.unibs.mp.horace.models.Activity): LocalActivity {
+            return LocalActivity(
+                name = activity.name,
+                areaId = activity.area?.id?.toLong()
+            )
+        }
+    }
+}

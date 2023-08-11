@@ -10,9 +10,9 @@ import it.unibs.mp.horace.backend.room.models.LocalArea
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface AreaDao {
+interface AreasDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(area: LocalArea)
+    suspend fun insert(area: LocalArea): Long
 
     @Update
     suspend fun update(area: LocalArea)
@@ -21,7 +21,7 @@ interface AreaDao {
     suspend fun delete(area: LocalArea)
 
     @Query("SELECT * from areas WHERE id = :id")
-    fun get(id: Int): Flow<LocalArea>
+    fun get(id: Long): Flow<LocalArea>
 
     @Query("SELECT * from areas ORDER BY name ASC")
     fun getAll(): Flow<List<LocalArea>>

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
+import it.unibs.mp.horace.models.TimeEntry
 
 /**
  * Represents a time entry in the user's journal.
@@ -18,11 +18,25 @@ import java.time.LocalDateTime
     )]
 )
 data class LocalTimeEntry(
-    @PrimaryKey(autoGenerate = true) var id: String,
-    val description: String?,
-    @ColumnInfo(name = "activity_id", index = true) val activityId: Int?,
-    @ColumnInfo(name = "is_pomodoro") val isPomodoro: Boolean,
-    @ColumnInfo(name = "start_time") val startTime: LocalDateTime,
-    @ColumnInfo(name = "end_time") val endTime: LocalDateTime,
-    val points: Int,
-)
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    var description: String?,
+    @ColumnInfo(name = "activity_id", index = true) var activityId: Long?,
+    @ColumnInfo(name = "is_pomodoro") var isPomodoro: Boolean,
+    @ColumnInfo(name = "start_time") var startTime: String,
+    @ColumnInfo(name = "end_time") var endTime: String,
+    var points: Int,
+) {
+    companion object {
+        fun fromTimeEntry(entry: TimeEntry): LocalTimeEntry {
+            return LocalTimeEntry(
+                id = entry.id.toLong(),
+                description = entry.description,
+                activityId = entry.activity?.id?.toLong(),
+                isPomodoro = entry.isPomodoro,
+                startTime = entry.startTime.toString(),
+                endTime = entry.endTime.toString(),
+                points = entry.points
+            )
+        }
+    }
+}

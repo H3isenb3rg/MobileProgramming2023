@@ -9,29 +9,28 @@ import androidx.room.Transaction
 import androidx.room.Update
 import it.unibs.mp.horace.backend.room.models.LocalActivity
 import it.unibs.mp.horace.backend.room.models.LocalActivityWithArea
-import it.unibs.mp.horace.backend.room.models.LocalArea
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ActivityDao {
+interface ActivitiesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(activity: LocalActivity)
+    suspend fun insert(activity: LocalActivity): Long
 
     @Update
-    suspend fun update(area: LocalArea)
+    suspend fun update(area: LocalActivity)
 
     @Delete
-    suspend fun delete(area: LocalArea)
+    suspend fun delete(area: LocalActivity)
 
     @Query("SELECT * from activities WHERE id = :id")
-    fun get(id: Int): Flow<LocalArea>
+    fun get(id: Long): Flow<LocalActivity>
 
     @Query("SELECT * from activities ORDER BY name ASC")
-    fun getAll(): Flow<List<LocalArea>>
+    fun getAll(): Flow<List<LocalActivity>>
 
     @Transaction
     @Query("SELECT * from activities WHERE id = :id")
-    fun getWithArea(id: Int): Flow<LocalActivityWithArea>
+    fun getWithArea(id: Long): Flow<LocalActivityWithArea>
 
     @Transaction
     @Query("SELECT * from activities ORDER BY name ASC")

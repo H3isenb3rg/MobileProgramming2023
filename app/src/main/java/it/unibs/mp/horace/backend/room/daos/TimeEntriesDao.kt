@@ -12,9 +12,9 @@ import it.unibs.mp.horace.backend.room.models.LocalTimeEntryWithActivity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TimeEntryDao {
+interface TimeEntriesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(timeEntry: LocalTimeEntry)
+    suspend fun insert(timeEntry: LocalTimeEntry): Long
 
     @Update
     suspend fun update(timeEntry: LocalTimeEntry)
@@ -23,14 +23,14 @@ interface TimeEntryDao {
     suspend fun delete(timeEntry: LocalTimeEntry)
 
     @Query("SELECT * from entries WHERE id = :id")
-    fun get(id: Int): Flow<LocalTimeEntry>
+    fun get(id: Long): Flow<LocalTimeEntry>
 
     @Query("SELECT * from entries ORDER BY start_time ASC")
     fun getAll(): Flow<List<LocalTimeEntry>>
 
     @Transaction
     @Query("SELECT * from entries WHERE id = :id")
-    fun getWithActivity(id: Int): Flow<LocalTimeEntryWithActivity>
+    fun getWithActivity(id: Long): Flow<LocalTimeEntryWithActivity>
 
     @Transaction
     @Query("SELECT * from entries ORDER BY start_time ASC")

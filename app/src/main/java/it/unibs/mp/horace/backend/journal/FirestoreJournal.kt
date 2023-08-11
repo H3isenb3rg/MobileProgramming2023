@@ -149,14 +149,6 @@ class FirestoreJournal : Journal {
         return if (data != null) Area.parse(data) else null
     }
 
-    override suspend fun streak(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun increaseStreak() {
-        TODO("Not yet implemented")
-    }
-
     /**
      * Fills the given raw MutableMap of the Activity document.
      * Fills the Area field with the correct Area object
