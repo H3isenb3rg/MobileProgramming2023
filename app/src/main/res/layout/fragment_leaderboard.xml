@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/view_all_friends"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
+                style="?attr/textAppearanceBodyLarge"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/friends"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/username"
-                android:textAppearance="?attr/textAppearanceBodyLarge" />
+                style="?attr/textAppearanceBodyLarge" />
 
             <TextView
                 android:id="@+id/email"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/email"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
+                style="?attr/textAppearanceBodySmall" />
         </LinearLayout>
 
         <CheckBox

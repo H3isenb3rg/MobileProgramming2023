@@ -8,22 +8,6 @@
     android:paddingHorizontal="16dp"
     tools:context=".ui.activities.NewActivityFragment">
 
-    <!-- Area -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/area"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:errorEnabled="true">
-
-        <AutoCompleteTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/areaPrompt" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <!-- Activity -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity"
@@ -37,6 +21,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Area -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/area"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:errorEnabled="true">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/areaPrompt" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

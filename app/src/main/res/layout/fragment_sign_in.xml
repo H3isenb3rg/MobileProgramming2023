@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="end"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
+    android:layout_marginHorizontal="16dp"
     tools:context=".ui.auth.signin.SignInFragment">
 
     <!-- Email -->

@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-    Main container for the fragments of the app.
-    The navigation between fragments is handled using Jetpack Navigation.
-    Constraint layout allows to easily lay out the elements of the page
--->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
-    <!-- Top app bar -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -23,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Top app bar -->
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

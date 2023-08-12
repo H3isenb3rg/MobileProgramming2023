@@ -8,6 +8,7 @@
 
     <com.google.android.material.search.SearchBar
         android:id="@+id/searchBar"
+        android:layout_marginTop="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_by_name_or_email"

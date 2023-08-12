@@ -17,7 +17,7 @@ import it.unibs.mp.horace.models.Activity
 class ActivitiesAdapter(
     context: Context,
     private val dataset: List<Activity>,
-) : ArrayAdapter<Activity>(context, R.layout.activity_item, dataset) {
+) : ArrayAdapter<Activity>(context, R.layout.select_activity_item, dataset) {
 
     // Contains only the items that match the search query.
     // The elements of the original dataset are copied.
@@ -75,15 +75,15 @@ class ActivitiesAdapter(
     ): View {
         // If there is no view to reuse, inflate a new one
         val layout = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.activity_item, parent, false)
+            .inflate(R.layout.select_activity_item, parent, false)
 
         // Get the views
-        val activity: TextView = layout.findViewById(R.id.activity)
+        val name: TextView = layout.findViewById(R.id.name)
         val area: MaterialTextView = layout.findViewById(R.id.area)
 
         val item = filteredDataset[position]
 
-        activity.text = item.name
+        name.text = item.name
 
         // Hide the area chip if the activity has no area,
         // otherwise set the area name
