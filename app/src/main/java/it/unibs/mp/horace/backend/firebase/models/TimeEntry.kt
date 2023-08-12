@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.models
+package it.unibs.mp.horace.backend.firebase.models
 
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit

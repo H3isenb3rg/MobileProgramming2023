@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Activity
 
 class SelectActivityAdapter(private val dataset: List<Activity>) :
     RecyclerView.Adapter<SelectActivityAdapter.ItemViewHolder>() {

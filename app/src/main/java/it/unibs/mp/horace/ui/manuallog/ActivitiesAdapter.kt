@@ -9,7 +9,7 @@ import android.widget.Filter
 import android.widget.TextView
 import com.google.android.material.textview.MaterialTextView
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Activity
 
 /**
  * Adapter for the activities dropdown.

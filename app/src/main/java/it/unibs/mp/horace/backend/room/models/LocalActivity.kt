@@ -23,7 +23,7 @@ data class LocalActivity(
     @ColumnInfo(name = "area_id", index = true) var areaId: Long?
 ) {
     companion object {
-        fun fromActivity(activity: it.unibs.mp.horace.models.Activity): LocalActivity {
+        fun fromActivity(activity: it.unibs.mp.horace.backend.firebase.models.Activity): LocalActivity {
             return LocalActivity(
                 name = activity.name,
                 areaId = activity.area?.id?.toLong()

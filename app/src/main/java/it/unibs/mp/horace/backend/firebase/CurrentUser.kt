@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.backend.firebase
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
@@ -10,10 +10,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import it.unibs.mp.horace.models.TimeEntry
-import it.unibs.mp.horace.models.User
-import it.unibs.mp.horace.models.User.Companion.FRIENDS_COLLECTION_NAME
-import it.unibs.mp.horace.models.User.Companion.WORKGROUP_COLLECTION_NAME
+import it.unibs.mp.horace.backend.LeaderboardItem
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.User
+import it.unibs.mp.horace.backend.firebase.models.User.Companion.FRIENDS_COLLECTION_NAME
+import it.unibs.mp.horace.backend.firebase.models.User.Companion.WORKGROUP_COLLECTION_NAME
 import kotlinx.coroutines.tasks.await
 
 class CurrentUser {

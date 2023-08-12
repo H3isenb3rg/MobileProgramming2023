@@ -11,10 +11,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.CurrentUser
-import it.unibs.mp.horace.backend.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.BottomSheetUserDetailsBinding
-import it.unibs.mp.horace.models.User
 import kotlinx.coroutines.launch
 
 class UserDetailsBottomSheet : BottomSheetDialogFragment() {

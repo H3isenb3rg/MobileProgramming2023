@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.models
+package it.unibs.mp.horace.backend.firebase.models
 
 import android.net.Uri
 import it.unibs.mp.horace.R

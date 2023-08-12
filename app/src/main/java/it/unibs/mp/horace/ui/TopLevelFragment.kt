@@ -16,7 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.MainNavDirections
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.UserNotificationManager
 
 /**
  * A fragment that is a root of the navigation graph.

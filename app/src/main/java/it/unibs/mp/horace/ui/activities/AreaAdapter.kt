@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.Area
+import it.unibs.mp.horace.backend.firebase.models.Area
 
 class AreaAdapter(
     context: Context,

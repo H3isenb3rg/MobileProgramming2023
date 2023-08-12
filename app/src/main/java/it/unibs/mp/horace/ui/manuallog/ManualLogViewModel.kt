@@ -2,8 +2,8 @@ package it.unibs.mp.horace.ui.manuallog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.Journal
-import it.unibs.mp.horace.models.Activity
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime

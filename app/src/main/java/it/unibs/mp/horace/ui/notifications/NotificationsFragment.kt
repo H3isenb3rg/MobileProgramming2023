@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import it.unibs.mp.horace.backend.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.models.Notification
 import it.unibs.mp.horace.databinding.FragmentNotificationsBinding
-import it.unibs.mp.horace.models.Notification
 import kotlinx.coroutines.launch
 
 class NotificationsFragment : Fragment() {

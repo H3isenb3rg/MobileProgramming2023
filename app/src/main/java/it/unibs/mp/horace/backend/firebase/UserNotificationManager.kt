@@ -1,15 +1,15 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.backend.firebase
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.models.Friend
-import it.unibs.mp.horace.models.Notification
-import it.unibs.mp.horace.models.User
-import it.unibs.mp.horace.models.User.Companion.FRIENDS_COLLECTION_NAME
-import it.unibs.mp.horace.models.User.Companion.WORKGROUP_COLLECTION_NAME
-import it.unibs.mp.horace.models.WorkGroupMember
+import it.unibs.mp.horace.backend.firebase.models.Friend
+import it.unibs.mp.horace.backend.firebase.models.Notification
+import it.unibs.mp.horace.backend.firebase.models.User
+import it.unibs.mp.horace.backend.firebase.models.User.Companion.FRIENDS_COLLECTION_NAME
+import it.unibs.mp.horace.backend.firebase.models.User.Companion.WORKGROUP_COLLECTION_NAME
+import it.unibs.mp.horace.backend.firebase.models.WorkGroupMember
 import kotlinx.coroutines.tasks.await
 
 /**

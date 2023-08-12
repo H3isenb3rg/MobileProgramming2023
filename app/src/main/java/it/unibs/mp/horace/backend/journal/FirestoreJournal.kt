@@ -5,11 +5,11 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.backend.CurrentUser
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.Area
-import it.unibs.mp.horace.models.TimeEntry
-import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Area
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.User
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 

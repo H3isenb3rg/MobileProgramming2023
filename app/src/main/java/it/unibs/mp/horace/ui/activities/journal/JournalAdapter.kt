@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.JournalDay
+import it.unibs.mp.horace.backend.journal.JournalDay
 
 /**
  * RecyclerView adapter for the journals list.

@@ -1,8 +1,8 @@
 package it.unibs.mp.horace.backend.journal
 
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.Area
-import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Area
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import java.time.LocalDate
 import java.time.LocalDateTime
 

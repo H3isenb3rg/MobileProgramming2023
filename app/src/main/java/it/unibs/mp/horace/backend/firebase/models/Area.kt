@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.models
+package it.unibs.mp.horace.backend.firebase.models
 
 data class Area(var id: String, var name: String) {
     companion object {

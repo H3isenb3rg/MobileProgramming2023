@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.backend.firebase.models.User
 
 class SuggestedFriendsAdapter(
     private val dataset: MutableList<User>, private val sendFriendRequest: (User) -> Unit

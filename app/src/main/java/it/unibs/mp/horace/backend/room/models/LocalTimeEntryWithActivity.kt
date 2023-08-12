@@ -2,7 +2,7 @@ package it.unibs.mp.horace.backend.room.models
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import java.time.LocalDateTime
 
 class LocalTimeEntryWithActivity(

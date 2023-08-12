@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.databinding.BottomSheetConfirmDeleteBinding
 import kotlinx.coroutines.launch
 

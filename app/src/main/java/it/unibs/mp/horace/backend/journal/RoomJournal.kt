@@ -1,13 +1,13 @@
 package it.unibs.mp.horace.backend.journal
 
 import android.content.Context
+import it.unibs.mp.horace.backend.firebase.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Area
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import it.unibs.mp.horace.backend.room.LocalDatabase
 import it.unibs.mp.horace.backend.room.models.LocalActivity
 import it.unibs.mp.horace.backend.room.models.LocalArea
 import it.unibs.mp.horace.backend.room.models.LocalTimeEntry
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.Area
-import it.unibs.mp.horace.models.TimeEntry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow

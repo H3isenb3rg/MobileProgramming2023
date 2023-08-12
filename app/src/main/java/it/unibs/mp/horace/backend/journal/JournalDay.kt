@@ -1,13 +1,16 @@
-package it.unibs.mp.horace.backend
+package it.unibs.mp.horace.backend.journal
 
-import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import java.time.LocalDate
 
 data class JournalDay(
-    val entries: ArrayList<TimeEntry>,
-    val day: LocalDate
-){
+    val entries: ArrayList<TimeEntry>, val day: LocalDate
+) {
     companion object {
+        private const val SECONDS_IN_HOUR: Double = 3600.0
+        private const val TODAY = "Today"
+        private const val YESTERDAY = "Yesterday"
+
         fun split(entries: List<TimeEntry>): List<JournalDay> {
             val daysList = ArrayList<JournalDay>()
             if (entries.isEmpty()) {
@@ -34,31 +37,20 @@ data class JournalDay(
     /**
      * Total time (in hours) of all the time entries
      */
-    private val totalTime: Float
-        get() {
-            var sum = 0.0f
-            entries.forEach {
-                sum += (it.duration() / 3600.0).toFloat()
-            }
-            return sum
-        }
+    private val totalTime: Double
+        get() = entries.sumOf { (it.duration() / SECONDS_IN_HOUR) }
+
     val totalPoints: Int
-        get() {
-            var sum = 0
-            entries.forEach {
-                sum += it.points
-            }
-            return sum
-        }
+        get() = entries.sumOf { it.points }
 
     fun getDayString(): String {
         val today: LocalDate = LocalDate.now()
         if (today == this.day) {
-            return "Today"
+            return TODAY
         }
 
         if (today.minusDays(1) == this.day) {
-            return "Yesterday"
+            return YESTERDAY
         }
 
         return this.day.dayOfMonth.toString() + "/" + this.day.monthValue.toString() + "/" + this.day.year.toString()
@@ -66,7 +58,7 @@ data class JournalDay(
 
     fun totalTimeString(): String {
         val intTotal = totalTime.toInt()
-        if (totalTime == intTotal.toFloat()) {
+        if (totalTime == intTotal.toDouble()) {
             return intTotal.toString()
         }
         return "%.2f".format(totalTime)

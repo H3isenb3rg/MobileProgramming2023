@@ -9,11 +9,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.LeaderboardItem
-import it.unibs.mp.horace.backend.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.FragmentLeaderboardBinding
-import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.ui.TopLevelFragment
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await

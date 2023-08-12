@@ -9,9 +9,9 @@ import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import it.unibs.mp.horace.databinding.FragmentActivitiesBinding
-import it.unibs.mp.horace.models.TimeEntry
 import it.unibs.mp.horace.ui.TopLevelFragment
 
 class ActivitiesFragment : TopLevelFragment() {

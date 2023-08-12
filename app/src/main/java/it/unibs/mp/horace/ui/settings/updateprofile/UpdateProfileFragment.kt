@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.ProfileValidator
+import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentUpdateProfileBinding
 import it.unibs.mp.horace.ui.auth.signup.SignUpFragmentDirections
 import kotlinx.coroutines.launch

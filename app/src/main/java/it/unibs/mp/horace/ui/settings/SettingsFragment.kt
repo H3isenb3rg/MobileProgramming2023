@@ -12,7 +12,7 @@ import coil.load
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.launch
 

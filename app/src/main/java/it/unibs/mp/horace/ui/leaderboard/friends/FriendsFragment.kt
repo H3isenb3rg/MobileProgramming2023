@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import it.unibs.mp.horace.backend.CurrentUser
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
-import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.ui.MainActivity
 import it.unibs.mp.horace.ui.shareUserProfile
 import kotlinx.coroutines.launch

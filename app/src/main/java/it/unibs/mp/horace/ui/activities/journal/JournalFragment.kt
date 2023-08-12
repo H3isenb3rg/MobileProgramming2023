@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import it.unibs.mp.horace.backend.CurrentUser
-import it.unibs.mp.horace.backend.JournalDay
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import it.unibs.mp.horace.backend.journal.FirestoreJournal
+import it.unibs.mp.horace.backend.journal.JournalDay
 import it.unibs.mp.horace.databinding.FragmentJournalBinding
-import it.unibs.mp.horace.models.TimeEntry
 import kotlinx.coroutines.launch
 
 class JournalFragment : Fragment() {

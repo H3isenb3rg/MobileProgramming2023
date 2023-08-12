@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.models
+package it.unibs.mp.horace.backend.firebase.models
 
 /**
  * Represents an activity that can be tracked.

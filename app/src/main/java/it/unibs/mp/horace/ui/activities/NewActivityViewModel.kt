@@ -3,8 +3,8 @@ package it.unibs.mp.horace.ui.activities
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import it.unibs.mp.horace.backend.firebase.models.Area
 import it.unibs.mp.horace.backend.journal.Journal
-import it.unibs.mp.horace.models.Area
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
