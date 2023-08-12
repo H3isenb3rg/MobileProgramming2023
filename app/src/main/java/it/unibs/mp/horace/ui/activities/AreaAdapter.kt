@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
-import com.google.android.material.chip.Chip
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.models.Area
 

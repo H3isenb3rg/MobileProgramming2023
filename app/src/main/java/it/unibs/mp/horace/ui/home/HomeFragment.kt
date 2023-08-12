@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -15,9 +14,7 @@ import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
-import it.unibs.mp.horace.models.Activity
 import it.unibs.mp.horace.ui.TopLevelFragment
-import kotlinx.coroutines.runBlocking
 
 
 class HomeFragment : TopLevelFragment() {
@@ -28,7 +25,6 @@ class HomeFragment : TopLevelFragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var prefs: Settings
     private lateinit var journal: Journal
-    private var pickedActivity: Activity? = null
 
     /**
      * The current volume drawable, depends on whether the volume is enabled or not.
@@ -125,31 +121,7 @@ class HomeFragment : TopLevelFragment() {
         }
 
         binding.activityPicker.setOnClickListener {
-            val activities: List<Activity>
-            runBlocking {
-                activities = journal.getAllActivities()
-            }
-
-            // TODO: per personalizzare meglio il pick si può passare un adapter a setSingleChoiceItems
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Pick an Activity")
-                .setSingleChoiceItems(
-                    activities.map { it.toString() }.toTypedArray(),
-                    -1
-                ) { dialog, which ->
-                    pickedActivity = activities[which]
-                    binding.activityPicker.text = pickedActivity!!.name
-                    dialog.dismiss()
-                }
-                .setNeutralButton("Create new Activity") { _, _ ->
-                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewActivityFragment())
-                }
-                .setNegativeButton("Clear") { dialog, _ ->
-                    binding.activityPicker.text = resources.getString(R.string.select_activity)
-                    pickedActivity = null
-                    dialog.dismiss()
-                }
-                .show()
+            HomeFragmentDirections.actionHomeFragmentToSelectActivityBottomSheet()
         }
     }
 

@@ -32,12 +32,12 @@
             app:argType="string"
             app:nullable="true" />
         <action
-            android:id="@+id/action_homeFragment_to_newActivityFragment"
-            app:destination="@id/newActivityFragment"
+            android:id="@+id/action_homeFragment_to_selectActivityBottomSheet"
+            app:destination="@id/selectActivityBottomSheet"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_enter_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_enter_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <!-- User details -->
@@ -107,6 +107,13 @@
             android:label="@string/journal"
             tools:layout="@layout/fragment_journal" />
     </navigation>
+
+    <!-- Select activity -->
+    <dialog
+        android:id="@+id/selectActivityBottomSheet"
+        android:name="it.unibs.mp.horace.ui.home.selectactivity.SelectActivityBottomSheet"
+        android:label="@string/select_activity"
+        tools:layout="@layout/bottom_sheet_select_activity" />
 
     <!-- Work group subgraph -->
     <navigation
@@ -419,10 +426,18 @@
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@animator/nav_default_pop_exit_anim" />
     <action
-        android:id="@+id/action_global_manualLogFragment"
+        android:id="@+id/action_global_manualLog"
         app:destination="@id/manualLogFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_enter_anim"
         app:popEnterAnim="@anim/nav_default_enter_anim"
         app:popExitAnim="@anim/nav_default_enter_anim" />
+
+    <action
+        android:id="@+id/action_global_newActivity"
+        app:destination="@id/newActivityFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 </navigation>
