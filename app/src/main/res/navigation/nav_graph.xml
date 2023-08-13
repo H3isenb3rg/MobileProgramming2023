@@ -274,18 +274,29 @@
         android:id="@+id/manualLogFragment"
         android:name="it.unibs.mp.horace.ui.manuallog.ManualLogFragment"
         android:label="@string/manual_log"
-        tools:layout="@layout/fragment_manual_log">
-        <action
-            android:id="@+id/action_manualLogFragment_to_newActivityFragment"
-            app:destination="@id/newActivityFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-    </fragment>
+        tools:layout="@layout/fragment_manual_log" />
+
+    <!-- New Activity -->
     <fragment
         android:id="@+id/newActivityFragment"
         android:name="it.unibs.mp.horace.ui.activities.NewActivityFragment"
-        android:label="Create New Activity"
-        tools:layout="@layout/fragment_new_activity" />
+        android:label="@string/add_new_activity"
+        tools:layout="@layout/fragment_new_activity">
+        <action
+            android:id="@+id/action_newActivityFragment_to_newAreaFragment"
+            app:destination="@id/newAreaFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <!-- New Area -->
+    <fragment
+        android:id="@+id/newAreaFragment"
+        android:name="it.unibs.mp.horace.ui.activities.NewAreaFragment"
+        android:label="@string/add_new_area"
+        tools:layout="@layout/fragment_new_area" />
 
     <!-- Notifications -->
     <fragment

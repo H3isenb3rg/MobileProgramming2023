@@ -25,20 +25,38 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Area -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/area"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:errorEnabled="true">
+        android:orientation="horizontal">
 
-        <AutoCompleteTextView
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/area"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/areaPrompt" />
+            android:layout_weight="1"
+            android:hint="@string/areaPrompt"
+            app:errorEnabled="true">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/areaPrompt" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/newArea"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/add_new_area"
+            app:icon="@drawable/baseline_add_24" />
+
+    </LinearLayout>
 
     <!-- Add button -->
     <Button

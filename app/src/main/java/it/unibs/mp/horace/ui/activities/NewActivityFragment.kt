@@ -62,6 +62,10 @@ class NewActivityFragment : Fragment() {
                 }
             }
         }
+
+        binding.newArea.setOnClickListener {
+            findNavController().navigate(NewActivityFragmentDirections.actionNewActivityFragmentToNewAreaFragment())
+        }
     }
 
     private fun setupAreaAutocomplete() {

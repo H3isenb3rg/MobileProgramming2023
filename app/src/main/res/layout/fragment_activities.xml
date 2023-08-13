@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/view_journal"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
+                style="?attr/textAppearanceBodyLarge"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/notes"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +81,7 @@ class ManualLogFragment : Fragment() {
 
         binding.newActivity.setOnClickListener {
             findNavController().navigate(
-                ManualLogFragmentDirections.actionManualLogFragmentToNewActivityFragment()
+                ManualLogFragmentDirections.actionGlobalNewActivity()
             )
         }
 
@@ -113,6 +114,7 @@ class ManualLogFragment : Fragment() {
 
             // When the user selects an activity, set it in the ViewModel and update ui
             autoCompleteTextView?.setOnItemClickListener { _, _, position, _ ->
+                Log.d("TEst", "test")
                 viewModel.activity = currActivities[position]
                 autoCompleteTextView.setText(currActivities[position].name, false)
                 binding.activity.error = viewModel.activityError

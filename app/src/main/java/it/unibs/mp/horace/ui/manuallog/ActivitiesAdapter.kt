@@ -32,7 +32,7 @@ class ActivitiesAdapter(
         return createViewFromResource(position, convertView, parent)
     }
 
-    override fun getFilter(): Filter {  // FIXME: Scrivendo sbomba perchè sembra
+    override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = when {
