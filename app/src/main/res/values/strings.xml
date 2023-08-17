@@ -144,4 +144,10 @@
     <string name="search_activity">Search activity</string>
     <string name="add_new_area">Add new area</string>
     <string name="area_name">Area name</string>
+    <string name="no_activities_last_seven_days">No logs in the last seven days :(</string>
+    <string name="no_activities_yet">Start logging to view your most frequent activities</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="mins">%1$s mins</string>
+    <string name="one_hour">1 hr</string>
+    <string name="hrs">%1$s hrs</string>
 </resources>
