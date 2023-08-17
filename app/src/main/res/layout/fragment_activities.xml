@@ -78,7 +78,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/recentActivitiesChart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:layout_marginTop="24dp" />
     </LinearLayout>
 
@@ -98,10 +98,10 @@
             android:layout_height="wrap_content"
             android:text="@string/most_frequent_activities" />
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/activitiesFrequencyChart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:layout_marginTop="24dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

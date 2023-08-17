@@ -121,7 +121,7 @@ class HomeFragment : TopLevelFragment() {
         }
 
         binding.activityPicker.setOnClickListener {
-            HomeFragmentDirections.actionHomeFragmentToSelectActivityBottomSheet()
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityBottomSheet())
         }
     }
 
