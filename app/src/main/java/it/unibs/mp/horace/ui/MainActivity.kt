@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ShareCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -202,6 +201,15 @@ class MainActivity : AppCompatActivity() {
         binding.manualAdd.setOnClickListener {
             navController.navigate(MainNavDirections.actionGlobalManualLog())
         }
+
+
+        // When the user scrolls down, hide the quick actions.
+        // Only show them again when the user scrolls to the very top.
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            if (binding.scrollView.scrollY == 0) {
+                updateQuickActionsVisibility(true)
+            } else updateQuickActionsVisibility(false)
+        }
     }
 
     /**
@@ -209,10 +217,13 @@ class MainActivity : AppCompatActivity() {
      * If the user disables quick actions in settings, they will always be hidden.
      */
     private fun updateQuickActionsVisibility(shouldShowActions: Boolean) {
-        val isVisible = shouldShowActions && settings.isQuickActionsEnabled
-
-        binding.startTimer.isVisible = isVisible
-        binding.manualAdd.isVisible = isVisible
+        if (shouldShowActions && settings.isQuickActionsEnabled) {
+            binding.startTimer.show()
+            binding.manualAdd.show()
+        } else {
+            binding.startTimer.hide()
+            binding.manualAdd.hide()
+        }
     }
 
     /**
