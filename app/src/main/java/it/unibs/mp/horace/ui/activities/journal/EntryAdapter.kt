@@ -1,5 +1,6 @@
 package it.unibs.mp.horace.ui.activities.journal
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,18 +8,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.firebase.models.TimeEntry
-import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
-class EntryAdapter(memberData: List<TimeEntry>) :
+class EntryAdapter(val context: Context, val dataset: List<TimeEntry>) :
     RecyclerView.Adapter<EntryAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val activityName: TextView = itemView.findViewById(R.id.activity_name)
+        val activityName: TextView = itemView.findViewById(R.id.name)
         val points: TextView = itemView.findViewById(R.id.points)
-        val activityDetails: TextView = itemView.findViewById(R.id.activity_details)
+        val duration: TextView = itemView.findViewById(R.id.duration)
     }
-
-    private var membersList: List<TimeEntry> = memberData
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DataViewHolder(
         LayoutInflater.from(parent.context).inflate(
@@ -28,23 +28,32 @@ class EntryAdapter(memberData: List<TimeEntry>) :
     )
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        val item = membersList[position]
+        val item = dataset[position]
 
         holder.activityName.text = item.activity?.name
-        holder.points.text = holder.itemView.context.getString(R.string.entry_points, item.points)
-        holder.activityDetails.text = holder.itemView.context.getString(
-            R.string.activity_details,
-            item.durationInHours(),
-            formatTime(item.startTime),
-            formatTime(item.endTime)
+        holder.points.text = context.getString(R.string.entry_points, item.points)
+        holder.duration.text = context.getString(
+            R.string.activity_duration,
+            formatDuration(item.duration() / 3600, (item.duration() % 3600) / 60),
+            formatTime(item.startTime.toLocalTime()),
+            formatTime(item.endTime.toLocalTime())
         )
     }
 
-    override fun getItemCount(): Int = membersList.size
+    override fun getItemCount(): Int = dataset.size
 
-    private fun formatTime(time: LocalDateTime): String {
-        val minutes = time.minute.toString()
-        val hours = time.hour.toString()
-        return hours + ":" + if (minutes.length < 2) "0${minutes}" else minutes
+    private fun formatTime(time: LocalTime) = time.format(DateTimeFormatter.ofPattern("HH:mm"))
+
+    private fun formatDuration(hours: Int, minutes: Int): String {
+        val minutesString = context.resources.getQuantityString(R.plurals.minutes, minutes, minutes)
+        val hoursString = context.resources.getQuantityString(R.plurals.hours, hours, hours)
+
+        return if (hours == 0) {
+            minutesString
+        } else if (minutes == 0) {
+            hoursString
+        } else {
+            "$hoursString $minutesString"
+        }
     }
 }

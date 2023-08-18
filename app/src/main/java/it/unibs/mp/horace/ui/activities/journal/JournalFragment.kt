@@ -28,11 +28,11 @@ class JournalFragment : Fragment() {
         val journal = JournalFactory.getJournal(requireContext())
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
-        val adapter = JournalAdapter(journalDays)
+        val adapter = JournalAdapter(requireContext(), journalDays)
         binding.journalsView.adapter = adapter
 
         lifecycleScope.launch {
-            journalDays.addAll(JournalDay.split(journal.getAllTimeEntries()))
+            journalDays.addAll(JournalDay.fromTimeEntries(journal.getAllTimeEntries()))
             adapter.notifyItemRangeInserted(0, journalDays.size)
         }
     }

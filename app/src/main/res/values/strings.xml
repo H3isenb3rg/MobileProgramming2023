@@ -121,10 +121,10 @@
     <string name="suggested_friends">Suggested friends</string>
     <string name="send_request">Send request</string>
     <string name="today">Today</string>
-    <string name="journal_item_summary">%1$s hours - %2$d points</string>
+    <string name="journal_item_summary">%1$s - %2$d pts</string>
     <string name="activity_name">Activity Name</string>
-    <string name="activity_details">%1$.2f hours from %2$s to %3$s</string>
-    <string name="entry_points">%d points</string>
+    <string name="activity_duration">%1s from %2$s to %3$s</string>
+    <string name="entry_points">%d pts</string>
     <string name="manual_log">Manual log</string>
     <string name="activity">Activity</string>
     <string name="date">Date</string>
@@ -150,4 +150,14 @@
     <string name="mins">%1$s mins</string>
     <string name="one_hour">1 hr</string>
     <string name="hrs">%1$s hrs</string>
+    <string name="duration">Duration</string>
+    <string name="expand">Expand</string>
+    <plurals name="hours">
+        <item quantity="one">%1$d hr</item>
+        <item quantity="other">%1$d hrs</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$d min</item>
+        <item quantity="other">%1$d mins</item>
+    </plurals>
 </resources>
