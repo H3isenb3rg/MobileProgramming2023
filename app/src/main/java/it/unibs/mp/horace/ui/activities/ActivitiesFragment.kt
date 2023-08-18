@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.animation.ChartAnimator
@@ -61,6 +62,22 @@ class ActivitiesFragment : TopLevelFragment() {
         binding.viewJournal.setOnClickListener {
             findNavController().navigate(
                 ActivitiesFragmentDirections.actionActivitiesFragmentToHistoryFragment()
+            )
+        }
+
+        lifecycleScope.launch {
+            val streak = journal.streak()
+
+            if (streak == 0) {
+                binding.streakContainer.isVisible = false
+                return@launch
+            }
+
+            binding.streak.text = getString(R.string.streak, journal.streak())
+            binding.streakStartDate.text = getString(
+                R.string.streak_start_date, LocalDate.now().minusDays(streak.toLong()).format(
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                )
             )
         }
 

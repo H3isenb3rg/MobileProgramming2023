@@ -152,6 +152,8 @@
     <string name="hrs">%1$s hrs</string>
     <string name="duration">Duration</string>
     <string name="expand">Expand</string>
+    <string name="streak">%d days streak</string>
+    <string name="streak_start_date">From %s to today. Good job!</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

@@ -74,7 +74,7 @@ open class JournalAdapter(val context: Context, val dataset: List<JournalDay>) :
                 context.getString(R.string.yesterday)
             }
 
-            else -> journalDay.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+            else -> journalDay.date.format(DateTimeFormatter.ofPattern("E, d MMM yyyy"))
         }
     }
 
