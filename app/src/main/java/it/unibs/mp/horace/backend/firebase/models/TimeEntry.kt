@@ -49,6 +49,7 @@ data class TimeEntry(
     }
 
     // No-argument constructor required for Firestore.
+    @Suppress("unused")
     constructor() : this(
         "", null, null, false, LocalDateTime.now(), LocalDateTime.now(), 0
     )
@@ -79,21 +80,19 @@ data class TimeEntry(
     /**
      * Whether the time entry is in the current week.
      */
-    fun isInCurrentWeek(): Boolean {
-        return startTime.isAfter(LocalDateTime.now().minusWeeks(1))
-    }
+    val isInCurrentWeek: Boolean
+        get() = startTime.isAfter(LocalDateTime.now().minusWeeks(1))
+
+    /**
+     * The duration of the time entry in hours.
+     */
+    val durationInHours: Double
+        get() = duration().toDouble() / 3600.0f
 
     /**
      * The duration of the time entry in the given unit. By default, the unit is seconds.
      */
     fun duration(unit: ChronoUnit = ChronoUnit.SECONDS): Int {
         return unit.between(startTime, endTime).toInt()
-    }
-
-    /**
-     * The duration of the time entry in hours.
-     */
-    fun durationInHours(): Float {
-        return (duration() / 3600.0).toFloat()
     }
 }

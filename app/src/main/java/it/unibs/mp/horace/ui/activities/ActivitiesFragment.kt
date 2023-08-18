@@ -39,7 +39,6 @@ import it.unibs.mp.horace.ui.TopLevelFragment
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
 class ActivitiesFragment : TopLevelFragment() {
     private var _binding: FragmentActivitiesBinding? = null
@@ -68,7 +67,8 @@ class ActivitiesFragment : TopLevelFragment() {
         lifecycleScope.launch {
             val streak = journal.streak()
 
-            if (streak == 0) {
+            // Only show the streak if it is at least 2 days long.
+            if (streak < 2) {
                 binding.streakContainer.isVisible = false
                 return@launch
             }
@@ -94,13 +94,11 @@ class ActivitiesFragment : TopLevelFragment() {
 
     private suspend fun setupLineChart(view: View) {
         // Get the total times logged in the last 7 days.
-        val chartEntries =
-            journal.getAllTimeEntries().groupBy { entry -> entry.startTime.toLocalDate() }
-                .mapValues { group -> group.value.sumOf { it.duration(ChronoUnit.HOURS) } }.map {
-                    Entry(
-                        it.key.dayOfMonth.toFloat(), it.value.toFloat()
-                    )
-                }
+        val chartEntries = journal.totalHoursInLastWeek().map {
+            Entry(
+                it.key.dayOfMonth.toFloat(), it.value.toFloat()
+            )
+        }
 
         val dataset = LineDataSet(chartEntries, getString(R.string.activities_in_last_7_days))
 
@@ -179,13 +177,13 @@ class ActivitiesFragment : TopLevelFragment() {
 
     private suspend fun setupPieChart(view: View) {
         // Get the total times logged in the last 7 days.
-        val chartEntries = journal.getAllTimeEntries().filter { it.activity != null }
-            .groupBy { entry -> entry.activity }.mapValues { group -> group.value.count() }.toList()
-            .sortedByDescending { (_, value) -> value }.take(5).map {
-                PieEntry(
-                    it.second.toFloat(), it.first!!.name
-                )
-            }
+        val chartEntries =
+            journal.mostFrequentActivities().toList().sortedByDescending { (_, value) -> value }
+                .take(5).map {
+                    PieEntry(
+                        it.second.toFloat(), it.first.name
+                    )
+                }
 
         val dataset = PieDataSet(chartEntries, "Activities")
 

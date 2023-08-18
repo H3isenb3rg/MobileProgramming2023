@@ -167,7 +167,9 @@
                 android:id="@+id/action_authBottomSheet_to_signInFragment"
                 app:destination="@id/signInFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" />
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
             <action
                 android:id="@+id/action_authBottomSheet_to_homeFragment"
                 app:destination="@id/homeFragment"
@@ -194,12 +196,16 @@
                 android:id="@+id/action_signInFragment_to_resetPasswordFragment"
                 app:destination="@id/resetPasswordFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" />
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
             <action
                 android:id="@+id/action_signInFragment_to_signUpFragment"
                 app:destination="@id/signUpFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" />
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
             <argument
                 android:name="sourceResetPassword"
                 android:defaultValue="false"
@@ -364,7 +370,7 @@
         </fragment>
 
         <!-- Confirm delete -->
-        <fragment
+        <dialog
             android:id="@+id/bottomSheetConfirmDelete"
             android:name="it.unibs.mp.horace.ui.settings.updateprofile.BottomSheetConfirmDelete"
             android:label="@string/confirm_delete"
@@ -378,7 +384,7 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true" />
-        </fragment>
+        </dialog>
     </navigation>
 
     <action
@@ -435,14 +441,14 @@
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <action
         android:id="@+id/action_global_manualLog"
         app:destination="@id/manualLogFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_enter_anim"
-        app:popEnterAnim="@anim/nav_default_enter_anim"
-        app:popExitAnim="@anim/nav_default_enter_anim" />
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_newActivity"
