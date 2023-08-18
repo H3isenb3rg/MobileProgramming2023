@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.journal.JournalDay
@@ -11,29 +12,26 @@ import it.unibs.mp.horace.backend.journal.JournalDay
 /**
  * RecyclerView adapter for the journals list.
  */
-open class JournalAdapter() :
+open class JournalAdapter(val dataset: List<JournalDay>) :
     RecyclerView.Adapter<JournalAdapter.DataViewHolder>() {
 
-    var daysList: ArrayList<JournalDay> = ArrayList()
-
     inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val date_tv: TextView = itemView.findViewById(R.id.date)
-        val summary_tv: TextView = itemView.findViewById(R.id.summary)
-        val entries_rw: RecyclerView = itemView.findViewById(R.id.journalsView)
+        val date: TextView = itemView.findViewById(R.id.date)
+        val summary: TextView = itemView.findViewById(R.id.summary)
+        val entries: RecyclerView = itemView.findViewById(R.id.journalsView)
 
         init {
-            entries_rw.visibility = View.GONE
+            entries.isVisible = false
             itemView.setOnClickListener {
-                if (entries_rw.visibility == View.GONE) {
-                    entries_rw.visibility = View.VISIBLE
-                } else {
-                    entries_rw.visibility = View.GONE
-                }
+                entries.isVisible = !entries.isVisible
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JournalAdapter.DataViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): JournalAdapter.DataViewHolder {
         val adapterLayout =
             LayoutInflater.from(parent.context).inflate(R.layout.journal_day_item, parent, false)
 
@@ -41,19 +39,17 @@ open class JournalAdapter() :
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        val result = daysList[position]
-        holder.date_tv.text = result.getDayString()
-        holder.summary_tv.text = holder.itemView.context.getString(R.string.journal_item_summary, result.totalTimeString(), result.totalPoints)
-        val childMembersAdapter = EntryAdapter(result.entries)
-        holder.entries_rw.adapter = childMembersAdapter
+        val item = dataset[position]
+
+        holder.date.text = item.getDayString()
+        holder.summary.text = holder.itemView.context.getString(
+            R.string.journal_item_summary,
+            item.totalTimeString(),
+            item.totalPoints
+        )
+
+        holder.entries.adapter = EntryAdapter(item.entries)
     }
 
-    override fun getItemCount(): Int = daysList.size
-
-
-    fun addData(list: List<JournalDay>) {
-        daysList.addAll(list.sortedByDescending { it.day })
-        notifyItemRangeInserted(0, list.size)
-    }
-
+    override fun getItemCount(): Int = dataset.size
 }

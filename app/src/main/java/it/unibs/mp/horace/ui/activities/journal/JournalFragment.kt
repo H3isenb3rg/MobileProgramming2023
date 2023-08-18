@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import it.unibs.mp.horace.backend.firebase.CurrentUser
-import it.unibs.mp.horace.backend.firebase.models.TimeEntry
-import it.unibs.mp.horace.backend.journal.FirestoreJournal
 import it.unibs.mp.horace.backend.journal.JournalDay
+import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentJournalBinding
 import kotlinx.coroutines.launch
 
@@ -17,34 +15,25 @@ class JournalFragment : Fragment() {
     private var _binding: FragmentJournalBinding? = null
     private val binding get() = _binding!!
 
-    val user = CurrentUser()
-
-    // TODO: Usare factory per prendere journal
-    val firestoreJournal = FirestoreJournal()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentJournalBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var entries: List<TimeEntry> = ArrayList()
+
+        val journal = JournalFactory.getJournal(requireContext())
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
+        val adapter = JournalAdapter(journalDays)
+        binding.journalsView.adapter = adapter
+
         lifecycleScope.launch {
-            entries = firestoreJournal.getAllTimeEntries()
-        }.invokeOnCompletion {
-            if (entries.isEmpty()) {
-                return@invokeOnCompletion
-            }
-            journalDays.addAll(JournalDay.split(entries))
-            val adapter = JournalAdapter()
-            binding.journalsView.adapter = adapter
-            adapter.addData(journalDays)
+            journalDays.addAll(JournalDay.split(journal.getAllTimeEntries()))
+            adapter.notifyItemRangeInserted(0, journalDays.size)
         }
     }
 
