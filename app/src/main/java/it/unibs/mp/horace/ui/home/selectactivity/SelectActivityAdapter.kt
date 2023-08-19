@@ -12,8 +12,8 @@ class SelectActivityAdapter(private val dataset: List<Activity>) :
     RecyclerView.Adapter<SelectActivityAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.name)
-        val area: TextView = view.findViewById(R.id.area)
+        val name: TextView = view.findViewById(R.id.textview_name)
+        val area: TextView = view.findViewById(R.id.textview_area)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

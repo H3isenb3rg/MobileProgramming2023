@@ -38,7 +38,7 @@ abstract class TopLevelFragment : Fragment() {
                     val badge = BadgeDrawable.create(requireActivity())
                     badge.isVisible = false
                     BadgeUtils.attachBadgeDrawable(
-                        badge, requireActivity().findViewById(R.id.topAppBar), R.id.notifications
+                        badge, requireActivity().findViewById(R.id.toolbar), R.id.notifications
                     )
 
                     // Show badge on notifications icon if there are new notifications

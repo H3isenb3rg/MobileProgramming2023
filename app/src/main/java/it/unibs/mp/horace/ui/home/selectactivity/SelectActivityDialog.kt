@@ -27,7 +27,7 @@ class SelectActivityDialog : BottomSheetDialogFragment() {
         val activities: MutableList<Activity> = mutableListOf()
         val adapter = SelectActivityAdapter(activities)
 
-        binding.activities.adapter = adapter
+        binding.recyclerviewActivities.adapter = adapter
 
         lifecycleScope.launch {
             val journal = JournalFactory.getJournal(requireContext())
@@ -35,7 +35,7 @@ class SelectActivityDialog : BottomSheetDialogFragment() {
             adapter.notifyItemRangeInserted(0, activities.size)
         }
 
-        binding.addNewActivity.setOnClickListener {
+        binding.cardviewAddNewActivity.setOnClickListener {
             findNavController().navigate(
                 SelectActivityDialogDirections.actionGlobalNewActivity()
             )

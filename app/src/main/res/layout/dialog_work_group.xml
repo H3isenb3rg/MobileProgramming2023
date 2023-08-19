@@ -1,49 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".ui.home.workgroup.WorkGroupDialog">
 
     <TextView
-        android:id="@+id/title"
         style="?attr/textAppearanceTitleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/work_group"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/work_group" />
 
     <TextView
-        android:id="@+id/description"
         style="?attr/textAppearanceBodyLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/work_group_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        android:text="@string/work_group_text" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/workGroup"
+        android:id="@+id/recyclerview_work_group"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_marginVertical="24dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description"
         tools:listitem="@layout/item_work_group" />
 
     <Button
-        android:id="@+id/invite"
+        android:id="@+id/button_invite"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,9 +42,6 @@
         android:text="@string/invite_friends"
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_person_add"
-        app:iconTint="?attr/colorOnSurface"
-        app:layout_constraintTop_toBottomOf="@id/workGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:iconTint="?attr/colorOnSurface" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

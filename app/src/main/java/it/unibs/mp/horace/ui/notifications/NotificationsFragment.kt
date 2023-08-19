@@ -37,7 +37,7 @@ class NotificationsFragment : Fragment() {
         }
 
         val adapter = NotificationsAdapter(requireContext(), notifications, ::onAction)
-        binding.notificationsList.adapter = adapter
+        binding.recyclerviewNotifications.adapter = adapter
 
         // Load notification in background
         lifecycleScope.launch {
@@ -45,11 +45,11 @@ class NotificationsFragment : Fragment() {
 
             // If there are no notifications, show a message
             if (userNotifications.isEmpty()) {
-                binding.noNotificationsText.isVisible = true
+                binding.textviewNoNotifications.isVisible = true
                 return@launch
             }
 
-            binding.noNotificationsText.isVisible = false
+            binding.textviewNoNotifications.isVisible = false
 
             // Add notification to list and notify the adapter
             notifications.addAll(userNotifications)

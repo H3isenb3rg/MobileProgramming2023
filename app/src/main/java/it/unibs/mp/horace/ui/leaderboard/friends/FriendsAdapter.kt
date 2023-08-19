@@ -20,9 +20,9 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     RecyclerView.Adapter<FriendsAdapter.ItemViewHolder>(), Filterable {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
-        val username: TextView = view.findViewById(R.id.username)
-        val email: TextView = view.findViewById(R.id.email)
+        val profilePhoto: ImageView = view.findViewById(R.id.image_view_photo)
+        val username: TextView = view.findViewById(R.id.textview_username)
+        val email: TextView = view.findViewById(R.id.textview_email)
     }
 
     // Contains only the items that match the search query.

@@ -26,7 +26,7 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val workGroup: MutableList<User> = mutableListOf()
         val adapter = WorkGroupAdapter(workGroup)
-        binding.workGroup.adapter = adapter
+        binding.recyclerviewWorkGroup.adapter = adapter
 
         lifecycleScope.launch {
             val user = CurrentUser()
@@ -34,7 +34,7 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
             adapter.notifyItemRangeInserted(0, workGroup.size)
         }
 
-        binding.invite.setOnClickListener {
+        binding.buttonInvite.setOnClickListener {
             findNavController().navigate(
                 WorkGroupDialogDirections.actionWorkGroupDialogToInviteFriendsDialog()
             )

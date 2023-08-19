@@ -14,8 +14,8 @@ class WorkGroupAdapter(private val dataset: List<User>) :
     RecyclerView.Adapter<WorkGroupAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
-        val username: TextView = view.findViewById(R.id.username)
+        val profilePhoto: ImageView = view.findViewById(R.id.image_view_photo)
+        val username: TextView = view.findViewById(R.id.textview_username)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

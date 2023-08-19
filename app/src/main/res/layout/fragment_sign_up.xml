@@ -11,7 +11,7 @@
 
     <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username"
+        android:id="@+id/textinput_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -27,7 +27,7 @@
 
     <!-- Email -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email"
+        android:id="@+id/textinput_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -43,7 +43,7 @@
 
     <!-- Password -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password"
+        android:id="@+id/textinput_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -60,7 +60,7 @@
 
     <!-- Confirm password -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordConfirm"
+        android:id="@+id/textinput_password_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -78,7 +78,7 @@
 
     <!-- Terms -->
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/terms"
+        android:id="@+id/checkbox_terms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -86,7 +86,7 @@
 
     <!-- Sign up button -->
     <Button
-        android:id="@+id/signUp"
+        android:id="@+id/button_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

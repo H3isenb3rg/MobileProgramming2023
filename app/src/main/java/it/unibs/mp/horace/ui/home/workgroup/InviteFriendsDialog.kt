@@ -36,7 +36,7 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
             InviteFriendsAdapter(friendsNotInWorkGroup) { selection: User, isInvited: Boolean ->
                 invited[selection] = isInvited
             }
-        binding.availableFriends.adapter = adapter
+        binding.recyclerviewAvailableFriends.adapter = adapter
 
         // Load actual values in background so the app doesn't freeze
         lifecycleScope.launch {
@@ -46,7 +46,7 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
             adapter.notifyItemRangeInserted(0, friendsNotInWorkGroup.size)
         }
 
-        binding.invite.setOnClickListener {
+        binding.buttonInvite.setOnClickListener {
             lifecycleScope.launch {
                 invited.filter { it.value }.forEach { manager.sendWorkGroupRequest(it.key) }
             }

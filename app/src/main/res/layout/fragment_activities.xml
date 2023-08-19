@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.activities.ActivitiesFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/viewJournal"
+        android:id="@+id/cardview_view_journal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:strokeWidth="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +23,7 @@
             android:paddingVertical="8dp">
 
             <ImageView
-                android:id="@+id/notes"
+                android:id="@+id/imageview_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/view_journal"
@@ -42,7 +40,7 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/view_journal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/notes"
+                app:layout_constraintStart_toEndOf="@id/imageview_icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -56,21 +54,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/streakContainer"
+        android:id="@+id/layout_streak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewJournal">
+        android:paddingVertical="8dp">
 
         <ImageView
-            android:id="@+id/streakIcon"
+            android:id="@+id/imageview_streak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/view_journal"
@@ -81,38 +77,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/streak"
+            android:id="@+id/textview_streak"
             style="?attr/textAppearanceTitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/streak"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/streakStartDate"
-            app:layout_constraintStart_toEndOf="@id/streakIcon"
+            app:layout_constraintBottom_toTopOf="@id/textview_streak_start_date"
+            app:layout_constraintStart_toEndOf="@id/imageview_streak"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/streakStartDate"
+            android:id="@+id/textview_streak_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/streak_start_date"
-            app:layout_constraintStart_toStartOf="@id/streak"
-            app:layout_constraintTop_toBottomOf="@id/streak" />
+            app:layout_constraintStart_toStartOf="@id/textview_streak"
+            app:layout_constraintTop_toBottomOf="@id/textview_streak" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/recentActivitiesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/streakContainer">
+        android:orientation="vertical">
 
         <TextView
             style="?attr/textAppearanceTitleMedium"
@@ -121,7 +113,7 @@
             android:text="@string/activities_in_last_7_days" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/recentActivitiesChart"
+            android:id="@+id/chart_activities_last_week"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="24dp" />
@@ -132,10 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="24dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recentActivitiesContainer">
+        android:orientation="vertical">
 
         <TextView
             style="?attr/textAppearanceTitleMedium"
@@ -144,9 +133,10 @@
             android:text="@string/most_frequent_activities" />
 
         <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/activitiesFrequencyChart"
+            android:id="@+id/chart_most_frequent_activities"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="24dp" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

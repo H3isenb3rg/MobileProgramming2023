@@ -40,7 +40,7 @@ class UserDetailsDialog : BottomSheetDialogFragment() {
 
         // If the user is viewing their own profile, hide the request friendship button.
         if (CurrentUser().uid == uid) {
-            binding.requestFriendship.visibility = View.INVISIBLE
+            binding.buttonRequestFriendship.visibility = View.INVISIBLE
         }
 
         // Load the user's data.
@@ -49,11 +49,11 @@ class UserDetailsDialog : BottomSheetDialogFragment() {
             val user = it.toObject(User::class.java)!!
 
             // load() is provided by the Coil library.
-            binding.photo.load(user.profilePhoto)
-            binding.username.text = user.username
-            binding.email.text = user.email
+            binding.imageviewPhoto.load(user.profilePhoto)
+            binding.textviewUsername.text = user.username
+            binding.textviewEmail.text = user.email
 
-            binding.requestFriendship.setOnClickListener {
+            binding.buttonRequestFriendship.setOnClickListener {
                 lifecycleScope.launch {
                     UserNotificationManager().sendFriendRequest(user)
                     findNavController().navigate(

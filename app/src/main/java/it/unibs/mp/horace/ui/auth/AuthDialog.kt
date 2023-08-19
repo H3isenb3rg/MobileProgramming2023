@@ -58,12 +58,12 @@ class AuthDialog : BottomSheetDialogFragment() {
         setupGoogleSignIn()
         setupFacebookSignIn()
 
-        binding.btnEmail.setOnClickListener {
+        binding.buttonEmailPassword.setOnClickListener {
             val action = AuthDialogDirections.actionAuthDialogToSignInFragment()
             findNavController().navigate(action)
         }
 
-        binding.btnGoogle.setOnClickListener {
+        binding.buttonGoogle.setOnClickListener {
             // The Google One Tap client that will be used for authentication
             oneTapClient = Identity.getSignInClient(requireActivity())
 
@@ -90,7 +90,7 @@ class AuthDialog : BottomSheetDialogFragment() {
             }
         }
 
-        binding.btnFacebook.setOnClickListener {
+        binding.buttonFacebook.setOnClickListener {
             LoginManager.getInstance().logInWithReadPermissions(
                 requireActivity(), listOf("public_profile", "user_friends")
             )

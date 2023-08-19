@@ -15,9 +15,9 @@ class EntryAdapter(val context: Context, val dataset: List<TimeEntry>) :
     RecyclerView.Adapter<EntryAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val activityName: TextView = itemView.findViewById(R.id.name)
-        val points: TextView = itemView.findViewById(R.id.points)
-        val duration: TextView = itemView.findViewById(R.id.duration)
+        val activityName: TextView = itemView.findViewById(R.id.textview_name)
+        val points: TextView = itemView.findViewById(R.id.textview_points)
+        val duration: TextView = itemView.findViewById(R.id.textview_duration)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DataViewHolder(

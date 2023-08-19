@@ -7,9 +7,8 @@
     android:gravity="center_vertical|center_horizontal"
     tools:context=".ui.home.HomeFragment">
 
-    <!-- Mode selector -->
     <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/modeSelector"
+        android:id="@+id/togglegroup_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -19,23 +18,22 @@
         app:singleSelection="true">
 
         <Button
-            android:id="@+id/pomodoro"
+            android:id="@+id/button_pomodoro"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pomodoro" />
 
         <Button
-            android:id="@+id/stopwatch"
+            android:id="@+id/button_stopwatch"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stopwatch" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    <!-- Timer -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/timer"
+        android:id="@+id/cardview_timer"
         style="?attr/materialCardViewFilledStyle"
         android:layout_width="280dp"
         android:layout_height="280dp"
@@ -46,7 +44,7 @@
         app:cardCornerRadius="280dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modeSelector"
+        app:layout_constraintTop_toBottomOf="@id/togglegroup_mode"
         app:strokeColor="?attr/colorPrimary"
         app:strokeWidth="10dp">
 
@@ -55,7 +53,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/textview_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
@@ -74,35 +72,35 @@
                 android:textColor="?attr/colorOnPrimaryContainer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/time" />
+                app:layout_constraintTop_toBottomOf="@id/textview_time" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <Button
-        android:id="@+id/workGroup"
+        android:id="@+id/button_workgroup"
         style="?attr/materialIconButtonFilledTonalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:contentDescription="@string/work_group"
         app:icon="@drawable/ic_people"
-        app:layout_constraintBottom_toBottomOf="@id/timer"
+        app:layout_constraintBottom_toBottomOf="@id/cardview_timer"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/volumeToggle"
+        android:id="@+id/button_volume_toggle"
         style="?attr/materialIconButtonFilledTonalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/toggle_volume"
         app:icon="@drawable/ic_volume_on"
-        app:layout_constraintBottom_toBottomOf="@id/timer"
+        app:layout_constraintBottom_toBottomOf="@id/cardview_timer"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/activityPicker"
+        android:id="@+id/button_select_activity"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,6 +112,6 @@
         app:iconTint="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer" />
+        app:layout_constraintTop_toBottomOf="@id/cardview_timer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

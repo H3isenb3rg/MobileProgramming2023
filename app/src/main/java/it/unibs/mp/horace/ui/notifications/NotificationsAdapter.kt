@@ -28,19 +28,19 @@ class NotificationsAdapter(
 
     // The base class for the view holder.
     open class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var message: TextView = view.findViewById(R.id.message)
-        var action: Button = view.findViewById(R.id.action)
+        var message: TextView = view.findViewById(R.id.textview_message)
+        var action: Button = view.findViewById(R.id.button_action)
         var container: MaterialCardView = view.findViewById(R.id.notificationContainer)
     }
 
     // View holder for friend notifications.
     class FriendViewHolder(view: View) : ItemViewHolder(view) {
-        var profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
+        var profilePhoto: ImageView = view.findViewById(R.id.image_view_photo)
     }
 
     // View holder for workgroup notifications.
     class WorkGroupViewHolder(view: View) : ItemViewHolder(view) {
-        var icon: ImageView = view.findViewById(R.id.icon)
+        var icon: ImageView = view.findViewById(R.id.imageview_icon)
     }
 
     // Returns the view type of the item at position for the purposes of view recycling.

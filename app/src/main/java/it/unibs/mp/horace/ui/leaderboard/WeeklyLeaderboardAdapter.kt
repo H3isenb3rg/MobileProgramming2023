@@ -13,9 +13,9 @@ class WeeklyLeaderboardAdapter(
 ) : RecyclerView.Adapter<WeeklyLeaderboardAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val position: TextView = view.findViewById(R.id.position)
-        val username: TextView = view.findViewById(R.id.username)
-        val points: TextView = view.findViewById(R.id.points)
+        val position: TextView = view.findViewById(R.id.textview_position)
+        val username: TextView = view.findViewById(R.id.textview_username)
+        val points: TextView = view.findViewById(R.id.textview_points)
     }
 
     // Called when RecyclerView needs a new ViewHolder of the given type.

@@ -32,19 +32,19 @@ class NewAreaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.name.editText?.addTextChangedListener {
+        binding.textinputName.editText?.addTextChangedListener {
             viewModel.name = it.toString()
-            binding.name.error = viewModel.error
+            binding.textinputName.error = viewModel.error
         }
 
-        binding.add.setOnClickListener {
+        binding.textinputSave.setOnClickListener {
             // Save the area in background.
             runBlocking {
                 try {
                     viewModel.save()
                     findNavController().navigateUp()
                 } catch (e: IllegalStateException) {
-                    binding.name.error = viewModel.error
+                    binding.textinputName.error = viewModel.error
                 }
             }
         }

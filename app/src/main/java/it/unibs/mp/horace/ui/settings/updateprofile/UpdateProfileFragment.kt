@@ -21,10 +21,10 @@ class UpdateProfileFragment : Fragment() {
 
     private var _binding: FragmentUpdateProfileBinding? = null
     private val binding get() = _binding!!
-    private val username get() = binding.username.editText?.text.toString()
-    private val email get() = binding.email.editText?.text.toString()
-    private val password get() = binding.password.editText?.text.toString()
-    private val passwordConfirm get() = binding.passwordConfirm.editText?.text.toString()
+    private val username get() = binding.textinputUsername.editText?.text.toString()
+    private val email get() = binding.textinputEmail.editText?.text.toString()
+    private val password get() = binding.textinputPassword.editText?.text.toString()
+    private val passwordConfirm get() = binding.textinputPasswordConfirm.editText?.text.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,13 +37,13 @@ class UpdateProfileFragment : Fragment() {
         val user = CurrentUser()
         addChangeListeners()
 
-        binding.deleteProfile.setOnClickListener {
+        binding.buttonDeleteProfile.setOnClickListener {
             findNavController().navigate(
                 UpdateProfileFragmentDirections.actionUpdateProfileFragmentToDialogConfirmDelete()
             )
         }
 
-        binding.saveChanges.setOnClickListener {
+        binding.buttonSaveChanges.setOnClickListener {
             validateAll()
 
             if (!viewModel.isEverythingValid) {
@@ -65,17 +65,17 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun addChangeListeners() {
-        binding.username.editText?.addTextChangedListener {
+        binding.textinputUsername.editText?.addTextChangedListener {
             validateUsername()
         }
-        binding.email.editText?.addTextChangedListener {
+        binding.textinputEmail.editText?.addTextChangedListener {
             validateEmail()
         }
-        binding.password.editText?.addTextChangedListener {
+        binding.textinputPassword.editText?.addTextChangedListener {
             validatePassword()
             validatePasswordConfirm()
         }
-        binding.passwordConfirm.editText?.addTextChangedListener {
+        binding.textinputPasswordConfirm.editText?.addTextChangedListener {
             validatePasswordConfirm()
         }
     }
@@ -88,7 +88,7 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun validateUsername() {
-        binding.username.error = when (viewModel.updateUsername(username)) {
+        binding.textinputUsername.error = when (viewModel.updateUsername(username)) {
             ProfileValidator.ERROR_USERNAME_LENGTH -> getString(R.string.username_min_length)
             ProfileValidator.ERROR_USERNAME_CHARS -> getString(R.string.username_chars)
             else -> null
@@ -96,12 +96,12 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun validateEmail() {
-        binding.email.error =
+        binding.textinputEmail.error =
             if (viewModel.updateEmail(email) == ProfileValidator.OK) null else getString(R.string.email_invalid)
     }
 
     private fun validatePassword() {
-        binding.password.error = when (viewModel.updatePassword(password)) {
+        binding.textinputPassword.error = when (viewModel.updatePassword(password)) {
             ProfileValidator.ERROR_PASSWORD_LENGTH -> getString(R.string.password_min_length)
             ProfileValidator.ERROR_PASSWORD_UPPERCASE -> getString(R.string.password_uppercase)
             ProfileValidator.ERROR_PASSWORD_LOWERCASE -> getString(R.string.password_lowercase)
@@ -111,7 +111,7 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun validatePasswordConfirm() {
-        binding.passwordConfirm.error = if (viewModel.updatePasswordConfirm(
+        binding.textinputPasswordConfirm.error = if (viewModel.updatePasswordConfirm(
                 password, passwordConfirm
             ) == ProfileValidator.OK
         ) null else getString(R.string.password_does_not_match)

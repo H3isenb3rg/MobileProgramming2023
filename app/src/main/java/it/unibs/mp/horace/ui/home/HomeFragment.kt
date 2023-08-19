@@ -85,16 +85,16 @@ class HomeFragment : TopLevelFragment() {
 
 
         // Set timer mode from value stored in preferences.
-        binding.modeSelector.check(
-            if (prefs.isModePomodoro) binding.pomodoro.id else binding.stopwatch.id
+        binding.togglegroupMode.check(
+            if (prefs.isModePomodoro) binding.buttonPomodoro.id else binding.buttonStopwatch.id
         )
 
         // Change mode in preferences on selector change.
-        binding.modeSelector.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        binding.togglegroupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) {
                 return@addOnButtonCheckedListener
             }
-            if (checkedId == binding.stopwatch.id) {
+            if (checkedId == binding.buttonStopwatch.id) {
                 prefs.switchModeToStopwatch()
             } else {
                 prefs.switchModeToPomodoro()
@@ -102,15 +102,15 @@ class HomeFragment : TopLevelFragment() {
         }
 
         // Set volume drawable from value stored in preferences.
-        binding.volumeToggle.setIconResource(volumeDrawable)
+        binding.buttonVolumeToggle.setIconResource(volumeDrawable)
 
         // Toggle volume in preferences on click.
-        binding.volumeToggle.setOnClickListener {
+        binding.buttonVolumeToggle.setOnClickListener {
             prefs.toggleVolume()
-            binding.volumeToggle.setIconResource(volumeDrawable)
+            binding.buttonVolumeToggle.setIconResource(volumeDrawable)
         }
 
-        binding.workGroup.setOnClickListener {
+        binding.buttonWorkgroup.setOnClickListener {
             findNavController().navigate(
                 if (auth.currentUser == null) {
                     HomeFragmentDirections.actionGlobalAuth()
@@ -120,7 +120,7 @@ class HomeFragment : TopLevelFragment() {
             )
         }
 
-        binding.activityPicker.setOnClickListener {
+        binding.buttonSelectActivity.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityDialog())
         }
     }

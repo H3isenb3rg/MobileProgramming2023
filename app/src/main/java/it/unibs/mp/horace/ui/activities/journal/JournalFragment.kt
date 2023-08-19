@@ -30,13 +30,13 @@ class JournalFragment : Fragment() {
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
         val adapter = JournalAdapter(requireContext(), journalDays)
-        binding.journalsView.adapter = adapter
+        binding.recyclerviewJournal.adapter = adapter
 
         lifecycleScope.launch {
             journalDays.addAll(JournalDay.fromTimeEntries(journal.getAllTimeEntries()))
             adapter.notifyItemRangeInserted(0, journalDays.size)
 
-            binding.noEntriesText.isVisible = journalDays.isEmpty()
+            binding.textviewNoEntries.isVisible = journalDays.isEmpty()
         }
     }
 

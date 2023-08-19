@@ -74,7 +74,7 @@ class AreaAdapter(
             .inflate(R.layout.item_area, parent, false)
 
         // Get the views
-        val area: TextView = layout.findViewById(R.id.area)
+        val area: TextView = layout.findViewById(R.id.textview_area)
 
         val item = filteredDataset[position]
 

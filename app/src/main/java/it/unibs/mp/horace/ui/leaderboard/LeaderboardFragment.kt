@@ -32,7 +32,7 @@ class LeaderboardFragment : TopLevelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewAllFriends.setOnClickListener {
+        binding.cardviewViewAllFriends.setOnClickListener {
             findNavController().navigate(
                 LeaderboardFragmentDirections.actionLeaderboardFragmentToFriendsFragment()
             )
@@ -50,7 +50,7 @@ class LeaderboardFragment : TopLevelFragment() {
         val weeklyLeaderboard: MutableList<LeaderboardItem> = mutableListOf()
 
         val adapter = WeeklyLeaderboardAdapter(weeklyLeaderboard)
-        binding.weeklyLeaderboard.adapter = adapter
+        binding.recyclerviewWeeklyLeaderboard.adapter = adapter
 
         // Load the weekly leaderboard in background
         lifecycleScope.launch {
@@ -64,8 +64,8 @@ class LeaderboardFragment : TopLevelFragment() {
             // If the leaderboard is empty, show the "no friends" message,
             // otherwise notify the adapter of the new items.
             if (weeklyLeaderboard.isEmpty()) {
-                binding.weeklyLeaderboard.isVisible = false
-                binding.noFriends.isVisible = true
+                binding.recyclerviewWeeklyLeaderboard.isVisible = false
+                binding.layoutNoFriends.isVisible = true
             } else {
                 adapter.notifyItemRangeInserted(0, weeklyLeaderboard.size)
             }
@@ -89,10 +89,10 @@ class LeaderboardFragment : TopLevelFragment() {
             }
         }
 
-        binding.suggestedFriends.adapter = adapter
+        binding.recyclerviewSuggestedFriends.adapter = adapter
 
         // Carousel settings
-        binding.suggestedFriends.apply {
+        binding.recyclerviewSuggestedFriends.apply {
             setFlat(true)
             setInfinite(true)
         }

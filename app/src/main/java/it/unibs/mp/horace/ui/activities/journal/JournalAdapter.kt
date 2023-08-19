@@ -20,11 +20,11 @@ open class JournalAdapter(val context: Context, val dataset: List<JournalDay>) :
     RecyclerView.Adapter<JournalAdapter.DataViewHolder>() {
 
     inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val date: TextView = itemView.findViewById(R.id.date)
-        val summary: TextView = itemView.findViewById(R.id.summary)
-        val entries: RecyclerView = itemView.findViewById(R.id.journalsView)
+        val date: TextView = itemView.findViewById(R.id.textview_date)
+        val summary: TextView = itemView.findViewById(R.id.textview_summary)
+        val entries: RecyclerView = itemView.findViewById(R.id.recyclerview_journal)
 
-        private val expand: ImageView = itemView.findViewById(R.id.expand)
+        private val expand: ImageView = itemView.findViewById(R.id.imageview_expand)
 
         init {
             entries.isVisible = false

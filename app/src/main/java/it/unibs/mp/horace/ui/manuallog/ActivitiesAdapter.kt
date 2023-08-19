@@ -78,8 +78,8 @@ class ActivitiesAdapter(
             .inflate(R.layout.item_select_activity, parent, false)
 
         // Get the views
-        val name: TextView = layout.findViewById(R.id.name)
-        val area: MaterialTextView = layout.findViewById(R.id.area)
+        val name: TextView = layout.findViewById(R.id.textview_name)
+        val area: MaterialTextView = layout.findViewById(R.id.textview_area)
 
         val item = filteredDataset[position]
 

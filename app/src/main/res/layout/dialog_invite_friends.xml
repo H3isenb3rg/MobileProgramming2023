@@ -1,56 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".ui.home.workgroup.InviteFriendsDialog">
 
     <TextView
-        android:id="@+id/title"
         style="?attr/textAppearanceTitleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/invite_friends"
-        app:layout_constraintBottom_toTopOf="@id/searchBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/invite_friends" />
 
     <com.google.android.material.search.SearchBar
-        android:id="@+id/searchBar"
+        android:id="@+id/searchbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
         android:hint="@string/search_by_name_or_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:defaultMarginsEnabled="false" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/availableFriends"
+        android:id="@+id/recyclerview_available_friends"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_marginTop="24dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar"
         tools:listitem="@layout/item_invite_friend" />
 
     <Button
-        android:id="@+id/invite"
+        android:id="@+id/button_invite"
         style="?attr/materialIconButtonFilledStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="24dp"
-        android:text="@string/invite_selected"
-        app:layout_constraintTop_toBottomOf="@id/availableFriends"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/invite_selected" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

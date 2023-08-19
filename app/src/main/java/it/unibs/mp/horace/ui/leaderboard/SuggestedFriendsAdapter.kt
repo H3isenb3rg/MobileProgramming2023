@@ -20,10 +20,10 @@ class SuggestedFriendsAdapter(
         mutableListOf<User>().apply { addAll(dataset) }
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
-        val username: TextView = view.findViewById(R.id.username)
-        val email: TextView = view.findViewById(R.id.email)
-        val sendFriendRequest: Button = view.findViewById(R.id.sendFriendRequest)
+        val profilePhoto: ImageView = view.findViewById(R.id.image_view_photo)
+        val username: TextView = view.findViewById(R.id.textview_username)
+        val email: TextView = view.findViewById(R.id.textview_email)
+        val sendFriendRequest: Button = view.findViewById(R.id.button_send_friend_request)
     }
 
     // Called when RecyclerView needs a new ViewHolder of the given type.

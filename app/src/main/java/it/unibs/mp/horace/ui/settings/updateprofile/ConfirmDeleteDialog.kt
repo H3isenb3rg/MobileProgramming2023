@@ -23,7 +23,7 @@ class ConfirmDeleteDialog : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.confirm.setOnClickListener {
+        binding.buttonConfirm.setOnClickListener {
             lifecycleScope.launch {
                 CurrentUser().delete()
 

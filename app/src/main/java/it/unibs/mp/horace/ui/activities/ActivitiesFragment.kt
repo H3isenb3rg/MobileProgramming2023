@@ -58,7 +58,7 @@ class ActivitiesFragment : TopLevelFragment() {
 
         journal = JournalFactory.getJournal(requireContext())
 
-        binding.viewJournal.setOnClickListener {
+        binding.cardviewViewJournal.setOnClickListener {
             findNavController().navigate(
                 ActivitiesFragmentDirections.actionActivitiesFragmentToHistoryFragment()
             )
@@ -67,7 +67,7 @@ class ActivitiesFragment : TopLevelFragment() {
         // Set the no data text color to the color on background.
         // This is done before loading the data,
         // otherwise the text color and message would be set to the default while loading.
-        binding.activitiesFrequencyChart.apply {
+        binding.chartMostFrequentActivities.apply {
             // Set no data text
             setNoDataText(context.getString(R.string.no_activities_yet))
             setNoDataTextColor(
@@ -76,7 +76,7 @@ class ActivitiesFragment : TopLevelFragment() {
                 )
             )
         }
-        binding.recentActivitiesChart.apply {
+        binding.chartActivitiesLastWeek.apply {
             setNoDataText(context.getString(R.string.no_activities_last_seven_days))
             setNoDataTextColor(
                 MaterialColors.getColor(
@@ -90,12 +90,12 @@ class ActivitiesFragment : TopLevelFragment() {
 
             // Only show the streak if it is at least 2 days long.
             if (streak < 2) {
-                binding.streakContainer.isVisible = false
+                binding.layoutStreak.isVisible = false
                 return@launch
             }
 
-            binding.streak.text = getString(R.string.streak, journal.streak())
-            binding.streakStartDate.text = getString(
+            binding.textviewStreak.text = getString(R.string.streak, journal.streak())
+            binding.textviewStreakStartDate.text = getString(
                 R.string.streak_start_date, LocalDate.now().minusDays(streak.toLong()).format(
                     DateTimeFormatter.ofPattern("dd/MM/yyyy")
                 )
@@ -149,7 +149,7 @@ class ActivitiesFragment : TopLevelFragment() {
             setDrawValues(false)
         }
 
-        binding.recentActivitiesChart.apply {
+        binding.chartActivitiesLastWeek.apply {
             data = LineData(dataset)
 
             // Disable zooming, scrolling, etc.
@@ -189,7 +189,7 @@ class ActivitiesFragment : TopLevelFragment() {
         }
 
         // Refresh the chart
-        binding.recentActivitiesChart.invalidate()
+        binding.chartActivitiesLastWeek.invalidate()
     }
 
     private suspend fun setupPieChart(view: View) {
@@ -230,10 +230,10 @@ class ActivitiesFragment : TopLevelFragment() {
             valueLinePart2Length = 0f
             valueLineColor = ColorTemplate.COLOR_NONE
             valueTextSize = 10f
-            valueFormatter = PercentFormatter(binding.activitiesFrequencyChart)
+            valueFormatter = PercentFormatter(binding.chartMostFrequentActivities)
         }
 
-        binding.activitiesFrequencyChart.apply {
+        binding.chartMostFrequentActivities.apply {
             data = PieData(dataset)
             renderer = PieChartLabelRenderer(this, animator, viewPortHandler)
 
@@ -265,7 +265,7 @@ class ActivitiesFragment : TopLevelFragment() {
             setExtraOffsets(0f, 0f, 0f, 30f)
         }
 
-        binding.activitiesFrequencyChart.invalidate()
+        binding.chartMostFrequentActivities.invalidate()
     }
 
     override fun onDestroyView() {

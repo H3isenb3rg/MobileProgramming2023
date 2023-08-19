@@ -31,15 +31,15 @@ class FriendsFragment : Fragment() {
         // Set friends initially to an empty list
         val friends = ArrayList<User>()
         val adapter = FriendsAdapter(friends)
-        binding.fullFriendsList.adapter = adapter
+        binding.recyclerviewFriends.adapter = adapter
 
         // Load friends in background
         lifecycleScope.launch {
             friends.addAll(CurrentUser().friends())
 
             if (friends.isEmpty()) {
-                binding.noFriends.visibility = View.VISIBLE
-                binding.shareProfile.setOnClickListener { requireContext().shareUserProfile() }
+                binding.layoutNoFriends.visibility = View.VISIBLE
+                binding.buttonShareProfile.setOnClickListener { requireContext().shareUserProfile() }
                 return@launch
             }
 
@@ -49,7 +49,7 @@ class FriendsFragment : Fragment() {
 
         // Hook search bar to search view.
         // On text change, filter the adapter.
-        (requireActivity() as MainActivity).hookSearchBar(binding.searchBar, adapter) { text ->
+        (requireActivity() as MainActivity).hookSearchBar(binding.searchbar, adapter) { text ->
             adapter.filter.filter(text)
         }
     }
