@@ -4,17 +4,17 @@
     tools:keep="@xml/preferences">
 
     <Preference
-        android:icon="@drawable/baseline_person_outline_24"
+        android:icon="@drawable/ic_person_outline"
         android:key="@string/preference_auth"
         android:title="@string/authenticate" />
 
     <Preference
-        android:icon="@drawable/baseline_share_24"
+        android:icon="@drawable/ic_share"
         android:key="@string/preference_share"
         android:title="@string/share_profile" />
 
     <Preference
-        android:icon="@drawable/baseline_edit_24"
+        android:icon="@drawable/ic_edit"
         android:key="@string/preference_edit"
         android:title="@string/update_profile" />
 
@@ -22,18 +22,18 @@
         android:defaultValue="device"
         android:entries="@array/themeNames"
         android:entryValues="@array/themeValues"
-        android:icon="@drawable/baseline_dark_mode_24"
+        android:icon="@drawable/ic_dark_mode"
         android:key="@string/preference_theme"
         android:title="@string/select_theme" />
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/baseline_access_time_24"
+        android:icon="@drawable/ic_clock"
         android:key="@string/preference_quick_actions"
         android:title="@string/show_quick_actions" />
 
     <Preference
-        android:icon="@drawable/baseline_logout_24"
+        android:icon="@drawable/ic_logout"
         android:key="@string/preference_sign_out"
         android:title="@string/sign_out" />
 

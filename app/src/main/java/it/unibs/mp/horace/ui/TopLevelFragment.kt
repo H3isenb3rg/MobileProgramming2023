@@ -32,7 +32,7 @@ abstract class TopLevelFragment : Fragment() {
             @androidx.annotation.OptIn(com.google.android.material.badge.ExperimentalBadgeUtils::class)
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 if (Firebase.auth.currentUser != null) {
-                    menuInflater.inflate(R.menu.auth_app_menu, menu)
+                    menuInflater.inflate(R.menu.menu_top_auth, menu)
 
                     // Badge for new notifications
                     val badge = BadgeDrawable.create(requireActivity())
@@ -47,7 +47,7 @@ abstract class TopLevelFragment : Fragment() {
                         badge.isVisible = true
                     }
                 } else {
-                    menuInflater.inflate(R.menu.no_auth_app_menu, menu)
+                    menuInflater.inflate(R.menu.menu_top_no_auth, menu)
                 }
             }
 

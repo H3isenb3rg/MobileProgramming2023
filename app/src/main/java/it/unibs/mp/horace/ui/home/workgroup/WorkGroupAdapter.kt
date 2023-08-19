@@ -20,7 +20,7 @@ class WorkGroupAdapter(private val dataset: List<User>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.work_group_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_work_group, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }

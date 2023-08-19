@@ -26,11 +26,11 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.databinding.BottomSheetAuthBinding
+import it.unibs.mp.horace.databinding.DialogAuthBinding
 
 
-class AuthBottomSheet : BottomSheetDialogFragment() {
-    private var _binding: BottomSheetAuthBinding? = null
+class AuthDialog : BottomSheetDialogFragment() {
+    private var _binding: DialogAuthBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
@@ -45,7 +45,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = BottomSheetAuthBinding.inflate(inflater, container, false)
+        _binding = DialogAuthBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -59,7 +59,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
         setupFacebookSignIn()
 
         binding.btnEmail.setOnClickListener {
-            val action = AuthBottomSheetDirections.actionAuthBottomSheetToSignInFragment()
+            val action = AuthDialogDirections.actionAuthDialogToSignInFragment()
             findNavController().navigate(action)
         }
 
@@ -113,7 +113,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                     auth.signInWithCredential(firebaseCredential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthBottomSheetDirections.actionAuthBottomSheetToHomeFragment()
+                                AuthDialogDirections.actionAuthDialogToHomeFragment()
                             } else {
                                 // This should never happen
                                 throw IllegalStateException()
@@ -142,7 +142,7 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthBottomSheetDirections.actionAuthBottomSheetToHomeFragment()
+                                AuthDialogDirections.actionAuthDialogToHomeFragment()
                             } else {
                                 throw IllegalStateException()
                             }

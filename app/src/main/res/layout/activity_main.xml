@@ -74,7 +74,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="90dp"
             android:contentDescription="@string/manual_entry"
-            app:srcCompat="@drawable/baseline_add_24" />
+            app:srcCompat="@drawable/ic_add" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/startTimer"
@@ -84,7 +84,7 @@
             android:layout_margin="16dp"
             android:contentDescription="@string/start_timer"
             android:text="@string/start_timer"
-            app:icon="@drawable/baseline_access_time_24" />
+            app:icon="@drawable/ic_clock" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Bottom nav bar -->
@@ -97,6 +97,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/menu_bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

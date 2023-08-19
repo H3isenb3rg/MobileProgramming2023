@@ -45,7 +45,7 @@ class SettingsFragment : Fragment() {
                     user.photoUrl = uri
                     lifecycleScope.launch {
                         user.update()
-                        binding.photo.load(user.photoUrl ?: R.drawable.default_profile_photo)
+                        binding.photo.load(user.photoUrl ?: R.drawable.ic_default_profile_photo)
                     }
                 }
             }
@@ -61,7 +61,7 @@ class SettingsFragment : Fragment() {
         binding.editProfilePhoto.setOnClickListener {
             pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
-        binding.photo.load(user.photoUrl ?: R.drawable.default_profile_photo)
+        binding.photo.load(user.photoUrl ?: R.drawable.ic_default_profile_photo)
     }
 
     override fun onDestroyView() {

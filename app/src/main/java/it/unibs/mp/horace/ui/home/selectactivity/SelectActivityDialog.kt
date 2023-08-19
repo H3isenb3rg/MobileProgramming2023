@@ -9,17 +9,17 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.JournalFactory
-import it.unibs.mp.horace.databinding.BottomSheetSelectActivityBinding
+import it.unibs.mp.horace.databinding.DialogSelectActivityBinding
 import kotlinx.coroutines.launch
 
-class SelectActivityBottomSheet : BottomSheetDialogFragment() {
-    private var _binding: BottomSheetSelectActivityBinding? = null
+class SelectActivityDialog : BottomSheetDialogFragment() {
+    private var _binding: DialogSelectActivityBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = BottomSheetSelectActivityBinding.inflate(inflater, container, false)
+        _binding = DialogSelectActivityBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,7 +37,7 @@ class SelectActivityBottomSheet : BottomSheetDialogFragment() {
 
         binding.addNewActivity.setOnClickListener {
             findNavController().navigate(
-                SelectActivityBottomSheetDirections.actionGlobalNewActivity()
+                SelectActivityDialogDirections.actionGlobalNewActivity()
             )
         }
     }

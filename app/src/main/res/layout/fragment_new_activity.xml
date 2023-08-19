@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:contentDescription="@string/add_new_area"
-            app:icon="@drawable/baseline_add_24" />
+            app:icon="@drawable/ic_add" />
 
     </LinearLayout>
 

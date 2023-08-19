@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.selectactivity.SelectActivityBottomSheet">
+    tools:context=".ui.home.workgroup.WorkGroupDialog">
 
     <TextView
         android:id="@+id/title"
@@ -13,24 +13,25 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/select_activity"
-        app:layout_constraintBottom_toTopOf="@id/searchBar"
+        android:text="@string/work_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/searchBar"
+    <TextView
+        android:id="@+id/description"
+        style="?attr/textAppearanceBodyLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:hint="@string/search_activity"
+        android:text="@string/work_group_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activities"
+        android:id="@+id/workGroup"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_marginVertical="24dp"
@@ -38,21 +39,21 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar"
-        tools:listitem="@layout/select_activity_item" />
+        app:layout_constraintTop_toBottomOf="@id/description"
+        tools:listitem="@layout/item_work_group" />
 
     <Button
-        android:id="@+id/addNewActivity"
+        android:id="@+id/invite"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="24dp"
-        android:text="@string/add_new_activity"
+        android:text="@string/invite_friends"
         android:textColor="?attr/colorOnSurface"
-        app:icon="@drawable/baseline_task_alt_24"
+        app:icon="@drawable/ic_person_add"
         app:iconTint="?attr/colorOnSurface"
-        app:layout_constraintTop_toBottomOf="@id/activities"
+        app:layout_constraintTop_toBottomOf="@id/workGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

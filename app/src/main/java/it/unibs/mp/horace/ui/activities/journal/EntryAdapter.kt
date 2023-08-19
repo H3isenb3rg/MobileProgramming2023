@@ -22,7 +22,7 @@ class EntryAdapter(val context: Context, val dataset: List<TimeEntry>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DataViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.journal_entry_item, parent,
+            R.layout.item_journal_entry, parent,
             false
         )
     )

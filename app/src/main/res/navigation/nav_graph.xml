@@ -32,8 +32,8 @@
             app:argType="string"
             app:nullable="true" />
         <action
-            android:id="@+id/action_homeFragment_to_selectActivityBottomSheet"
-            app:destination="@id/selectActivityBottomSheet"
+            android:id="@+id/action_homeFragment_to_selectActivityDialog"
+            app:destination="@id/selectActivityDialog"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -42,10 +42,10 @@
 
     <!-- User details -->
     <dialog
-        android:id="@+id/userDetailsBottomSheet"
-        android:name="it.unibs.mp.horace.ui.UserDetailsBottomSheet"
-        android:label="bottom_sheet_user_details"
-        tools:layout="@layout/bottom_sheet_user_details">
+        android:id="@+id/userDetailsDialog"
+        android:name="it.unibs.mp.horace.ui.UserDetailsDialog"
+        android:label="dialog_user_details"
+        tools:layout="@layout/dialog_user_details">
         <argument
             android:name="uid"
             app:argType="string" />
@@ -110,24 +110,24 @@
 
     <!-- Select activity -->
     <dialog
-        android:id="@+id/selectActivityBottomSheet"
-        android:name="it.unibs.mp.horace.ui.home.selectactivity.SelectActivityBottomSheet"
+        android:id="@+id/selectActivityDialog"
+        android:name="it.unibs.mp.horace.ui.home.selectactivity.SelectActivityDialog"
         android:label="@string/select_activity"
-        tools:layout="@layout/bottom_sheet_select_activity" />
+        tools:layout="@layout/dialog_select_activity" />
 
     <!-- Work group subgraph -->
     <navigation
         android:id="@+id/workGroupGraph"
-        app:startDestination="@id/workGroupBottomSheet">
+        app:startDestination="@id/workGroupDialog">
         <!-- Work group -->
         <dialog
-            android:id="@+id/workGroupBottomSheet"
-            android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupBottomSheet"
+            android:id="@+id/workGroupDialog"
+            android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupDialog"
             android:label="@string/work_group"
-            tools:layout="@layout/bottom_sheet_work_group">
+            tools:layout="@layout/dialog_work_group">
             <action
-                android:id="@+id/action_workGroupBottomSheet_to_inviteFriendsBottomSheet"
-                app:destination="@id/inviteFriendsBottomSheet"
+                android:id="@+id/action_workGroupDialog_to_inviteFriendsDialog"
+                app:destination="@id/inviteFriendsDialog"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -136,13 +136,13 @@
 
         <!-- Invite friends -->
         <dialog
-            android:id="@+id/inviteFriendsBottomSheet"
-            android:name="it.unibs.mp.horace.ui.home.workgroup.InviteFriendsBottomSheet"
-            android:label="InviteFriendsBottomSheet"
-            tools:layout="@layout/bottom_sheet_invite_friends">
+            android:id="@+id/inviteFriendsDialog"
+            android:name="it.unibs.mp.horace.ui.home.workgroup.InviteFriendsDialog"
+            android:label="InviteFriendsDialog"
+            tools:layout="@layout/dialog_invite_friends">
             <action
-                android:id="@+id/action_inviteFriendsBottomSheet_to_workGroupBottomSheet"
-                app:destination="@id/workGroupBottomSheet"
+                android:id="@+id/action_inviteFriendsDialog_to_workGroupDialog"
+                app:destination="@id/workGroupDialog"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -155,23 +155,23 @@
     <!-- Auth subgraph -->
     <navigation
         android:id="@+id/authGraph"
-        app:startDestination="@id/authBottomSheet">
+        app:startDestination="@id/authDialog">
 
         <!-- Auth -->
         <dialog
-            android:id="@+id/authBottomSheet"
-            android:name="it.unibs.mp.horace.ui.auth.AuthBottomSheet"
+            android:id="@+id/authDialog"
+            android:name="it.unibs.mp.horace.ui.auth.AuthDialog"
             android:label="@string/authentication"
-            tools:layout="@layout/bottom_sheet_auth">
+            tools:layout="@layout/dialog_auth">
             <action
-                android:id="@+id/action_authBottomSheet_to_signInFragment"
+                android:id="@+id/action_authDialog_to_signInFragment"
                 app:destination="@id/signInFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
             <action
-                android:id="@+id/action_authBottomSheet_to_homeFragment"
+                android:id="@+id/action_authDialog_to_homeFragment"
                 app:destination="@id/homeFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
@@ -261,7 +261,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/authBottomSheet"
+                app:popUpTo="@id/authDialog"
                 app:popUpToInclusive="true">
                 <argument
                     android:name="sourceResetPassword"
@@ -361,8 +361,8 @@
                 app:popUpTo="@id/settingsGraph"
                 app:popUpToInclusive="true" />
             <action
-                android:id="@+id/action_updateProfileFragment_to_bottomSheetConfirmDelete"
-                app:destination="@id/bottomSheetConfirmDelete"
+                android:id="@+id/action_updateProfileFragment_to_dialogConfirmDelete"
+                app:destination="@id/dialogConfirmDelete"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -371,12 +371,12 @@
 
         <!-- Confirm delete -->
         <dialog
-            android:id="@+id/bottomSheetConfirmDelete"
-            android:name="it.unibs.mp.horace.ui.settings.updateprofile.BottomSheetConfirmDelete"
+            android:id="@+id/dialogConfirmDelete"
+            android:name="it.unibs.mp.horace.ui.settings.updateprofile.ConfirmDeleteDialog"
             android:label="@string/confirm_delete"
-            tools:layout="@layout/bottom_sheet_confirm_delete">
+            tools:layout="@layout/dialog_confirm_delete">
             <action
-                android:id="@+id/action_bottomSheetConfirmDelete_to_homeFragment"
+                android:id="@+id/action_dialogConfirmDelete_to_homeFragment"
                 app:destination="@id/homeFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
@@ -437,7 +437,7 @@
 
     <action
         android:id="@+id/action_global_userDetails"
-        app:destination="@id/userDetailsBottomSheet"
+        app:destination="@id/userDetailsDialog"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"

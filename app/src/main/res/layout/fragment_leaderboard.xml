@@ -30,7 +30,7 @@
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="5"
-            tools:listitem="@layout/leaderboard_item" />
+            tools:listitem="@layout/item_leaderboard" />
 
         <!-- Text shown if the user has no friends -->
         <LinearLayout
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/view_all_friends"
                 android:padding="8dp"
-                android:src="@drawable/baseline_people_alt_24"
+                android:src="@drawable/ic_people"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/view_all_friends"
                 android:padding="8dp"
-                android:src="@drawable/baseline_arrow_forward_24"
+                android:src="@drawable/ic_arrow_forward"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -128,7 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            tools:listitem="@layout/suggested_friend_item" />
+            tools:listitem="@layout/item_suggested_friend" />
 
     </LinearLayout>
 

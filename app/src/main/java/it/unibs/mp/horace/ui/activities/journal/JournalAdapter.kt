@@ -33,9 +33,9 @@ open class JournalAdapter(val context: Context, val dataset: List<JournalDay>) :
                 entries.isVisible = !entries.isVisible
                 expand.setImageResource(
                     if (entries.isVisible) {
-                        R.drawable.baseline_expand_less_24
+                        R.drawable.ic_expand_less
                     } else {
-                        R.drawable.baseline_expand_more_24
+                        R.drawable.ic_expand_more
                     }
                 )
             }
@@ -46,7 +46,7 @@ open class JournalAdapter(val context: Context, val dataset: List<JournalDay>) :
         parent: ViewGroup, viewType: Int
     ): JournalAdapter.DataViewHolder {
         val adapterLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.journal_day_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_journal_day, parent, false)
 
         return DataViewHolder(adapterLayout)
     }

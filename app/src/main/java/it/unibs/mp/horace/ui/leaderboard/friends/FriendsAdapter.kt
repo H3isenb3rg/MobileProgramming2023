@@ -32,7 +32,7 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     // Called when RecyclerView needs a new ViewHolder of the given type.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.friend_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_friend, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }
@@ -46,7 +46,7 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = filteredDataset[position]
 
-        holder.profilePhoto.load(item.photoUrl ?: R.drawable.default_profile_photo)
+        holder.profilePhoto.load(item.photoUrl ?: R.drawable.ic_default_profile_photo)
         holder.username.text = item.username
         holder.email.text = item.email
     }

@@ -17,7 +17,7 @@ import it.unibs.mp.horace.backend.firebase.models.Activity
 class ActivitiesAdapter(
     context: Context,
     private val dataset: List<Activity>,
-) : ArrayAdapter<Activity>(context, R.layout.select_activity_item, dataset) {
+) : ArrayAdapter<Activity>(context, R.layout.item_select_activity, dataset) {
 
     // Contains only the items that match the search query.
     // The elements of the original dataset are copied.
@@ -75,7 +75,7 @@ class ActivitiesAdapter(
     ): View {
         // If there is no view to reuse, inflate a new one
         val layout = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.select_activity_item, parent, false)
+            .inflate(R.layout.item_select_activity, parent, false)
 
         // Get the views
         val name: TextView = layout.findViewById(R.id.name)

@@ -13,7 +13,7 @@ import it.unibs.mp.horace.backend.firebase.models.Area
 class AreaAdapter(
     context: Context,
     private val dataset: List<Area>,
-) : ArrayAdapter<Area>(context, R.layout.area_item, dataset) {
+) : ArrayAdapter<Area>(context, R.layout.item_area, dataset) {
 
     // Contains only the items that match the search query.
     // The elements of the original dataset are copied.
@@ -71,7 +71,7 @@ class AreaAdapter(
     ): View {
         // If there is no view to reuse, inflate a new one
         val layout = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.area_item, parent, false)
+            .inflate(R.layout.item_area, parent, false)
 
         // Get the views
         val area: TextView = layout.findViewById(R.id.area)

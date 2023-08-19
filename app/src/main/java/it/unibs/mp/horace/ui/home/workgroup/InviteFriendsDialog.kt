@@ -10,17 +10,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.backend.firebase.UserNotificationManager
 import it.unibs.mp.horace.backend.firebase.models.User
-import it.unibs.mp.horace.databinding.BottomSheetInviteFriendsBinding
+import it.unibs.mp.horace.databinding.DialogInviteFriendsBinding
 import kotlinx.coroutines.launch
 
-class InviteFriendsBottomSheet : BottomSheetDialogFragment() {
-    private var _binding: BottomSheetInviteFriendsBinding? = null
+class InviteFriendsDialog : BottomSheetDialogFragment() {
+    private var _binding: DialogInviteFriendsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = BottomSheetInviteFriendsBinding.inflate(inflater, container, false)
+        _binding = DialogInviteFriendsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,7 +51,7 @@ class InviteFriendsBottomSheet : BottomSheetDialogFragment() {
                 invited.filter { it.value }.forEach { manager.sendWorkGroupRequest(it.key) }
             }
             findNavController().navigate(
-                InviteFriendsBottomSheetDirections.actionInviteFriendsBottomSheetToWorkGroupBottomSheet()
+                InviteFriendsDialogDirections.actionInviteFriendsDialogToWorkGroupDialog()
             )
         }
     }

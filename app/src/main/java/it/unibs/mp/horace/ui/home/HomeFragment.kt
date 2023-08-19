@@ -31,8 +31,8 @@ class HomeFragment : TopLevelFragment() {
      */
     private val volumeDrawable: Int
         get() = if (prefs.isVolumeOn) {
-            R.drawable.baseline_volume_up_24
-        } else R.drawable.baseline_volume_off_24
+            R.drawable.ic_volume_on
+        } else R.drawable.ic_volume_off
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -121,7 +121,7 @@ class HomeFragment : TopLevelFragment() {
         }
 
         binding.activityPicker.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityBottomSheet())
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityDialog())
         }
     }
 

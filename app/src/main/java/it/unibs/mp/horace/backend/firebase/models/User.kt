@@ -64,7 +64,7 @@ data class User(
     /**
      * Returns the user's profile photo, or the default one if it's null.
      */
-    val profilePhoto: Any get() = photoUrl ?: R.drawable.default_profile_photo
+    val profilePhoto: Any get() = photoUrl ?: R.drawable.ic_default_profile_photo
 
     /**
      * Checks if the user matches the search text.

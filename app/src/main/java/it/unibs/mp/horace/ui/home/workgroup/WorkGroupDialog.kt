@@ -9,17 +9,17 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.backend.firebase.models.User
-import it.unibs.mp.horace.databinding.BottomSheetWorkGroupBinding
+import it.unibs.mp.horace.databinding.DialogWorkGroupBinding
 import kotlinx.coroutines.launch
 
-class WorkGroupBottomSheet : BottomSheetDialogFragment() {
-    private var _binding: BottomSheetWorkGroupBinding? = null
+class WorkGroupDialog : BottomSheetDialogFragment() {
+    private var _binding: DialogWorkGroupBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = BottomSheetWorkGroupBinding.inflate(inflater, container, false)
+        _binding = DialogWorkGroupBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,7 +36,7 @@ class WorkGroupBottomSheet : BottomSheetDialogFragment() {
 
         binding.invite.setOnClickListener {
             findNavController().navigate(
-                WorkGroupBottomSheetDirections.actionWorkGroupBottomSheetToInviteFriendsBottomSheet()
+                WorkGroupDialogDirections.actionWorkGroupDialogToInviteFriendsDialog()
             )
         }
     }

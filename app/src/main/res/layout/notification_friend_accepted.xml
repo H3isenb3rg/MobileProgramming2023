@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/profile_photo"
                 android:scaleType="centerInside"
-                android:src="@drawable/default_profile_photo" />
+                android:src="@drawable/ic_default_profile_photo" />
         </com.google.android.material.card.MaterialCardView>
 
 

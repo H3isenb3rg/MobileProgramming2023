@@ -21,7 +21,7 @@ class WeeklyLeaderboardAdapter(
     // Called when RecyclerView needs a new ViewHolder of the given type.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.suggested_friend_item, parent, false)
+            .inflate(R.layout.item_suggested_friend, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }

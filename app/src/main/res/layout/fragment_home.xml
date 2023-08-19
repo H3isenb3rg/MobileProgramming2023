@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:contentDescription="@string/work_group"
-        app:icon="@drawable/baseline_people_alt_24"
+        app:icon="@drawable/ic_people"
         app:layout_constraintBottom_toBottomOf="@id/timer"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/toggle_volume"
-        app:icon="@drawable/baseline_volume_up_24"
+        app:icon="@drawable/ic_volume_on"
         app:layout_constraintBottom_toBottomOf="@id/timer"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -110,7 +110,7 @@
         android:text="@string/select_activity"
         android:textAppearance="?attr/textAppearanceLabelLarge"
         android:textColor="?attr/colorOnSurface"
-        app:icon="@drawable/baseline_task_alt_24"
+        app:icon="@drawable/ic_task"
         app:iconTint="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

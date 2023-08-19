@@ -3,16 +3,16 @@
     <item
         android:id="@+id/homeFragment"
         android:enabled="true"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/ic_home"
         android:title="@string/home" />
     <item
         android:id="@+id/activitiesFragment"
         android:enabled="true"
-        android:icon="@drawable/baseline_event_note_24"
+        android:icon="@drawable/ic_event_note"
         android:title="@string/activities" />
     <item
         android:id="@+id/leaderboardFragment"
         android:enabled="true"
-        android:icon="@drawable/baseline_leaderboard_24"
+        android:icon="@drawable/ic_leaderboard"
         android:title="@string/leaderboard" />
 </menu>

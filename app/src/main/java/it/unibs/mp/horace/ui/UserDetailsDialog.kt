@@ -14,21 +14,21 @@ import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.backend.firebase.UserNotificationManager
 import it.unibs.mp.horace.backend.firebase.models.User
-import it.unibs.mp.horace.databinding.BottomSheetUserDetailsBinding
+import it.unibs.mp.horace.databinding.DialogUserDetailsBinding
 import kotlinx.coroutines.launch
 
-class UserDetailsBottomSheet : BottomSheetDialogFragment() {
+class UserDetailsDialog : BottomSheetDialogFragment() {
     companion object {
         const val UID_ARGUMENT = "uid"
     }
 
-    private var _binding: BottomSheetUserDetailsBinding? = null
+    private var _binding: DialogUserDetailsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = BottomSheetUserDetailsBinding.inflate(inflater, container, false)
+        _binding = DialogUserDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,13 +57,13 @@ class UserDetailsBottomSheet : BottomSheetDialogFragment() {
                 lifecycleScope.launch {
                     UserNotificationManager().sendFriendRequest(user)
                     findNavController().navigate(
-                        UserDetailsBottomSheetDirections.actionGlobalHome(R.string.source_friend_request)
+                        UserDetailsDialogDirections.actionGlobalHome(R.string.source_friend_request)
                     )
                 }
             }
         }.addOnFailureListener {
             // If the user does not exist, go back to the home screen.
-            findNavController().navigate(UserDetailsBottomSheetDirections.actionGlobalHome())
+            findNavController().navigate(UserDetailsDialogDirections.actionGlobalHome())
         }
     }
 

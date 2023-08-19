@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="16dp"
-    tools:context=".ui.UserDetailsBottomSheet">
+    tools:context=".ui.UserDetailsDialog">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/photoContainer"
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/profile_photo"
             android:scaleType="centerInside"
-            android:src="@drawable/default_profile_photo" />
+            android:src="@drawable/ic_default_profile_photo" />
     </com.google.android.material.card.MaterialCardView>
 
     <TextView

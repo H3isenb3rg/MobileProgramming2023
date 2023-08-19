@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.workgroup.InviteFriendsBottomSheet">
+    tools:context=".ui.home.workgroup.InviteFriendsDialog">
 
     <TextView
         android:id="@+id/title"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchBar"
-        tools:listitem="@layout/invite_friend_item" />
+        tools:listitem="@layout/item_invite_friend" />
 
     <Button
         android:id="@+id/invite"

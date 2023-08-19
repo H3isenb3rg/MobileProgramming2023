@@ -39,7 +39,7 @@ class UpdateProfileFragment : Fragment() {
 
         binding.deleteProfile.setOnClickListener {
             findNavController().navigate(
-                UpdateProfileFragmentDirections.actionUpdateProfileFragmentToBottomSheetConfirmDelete()
+                UpdateProfileFragmentDirections.actionUpdateProfileFragmentToDialogConfirmDelete()
             )
         }
 

@@ -19,7 +19,7 @@ class SelectActivityAdapter(private val dataset: List<Activity>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.select_activity_item, parent, false)
+                .inflate(R.layout.item_select_activity, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }

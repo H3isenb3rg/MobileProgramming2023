@@ -33,38 +33,27 @@
                 android:contentDescription="@string/profile_photo"
                 android:padding="6dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/default_profile_photo" />
+                android:src="@drawable/ic_default_profile_photo" />
         </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/username"
+            style="?attr/textAppearanceBodyLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:orientation="vertical"
+            android:text="@string/username"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/profilePhotoContainer"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/username"
-                style="?attr/textAppearanceBodyLarge" />
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/email"
-                style="?attr/textAppearanceBodySmall" />
-        </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/select"
+        <Button
+            style="?attr/materialIconButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/remove_from_group"
+            app:icon="@drawable/ic_close"
+            app:iconTint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

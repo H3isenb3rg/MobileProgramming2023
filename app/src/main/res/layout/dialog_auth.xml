@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".ui.auth.AuthBottomSheet">
+    tools:context=".ui.auth.AuthDialog">
 
     <TextView
         style="?attr/textAppearanceTitleLarge"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/email_and_password"
-        app:icon="@drawable/baseline_email_24" />
+        app:icon="@drawable/ic_email" />
 
     <Button
         android:id="@+id/btnGoogle"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/google"
-        app:icon="@drawable/google"
+        app:icon="@drawable/ic_google"
         app:iconTint="@null" />
 
     <Button
@@ -56,6 +56,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/facebook"
-        app:icon="@drawable/facebook"
+        app:icon="@drawable/ic_facebook"
         app:iconTint="@null" />
 </LinearLayout>
