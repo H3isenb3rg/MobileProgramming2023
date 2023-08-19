@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import it.unibs.mp.horace.backend.journal.JournalDay
@@ -34,6 +35,8 @@ class JournalFragment : Fragment() {
         lifecycleScope.launch {
             journalDays.addAll(JournalDay.fromTimeEntries(journal.getAllTimeEntries()))
             adapter.notifyItemRangeInserted(0, journalDays.size)
+
+            binding.noEntriesText.isVisible = journalDays.isEmpty()
         }
     }
 

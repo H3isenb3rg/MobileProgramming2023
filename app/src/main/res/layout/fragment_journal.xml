@@ -19,7 +19,7 @@
         tools:listitem="@layout/item_journal_day" />
 
     <TextView
-        android:id="@+id/noNotificationsText"
+        android:id="@+id/noEntriesText"
         style="?attr/textAppearanceBodyLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

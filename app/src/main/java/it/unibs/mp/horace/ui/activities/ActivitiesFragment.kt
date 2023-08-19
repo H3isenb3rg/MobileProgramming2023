@@ -64,6 +64,27 @@ class ActivitiesFragment : TopLevelFragment() {
             )
         }
 
+        // Set the no data text color to the color on background.
+        // This is done before loading the data,
+        // otherwise the text color and message would be set to the default while loading.
+        binding.activitiesFrequencyChart.apply {
+            // Set no data text
+            setNoDataText(context.getString(R.string.no_activities_yet))
+            setNoDataTextColor(
+                MaterialColors.getColor(
+                    view, com.google.android.material.R.attr.colorOnBackground
+                )
+            )
+        }
+        binding.recentActivitiesChart.apply {
+            setNoDataText(context.getString(R.string.no_activities_last_seven_days))
+            setNoDataTextColor(
+                MaterialColors.getColor(
+                    view, com.google.android.material.R.attr.colorOnBackground
+                )
+            )
+        }
+
         lifecycleScope.launch {
             val streak = journal.streak()
 
@@ -100,6 +121,10 @@ class ActivitiesFragment : TopLevelFragment() {
             )
         }
 
+        if (chartEntries.isEmpty()) {
+            return
+        }
+
         val dataset = LineDataSet(chartEntries, getString(R.string.activities_in_last_7_days))
 
         dataset.apply {
@@ -132,14 +157,6 @@ class ActivitiesFragment : TopLevelFragment() {
             setTouchEnabled(false)
             description.isEnabled = false
             legend.isEnabled = false
-
-            // No data text
-            setNoDataText(context.getString(R.string.no_activities_last_seven_days))
-            setNoDataTextColor(
-                MaterialColors.getColor(
-                    view, com.google.android.material.R.attr.colorOnBackground
-                )
-            )
 
             // X axis
             xAxis.axisMinimum = LocalDate.now().minusDays(7).dayOfMonth.toFloat()
@@ -185,6 +202,10 @@ class ActivitiesFragment : TopLevelFragment() {
                     )
                 }
 
+        if (chartEntries.isEmpty()) {
+            return
+        }
+
         val dataset = PieDataSet(chartEntries, "Activities")
 
         // Pie slice colors
@@ -220,14 +241,6 @@ class ActivitiesFragment : TopLevelFragment() {
             setTouchEnabled(false)
             description.isEnabled = false
             legend.isEnabled = false
-
-            // Set no data text
-            setNoDataText(context.getString(R.string.no_activities_yet))
-            setNoDataTextColor(
-                MaterialColors.getColor(
-                    view, com.google.android.material.R.attr.colorOnBackground
-                )
-            )
 
             // Configure the hole in the middle
             setHoleColor(
