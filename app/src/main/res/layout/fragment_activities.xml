@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/streak"
+            android:text="@string/no_streak_yet"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/textview_streak_start_date"
             app:layout_constraintStart_toEndOf="@id/imageview_streak"

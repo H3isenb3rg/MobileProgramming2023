@@ -137,9 +137,7 @@
     <string name="_1">1</string>
     <string name="_100_pts">100 pts</string>
     <string name="area">Area</string>
-    <string name="add">Add</string>
     <string name="areaPrompt">Area (Optional)</string>
-    <string name="add_new">Add new</string>
     <string name="add_new_activity">Add new activity</string>
     <string name="search_activity">Search activity</string>
     <string name="add_new_area">Add new area</string>
@@ -150,10 +148,17 @@
     <string name="mins">%1$s mins</string>
     <string name="one_hour">1 hr</string>
     <string name="hrs">%1$s hrs</string>
-    <string name="duration">Duration</string>
     <string name="expand">Expand</string>
-    <string name="streak">%d days streak</string>
+    <plurals name="streak">
+        <item quantity="one">%1$d day streak</item>
+        <item quantity="other">%1$d days streak</item>
+    </plurals>
     <string name="streak_start_date">From %s to today. Good job!</string>
+    <string name="no_streak_yet">No streak yet</string>
+    <string name="dialog_select_activity_title">Select activity</string>
+    <string name="dialog_select_activity_search">Search activity</string>
+    <string name="dialog_select_activity_add_new">Add new activity</string>
+    <string name="preference_activity_id">activity_id</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

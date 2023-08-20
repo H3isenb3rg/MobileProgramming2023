@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -11,10 +12,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.Settings
+import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.TopLevelFragment
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : TopLevelFragment() {
@@ -26,11 +29,13 @@ class HomeFragment : TopLevelFragment() {
     private lateinit var prefs: Settings
     private lateinit var journal: Journal
 
+    private var selectedActivity: Activity? = null
+
     /**
      * The current volume drawable, depends on whether the volume is enabled or not.
      */
     private val volumeDrawable: Int
-        get() = if (prefs.isVolumeOn) {
+        get() = if (prefs.isVolumeEnabled) {
             R.drawable.ic_volume_on
         } else R.drawable.ic_volume_off
 
@@ -81,6 +86,20 @@ class HomeFragment : TopLevelFragment() {
             findNavController().navigate(
                 HomeFragmentDirections.actionGlobalUserDetails(uid)
             )
+        }
+
+        // Read activity id from args, fall back to value stored in preferences.
+        val activityId =
+            HomeFragmentArgs.fromBundle(requireArguments()).activityId ?: prefs.activityId
+
+        // If the id is not null, update the activity in preferences and update the button text.
+        if (activityId != null) {
+            prefs.activityId = activityId
+            lifecycleScope.launch {
+                selectedActivity = journal.getActivity(activityId)
+                binding.buttonSelectActivity.text =
+                    selectedActivity?.name ?: getString(R.string.select_activity)
+            }
         }
 
 

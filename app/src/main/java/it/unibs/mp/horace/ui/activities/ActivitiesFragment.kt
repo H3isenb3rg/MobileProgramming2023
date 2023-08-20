@@ -89,12 +89,14 @@ class ActivitiesFragment : TopLevelFragment() {
             val streak = journal.streak()
 
             // Only show the streak if it is at least 2 days long.
-            if (streak < 2) {
+            if (streak == 0) {
                 binding.layoutStreak.isVisible = false
                 return@launch
             }
 
-            binding.textviewStreak.text = getString(R.string.streak, journal.streak())
+            binding.textviewStreak.text = resources.getQuantityString(
+                R.plurals.streak, streak, streak
+            )
             binding.textviewStreakStartDate.text = getString(
                 R.string.streak_start_date, LocalDate.now().minusDays(streak.toLong()).format(
                     DateTimeFormatter.ofPattern("dd/MM/yyyy")

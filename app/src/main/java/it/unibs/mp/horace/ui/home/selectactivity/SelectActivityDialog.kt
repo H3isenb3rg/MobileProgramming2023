@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.DialogSelectActivityBinding
+import it.unibs.mp.horace.ui.MainActivity
 import kotlinx.coroutines.launch
 
 class SelectActivityDialog : BottomSheetDialogFragment() {
@@ -25,7 +26,11 @@ class SelectActivityDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val activities: MutableList<Activity> = mutableListOf()
-        val adapter = SelectActivityAdapter(activities)
+        val adapter = SelectActivityAdapter(activities) { activity ->
+            findNavController().navigate(
+                SelectActivityDialogDirections.actionGlobalHome(activityId = activity.id)
+            )
+        }
 
         binding.recyclerviewActivities.adapter = adapter
 
@@ -35,10 +40,16 @@ class SelectActivityDialog : BottomSheetDialogFragment() {
             adapter.notifyItemRangeInserted(0, activities.size)
         }
 
-        binding.cardviewAddNewActivity.setOnClickListener {
+        binding.buttonAddNewActivity.setOnClickListener {
             findNavController().navigate(
                 SelectActivityDialogDirections.actionGlobalNewActivity()
             )
+        }
+
+        // Hook search bar to search view.
+        // On text change, filter the adapter.
+        (requireActivity() as MainActivity).hookSearchBar(binding.searchbar, adapter) { text ->
+            adapter.filter.filter(text)
         }
     }
 

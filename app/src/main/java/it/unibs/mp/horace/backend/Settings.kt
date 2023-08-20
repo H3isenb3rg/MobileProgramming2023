@@ -80,6 +80,17 @@ class Settings(val context: Context) {
      */
     val isModePomodoro: Boolean get() = mode == Mode.Pomodoro
 
+    var activityId: String?
+        get() = prefs.getString(context.getString(R.string.preference_activity_id), null)
+        set(value) {
+            if (value == null) {
+                prefs.edit().remove(context.getString(R.string.preference_activity_id)).apply()
+                return
+            }
+            prefs.edit().putString(context.getString(R.string.preference_activity_id), value)
+                .apply()
+        }
+
     /**
      * Switches the current mode to `Pomodoro`.
      */
@@ -98,7 +109,7 @@ class Settings(val context: Context) {
      * Whether the volume is enabled or not.
      * The default is `false`.
      */
-    var isVolumeOn: Boolean
+    var isVolumeEnabled: Boolean
         get() = prefs.getBoolean(context.getString(R.string.preference_volume_on), false)
         private set(value) {
             prefs.edit().putBoolean(context.getString(R.string.preference_volume_on), value).apply()
@@ -108,6 +119,6 @@ class Settings(val context: Context) {
      * Toggles the current volume on/off status.
      */
     fun toggleVolume() {
-        isVolumeOn = !isVolumeOn
+        isVolumeEnabled = !isVolumeEnabled
     }
 }

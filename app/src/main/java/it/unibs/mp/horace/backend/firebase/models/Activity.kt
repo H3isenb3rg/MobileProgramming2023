@@ -47,7 +47,7 @@ data class Activity(
     }
 
     /**
-     * Checks if the user matches the search text.
+     * Checks if the activity matches the search text.
      */
     fun fitsSearch(searchText: String): Boolean {
         return name.lowercase().contains(searchText.lowercase())
