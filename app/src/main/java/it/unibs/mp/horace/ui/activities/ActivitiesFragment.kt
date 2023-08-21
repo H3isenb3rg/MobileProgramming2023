@@ -64,26 +64,10 @@ class ActivitiesFragment : TopLevelFragment() {
             )
         }
 
-        // Set the no data text color to the color on background.
-        // This is done before loading the data,
-        // otherwise the text color and message would be set to the default while loading.
-        binding.chartMostFrequentActivities.apply {
-            // Set no data text
-            setNoDataText(context.getString(R.string.no_activities_yet))
-            setNoDataTextColor(
-                MaterialColors.getColor(
-                    view, com.google.android.material.R.attr.colorOnBackground
-                )
-            )
-        }
-        binding.chartActivitiesLastWeek.apply {
-            setNoDataText(context.getString(R.string.no_activities_last_seven_days))
-            setNoDataTextColor(
-                MaterialColors.getColor(
-                    view, com.google.android.material.R.attr.colorOnBackground
-                )
-            )
-        }
+        // Hide graphs until loaded,
+        // so the default "No data" message is not shown.
+        binding.chartMostFrequentActivities.visibility = View.INVISIBLE
+        binding.chartActivitiesLastWeek.visibility = View.INVISIBLE
 
         lifecycleScope.launch {
             val streak = journal.streak()
@@ -124,9 +108,10 @@ class ActivitiesFragment : TopLevelFragment() {
         }
 
         if (chartEntries.isEmpty()) {
+            binding.textviewNoActivitiesLastWeek.isVisible = true
+            binding.chartActivitiesLastWeek.isVisible = false
             return
         }
-
         val dataset = LineDataSet(chartEntries, getString(R.string.activities_in_last_7_days))
 
         dataset.apply {
@@ -191,6 +176,7 @@ class ActivitiesFragment : TopLevelFragment() {
         }
 
         // Refresh the chart
+        binding.chartActivitiesLastWeek.isVisible = true
         binding.chartActivitiesLastWeek.invalidate()
     }
 
@@ -205,6 +191,8 @@ class ActivitiesFragment : TopLevelFragment() {
                 }
 
         if (chartEntries.isEmpty()) {
+            binding.textviewNoMostFrequentActivities.isVisible = true
+            binding.chartMostFrequentActivities.isVisible = false
             return
         }
 
@@ -267,6 +255,7 @@ class ActivitiesFragment : TopLevelFragment() {
             setExtraOffsets(0f, 0f, 0f, 30f)
         }
 
+        binding.chartMostFrequentActivities.isVisible = true
         binding.chartMostFrequentActivities.invalidate()
     }
 

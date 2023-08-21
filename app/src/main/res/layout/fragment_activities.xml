@@ -117,6 +117,16 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/textview_no_activities_last_week"
+            style="?attr/textAppearanceBodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:gravity="center"
+            android:text="@string/no_activities_last_seven_days"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -137,6 +147,15 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/textview_no_most_frequent_activities"
+            style="?attr/textAppearanceBodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:gravity="center"
+            android:text="@string/no_activities_yet"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>
