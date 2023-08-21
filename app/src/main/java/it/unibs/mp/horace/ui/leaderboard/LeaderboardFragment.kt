@@ -87,8 +87,11 @@ class LeaderboardFragment : TopLevelFragment() {
             lifecycleScope.launch {
                 manager.sendFriendRequest(it)
             }
-        }
 
+            val index = suggestedFriends.indexOf(it)
+            binding.recyclerviewSuggestedFriends.adapter?.notifyItemRemoved(index)
+            suggestedFriends.removeAt(index)
+        }
         binding.recyclerviewSuggestedFriends.adapter = adapter
 
         // Carousel settings

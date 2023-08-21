@@ -21,7 +21,7 @@ class WeeklyLeaderboardAdapter(
     // Called when RecyclerView needs a new ViewHolder of the given type.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_suggested_friend, parent, false)
+            .inflate(R.layout.item_leaderboard, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }
@@ -34,8 +34,9 @@ class WeeklyLeaderboardAdapter(
     // Called by RecyclerView to display the data at the specified position.
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
+        val leaderboardPosition = position + 1
 
-        holder.position.text = position.toString()
+        holder.position.text = leaderboardPosition.toString()
         holder.username.text = item.user.username
         holder.points.text = item.points.toString()
     }
