@@ -65,6 +65,34 @@ class Settings(val context: Context) {
         }
 
     /**
+     * The current activity id selected by the user in the home. The default value is `null`.
+     */
+    var activityId: String?
+        get() = prefs.getString(context.getString(R.string.preference_activity_id), null)
+        set(value) {
+            if (value == null) {
+                prefs.edit().remove(context.getString(R.string.preference_activity_id)).apply()
+                return
+            }
+            prefs.edit().putString(context.getString(R.string.preference_activity_id), value)
+                .apply()
+        }
+
+    /**
+     * Whether the activities should be sorted in ascending order (by name) or not.
+     */
+    var isActivitySortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_activity_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(context.getString(R.string.preference_activity_sort_ascending), value)
+                .apply()
+        }
+
+    /**
      * The current timer mode. The default value is [Mode.Pomodoro].
      */
     private var mode: Mode
@@ -79,17 +107,6 @@ class Settings(val context: Context) {
      * Whether the current mode is [Mode.Pomodoro]
      */
     val isModePomodoro: Boolean get() = mode == Mode.Pomodoro
-
-    var activityId: String?
-        get() = prefs.getString(context.getString(R.string.preference_activity_id), null)
-        set(value) {
-            if (value == null) {
-                prefs.edit().remove(context.getString(R.string.preference_activity_id)).apply()
-                return
-            }
-            prefs.edit().putString(context.getString(R.string.preference_activity_id), value)
-                .apply()
-        }
 
     /**
      * Switches the current mode to `Pomodoro`.

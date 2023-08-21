@@ -2,28 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".ui.home.selectactivity.SelectActivityDialog">
 
-    <TextView
-        style="?attr/textAppearanceTitleLarge"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/dialog_select_activity_title" />
+        android:orientation="horizontal">
 
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/searchbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
-        android:hint="@string/dialog_select_activity_search"
-        app:defaultMarginsEnabled="false" />
+        <TextView
+            style="?attr/textAppearanceTitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_select_activity_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_sort"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/dialog_select_activity_sort"
+            app:icon="@drawable/ic_sort"
+            app:iconTint="?attr/colorOnBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_activities"
@@ -33,6 +45,16 @@
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_select_activity" />
+
+    <TextView
+        android:id="@+id/textview_no_activities"
+        style="?attr/textAppearanceBodyMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginVertical="24dp"
+        android:text="@string/dialog_select_activity_no_activities"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/button_add_new_activity"

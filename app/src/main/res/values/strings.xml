@@ -159,6 +159,12 @@
     <string name="dialog_select_activity_search">Search activity</string>
     <string name="dialog_select_activity_add_new">Add new activity</string>
     <string name="preference_activity_id">activity_id</string>
+    <string name="dialog_select_activity_no_activities">No activities found.</string>
+    <string name="dialog_select_activity_sort">Sort</string>
+    <string name="dialog_sort_activities_radio_ascending">Name ascending</string>
+    <string name="dialog_sort_activities_radio_descending">Name descending</string>
+    <string name="dialog_sort_activities_title">Sort activities by</string>
+    <string name="preference_activity_sort_ascending">preferences_ascending</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

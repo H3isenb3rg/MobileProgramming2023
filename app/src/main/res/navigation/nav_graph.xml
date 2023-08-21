@@ -118,7 +118,15 @@
         android:id="@+id/selectActivityDialog"
         android:name="it.unibs.mp.horace.ui.home.selectactivity.SelectActivityDialog"
         android:label="@string/select_activity"
-        tools:layout="@layout/dialog_select_activity" />
+        tools:layout="@layout/dialog_select_activity">
+        <action
+            android:id="@+id/action_selectActivityDialog_to_sortActivitiesDialog"
+            app:destination="@id/sortActivitiesDialog"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </dialog>
 
     <!-- Work group subgraph -->
     <navigation
@@ -462,4 +470,9 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <dialog
+        android:id="@+id/sortActivitiesDialog"
+        android:name="it.unibs.mp.horace.ui.home.selectactivity.SortActivitiesDialog"
+        android:label="dialog_sort_activities"
+        tools:layout="@layout/dialog_sort_activities" />
 </navigation>
