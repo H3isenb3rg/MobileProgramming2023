@@ -153,41 +153,6 @@ class CurrentUser {
             .mapNotNull { User.parse(it.data) }
     }
 
-    suspend fun weeklyLeaderboard(): List<LeaderboardItem> {
-        val leaderboard: MutableList<LeaderboardItem> = mutableListOf()
-
-        // Add the current user to the leaderboard
-        val userPointsInLastWeek = userDocument.collection(TimeEntry.COLLECTION_NAME).get().await()
-            .mapNotNull { TimeEntry.parse(it.data) }
-            .sumOf { it.points }
-        leaderboard.add(
-            LeaderboardItem(userData, userPointsInLastWeek)
-        )
-
-        // Get the friends ids
-        val friendsIds = userDocument.collection(FRIENDS_COLLECTION_NAME).get().await()
-            .mapNotNull { it.getString(User.UID_FIELD) }
-
-        // If the user has friends, add them to the leaderboard
-        if (friendsIds.isNotEmpty()) {
-            friends().forEach {
-                val friendEntries = db.collection(User.COLLECTION_NAME).document(it.uid)
-                    .collection(TimeEntry.COLLECTION_NAME).get().await()
-                    .mapNotNull { TimeEntry.parse(it.data) }
-
-                val lastWeekEntries = friendEntries.filter { entry ->
-                    entry.isInCurrentWeek()
-                }
-
-                leaderboard.add(
-                    LeaderboardItem(it, lastWeekEntries.sumOf { entry -> entry.points })
-                )
-            }
-        }
-
-        return leaderboard
-    }
-
     /**
      * The workgroup of the current user.
      */

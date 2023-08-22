@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.LeaderboardItem
 import it.unibs.mp.horace.backend.UserNotificationManager
+import it.unibs.mp.horace.backend.journal.FirestoreJournal
 import it.unibs.mp.horace.databinding.FragmentLeaderboardBinding
 import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.ui.TopLevelFragment
@@ -21,6 +22,8 @@ import kotlinx.coroutines.tasks.await
 class LeaderboardFragment : TopLevelFragment() {
     private var _binding: FragmentLeaderboardBinding? = null
     private val binding get() = _binding!!
+
+    private val journal = FirestoreJournal()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -54,11 +57,9 @@ class LeaderboardFragment : TopLevelFragment() {
 
         // Load the weekly leaderboard in background
         lifecycleScope.launch {
-            val user = CurrentUser()
-
             // Add the user leaderboard item to the list, sorted by points
             weeklyLeaderboard.addAll(
-                user.weeklyLeaderboard().sortedWith(compareByDescending { it.points })
+                journal.weeklyLeaderboard().sortedWith(compareByDescending { it.points })
             )
 
             // If the leaderboard is empty, show the "no friends" message,
