@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/work_group" />
+        android:text="@string/dialog_work_group_title" />
 
     <TextView
         style="?attr/textAppearanceBodyLarge"
@@ -21,16 +21,27 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/work_group_text" />
+        android:text="@string/dialog_work_group_description" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_work_group"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:layout_marginVertical="24dp"
+        android:layout_marginTop="24dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_work_group" />
+
+    <TextView
+        android:id="@+id/textview_no_work_group"
+        style="?attr/textAppearanceBodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/dialog_work_group_no_work_group"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/button_invite"
@@ -39,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="24dp"
-        android:text="@string/invite_friends"
+        android:text="@string/dialog_work_group_invite_friends"
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_person_add"
         app:iconTint="?attr/colorOnSurface" />

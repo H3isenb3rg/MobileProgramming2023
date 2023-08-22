@@ -11,6 +11,7 @@ import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.backend.firebase.UserNotificationManager
 import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.DialogInviteFriendsBinding
+import it.unibs.mp.horace.ui.shareUserProfile
 import kotlinx.coroutines.launch
 
 class InviteFriendsDialog : BottomSheetDialogFragment() {
@@ -41,6 +42,14 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
         // Load actual values in background so the app doesn't freeze
         lifecycleScope.launch {
             friendsNotInWorkGroup.addAll(user.friendsNotInWorkGroup())
+
+            // If there are no friends, show a message and a button to share the profile
+            if (friendsNotInWorkGroup.isEmpty()) {
+                binding.layoutNoFriends.visibility = View.VISIBLE
+                binding.buttonShareProfile.setOnClickListener { requireContext().shareUserProfile() }
+                return@launch
+            }
+
             invited = friendsNotInWorkGroup.associateWith { false }.toMutableMap()
 
             adapter.notifyItemRangeInserted(0, friendsNotInWorkGroup.size)

@@ -15,6 +15,7 @@ import it.unibs.mp.horace.backend.firebase.UserNotificationManager
 import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.FragmentLeaderboardBinding
 import it.unibs.mp.horace.ui.TopLevelFragment
+import it.unibs.mp.horace.ui.shareUserProfile
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -65,6 +66,7 @@ class LeaderboardFragment : TopLevelFragment() {
             // otherwise notify the adapter of the new items.
             if (weeklyLeaderboard.isEmpty()) {
                 binding.recyclerviewWeeklyLeaderboard.isVisible = false
+                binding.buttonShareProfile.setOnClickListener { requireContext().shareUserProfile() }
                 binding.layoutNoFriends.isVisible = true
             } else {
                 adapter.notifyItemRangeInserted(0, weeklyLeaderboard.size)

@@ -136,7 +136,7 @@
         <dialog
             android:id="@+id/workGroupDialog"
             android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupDialog"
-            android:label="@string/work_group"
+            android:label="@string/destination_work_group"
             tools:layout="@layout/dialog_work_group">
             <action
                 android:id="@+id/action_workGroupDialog_to_inviteFriendsDialog"

@@ -13,16 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/invite_friends" />
-
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/searchbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
-        android:hint="@string/search_by_name_or_email"
-        app:defaultMarginsEnabled="false" />
+        android:text="@string/dialog_invite_friends_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_available_friends"
@@ -33,6 +24,29 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_invite_friend" />
 
+    <LinearLayout
+        android:id="@+id/layout_no_friends"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            style="?attr/textAppearanceBodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_invite_friends_no_friends" />
+
+        <Button
+            android:id="@+id/button_share_profile"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_invite_friends_share_profile" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/button_invite"
         style="?attr/materialIconButtonFilledStyle"
@@ -40,6 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="24dp"
-        android:text="@string/invite_selected" />
+        android:text="@string/dialog_invite_friends_invite_selected" />
 
 </LinearLayout>

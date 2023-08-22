@@ -31,6 +31,13 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
         lifecycleScope.launch {
             val user = CurrentUser()
             workGroup.addAll(user.workGroup())
+
+            // If the work group is empty, show a message
+            if (workGroup.isEmpty()) {
+                binding.textviewNoWorkGroup.visibility = View.VISIBLE
+                return@launch
+            }
+
             adapter.notifyItemRangeInserted(0, workGroup.size)
         }
 

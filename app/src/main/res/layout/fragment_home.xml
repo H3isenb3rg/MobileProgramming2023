@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:contentDescription="@string/work_group"
+        android:contentDescription="@string/fragment_home_work_group"
         app:icon="@drawable/ic_people"
         app:layout_constraintBottom_toBottomOf="@id/cardview_timer"
         app:layout_constraintStart_toStartOf="parent" />
