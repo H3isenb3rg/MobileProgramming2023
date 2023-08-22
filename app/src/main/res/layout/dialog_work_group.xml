@@ -7,14 +7,35 @@
     android:orientation="vertical"
     tools:context=".ui.home.workgroup.WorkGroupDialog">
 
-    <TextView
-        style="?attr/textAppearanceTitleLarge"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/dialog_work_group_title" />
+        android:orientation="horizontal">
 
+        <TextView
+            style="?attr/textAppearanceTitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_work_group_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_sort"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/dialog_select_activity_sort"
+            app:icon="@drawable/ic_sort"
+            app:iconTint="?attr/colorOnBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         style="?attr/textAppearanceBodyLarge"
         android:layout_width="match_parent"

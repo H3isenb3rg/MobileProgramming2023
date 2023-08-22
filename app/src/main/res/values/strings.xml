@@ -18,7 +18,9 @@
     <string name="preference_volume_on">volume_on</string>
     <string name="preference_share">share</string>
     <string name="preference_activity_id">activity_id</string>
-    <string name="preference_activity_sort_ascending">preferences_ascending</string>
+    <string name="preference_activity_sort_ascending">activities_ascending</string>
+    <string name="preference_workgroup_sort_ascending">workgroup_ascending</string>
+    <string name="preference_friends_sort_ascending">friends_ascending</string>
 
     <!-- Settings -->
     <string name="setting_authenticate">Authenticate</string>
@@ -64,6 +66,7 @@
     <string name="destination_manual_log">Manual log</string>
     <string name="destination_new_activity">Add new activity</string>
     <string name="destination_new_area">Add new area</string>
+    <string name="destination_sort_activities">Sort activities</string>
 
     <!-- Menu items -->
     <string name="menu_settings">Settings</string>
@@ -98,6 +101,11 @@
     <string name="dialog_work_group_invite_friends">Invite friends to your work group</string>
     <string name="dialog_work_group_no_work_group">You\'re not in a work group.</string>
 
+    <!-- Sort workgroup dialog -->
+    <string name="dialog_sort_workgroup_title">Sort workgroup by</string>
+    <string name="dialog_sort_workgroup_radio_ascending">Username ascending</string>
+    <string name="dialog_sort_workgroup_radio_descending">Username descending</string>
+
     <!-- Select activity dialog -->
     <string name="dialog_select_activity_title">Select activity</string>
     <string name="dialog_select_activity_add_new">Add new activity</string>
@@ -114,6 +122,11 @@
     <string name="dialog_invite_friends_invite_selected">Invite selected friends to work group</string>
     <string name="dialog_invite_friends_no_friends">You don\'t have any friends :(</string>
     <string name="dialog_invite_friends_share_profile">Tap to share your profile</string>
+
+    <!-- Sort friends dialog -->
+    <string name="dialog_sort_friends_title">Sort friends by</string>
+    <string name="dialog_sort_friends_radio_ascending">Username ascending</string>
+    <string name="dialog_sort_friends_radio_descending">Username descending</string>
 
     <!-- Auth dialog -->
     <string name="dialog_auth_title">Authenticate</string>

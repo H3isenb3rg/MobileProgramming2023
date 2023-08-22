@@ -140,7 +140,7 @@ class HomeFragment : TopLevelFragment() {
         }
 
         binding.buttonSelectActivity.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityDialog())
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityGraph())
         }
     }
 

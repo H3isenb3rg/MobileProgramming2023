@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.DialogWorkGroupBinding
@@ -24,6 +25,7 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val settings = Settings(requireContext())
         val workGroup: MutableList<User> = mutableListOf()
         val adapter = WorkGroupAdapter(workGroup)
         binding.recyclerviewWorkGroup.adapter = adapter
@@ -39,12 +41,22 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
                 return@launch
             }
 
+            // Sort according to the settings.
+            if (settings.isWorkgroupSortAscending) workGroup.sortBy { it.username }
+            else workGroup.sortByDescending { it.username }
+
             adapter.notifyItemRangeInserted(0, workGroup.size)
         }
 
         binding.buttonInvite.setOnClickListener {
             findNavController().navigate(
                 WorkGroupDialogDirections.actionWorkGroupDialogToInviteFriendsDialog()
+            )
+        }
+
+        binding.buttonSort.setOnClickListener {
+            findNavController().navigate(
+                WorkGroupDialogDirections.actionWorkGroupDialogToSortWorkGroupDialog()
             )
         }
     }

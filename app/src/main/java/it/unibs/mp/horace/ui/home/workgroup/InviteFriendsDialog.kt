@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.backend.firebase.UserNotificationManager
 import it.unibs.mp.horace.backend.firebase.models.User
@@ -26,6 +27,7 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val settings = Settings(requireContext())
         val user = CurrentUser()
         val manager = UserNotificationManager()
 
@@ -51,6 +53,10 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
                 return@launch
             }
 
+            // Sort according to the settings.
+            if (settings.isFriendsSortAscending) friendsNotInWorkGroup.sortBy { it.username }
+            else friendsNotInWorkGroup.sortByDescending { it.username }
+
             invited = friendsNotInWorkGroup.associateWith { false }.toMutableMap()
 
             adapter.notifyItemRangeInserted(0, friendsNotInWorkGroup.size)
@@ -62,6 +68,12 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
             }
             findNavController().navigate(
                 InviteFriendsDialogDirections.actionInviteFriendsDialogToWorkGroupDialog()
+            )
+        }
+
+        binding.buttonSort.setOnClickListener {
+            findNavController().navigate(
+                InviteFriendsDialogDirections.actionInviteFriendsDialogToSortFriendsDialog()
             )
         }
     }

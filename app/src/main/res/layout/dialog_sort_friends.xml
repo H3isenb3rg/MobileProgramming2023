@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.home.workgroup.SortFriendsDialog">
+
+    <TextView
+        style="?attr/textAppearanceTitleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/dialog_sort_friends_title" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup_sort_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="24dp"
+        android:checkedButton="@+id/radiobutton_username_ascending">
+
+        <RadioButton
+            android:id="@+id/radiobutton_username_ascending"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/dialog_sort_friends_radio_ascending" />
+
+        <RadioButton
+            android:id="@+id/radiobutton_username_descending"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/dialog_sort_friends_radio_descending" />
+    </RadioGroup>
+
+</LinearLayout>

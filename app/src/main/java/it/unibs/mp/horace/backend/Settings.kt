@@ -93,6 +93,34 @@ class Settings(val context: Context) {
         }
 
     /**
+     * Whether the workgroup should be sorted in ascending order (by username) or not.
+     */
+    var isWorkgroupSortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_workgroup_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(context.getString(R.string.preference_workgroup_sort_ascending), value)
+                .apply()
+        }
+
+    /**
+     * Whether the friends should be sorted in ascending order (by username) or not.
+     */
+    var isFriendsSortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_friends_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(context.getString(R.string.preference_friends_sort_ascending), value)
+                .apply()
+        }
+
+    /**
      * The current timer mode. The default value is [Mode.Pomodoro].
      */
     private var mode: Mode
