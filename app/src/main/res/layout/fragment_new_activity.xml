@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/activity"
+        android:hint="@string/fragment_new_activity_name"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -37,13 +37,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/areaPrompt"
+            android:hint="@string/fragment_new_activity_area"
             app:errorEnabled="true">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/areaPrompt" />
+                android:hint="@string/fragment_new_activity_area" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:contentDescription="@string/add_new_area"
+            android:contentDescription="@string/fragment_new_activity_new_area"
             app:icon="@drawable/ic_add" />
 
     </LinearLayout>
@@ -64,6 +64,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/save" />
+        android:text="@string/fragment_new_activity_save" />
 
 </LinearLayout>

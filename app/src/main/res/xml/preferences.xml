@@ -6,35 +6,35 @@
     <Preference
         android:icon="@drawable/ic_person_outline"
         android:key="@string/preference_auth"
-        android:title="@string/authenticate" />
+        android:title="@string/setting_authenticate" />
 
     <Preference
         android:icon="@drawable/ic_share"
         android:key="@string/preference_share"
-        android:title="@string/share_profile" />
+        android:title="@string/setting_share_profile" />
 
     <Preference
         android:icon="@drawable/ic_edit"
         android:key="@string/preference_edit"
-        android:title="@string/update_profile" />
+        android:title="@string/setting_update_profile" />
 
     <ListPreference
         android:defaultValue="device"
-        android:entries="@array/themeNames"
-        android:entryValues="@array/themeValues"
+        android:entries="@array/theme_names"
+        android:entryValues="@array/theme_values"
         android:icon="@drawable/ic_dark_mode"
         android:key="@string/preference_theme"
-        android:title="@string/select_theme" />
+        android:title="@string/setting_select_theme" />
 
     <SwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_clock"
         android:key="@string/preference_quick_actions"
-        android:title="@string/show_quick_actions" />
+        android:title="@string/setting_show_quick_actions" />
 
     <Preference
         android:icon="@drawable/ic_logout"
         android:key="@string/preference_sign_out"
-        android:title="@string/sign_out" />
+        android:title="@string/setting_sign_out" />
 
 </PreferenceScreen>

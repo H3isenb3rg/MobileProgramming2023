@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/username"
+        android:hint="@string/fragment_sign_up_username"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/email"
+        android:hint="@string/fragment_sign_up_email"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/password"
+        android:hint="@string/fragment_sign_up_password"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@null">
@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/password_confirm"
+        android:hint="@string/fragment_sign_up_password_confirm"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@null">
@@ -82,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/i_accept_the_terms_and_conditions" />
+        android:text="@string/fragment_sign_up_terms" />
 
     <!-- Sign up button -->
     <Button
@@ -91,6 +91,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/sign_up"
+        android:text="@string/fragment_sign_up_sign_up"
         android:textColor="?attr/colorOnSecondary" />
 </LinearLayout>

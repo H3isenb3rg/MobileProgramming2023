@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/area_name"
+        android:hint="@string/fragment_new_area_area_name"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -28,6 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/save" />
+        android:text="@string/fragment_new_area_save" />
 
 </LinearLayout>

@@ -98,7 +98,7 @@ class HomeFragment : TopLevelFragment() {
             lifecycleScope.launch {
                 selectedActivity = journal.getActivity(activityId)
                 binding.buttonSelectActivity.text =
-                    selectedActivity?.name ?: getString(R.string.select_activity)
+                    selectedActivity?.name ?: getString(R.string.fragment_home_select_activity)
             }
         }
 

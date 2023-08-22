@@ -22,14 +22,14 @@
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pomodoro" />
+            android:text="@string/fragment_home_pomodoro" />
 
         <Button
             android:id="@+id/button_stopwatch"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stopwatch" />
+            android:text="@string/fragment_home_stopwatch" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.card.MaterialCardView
@@ -54,10 +54,10 @@
 
             <TextView
                 android:id="@+id/textview_time"
+                style="?attr/textAppearanceDisplayLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                style="?attr/textAppearanceDisplayLarge"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,14 +65,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style="?attr/textAppearanceTitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tap_to_start"
-                style="?attr/textAppearanceTitleMedium"
+                android:text="@string/fragment_home_tap_to_start"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textview_time" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -94,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:contentDescription="@string/toggle_volume"
+        android:contentDescription="@string/fragment_home_toggle_volume"
         app:icon="@drawable/ic_volume_on"
         app:layout_constraintBottom_toBottomOf="@id/cardview_timer"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -105,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="@string/select_activity"
+        android:text="@string/fragment_home_select_activity"
         android:textAppearance="?attr/textAppearanceLabelLarge"
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_task"

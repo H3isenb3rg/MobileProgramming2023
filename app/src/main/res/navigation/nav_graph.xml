@@ -9,12 +9,14 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="it.unibs.mp.horace.ui.home.HomeFragment"
-        android:label="@string/home"
+        android:label="@string/destination_home"
         tools:layout="@layout/fragment_home">
+
         <argument
             android:name="source"
             android:defaultValue="@string/source_none"
             app:argType="reference" />
+
         <action
             android:id="@+id/action_homeFragment_to_workGroupGraph"
             app:destination="@id/workGroupGraph"
@@ -22,15 +24,18 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
         <deepLink
             android:id="@+id/userDetailsDeepLink"
             app:mimeType="text/plain"
             app:uri="http://www.horace.it/users/?uid={uid}" />
+
         <argument
             android:name="uid"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+
         <action
             android:id="@+id/action_homeFragment_to_selectActivityDialog"
             app:destination="@id/selectActivityDialog"
@@ -38,24 +43,25 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
         <argument
             android:name="activity_id"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+
     </fragment>
 
     <!-- User details -->
     <dialog
         android:id="@+id/userDetailsDialog"
         android:name="it.unibs.mp.horace.ui.UserDetailsDialog"
-        android:label="dialog_user_details"
+        android:label="@string/destination_user_details"
         tools:layout="@layout/dialog_user_details">
         <argument
             android:name="uid"
             app:argType="string" />
     </dialog>
-
 
     <!-- Leaderboard subgraph -->
     <navigation
@@ -66,8 +72,9 @@
         <fragment
             android:id="@+id/leaderboardFragment"
             android:name="it.unibs.mp.horace.ui.leaderboard.LeaderboardFragment"
-            android:label="@string/leaderboard"
+            android:label="@string/destination_leaderboard"
             tools:layout="@layout/fragment_leaderboard">
+
             <action
                 android:id="@+id/action_leaderboardFragment_to_friendsFragment"
                 app:destination="@id/friendsFragment"
@@ -75,14 +82,16 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
         </fragment>
 
         <!-- Friends -->
         <fragment
             android:id="@+id/friendsFragment"
             android:name="it.unibs.mp.horace.ui.leaderboard.friends.FriendsFragment"
-            android:label="@string/friends"
+            android:label="@string/destination_friends"
             tools:layout="@layout/fragment_friends" />
+
     </navigation>
 
     <!-- Activities subgraph -->
@@ -94,8 +103,9 @@
         <fragment
             android:id="@+id/activitiesFragment"
             android:name="it.unibs.mp.horace.ui.activities.ActivitiesFragment"
-            android:label="@string/activities"
+            android:label="@string/destination_activities"
             tools:layout="@layout/fragment_activities">
+
             <action
                 android:id="@+id/action_activitiesFragment_to_historyFragment"
                 app:destination="@id/journalFragment"
@@ -103,22 +113,25 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
         </fragment>
 
         <!-- History -->
         <fragment
             android:id="@+id/journalFragment"
             android:name="it.unibs.mp.horace.ui.activities.journal.JournalFragment"
-            android:label="@string/journal"
+            android:label="@string/destination_journal"
             tools:layout="@layout/fragment_journal" />
+
     </navigation>
 
     <!-- Select activity -->
     <dialog
         android:id="@+id/selectActivityDialog"
         android:name="it.unibs.mp.horace.ui.home.selectactivity.SelectActivityDialog"
-        android:label="@string/select_activity"
+        android:label="@string/destination_select_activity"
         tools:layout="@layout/dialog_select_activity">
+
         <action
             android:id="@+id/action_selectActivityDialog_to_sortActivitiesDialog"
             app:destination="@id/sortActivitiesDialog"
@@ -126,18 +139,28 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </dialog>
+
+    <!-- Sort activities -->
+    <dialog
+        android:id="@+id/sortActivitiesDialog"
+        android:name="it.unibs.mp.horace.ui.home.selectactivity.SortActivitiesDialog"
+        android:label="dialog_sort_activities"
+        tools:layout="@layout/dialog_sort_activities" />
 
     <!-- Work group subgraph -->
     <navigation
         android:id="@+id/workGroupGraph"
         app:startDestination="@id/workGroupDialog">
+
         <!-- Work group -->
         <dialog
             android:id="@+id/workGroupDialog"
             android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupDialog"
             android:label="@string/destination_work_group"
             tools:layout="@layout/dialog_work_group">
+
             <action
                 android:id="@+id/action_workGroupDialog_to_inviteFriendsDialog"
                 app:destination="@id/inviteFriendsDialog"
@@ -145,14 +168,16 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
         </dialog>
 
         <!-- Invite friends -->
         <dialog
             android:id="@+id/inviteFriendsDialog"
             android:name="it.unibs.mp.horace.ui.home.workgroup.InviteFriendsDialog"
-            android:label="InviteFriendsDialog"
+            android:label="@string/destination_invite_friends"
             tools:layout="@layout/dialog_invite_friends">
+
             <action
                 android:id="@+id/action_inviteFriendsDialog_to_workGroupDialog"
                 app:destination="@id/workGroupDialog"
@@ -162,7 +187,9 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/workGroupGraph"
                 app:popUpToInclusive="true" />
+
         </dialog>
+
     </navigation>
 
     <!-- Auth subgraph -->
@@ -174,8 +201,9 @@
         <dialog
             android:id="@+id/authDialog"
             android:name="it.unibs.mp.horace.ui.auth.AuthDialog"
-            android:label="@string/authentication"
+            android:label="@string/destination_authentication"
             tools:layout="@layout/dialog_auth">
+
             <action
                 android:id="@+id/action_authDialog_to_signInFragment"
                 app:destination="@id/signInFragment"
@@ -183,6 +211,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
             <action
                 android:id="@+id/action_authDialog_to_homeFragment"
                 app:destination="@id/homeFragment"
@@ -192,19 +221,23 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true">
-                <argument
+
+            <argument
                     android:name="source"
                     android:defaultValue="@string/source_sign_in"
                     app:argType="reference" />
+
             </action>
+
         </dialog>
 
         <!-- Sign in -->
         <fragment
             android:id="@+id/signInFragment"
             android:name="it.unibs.mp.horace.ui.auth.signin.SignInFragment"
-            android:label="@string/sign_in"
+            android:label="@string/destination_sign_in"
             tools:layout="@layout/fragment_sign_in">
+
             <action
                 android:id="@+id/action_signInFragment_to_resetPasswordFragment"
                 app:destination="@id/resetPasswordFragment"
@@ -212,6 +245,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
             <action
                 android:id="@+id/action_signInFragment_to_signUpFragment"
                 app:destination="@id/signUpFragment"
@@ -219,10 +253,12 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
             <argument
                 android:name="sourceResetPassword"
                 android:defaultValue="false"
                 app:argType="boolean" />
+
             <action
                 android:id="@+id/action_signInFragment_to_homeFragment"
                 app:destination="@id/homeFragment"
@@ -232,19 +268,23 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true">
-                <argument
+
+            <argument
                     android:name="source"
                     android:defaultValue="@string/source_sign_in"
                     app:argType="reference" />
+
             </action>
+
         </fragment>
 
         <!-- Sign up -->
         <fragment
             android:id="@+id/signUpFragment"
             android:name="it.unibs.mp.horace.ui.auth.signup.SignUpFragment"
-            android:label="@string/sign_up"
+            android:label="@string/destination_sign_up"
             tools:layout="@layout/fragment_sign_up">
+
             <action
                 android:id="@+id/action_signUpFragment_to_homeFragment"
                 app:destination="@id/homeFragment"
@@ -254,19 +294,23 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true">
-                <argument
+
+            <argument
                     android:name="source"
                     android:defaultValue="@string/source_sign_up"
                     app:argType="reference" />
+
             </action>
+
         </fragment>
 
         <!-- Reset password -->
         <fragment
             android:id="@+id/resetPasswordFragment"
             android:name="it.unibs.mp.horace.ui.auth.resetpassword.ResetPasswordFragment"
-            android:label="@string/reset_password"
+            android:label="@string/destination_reset_password"
             tools:layout="@layout/fragment_reset_password">
+
             <action
                 android:id="@+id/action_resetPasswordFragment_to_signInFragment"
                 app:destination="@id/signInFragment"
@@ -276,31 +320,37 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/authDialog"
                 app:popUpToInclusive="true">
-                <argument
+
+            <argument
                     android:name="sourceResetPassword"
                     android:defaultValue="true" />
+
             </action>
+
             <argument
                 android:name="email"
                 android:defaultValue="@null"
                 app:argType="string"
                 app:nullable="true" />
+
         </fragment>
+
     </navigation>
 
     <!-- Manual Log -->
     <fragment
         android:id="@+id/manualLogFragment"
         android:name="it.unibs.mp.horace.ui.manuallog.ManualLogFragment"
-        android:label="@string/manual_log"
+        android:label="@string/destination_manual_log"
         tools:layout="@layout/fragment_manual_log" />
 
     <!-- New Activity -->
     <fragment
         android:id="@+id/newActivityFragment"
         android:name="it.unibs.mp.horace.ui.activities.NewActivityFragment"
-        android:label="@string/add_new_activity"
+        android:label="@string/destination_new_activity"
         tools:layout="@layout/fragment_new_activity">
+
         <action
             android:id="@+id/action_newActivityFragment_to_newAreaFragment"
             app:destination="@id/newAreaFragment"
@@ -308,20 +358,21 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
 
     <!-- New Area -->
     <fragment
         android:id="@+id/newAreaFragment"
         android:name="it.unibs.mp.horace.ui.activities.NewAreaFragment"
-        android:label="@string/add_new_area"
+        android:label="@string/destination_new_area"
         tools:layout="@layout/fragment_new_area" />
 
     <!-- Notifications -->
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="it.unibs.mp.horace.ui.notifications.NotificationsFragment"
-        android:label="@string/notifications"
+        android:label="@string/destination_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <!-- Settings subgraph -->
@@ -333,8 +384,9 @@
         <fragment
             android:id="@+id/settingsFragment"
             android:name="it.unibs.mp.horace.ui.settings.SettingsFragment"
-            android:label="@string/settings"
+            android:label="@string/destination_settings"
             tools:layout="@layout/fragment_settings">
+
             <action
                 android:id="@+id/action_settingsFragment_to_updateProfileFragment"
                 app:destination="@id/updateProfileFragment"
@@ -342,6 +394,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
             <action
                 android:id="@+id/action_settingsFragment_to_homeFragment"
                 app:destination="@id/homeFragment"
@@ -351,19 +404,23 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true">
-                <argument
+
+            <argument
                     android:name="source"
                     android:defaultValue="@string/source_sign_out"
                     app:argType="reference" />
+
             </action>
+
         </fragment>
 
         <!-- Update profile -->
         <fragment
             android:id="@+id/updateProfileFragment"
             android:name="it.unibs.mp.horace.ui.settings.updateprofile.UpdateProfileFragment"
-            android:label="@string/update_profile"
+            android:label="@string/destination_update_profile"
             tools:layout="@layout/fragment_update_profile">
+
             <action
                 android:id="@+id/action_updateProfileFragment_to_settingsFragment"
                 app:destination="@id/settingsFragment"
@@ -373,6 +430,7 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/settingsGraph"
                 app:popUpToInclusive="true" />
+
             <action
                 android:id="@+id/action_updateProfileFragment_to_dialogConfirmDelete"
                 app:destination="@id/dialogConfirmDelete"
@@ -380,14 +438,16 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
         </fragment>
 
         <!-- Confirm delete -->
         <dialog
             android:id="@+id/dialogConfirmDelete"
             android:name="it.unibs.mp.horace.ui.settings.updateprofile.ConfirmDeleteDialog"
-            android:label="@string/confirm_delete"
+            android:label="@string/destination_confirm_delete"
             tools:layout="@layout/dialog_confirm_delete">
+
             <action
                 android:id="@+id/action_dialogConfirmDelete_to_homeFragment"
                 app:destination="@id/homeFragment"
@@ -397,7 +457,9 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:popUpTo="@id/mainNav"
                 app:popUpToInclusive="true" />
+
         </dialog>
+
     </navigation>
 
     <action
@@ -455,6 +517,7 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <action
         android:id="@+id/action_global_manualLog"
         app:destination="@id/manualLogFragment"
@@ -470,9 +533,5 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    <dialog
-        android:id="@+id/sortActivitiesDialog"
-        android:name="it.unibs.mp.horace.ui.home.selectactivity.SortActivitiesDialog"
-        android:label="dialog_sort_activities"
-        tools:layout="@layout/dialog_sort_activities" />
+
 </navigation>

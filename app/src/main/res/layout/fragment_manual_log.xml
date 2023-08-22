@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/manual_logs_warning" />
+        android:text="@string/fragment_manual_log_warning" />
 
     <!-- Activity -->
     <LinearLayout
@@ -28,13 +28,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/activity"
+            android:hint="@string/fragment_manual_log_activity"
             app:errorEnabled="true">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/activity" />
+                android:hint="@string/fragment_manual_log_activity" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:contentDescription="@string/add_new_activity"
+            android:contentDescription="@string/fragment_manual_log_new_activity"
             app:icon="@drawable/ic_add" />
 
     </LinearLayout>
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/date"
+        android:hint="@string/fragment_manual_log_date"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -79,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:hint="@string/start_time"
+            android:hint="@string/fragment_manual_log_start_time"
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/textinput_end_time"
@@ -93,6 +93,7 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:inputType="time" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- End time -->
@@ -101,7 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:hint="@string/end_time"
+            android:hint="@string/fragment_manual_log_end_time"
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -116,6 +117,7 @@
                 android:focusableInTouchMode="false"
                 android:inputType="time" />
         </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Description -->
@@ -124,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/description"
+        android:hint="@string/fragment_manual_log_description"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -140,6 +142,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/save" />
+        android:text="@string/fragment_manual_log_save" />
 
 </LinearLayout>

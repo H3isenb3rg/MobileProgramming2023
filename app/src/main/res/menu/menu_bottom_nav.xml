@@ -4,15 +4,15 @@
         android:id="@+id/homeFragment"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="@string/home" />
+        android:title="@string/menu_home" />
     <item
         android:id="@+id/activitiesFragment"
         android:enabled="true"
         android:icon="@drawable/ic_event_note"
-        android:title="@string/activities" />
+        android:title="@string/menu_activities" />
     <item
         android:id="@+id/leaderboardFragment"
         android:enabled="true"
         android:icon="@drawable/ic_leaderboard"
-        android:title="@string/leaderboard" />
+        android:title="@string/menu_leaderboard" />
 </menu>

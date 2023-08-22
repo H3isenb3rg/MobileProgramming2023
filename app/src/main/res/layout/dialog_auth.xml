@@ -13,21 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/authentication" />
+        android:text="@string/dialog_auth_title" />
 
     <TextView
         style="?attr/textAppearanceBodyLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/authentication_desc" />
+        android:text="@string/dialog_auth_description" />
 
     <TextView
         style="?attr/textAppearanceTitleMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/continue_with" />
+        android:text="@string/dialog_auth_continue_with" />
 
     <Button
         android:id="@+id/button_email_password"
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/email_and_password"
+        android:text="@string/dialog_auth_email_and_password"
         app:icon="@drawable/ic_email" />
 
     <Button
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/google"
+        android:text="@string/dialog_auth_google"
         app:icon="@drawable/ic_google"
         app:iconTint="@null" />
 
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/facebook"
+        android:text="@string/dialog_auth_facebook"
         app:icon="@drawable/ic_facebook"
         app:iconTint="@null" />
 </LinearLayout>
