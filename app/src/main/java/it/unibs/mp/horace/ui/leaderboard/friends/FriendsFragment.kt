@@ -49,9 +49,7 @@ class FriendsFragment : Fragment() {
 
         // Hook search bar to search view.
         // On text change, filter the adapter.
-        (requireActivity() as MainActivity).hookSearchBar(binding.searchbar, adapter) { text ->
-            adapter.filter.filter(text)
-        }
+        (requireActivity() as MainActivity).hookSearchBar(binding.searchbar, adapter)
     }
 
     override fun onDestroyView() {

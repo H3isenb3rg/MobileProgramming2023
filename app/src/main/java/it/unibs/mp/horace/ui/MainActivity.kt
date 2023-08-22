@@ -2,6 +2,7 @@ package it.unibs.mp.horace.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Filterable
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -112,8 +113,13 @@ class MainActivity : AppCompatActivity() {
      * Hooks a search bar to the search view.
      */
     fun hookSearchBar(
-        searchBar: SearchBar, adapter: RecyclerView.Adapter<*>, onTextChange: (String) -> Unit
+        searchBar: SearchBar,
+        adapter: RecyclerView.Adapter<*>,
+        onOpen: () -> Unit = {},
+        onClose: () -> Unit = {}
     ) {
+        val adapterFilter = (adapter as Filterable).filter
+
         // Add the adapter to the recycler view
         binding.recyclerviewSearchContent.adapter = adapter
 
@@ -135,21 +141,23 @@ class MainActivity : AppCompatActivity() {
                 if (newState == SearchView.TransitionState.SHOWING) {
                     closeSearchViewCallback.isEnabled = true
                     updateQuickActionsVisibility(false)
+                    onOpen()
                 } else if (newState == SearchView.TransitionState.HIDING) {
                     // Clear search text when hiding
-                    onTextChange("")
+                    adapterFilter.filter("")
                     closeSearchViewCallback.isEnabled = false
                     updateQuickActionsVisibility(true)
+                    onClose()
                 }
             }
 
             // Handle text changes
             editText.addTextChangedListener {
-                onTextChange(text.toString())
+                adapterFilter.filter(text.toString())
             }
 
             editText.setOnEditorActionListener { _, _, _ ->
-                onTextChange("")
+                adapterFilter.filter("")
                 true
             }
         }
