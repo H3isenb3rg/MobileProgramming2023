@@ -2,6 +2,7 @@ package it.unibs.mp.horace.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Filterable
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -17,6 +18,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
@@ -204,12 +206,22 @@ class MainActivity : AppCompatActivity() {
         // When the destination changes, update the visibility of the quick actions
         navController.addOnDestinationChangedListener { _, destination, _ ->
             updateQuickActionsVisibility(destination.id in QUICK_ACTIONS_DESTINATIONS)
+
+            val manualLogMargins = (binding.fabManualLog.layoutParams as MarginLayoutParams)
+
+            if (destination.id == R.id.homeFragment) {
+                binding.fabStartTimer.hide()
+                binding.fabManualLog.size = FloatingActionButton.SIZE_NORMAL
+                manualLogMargins.bottomMargin = (16f * resources.displayMetrics.density).toInt()
+            } else {
+                binding.fabManualLog.size = FloatingActionButton.SIZE_MINI
+                manualLogMargins.bottomMargin = (84f * resources.displayMetrics.density).toInt()
+            }
         }
 
         binding.fabManualLog.setOnClickListener {
             navController.navigate(MainNavDirections.actionGlobalManualLog())
         }
-
 
         // When the user scrolls down, hide the quick actions.
         // Only show them again when the user scrolls to the very top.

@@ -35,6 +35,7 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
             // If the work group is empty, show a message
             if (workGroup.isEmpty()) {
                 binding.textviewNoWorkGroup.visibility = View.VISIBLE
+                binding.recyclerviewWorkGroup.visibility = View.GONE
                 return@launch
             }
 

@@ -46,6 +46,7 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
             // If there are no friends, show a message and a button to share the profile
             if (friendsNotInWorkGroup.isEmpty()) {
                 binding.layoutNoFriends.visibility = View.VISIBLE
+                binding.recyclerviewAvailableFriends.visibility = View.GONE
                 binding.buttonShareProfile.setOnClickListener { requireContext().shareUserProfile() }
                 return@launch
             }
