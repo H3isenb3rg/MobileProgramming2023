@@ -81,14 +81,17 @@ class Settings(val context: Context) {
     /**
      * Whether the activities should be sorted in ascending order (by name) or not.
      */
-    var isActivitySortAscending: Boolean
+    var isSelectActivitySortAscending: Boolean
         get() = prefs.getBoolean(
-            context.getString(R.string.preference_activity_sort_ascending),
+            context.getString(R.string.preference_select_activity_sort_ascending),
             true
         )
         set(value) {
             prefs.edit()
-                .putBoolean(context.getString(R.string.preference_activity_sort_ascending), value)
+                .putBoolean(
+                    context.getString(R.string.preference_select_activity_sort_ascending),
+                    value
+                )
                 .apply()
         }
 
@@ -109,6 +112,37 @@ class Settings(val context: Context) {
     /**
      * Whether the friends should be sorted in ascending order (by username) or not.
      */
+    var isInviteFriendsSortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_invite_friends_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(
+                    context.getString(R.string.preference_invite_friends_sort_ascending),
+                    value
+                )
+                .apply()
+        }
+
+    /**
+     * Whether the friends should be sorted in ascending order (by username) or not.
+     */
+    var isJournalSortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_journal_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(context.getString(R.string.preference_journal_sort_ascending), value)
+                .apply()
+        }
+
+    /**
+     * Whether the friends should be sorted in ascending order (by username) or not.
+     */
     var isFriendsSortAscending: Boolean
         get() = prefs.getBoolean(
             context.getString(R.string.preference_friends_sort_ascending),
@@ -119,6 +153,7 @@ class Settings(val context: Context) {
                 .putBoolean(context.getString(R.string.preference_friends_sort_ascending), value)
                 .apply()
         }
+
 
     /**
      * The current timer mode. The default value is [Mode.Pomodoro].

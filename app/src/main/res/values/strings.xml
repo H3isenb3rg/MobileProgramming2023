@@ -18,8 +18,10 @@
     <string name="preference_volume_on">volume_on</string>
     <string name="preference_share">share</string>
     <string name="preference_activity_id">activity_id</string>
-    <string name="preference_activity_sort_ascending">activities_ascending</string>
+    <string name="preference_select_activity_sort_ascending">select_activity_ascending</string>
     <string name="preference_workgroup_sort_ascending">workgroup_ascending</string>
+    <string name="preference_invite_friends_sort_ascending">invite_friends_ascending</string>
+    <string name="preference_journal_sort_ascending">journal_ascending</string>
     <string name="preference_friends_sort_ascending">friends_ascending</string>
 
     <!-- Settings -->
@@ -66,13 +68,19 @@
     <string name="destination_manual_log">Manual log</string>
     <string name="destination_new_activity">Add new activity</string>
     <string name="destination_new_area">Add new area</string>
-    <string name="destination_sort_activities">Sort activities</string>
+    <string name="destination_sort_select_activity">Sort select activity</string>
+    <string name="destination_sort_workgroup">Sort workgroup</string>
+    <string name="destination_sort_invite_friends">Sort invite friends</string>
+    <string name="destination_sort_journal">Sort journal</string>
+    <string name="destination_sort_friends">Sort friends</string>
 
     <!-- Menu items -->
     <string name="menu_settings">Settings</string>
     <string name="menu_settings_description">Navigate to settings</string>
     <string name="menu_notifications">Notifications</string>
     <string name="menu_notifications_description">Navigate to notifications</string>
+    <string name="menu_sort">Sort</string>
+    <string name="menu_sort_description">Sort items</string>
     <string name="menu_home">Home</string>
     <string name="menu_activities">Activities</string>
     <string name="menu_leaderboard">Leaderboard</string>
@@ -113,20 +121,20 @@
     <string name="dialog_select_activity_sort">Sort</string>
 
     <!-- Sort activities dialog -->
-    <string name="dialog_sort_activities_radio_ascending">Name ascending</string>
-    <string name="dialog_sort_activities_radio_descending">Name descending</string>
-    <string name="dialog_sort_activities_title">Sort activities by</string>
+    <string name="dialog_sort_select_activity_radio_ascending">Name ascending</string>
+    <string name="dialog_sort_select_activity_radio_descending">Name descending</string>
+    <string name="dialog_sort_select_activity_title">Sort activities by</string>
 
-    <!-- Invite friends dialog -->
+    <!-- Invite invite friends dialog -->
     <string name="dialog_invite_friends_title">Invite friends</string>
     <string name="dialog_invite_friends_invite_selected">Invite selected friends to work group</string>
     <string name="dialog_invite_friends_no_friends">You don\'t have any friends :(</string>
     <string name="dialog_invite_friends_share_profile">Tap to share your profile</string>
 
-    <!-- Sort friends dialog -->
-    <string name="dialog_sort_friends_title">Sort friends by</string>
-    <string name="dialog_sort_friends_radio_ascending">Username ascending</string>
-    <string name="dialog_sort_friends_radio_descending">Username descending</string>
+    <!-- Sort invite friends dialog -->
+    <string name="dialog_sort_invite_friends_title">Sort friends by</string>
+    <string name="dialog_sort_invite_friends_radio_ascending">Username ascending</string>
+    <string name="dialog_sort_invite_friends_radio_descending">Username descending</string>
 
     <!-- Auth dialog -->
     <string name="dialog_auth_title">Authenticate</string>
@@ -165,6 +173,16 @@
     <!-- New area fragment -->
     <string name="fragment_new_area_area_name">Area name</string>
     <string name="fragment_new_area_save">Save</string>
+
+    <!-- Sort journal dialog -->
+    <string name="dialog_sort_journal_title">Sort journal by</string>
+    <string name="dialog_sort_journal_radio_ascending">Name ascending</string>
+    <string name="dialog_sort_journal_radio_descending">Name descending</string>
+
+    <!-- Sort friends dialog -->
+    <string name="dialog_sort_friends_title">Sort friends by</string>
+    <string name="dialog_sort_friends_radio_ascending">Username ascending</string>
+    <string name="dialog_sort_friends_radio_descending">Username descending</string>
 
     <string name="email">Email</string>
     <string name="username">Username</string>
@@ -241,6 +259,7 @@
     </plurals>
     <string name="streak_start_date">From %s to today. Good job!</string>
     <string name="no_streak_yet">No streak yet</string>
+
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

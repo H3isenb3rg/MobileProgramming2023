@@ -45,7 +45,7 @@ class SelectActivityDialog : BottomSheetDialogFragment() {
             activities.addAll(journal.getAllActivities())
 
             // Sort according to the settings.
-            if (settings.isActivitySortAscending) activities.sortBy { it.name }
+            if (settings.isSelectActivitySortAscending) activities.sortBy { it.name }
             else activities.sortByDescending { it.name }
 
             adapter.notifyItemRangeInserted(0, activities.size)

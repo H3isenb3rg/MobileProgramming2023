@@ -1,4 +1,4 @@
-package it.unibs.mp.horace.ui.home.selectactivity
+package it.unibs.mp.horace.ui.home.workgroup
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,27 +7,28 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import it.unibs.mp.horace.backend.Settings
-import it.unibs.mp.horace.databinding.DialogSortActivitiesBinding
+import it.unibs.mp.horace.databinding.DialogSortInviteFriendsBinding
 
-class SortActivitiesDialog : BottomSheetDialogFragment() {
-    private var _binding: DialogSortActivitiesBinding? = null
+class SortInviteFriendsDialog : BottomSheetDialogFragment() {
+    private var _binding: DialogSortInviteFriendsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = DialogSortActivitiesBinding.inflate(inflater, container, false)
+        _binding = DialogSortInviteFriendsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val settings = Settings(requireContext())
 
-        binding.radiobuttonNameAscending.isChecked = settings.isActivitySortAscending
-        binding.radiobuttonNameDescending.isChecked = !settings.isActivitySortAscending
+        binding.radiobuttonUsernameAscending.isChecked = settings.isInviteFriendsSortAscending
+        binding.radiobuttonUsernameDescending.isChecked = !settings.isInviteFriendsSortAscending
 
-        binding.radiogroupSortActivities.setOnCheckedChangeListener { _, checkedId ->
-            settings.isActivitySortAscending = checkedId == binding.radiobuttonNameAscending.id
+        binding.radiogroupSortFriends.setOnCheckedChangeListener { _, checkedId ->
+            settings.isInviteFriendsSortAscending =
+                checkedId == binding.radiobuttonUsernameAscending.id
             findNavController().navigateUp()
         }
     }

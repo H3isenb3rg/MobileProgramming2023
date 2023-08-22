@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".ui.home.selectactivity.SortActivitiesDialog">
+    tools:context=".ui.home.selectactivity.SortSelectActivityDialog">
 
     <TextView
         style="?attr/textAppearanceTitleLarge"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/dialog_sort_activities_title" />
+        android:text="@string/dialog_sort_select_activity_title" />
 
     <RadioGroup
         android:id="@+id/radiogroup_sort_activities"
@@ -26,13 +26,13 @@
             android:id="@+id/radiobutton_name_ascending"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/dialog_sort_activities_radio_ascending" />
+            android:text="@string/dialog_sort_select_activity_radio_ascending" />
 
         <RadioButton
             android:id="@+id/radiobutton_name_descending"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/dialog_sort_activities_radio_descending" />
+            android:text="@string/dialog_sort_select_activity_radio_descending" />
     </RadioGroup>
 
 </LinearLayout>

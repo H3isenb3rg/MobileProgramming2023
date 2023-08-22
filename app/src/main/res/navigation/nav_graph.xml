@@ -90,7 +90,21 @@
             android:id="@+id/friendsFragment"
             android:name="it.unibs.mp.horace.ui.leaderboard.friends.FriendsFragment"
             android:label="@string/destination_friends"
-            tools:layout="@layout/fragment_friends" />
+            tools:layout="@layout/fragment_friends">
+            <action
+                android:id="@+id/action_friendsFragment_to_sortFriendsDialog"
+                app:destination="@id/sortFriendsDialog"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        </fragment>
+
+        <dialog
+            android:id="@+id/sortFriendsDialog"
+            android:name="it.unibs.mp.horace.ui.leaderboard.friends.SortFriendsDialog"
+            android:label="@string/destination_sort_friends"
+            tools:layout="@layout/dialog_sort_invite_friends" />
 
     </navigation>
 
@@ -98,6 +112,12 @@
     <navigation
         android:id="@+id/activitiesGraph"
         app:startDestination="@id/activitiesFragment">
+
+        <dialog
+            android:id="@+id/sortJournalDialog"
+            android:name="it.unibs.mp.horace.ui.activities.journal.SortJournalDialog"
+            android:label="@string/destination_sort_journal"
+            tools:layout="@layout/dialog_sort_journal" />
 
         <!-- Activities -->
         <fragment
@@ -121,7 +141,15 @@
             android:id="@+id/journalFragment"
             android:name="it.unibs.mp.horace.ui.activities.journal.JournalFragment"
             android:label="@string/destination_journal"
-            tools:layout="@layout/fragment_journal" />
+            tools:layout="@layout/fragment_journal">
+            <action
+                android:id="@+id/action_journalFragment_to_sortJournalDialog"
+                app:destination="@id/sortJournalDialog"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        </fragment>
 
     </navigation>
 
@@ -139,7 +167,7 @@
 
             <action
                 android:id="@+id/action_selectActivityDialog_to_sortActivitiesDialog"
-                app:destination="@id/sortActivitiesDialog"
+                app:destination="@id/sortSelectActivityDialog"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -149,10 +177,10 @@
 
         <!-- Sort activities -->
         <dialog
-            android:id="@+id/sortActivitiesDialog"
-            android:name="it.unibs.mp.horace.ui.home.selectactivity.SortActivitiesDialog"
-            android:label="@string/destination_sort_activities"
-            tools:layout="@layout/dialog_sort_activities" />
+            android:id="@+id/sortSelectActivityDialog"
+            android:name="it.unibs.mp.horace.ui.home.selectactivity.SortSelectActivityDialog"
+            android:label="@string/destination_sort_select_activity"
+            tools:layout="@layout/dialog_sort_select_activity" />
 
     </navigation>
 
@@ -161,17 +189,19 @@
         android:id="@+id/workGroupGraph"
         app:startDestination="@id/workGroupDialog">
 
-        <!-- Work group -->
         <dialog
-            android:id="@+id/sortFriendsDialog"
-            android:name="it.unibs.mp.horace.ui.home.workgroup.SortFriendsDialog"
-            android:label="dialog_sort_friends"
-            tools:layout="@layout/dialog_sort_friends" />
+            android:id="@+id/sortInviteFriendsDialog"
+            android:name="it.unibs.mp.horace.ui.home.workgroup.SortInviteFriendsDialog"
+            android:label="@string/destination_sort_invite_friends"
+            tools:layout="@layout/dialog_sort_invite_friends" />
+
         <dialog
-            android:id="@+id/sortWorkGroupDialog2"
+            android:id="@+id/sortWorkGroupDialog"
             android:name="it.unibs.mp.horace.ui.home.workgroup.SortWorkGroupDialog"
-            android:label="dialog_sort_workgroup"
+            android:label="@string/destination_sort_workgroup"
             tools:layout="@layout/dialog_sort_workgroup" />
+
+        <!-- Work group -->
         <dialog
             android:id="@+id/workGroupDialog"
             android:name="it.unibs.mp.horace.ui.home.workgroup.WorkGroupDialog"
@@ -185,9 +215,10 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
             <action
                 android:id="@+id/action_workGroupDialog_to_sortWorkGroupDialog"
-                app:destination="@id/sortWorkGroupDialog2"
+                app:destination="@id/sortWorkGroupDialog"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
