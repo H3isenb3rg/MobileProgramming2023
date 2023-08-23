@@ -21,7 +21,7 @@ class NewActivityFragment : Fragment() {
     // All the validation logic is in the ViewModel
     private val viewModel: NewActivityViewModel by activityViewModels {
         // Create the ViewModel with the Journal.
-        NewActivityViewModelFactory(JournalFactory.getJournal(requireContext()))
+        NewActivityViewModelFactory(JournalFactory(requireContext()).getJournal())
     }
 
     override fun onCreateView(

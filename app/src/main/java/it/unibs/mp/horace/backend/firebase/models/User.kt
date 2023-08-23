@@ -4,7 +4,7 @@ import android.net.Uri
 import it.unibs.mp.horace.R
 
 data class User(
-    var uid: String,
+    val uid: String,
     var email: String,
     var username: String?,
     var photoUrl: Uri? = null

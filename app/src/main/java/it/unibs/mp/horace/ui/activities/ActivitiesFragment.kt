@@ -56,7 +56,7 @@ class ActivitiesFragment : TopLevelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        journal = JournalFactory.getJournal(requireContext())
+        journal = JournalFactory(requireContext()).getJournal()
 
         binding.cardviewViewJournal.setOnClickListener {
             findNavController().navigate(

@@ -4,7 +4,7 @@ package it.unibs.mp.horace.backend.firebase.models
  * Represents an activity that can be tracked.
  */
 data class Activity(
-    var id: String, var name: String, var area: Area?
+    val id: String, val name: String, val area: Area?
 ) {
     companion object {
         const val COLLECTION_NAME = "activities"
@@ -41,7 +41,7 @@ data class Activity(
             ID_FIELD to id, NAME_FIELD to name
         )
         if (area != null) {
-            activityMap[AREA_FIELD] = area!!.id
+            activityMap[AREA_FIELD] = area.id
         }
         return activityMap
     }
@@ -51,5 +51,21 @@ data class Activity(
      */
     fun fitsSearch(searchText: String): Boolean {
         return name.lowercase().contains(searchText.lowercase())
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Activity) {
+            return false
+        }
+        if (id == other.id) {
+            return true
+        }
+        return name == other.name && area == other.area
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + (area?.hashCode() ?: 0)
+        return result
     }
 }

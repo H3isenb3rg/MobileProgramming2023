@@ -41,7 +41,7 @@ class SelectActivityDialog : BottomSheetDialogFragment() {
 
         lifecycleScope.launch {
             // Retrieve the activities from the journal.
-            val journal = JournalFactory.getJournal(requireContext())
+            val journal = JournalFactory(requireContext()).getJournal()
             activities.addAll(journal.getAllActivities())
 
             // Sort according to the settings.

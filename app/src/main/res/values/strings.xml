@@ -92,6 +92,10 @@
     <string name="fragment_home_toggle_volume">Toggle volume</string>
     <string name="fragment_home_tap_to_start">Tap to start</string>
     <string name="fragment_home_work_group">Work group</string>
+    <string name="fragment_home_migrate_title">Sync local journal</string>
+    <string name="fragment_home_migrate_description">Would you like to move your local journal to the cloud?</string>
+    <string name="fragment_home_migrate_decline">No, thanks</string>
+    <string name="fragment_home_migrate_accept">Yes</string>
 
     <!-- Manual log fragment -->
     <string name="fragment_manual_log_activity">Activity</string>
@@ -259,7 +263,8 @@
     </plurals>
     <string name="streak_start_date">From %s to today. Good job!</string>
     <string name="no_streak_yet">No streak yet</string>
-
+    <string name="dialog_entry_options_edit">Edit entry</string>
+    <string name="dialog_entry_options_delete">Delete entry</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

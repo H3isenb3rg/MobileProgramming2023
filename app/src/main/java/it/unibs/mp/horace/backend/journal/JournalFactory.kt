@@ -7,18 +7,26 @@ import com.google.firebase.ktx.Firebase
 /**
  * Factory for creating concrete Journal instances.
  */
-class JournalFactory {
-    companion object {
-        /**
-         * Returns a Journal instance, depending on
-         * whether the user is logged in or not.
-         */
-        fun getJournal(context: Context): Journal {
-            return if (Firebase.auth.currentUser != null) {
-                FirestoreJournal()
-            } else {
-                RoomJournal(context)
-            }
+class JournalFactory(val context: Context) {
+    /**
+     * Returns a Journal instance, depending on
+     * whether the user is logged in or not.
+     */
+    fun getJournal(): Journal {
+        return if (Firebase.auth.currentUser != null) {
+            FirestoreJournal()
+        } else {
+            RoomJournal(context)
         }
+    }
+
+    suspend fun migrateLocalJournal() {
+        val localJournal = RoomJournal(context)
+        if (localJournal.isEmpty()) {
+            return
+        }
+
+        val journal = getJournal()
+        JournalMigrator(localJournal, journal).migrate()
     }
 }

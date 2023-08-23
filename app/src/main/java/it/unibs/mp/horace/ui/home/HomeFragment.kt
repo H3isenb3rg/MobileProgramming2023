@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -18,7 +19,6 @@ import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.TopLevelFragment
 import kotlinx.coroutines.launch
-
 
 class HomeFragment : TopLevelFragment() {
 
@@ -51,7 +51,7 @@ class HomeFragment : TopLevelFragment() {
 
         auth = Firebase.auth
         prefs = Settings(requireContext())
-        journal = JournalFactory.getJournal(requireContext())
+        journal = JournalFactory(requireContext()).getJournal()
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         // Source is not read from navArgs because, for example,
@@ -61,9 +61,13 @@ class HomeFragment : TopLevelFragment() {
         // Removing the source argument solves this.
         // See https://stackoverflow.com/questions/62639146/android-navargs-clear-on-back.
         when (HomeFragmentArgs.fromBundle(requireArguments()).source) {
-            R.string.source_sign_in -> Snackbar.make(
-                view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
-            ).show()
+            R.string.source_sign_in -> {
+                Snackbar.make(
+                    view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
+                ).show()
+
+                showMigrationDialog()
+            }
 
             R.string.source_sign_up -> Snackbar.make(
                 view, getString(R.string.signed_up_successfully), Snackbar.LENGTH_SHORT
@@ -142,6 +146,22 @@ class HomeFragment : TopLevelFragment() {
         binding.buttonSelectActivity.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityGraph())
         }
+    }
+
+    private fun showMigrationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.fragment_home_migrate_title))
+            .setMessage(resources.getString(R.string.fragment_home_migrate_description))
+            .setNegativeButton(resources.getString(R.string.fragment_home_migrate_decline)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.fragment_home_migrate_accept)) { dialog, _ ->
+                lifecycleScope.launch {
+                    JournalFactory(requireContext()).migrateLocalJournal()
+                    dialog.dismiss()
+                }
+            }
+            .show()
     }
 
     override fun onDestroyView() {

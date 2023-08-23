@@ -19,7 +19,7 @@ class NewAreaFragment : Fragment() {
     // All the validation logic is in the ViewModel.
     private val viewModel: NewAreaViewModel by activityViewModels {
         // Create the ViewModel with the Journal.
-        NewAreaViewModelFactory(JournalFactory.getJournal(requireContext()))
+        NewAreaViewModelFactory(JournalFactory(requireContext()).getJournal())
     }
 
     override fun onCreateView(

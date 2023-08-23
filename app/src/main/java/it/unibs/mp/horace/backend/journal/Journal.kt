@@ -70,4 +70,8 @@ interface Journal {
         return getAllTimeEntries().filter { entry -> entry.activity != null }
             .groupBy { entry -> entry.activity!! }.mapValues { group -> group.value.size }
     }
+
+    suspend fun isEmpty(): Boolean {
+        return getAllTimeEntries().isEmpty() && getAllActivities().isEmpty() && getAllAreas().isEmpty()
+    }
 }

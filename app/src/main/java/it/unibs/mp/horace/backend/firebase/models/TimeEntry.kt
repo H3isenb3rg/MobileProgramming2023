@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit
  * Represents a time entry in the user's journal.
  */
 data class TimeEntry(
-    var id: String,
+    val id: String,
     val description: String?,
     val activity: Activity?,
     val isPomodoro: Boolean,
@@ -94,5 +94,30 @@ data class TimeEntry(
      */
     fun duration(unit: ChronoUnit = ChronoUnit.SECONDS): Int {
         return unit.between(startTime, endTime).toInt()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is TimeEntry) {
+            return false
+        }
+        if (id == other.id) {
+            return true
+        }
+        return description == other.description &&
+                activity == other.activity &&
+                isPomodoro == other.isPomodoro &&
+                startTime == other.startTime &&
+                endTime == other.endTime &&
+                points == other.points
+    }
+
+    override fun hashCode(): Int {
+        var result = description?.hashCode() ?: 0
+        result = 31 * result + (activity?.hashCode() ?: 0)
+        result = 31 * result + isPomodoro.hashCode()
+        result = 31 * result + startTime.hashCode()
+        result = 31 * result + endTime.hashCode()
+        result = 31 * result + points
+        return result
     }
 }

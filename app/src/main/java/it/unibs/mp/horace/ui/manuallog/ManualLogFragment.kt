@@ -26,7 +26,7 @@ class ManualLogFragment : Fragment() {
 
     // All the validation logic is in the ViewModel
     private val viewModel: ManualLogViewModel by activityViewModels {
-        ManualLogViewModelFactory(JournalFactory.getJournal(requireContext()))
+        ManualLogViewModelFactory(JournalFactory(requireContext()).getJournal())
     }
 
     override fun onCreateView(

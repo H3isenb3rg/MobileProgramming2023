@@ -30,7 +30,7 @@ class JournalFragment : SortFragment() {
 
         val settings = Settings(requireContext())
 
-        val journal = JournalFactory.getJournal(requireContext())
+        val journal = JournalFactory(requireContext()).getJournal()
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
         val adapter = JournalAdapter(requireContext(), journalDays)

@@ -1,6 +1,6 @@
 package it.unibs.mp.horace.backend.firebase.models
 
-data class Area(var id: String, var name: String) {
+data class Area(val id: String, val name: String) {
     companion object {
         const val COLLECTION_NAME = "areas"
         const val ID_FIELD = "id"
@@ -28,5 +28,19 @@ data class Area(var id: String, var name: String) {
      */
     fun fitsSearch(searchText: String): Boolean {
         return name.lowercase().contains(searchText.lowercase())
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Area) {
+            return false
+        }
+        if (id == other.id) {
+            return true
+        }
+        return name == other.name
+    }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
     }
 }
