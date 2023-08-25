@@ -34,7 +34,11 @@ class FriendsFragment : SortFragment() {
 
         // Set friends initially to an empty list
         val friends = ArrayList<User>()
-        val adapter = FriendsAdapter(friends)
+        val adapter = FriendsAdapter(friends) {
+            findNavController().navigate(
+                FriendsFragmentDirections.actionFriendsFragmentToFriendDetailsDialog(it.uid)
+            )
+        }
         binding.recyclerviewFriends.adapter = adapter
 
         // Load friends in background

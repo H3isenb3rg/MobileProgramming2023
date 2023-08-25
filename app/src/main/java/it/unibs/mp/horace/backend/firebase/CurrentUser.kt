@@ -223,6 +223,15 @@ class CurrentUser {
             .mapNotNull { User.parse(it.data) }
     }
 
+    suspend fun deleteFriend(friend: User) {
+        // Delete from friends collection
+        userDocument.collection(FRIENDS_COLLECTION_NAME).document(friend.uid).delete().await()
+
+        // Delete current user from friend's friends collection
+        db.collection(User.COLLECTION_NAME).document(friend.uid)
+            .collection(FRIENDS_COLLECTION_NAME).document(uid).delete().await()
+    }
+
     /**
      * Updates both the authentication data and the user document.
      */

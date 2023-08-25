@@ -16,7 +16,10 @@ import it.unibs.mp.horace.backend.firebase.models.User
  * RecyclerView adapter for the friends list.
  * Implementing the Filterable interface allows us to filter the dataset.
  */
-class FriendsAdapter(private val dataset: ArrayList<User>) :
+class FriendsAdapter(
+    private val dataset: ArrayList<User>,
+    private val onItemClick: (User) -> Unit
+) :
     RecyclerView.Adapter<FriendsAdapter.ItemViewHolder>(), Filterable {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -49,6 +52,10 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
         holder.profilePhoto.load(item.photoUrl ?: R.drawable.ic_default_profile_photo)
         holder.username.text = item.username
         holder.email.text = item.email
+
+        holder.itemView.setOnClickListener {
+            onItemClick(item)
+        }
     }
 
     // Returns a filter that can be used to search the dataset.
