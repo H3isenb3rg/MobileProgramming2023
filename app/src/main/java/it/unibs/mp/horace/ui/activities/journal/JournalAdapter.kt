@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import it.unibs.mp.horace.backend.journal.JournalDay
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -16,7 +17,11 @@ import java.time.format.DateTimeFormatter
 /**
  * RecyclerView adapter for the journals list.
  */
-open class JournalAdapter(val context: Context, val dataset: List<JournalDay>) :
+open class JournalAdapter(
+    val context: Context,
+    val dataset: List<JournalDay>,
+    private val showEntryOptions: (TimeEntry) -> Unit
+) :
     RecyclerView.Adapter<JournalAdapter.DataViewHolder>() {
 
     inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -59,7 +64,7 @@ open class JournalAdapter(val context: Context, val dataset: List<JournalDay>) :
             R.string.journal_item_summary, getTotalTimeString(item), item.totalPoints
         )
 
-        holder.entries.adapter = EntryAdapter(context, item.timeEntries)
+        holder.entries.adapter = EntryAdapter(context, item.timeEntries, showEntryOptions)
     }
 
     override fun getItemCount(): Int = dataset.size

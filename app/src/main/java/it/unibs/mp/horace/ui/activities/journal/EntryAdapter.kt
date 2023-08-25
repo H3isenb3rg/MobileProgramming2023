@@ -11,7 +11,11 @@ import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class EntryAdapter(val context: Context, val dataset: List<TimeEntry>) :
+class EntryAdapter(
+    val context: Context,
+    val dataset: List<TimeEntry>,
+    private val showEntryOptions: (TimeEntry) -> Unit
+) :
     RecyclerView.Adapter<EntryAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,6 +42,11 @@ class EntryAdapter(val context: Context, val dataset: List<TimeEntry>) :
             formatTime(item.startTime.toLocalTime()),
             formatTime(item.endTime.toLocalTime())
         )
+
+        holder.itemView.setOnLongClickListener {
+            showEntryOptions(item)
+            true
+        }
     }
 
     override fun getItemCount(): Int = dataset.size

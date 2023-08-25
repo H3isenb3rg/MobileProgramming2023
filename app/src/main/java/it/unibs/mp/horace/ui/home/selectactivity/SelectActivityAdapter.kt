@@ -36,7 +36,7 @@ class SelectActivityAdapter(
 
         holder.name.text = item.name
         if (item.area != null) {
-            holder.area.text = item.area!!.name
+            holder.area.text = item.area.name
         } else {
             holder.area.visibility = View.GONE
         }

@@ -8,11 +8,11 @@ import java.time.temporal.ChronoUnit
  */
 data class TimeEntry(
     val id: String,
-    val description: String?,
-    val activity: Activity?,
+    var description: String?,
+    var activity: Activity?,
     val isPomodoro: Boolean,
-    val startTime: LocalDateTime,
-    val endTime: LocalDateTime,
+    var startTime: LocalDateTime,
+    var endTime: LocalDateTime,
     val points: Int,
 ) {
     companion object {
@@ -66,12 +66,12 @@ data class TimeEntry(
             POINTS_FIELD to points,
         )
 
-        if (description != null) {
-            entryMap[DESCRIPTION_FIELD] = description
+        description?.let {
+            entryMap[DESCRIPTION_FIELD] = it
         }
 
-        if (activity != null) {
-            entryMap[ACTIVITY_FIELD] = activity.id
+        activity?.let {
+            entryMap[ACTIVITY_FIELD] = it
         }
 
         return entryMap

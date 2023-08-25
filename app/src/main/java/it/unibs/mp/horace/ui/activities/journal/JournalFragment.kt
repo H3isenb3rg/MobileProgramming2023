@@ -33,7 +33,11 @@ class JournalFragment : SortFragment() {
         val journal = JournalFactory(requireContext()).getJournal()
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
-        val adapter = JournalAdapter(requireContext(), journalDays)
+        val adapter = JournalAdapter(requireContext(), journalDays) {
+            findNavController().navigate(
+                JournalFragmentDirections.actionJournalFragmentToEntryOptionsDialog(it.id)
+            )
+        }
         binding.recyclerviewJournal.adapter = adapter
 
         lifecycleScope.launch {

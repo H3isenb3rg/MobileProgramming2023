@@ -9,16 +9,16 @@ class JournalMigrator(private val source: Journal, private val destination: Jour
         val sourceEntries = source.getAllTimeEntries()
         val destinationEntries = destination.getAllTimeEntries()
 
-        sourceEntries.forEach {
-            if (!destinationEntries.contains(it)) {
-                val activity = if (it.activity != null) getOrAddActivity(it.activity) else null
+        sourceEntries.forEach { entry ->
+            if (!destinationEntries.contains(entry)) {
+                val activity = entry.activity?.let { getOrAddActivity(it) }
                 destination.addTimeEntry(
-                    it.description,
+                    entry.description,
                     activity,
-                    it.isPomodoro,
-                    it.startTime,
-                    it.endTime,
-                    it.points
+                    entry.isPomodoro,
+                    entry.startTime,
+                    entry.endTime,
+                    entry.points
                 )
             }
         }

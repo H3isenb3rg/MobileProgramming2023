@@ -90,7 +90,7 @@ class ActivitiesAdapter(
         if (item.area == null) {
             area.visibility = View.GONE
         } else {
-            area.text = item.area?.name
+            area.text = item.area.name
             area.visibility = View.VISIBLE
         }
 

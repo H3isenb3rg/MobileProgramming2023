@@ -188,6 +188,11 @@
     <string name="dialog_sort_friends_radio_ascending">Username ascending</string>
     <string name="dialog_sort_friends_radio_descending">Username descending</string>
 
+    <!-- Journal entry options dialog -->
+    <string name="dialog_entry_options_edit">Edit entry</string>
+    <string name="dialog_entry_options_delete">Delete entry</string>
+    <string name="dialog_entry_options_deleted">Entry deleted</string>
+
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="email_invalid">Email is not valid</string>
@@ -263,8 +268,6 @@
     </plurals>
     <string name="streak_start_date">From %s to today. Good job!</string>
     <string name="no_streak_yet">No streak yet</string>
-    <string name="dialog_entry_options_edit">Edit entry</string>
-    <string name="dialog_entry_options_delete">Delete entry</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>
