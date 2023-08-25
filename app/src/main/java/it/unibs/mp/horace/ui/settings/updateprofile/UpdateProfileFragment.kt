@@ -35,6 +35,12 @@ class UpdateProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val user = CurrentUser()
+
+        lifecycleScope.launch {
+            binding.textinputUsername.editText?.setText(user.username)
+            binding.textinputEmail.editText?.setText(user.email)
+        }
+
         addChangeListeners()
 
         binding.buttonDeleteProfile.setOnClickListener {

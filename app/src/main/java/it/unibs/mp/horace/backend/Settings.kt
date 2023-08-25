@@ -129,14 +129,14 @@ class Settings(val context: Context) {
     /**
      * Whether the friends should be sorted in ascending order (by username) or not.
      */
-    var isJournalSortAscending: Boolean
+    var isJournalSortMostRecent: Boolean
         get() = prefs.getBoolean(
-            context.getString(R.string.preference_journal_sort_ascending),
+            context.getString(R.string.preference_journal_sort_most_recent),
             true
         )
         set(value) {
             prefs.edit()
-                .putBoolean(context.getString(R.string.preference_journal_sort_ascending), value)
+                .putBoolean(context.getString(R.string.preference_journal_sort_most_recent), value)
                 .apply()
         }
 

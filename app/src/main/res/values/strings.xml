@@ -21,7 +21,7 @@
     <string name="preference_select_activity_sort_ascending">select_activity_ascending</string>
     <string name="preference_workgroup_sort_ascending">workgroup_ascending</string>
     <string name="preference_invite_friends_sort_ascending">invite_friends_ascending</string>
-    <string name="preference_journal_sort_ascending">journal_ascending</string>
+    <string name="preference_journal_sort_most_recent">journal_most_recent</string>
     <string name="preference_friends_sort_ascending">friends_ascending</string>
 
     <!-- Settings -->
@@ -180,8 +180,8 @@
 
     <!-- Sort journal dialog -->
     <string name="dialog_sort_journal_title">Sort journal by</string>
-    <string name="dialog_sort_journal_radio_ascending">Name ascending</string>
-    <string name="dialog_sort_journal_radio_descending">Name descending</string>
+    <string name="dialog_sort_journal_radio_most_recent">Most recent date</string>
+    <string name="dialog_sort_journal_radio_least_recent">Least recent date</string>
 
     <!-- Sort friends dialog -->
     <string name="dialog_sort_friends_title">Sort friends by</string>
@@ -268,6 +268,15 @@
     </plurals>
     <string name="streak_start_date">From %s to today. Good job!</string>
     <string name="no_streak_yet">No streak yet</string>
+    <string name="dialog_entry_options_title">Entry options</string>
+    <string name="fragment_edit_entry_activity">Activity</string>
+    <string name="fragment_edit_entry_new_activity">New activity</string>
+    <string name="fragment_edit_entry_date">Date</string>
+    <string name="fragment_edit_entry_start_time">Start time</string>
+    <string name="fragment_edit_entry_end_time">End time</string>
+    <string name="fragment_edit_entry_description">Description (optional)</string>
+    <string name="fragment_edit_entry_save">Save</string>
+    <string name="destination_edit_entry">Edit entry</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

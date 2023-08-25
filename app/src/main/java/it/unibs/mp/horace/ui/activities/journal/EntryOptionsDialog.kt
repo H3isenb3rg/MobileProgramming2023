@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +31,9 @@ class EntryOptionsDialog : BottomSheetDialogFragment() {
         val journal = JournalFactory(requireContext()).getJournal()
 
         binding.cardEdit.setOnClickListener {
-
+            findNavController().navigate(
+                EntryOptionsDialogDirections.actionEntryOptionsDialogToEditEntryFragment(args.entryId)
+            )
         }
 
         binding.cardDelete.setOnClickListener {
@@ -44,7 +47,9 @@ class EntryOptionsDialog : BottomSheetDialogFragment() {
                     getString(R.string.dialog_entry_options_deleted), Snackbar.LENGTH_SHORT
                 ).show()
 
-                dismiss()
+                findNavController().navigate(
+                    EntryOptionsDialogDirections.actionEntryOptionsDialogToJournalFragment()
+                )
             }
         }
     }

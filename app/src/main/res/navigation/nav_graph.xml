@@ -136,7 +136,7 @@
         <fragment
             android:id="@+id/editEntryFragment"
             android:name="it.unibs.mp.horace.ui.activities.journal.editentry.EditEntryFragment"
-            android:label="fragment_edit_entry"
+            android:label="@string/destination_edit_entry"
             tools:layout="@layout/fragment_edit_entry">
 
             <action
@@ -173,6 +173,16 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+            <action
+                android:id="@+id/action_entryOptionsDialog_to_journalFragment"
+                app:destination="@id/journalFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:popUpTo="@id/journalFragment"
+                app:popUpToInclusive="true" />
 
         </dialog>
 

@@ -30,7 +30,7 @@ class EditEntryFragment : Fragment() {
 
     // All the validation logic is in the ViewModel
     private val viewModel: EditEntryViewModel by activityViewModels {
-        EditEntryViewModelFactory(JournalFactory(requireContext()).getJournal(), args.entryId)
+        EditEntryViewModelFactory(JournalFactory(requireContext()).getJournal())
     }
 
     override fun onCreateView(
@@ -42,6 +42,22 @@ class EditEntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val journal = JournalFactory(requireContext()).getJournal()
+
+        lifecycleScope.launch {
+            val timeEntry = journal.getTimeEntry(args.entryId)
+
+            viewModel.timeEntry = timeEntry!!
+
+            binding.textinputActivity.editText?.setText(timeEntry.activity?.name)
+            binding.textinputDate.editText?.setText(timeEntry.startTime.toLocalDate().toString())
+            binding.textinputStartTime.editText?.setText(
+                timeEntry.startTime.toLocalTime().toString()
+            )
+            binding.textinputEndTime.editText?.setText(timeEntry.endTime.toLocalTime().toString())
+            binding.textinputDescription.editText?.setText(timeEntry.description)
+        }
 
         setupActivitiesAutocomplete()
 

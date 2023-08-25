@@ -7,10 +7,20 @@
     android:orientation="vertical"
     tools:context=".ui.activities.journal.EntryOptionsDialog">
 
+    <TextView
+        style="?attr/textAppearanceTitleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/dialog_entry_options_title" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_edit"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@android:color/transparent"
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="0dp"
@@ -49,11 +59,11 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_delete"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:backgroundTint="@android:color/transparent"
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="0dp"

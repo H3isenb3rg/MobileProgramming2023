@@ -44,14 +44,14 @@ interface Journal {
         }
 
         // If the first day is not today, the streak is 0
-        if (days.firstOrNull() != LocalDate.now()) {
+        if (days.firstOrNull()?.equals(LocalDate.now()) == true) {
             return 0
         }
 
         // Verify the number of consecutive days
         var streak = 1
         for (i in 1 until days.size) {
-            if (days[i].plusDays(1) == days[i - 1]) {
+            if (days[i].plusDays(1).equals(days[i - 1])) {
                 streak++
             } else {
                 return 0

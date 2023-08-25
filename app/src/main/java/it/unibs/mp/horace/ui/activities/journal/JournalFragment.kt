@@ -43,8 +43,8 @@ class JournalFragment : SortFragment() {
         lifecycleScope.launch {
             journalDays.addAll(JournalDay.fromTimeEntries(journal.getAllTimeEntries()))
 
-            if (settings.isJournalSortAscending) journalDays.sortBy { it.date }
-            else journalDays.sortByDescending { it.date }
+            if (settings.isJournalSortMostRecent) journalDays.sortByDescending { it.date }
+            else journalDays.sortBy { it.date }
 
             adapter.notifyItemRangeInserted(0, journalDays.size)
 

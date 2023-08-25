@@ -23,11 +23,11 @@ class SortJournalDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val settings = Settings(requireContext())
 
-        binding.radiobuttonNameAscending.isChecked = settings.isJournalSortAscending
-        binding.radiobuttonNameDescending.isChecked = !settings.isJournalSortAscending
+        binding.radiobuttonMostRecentDate.isChecked = settings.isJournalSortMostRecent
+        binding.radiobuttonLeastRecentDate.isChecked = !settings.isJournalSortMostRecent
 
         binding.radiogroupSortJournal.setOnCheckedChangeListener { _, checkedId ->
-            settings.isJournalSortAscending = checkedId == binding.radiobuttonNameAscending.id
+            settings.isJournalSortMostRecent = checkedId == binding.radiobuttonMostRecentDate.id
             findNavController().navigateUp()
         }
     }

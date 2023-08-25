@@ -75,7 +75,7 @@ class ActivitiesAdapter(
     ): View {
         // If there is no view to reuse, inflate a new one
         val layout = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.item_select_activity, parent, false)
+            .inflate(R.layout.item_activity_dropdown, parent, false)
 
         // Get the views
         val name: TextView = layout.findViewById(R.id.textview_name)

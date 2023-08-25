@@ -71,7 +71,7 @@ data class TimeEntry(
         }
 
         activity?.let {
-            entryMap[ACTIVITY_FIELD] = it
+            entryMap[ACTIVITY_FIELD] = it.id
         }
 
         return entryMap

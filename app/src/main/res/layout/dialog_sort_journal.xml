@@ -20,19 +20,19 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="24dp"
-        android:checkedButton="@+id/radiobutton_name_ascending">
+        android:checkedButton="@id/radiobutton_most_recent_date">
 
         <RadioButton
-            android:id="@+id/radiobutton_name_ascending"
+            android:id="@+id/radiobutton_most_recent_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/dialog_sort_journal_radio_ascending" />
+            android:text="@string/dialog_sort_journal_radio_most_recent" />
 
         <RadioButton
-            android:id="@+id/radiobutton_name_descending"
+            android:id="@+id/radiobutton_least_recent_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/dialog_sort_journal_radio_descending" />
+            android:text="@string/dialog_sort_journal_radio_least_recent" />
     </RadioGroup>
 
 </LinearLayout>

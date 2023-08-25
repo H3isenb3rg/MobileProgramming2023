@@ -74,10 +74,10 @@ class ActivitiesFragment : TopLevelFragment() {
 
             // Only show the streak if it is at least 2 days long.
             if (streak == 0) {
-                binding.layoutStreak.isVisible = false
                 return@launch
             }
 
+            binding.layoutStreak.isVisible = true
             binding.textviewStreak.text = resources.getQuantityString(
                 R.plurals.streak, streak, streak
             )
