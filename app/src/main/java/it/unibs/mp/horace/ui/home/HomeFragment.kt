@@ -3,9 +3,11 @@ package it.unibs.mp.horace.ui.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,16 +20,23 @@ import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
+import it.unibs.mp.horace.backend.room.LocalDatabase
+import it.unibs.mp.horace.backend.room.models.LocalTimer
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.TopLevelFragment
-import java.util.Locale
-
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.util.Locale
+import kotlin.properties.Delegates
 
 class HomeFragment : TopLevelFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val database: LocalDatabase by lazy { LocalDatabase.getInstance(requireContext()) }
 
     private lateinit var auth: FirebaseAuth
     private lateinit var prefs: Settings
@@ -38,12 +47,12 @@ class HomeFragment : TopLevelFragment() {
     // Timer related variables
     // Number of seconds displayed
     // on the stopwatch.
-    private var decs: Int = 0
+    internal var decs: Int by Delegates.observable(0) { _, _, _ -> updateTimer() }
+    private var startTime: LocalDateTime? = null
 
-    // Is the stopwatch running?
-    private var running = false
-
-    private val wasRunning = false
+    // Get the text view.
+    private lateinit var timeView: TextView
+    private lateinit var timeDecsView: TextView
 
     /**
      * The current volume drawable, depends on whether the volume is enabled or not.
@@ -57,7 +66,34 @@ class HomeFragment : TopLevelFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        lifecycleScope.launch {
+            startTime = getCachedTime()
+        }
+
         return binding.root
+    }
+
+    private suspend fun getCachedTime(): LocalDateTime? {
+        val rawStartTime = database.timerDao().get(LocalTimer.ID).firstOrNull()
+        return if (rawStartTime != null) {
+            LocalDateTime.parse(rawStartTime.startTime)
+        } else {
+            null
+        }
+    }
+
+    override fun onPause() {
+        lifecycleScope.launch {
+            if (startTime != null) {
+                Log.i("HOME", "Saving current time")
+                database.timerDao().insert(LocalTimer(startTime = startTime.toString()))
+                Log.i("HOME", "Saved current time on fragment pause")
+            } else {
+                database.timerDao().delete()
+            }
+        }
+
+        super.onPause()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +102,9 @@ class HomeFragment : TopLevelFragment() {
         auth = Firebase.auth
         prefs = Settings(requireContext())
         journal = JournalFactory(requireContext()).getJournal()
+
+        timeView = binding.textviewTime
+        timeDecsView = binding.textviewTimeDecs
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         // Source is not read from navArgs because, for example,
@@ -162,13 +201,14 @@ class HomeFragment : TopLevelFragment() {
         }
 
         binding.textviewTimeButton.setOnClickListener {
-            if (running) {
+            if (startTime != null) {
                 binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_start)
-                running = false
+                // TODO: Save TimeEntry
+                startTime = null
             } else {
                 decs = 0
+                startTime = LocalDateTime.now()
                 binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
-                running = true
             }
         }
         runTimer()
@@ -179,9 +219,6 @@ class HomeFragment : TopLevelFragment() {
     // to increment the seconds and
     // update the text view.
     private fun runTimer() {
-        // Get the text view.
-        val timeView = binding.textviewTime
-        val timeDecsView = binding.textviewTimeDecs
 
         // Creates a new Handler
         val handler = Looper.myLooper()?.let { Handler(it) }
@@ -194,31 +231,9 @@ class HomeFragment : TopLevelFragment() {
         // will run almost immediately.
         handler?.post(object : Runnable {
             override fun run() {
-                val minutes = (decs / 600) % 60
-                val secs = (decs / 10) % 60
-                val decSecs = decs % 10
-
-                // Format the seconds into hours, minutes,
-                // and seconds.
-                val time = String.format(
-                    Locale.getDefault(),
-                    "%d:%02d",
-                    minutes, secs
-                )
-                val decsTime = String.format(
-                    Locale.getDefault(),
-                    ".%01d",
-                    decSecs
-                )
-
-                // If running is true, increment the
-                // seconds variable.
-                if (running) {
-                    decs++
-
-                    // Set the text view text.
-                    timeView.text = time
-                    timeDecsView.text = decsTime
+                if (startTime != null) {
+                    val millis = ChronoUnit.MILLIS.between(startTime, LocalDateTime.now())
+                    decs = (millis / 100).toInt()
                 }
 
                 // Post the code again
@@ -226,6 +241,32 @@ class HomeFragment : TopLevelFragment() {
                 handler.postDelayed(this, 100)
             }
         })
+    }
+
+    private fun updateTimer() {
+        if (startTime == null) {
+            return
+        }
+
+        val minutes = (decs / 600) % 60
+        val secs = (decs / 10) % 60
+        val decSecs = decs % 10
+
+        // Format the seconds into hours, minutes,
+        // and seconds.
+        val time = String.format(
+            Locale.getDefault(),
+            "%d:%02d",
+            minutes, secs
+        )
+        val decsTime = String.format(
+            Locale.getDefault(),
+            ".%01d",
+            decSecs
+        )
+
+        timeView.text = time
+        timeDecsView.text = decsTime
     }
 
     private fun showMigrationDialog() {
