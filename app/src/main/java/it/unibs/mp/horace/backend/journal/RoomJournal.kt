@@ -1,29 +1,17 @@
 package it.unibs.mp.horace.backend.journal
 
 import android.content.Context
+import it.unibs.mp.horace.backend.firebase.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Area
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import it.unibs.mp.horace.backend.room.LocalDatabase
 import it.unibs.mp.horace.backend.room.models.LocalActivity
 import it.unibs.mp.horace.backend.room.models.LocalArea
 import it.unibs.mp.horace.backend.room.models.LocalTimeEntry
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.Area
-import it.unibs.mp.horace.models.TimeEntry
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import java.time.LocalDateTime
-
-/**
- * Flattens a flow list into a list.
- */
-@OptIn(ExperimentalCoroutinesApi::class)
-suspend fun <T> Flow<List<T>>.flattenToList() =
-    flatMapConcat { it.asFlow() }.toList()
 
 /**
  * A journal that uses a Room database as a backend.
@@ -34,7 +22,7 @@ class RoomJournal(context: Context) : Journal {
     override suspend fun getAllTimeEntries(): List<TimeEntry> {
         return database.timeEntriesDao().getAllWithActivity().map { entries ->
             entries.map { it.toTimeEntry() }
-        }.flattenToList()
+        }.first()
     }
 
     override suspend fun getTimeEntry(id: String): TimeEntry? {
@@ -63,19 +51,16 @@ class RoomJournal(context: Context) : Journal {
     }
 
     override suspend fun updateTimeEntry(entry: TimeEntry) {
-        database.timeEntriesDao()
-            .update(LocalTimeEntry.fromTimeEntry(entry))
+        database.timeEntriesDao().update(LocalTimeEntry.fromTimeEntry(entry))
     }
 
     override suspend fun removeTimeEntry(entry: TimeEntry) {
-        database.timeEntriesDao()
-            .delete(LocalTimeEntry.fromTimeEntry(entry))
+        database.timeEntriesDao().delete(LocalTimeEntry.fromTimeEntry(entry))
     }
 
     override suspend fun getAllActivities(): List<Activity> {
         return database.activitiesDao().getAllWithArea()
-            .map { activities -> activities.map { it.toActivity() } }
-            .flattenToList()
+            .map { activities -> activities.map { it.toActivity() } }.first()
     }
 
     override suspend fun getActivity(id: String): Activity? {
@@ -98,9 +83,7 @@ class RoomJournal(context: Context) : Journal {
     }
 
     override suspend fun getAllAreas(): List<Area> {
-        return database.areasDao().getAll()
-            .map { areas -> areas.map { it.toArea() } }
-            .flattenToList()
+        return database.areasDao().getAll().map { areas -> areas.map { it.toArea() } }.first()
     }
 
     override suspend fun getArea(id: String): Area? {

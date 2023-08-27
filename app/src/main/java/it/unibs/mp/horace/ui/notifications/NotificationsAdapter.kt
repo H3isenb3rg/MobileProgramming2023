@@ -14,8 +14,8 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.Notification
-import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.backend.firebase.models.Notification
+import it.unibs.mp.horace.backend.firebase.models.User
 
 class NotificationsAdapter(
     private val context: Context,
@@ -28,19 +28,19 @@ class NotificationsAdapter(
 
     // The base class for the view holder.
     open class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var message: TextView = view.findViewById(R.id.message)
-        var action: Button = view.findViewById(R.id.action)
+        var message: TextView = view.findViewById(R.id.textview_message)
+        var action: Button = view.findViewById(R.id.button_action)
         var container: MaterialCardView = view.findViewById(R.id.notificationContainer)
     }
 
     // View holder for friend notifications.
     class FriendViewHolder(view: View) : ItemViewHolder(view) {
-        var profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
+        var profilePhoto: ImageView = view.findViewById(R.id.image_view_photo)
     }
 
     // View holder for workgroup notifications.
     class WorkGroupViewHolder(view: View) : ItemViewHolder(view) {
-        var icon: ImageView = view.findViewById(R.id.icon)
+        var icon: ImageView = view.findViewById(R.id.imageview_icon)
     }
 
     // Returns the view type of the item at position for the purposes of view recycling.

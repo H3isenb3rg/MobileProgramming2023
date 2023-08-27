@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-    Main container for the fragments of the app.
-    The navigation between fragments is handled using Jetpack Navigation.
-    Constraint layout allows to easily lay out the elements of the page
--->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,16 +7,16 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
-    <!-- Top app bar -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/content"
+        android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintBottom_toTopOf="@+id/bottomnavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Top app bar -->
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +24,7 @@
             app:liftOnScroll="true">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@string/app_name"
@@ -40,13 +34,14 @@
 
         <!-- Content -->
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/navHostFragment"
+                android:id="@+id/view_fragment_container"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,13 +52,13 @@
 
         <!-- Search view -->
         <com.google.android.material.search.SearchView
-            android:id="@+id/searchView"
+            android:id="@+id/searchview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/default_search_hint">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/searchContent"
+                android:id="@+id/recyclerview_search_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
@@ -71,37 +66,37 @@
         </com.google.android.material.search.SearchView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/manualAdd"
+            android:id="@+id/fab_manual_log"
             style="?attr/floatingActionButtonSmallSecondaryStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="90dp"
+            android:layout_marginBottom="84dp"
             android:contentDescription="@string/manual_entry"
-            app:srcCompat="@drawable/baseline_add_24" />
+            app:srcCompat="@drawable/ic_add" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/startTimer"
+            android:id="@+id/fab_start_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="@string/start_timer"
             android:text="@string/start_timer"
-            app:icon="@drawable/baseline_access_time_24" />
+            app:icon="@drawable/ic_clock" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Bottom nav bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
+        android:id="@+id/bottomnavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/content"
-        app:menu="@menu/bottom_nav_menu" />
+        app:layout_constraintTop_toBottomOf="@id/layout_content"
+        app:menu="@menu/menu_bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

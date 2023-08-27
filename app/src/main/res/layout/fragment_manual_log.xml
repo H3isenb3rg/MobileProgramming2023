@@ -4,63 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="16dp"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
     tools:context=".ui.manuallog.ManualLogFragment">
 
     <TextView
+        style="?attr/textAppearanceBodyMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/manual_logs_warning"
-        android:textAppearance="?attr/textAppearanceBodyMedium" />
+        android:layout_marginTop="24dp"
+        android:text="@string/fragment_manual_log_warning" />
 
-
-    <!-- activity -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Activity -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/new_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            app:icon="@drawable/baseline_add_24"
-            app:iconGravity="textStart"
-            android:layout_marginHorizontal="5dp"
-            android:text="@string/add_new_activity"
-            android:paddingHorizontal="5dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/activity"
+            android:id="@+id/textinput_activity"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/activity"
-            android:paddingBottom="0dp"
-            app:errorEnabled="true"
-            app:layout_constraintTop_toBottomOf="@id/new_activity">
+            android:layout_weight="1"
+            android:hint="@string/fragment_manual_log_activity"
+            app:errorEnabled="true">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/activity"/>
+                android:hint="@string/fragment_manual_log_activity" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_new_activity"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/fragment_manual_log_new_activity"
+            app:icon="@drawable/ic_add" />
+
+    </LinearLayout>
 
     <!-- Date -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/date"
+        android:id="@+id/textinput_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/date"
+        android:hint="@string/fragment_manual_log_date"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -80,14 +75,14 @@
 
         <!-- Start time -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/startTime"
+            android:id="@+id/textinput_start_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:hint="@string/start_time"
+            android:hint="@string/fragment_manual_log_start_time"
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/endTime"
+            app:layout_constraintEnd_toStartOf="@id/textinput_end_time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -98,19 +93,20 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:inputType="time" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- End time -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/endTime"
+            android:id="@+id/textinput_end_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:hint="@string/end_time"
+            android:hint="@string/fragment_manual_log_end_time"
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/startTime"
+            app:layout_constraintStart_toEndOf="@id/textinput_start_time"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -121,15 +117,16 @@
                 android:focusableInTouchMode="false"
                 android:inputType="time" />
         </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Description -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/description"
+        android:id="@+id/textinput_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/description"
+        android:hint="@string/fragment_manual_log_description"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -141,10 +138,10 @@
 
     <!-- Save button -->
     <Button
-        android:id="@+id/save"
+        android:id="@+id/button_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/save" />
+        android:text="@string/fragment_manual_log_save" />
 
 </LinearLayout>

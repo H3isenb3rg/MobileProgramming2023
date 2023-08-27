@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.backend.firebase.models.User
 
 class InviteFriendsAdapter(
     private val dataset: List<User>,
@@ -18,15 +18,15 @@ class InviteFriendsAdapter(
     RecyclerView.Adapter<InviteFriendsAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
-        val username: TextView = view.findViewById(R.id.username)
-        val email: TextView = view.findViewById(R.id.email)
-        val select: CheckBox = view.findViewById(R.id.select)
+        val profilePhoto: ImageView = view.findViewById(R.id.image_view_photo)
+        val username: TextView = view.findViewById(R.id.textview_username)
+        val email: TextView = view.findViewById(R.id.textview_email)
+        val select: CheckBox = view.findViewById(R.id.checkbox_select)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.work_group_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_work_group, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }

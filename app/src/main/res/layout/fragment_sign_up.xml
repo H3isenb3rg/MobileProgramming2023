@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     android:gravity="end"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
+    android:layout_marginHorizontal="16dp"
     tools:context=".ui.auth.signup.SignUpFragment">
 
     <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username"
+        android:id="@+id/textinput_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/username"
+        android:hint="@string/fragment_sign_up_username"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -27,11 +27,11 @@
 
     <!-- Email -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email"
+        android:id="@+id/textinput_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/email"
+        android:hint="@string/fragment_sign_up_email"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -43,11 +43,11 @@
 
     <!-- Password -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password"
+        android:id="@+id/textinput_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/password"
+        android:hint="@string/fragment_sign_up_password"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@null">
@@ -60,11 +60,11 @@
 
     <!-- Confirm password -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordConfirm"
+        android:id="@+id/textinput_password_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/password_confirm"
+        android:hint="@string/fragment_sign_up_password_confirm"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@null">
@@ -78,19 +78,19 @@
 
     <!-- Terms -->
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/terms"
+        android:id="@+id/checkbox_terms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/i_accept_the_terms_and_conditions" />
+        android:text="@string/fragment_sign_up_terms" />
 
     <!-- Sign up button -->
     <Button
-        android:id="@+id/signUp"
+        android:id="@+id/button_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/sign_up"
+        android:text="@string/fragment_sign_up_sign_up"
         android:textColor="?attr/colorOnSecondary" />
 </LinearLayout>

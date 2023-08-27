@@ -2,7 +2,7 @@ package it.unibs.mp.horace.backend.room.models
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import it.unibs.mp.horace.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Activity
 
 data class LocalActivityWithArea(
     @Embedded val localActivity: LocalActivity,

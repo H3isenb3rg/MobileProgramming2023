@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="BaseDarkTheme" />
 
@@ -55,5 +55,20 @@
         <item name="textAppearanceLabelLarge">@style/TextAppearance.Horace.LabelLarge</item>
         <item name="textAppearanceLabelMedium">@style/TextAppearance.Horace.LabelMedium</item>
         <item name="textAppearanceLabelSmall">@style/TextAppearance.Horace.LabelSmall</item>
+
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/transparent
+        </item>
+        <item name="paddingBottomSystemWindowInsets">true</item>
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="android:zAdjustment">normal</item>
     </style>
 </resources>

@@ -2,7 +2,7 @@ package it.unibs.mp.horace.backend.room.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import it.unibs.mp.horace.models.Area
+import it.unibs.mp.horace.backend.firebase.models.Area
 
 @Entity(tableName = "areas")
 data class LocalArea(@PrimaryKey(autoGenerate = true) var id: Long = 0, var name: String) {

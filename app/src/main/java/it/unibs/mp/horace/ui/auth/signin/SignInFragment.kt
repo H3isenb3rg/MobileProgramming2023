@@ -24,8 +24,8 @@ class SignInFragment : Fragment() {
 
     private var _binding: FragmentSignInBinding? = null
     private val binding get() = _binding!!
-    private val email get() = binding.email.editText?.text.toString()
-    private val password get() = binding.password.editText?.text.toString()
+    private val email get() = binding.textinputEmail.editText?.text.toString()
+    private val password get() = binding.textinputPassword.editText?.text.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,7 +45,7 @@ class SignInFragment : Fragment() {
 
         addChangeListeners()
 
-        binding.signIn.setOnClickListener {
+        binding.buttonSignIn.setOnClickListener {
             validateAll()
 
             if (!viewModel.isEverythingValid) {
@@ -68,24 +68,24 @@ class SignInFragment : Fragment() {
                 }
         }
 
-        binding.signUp.setOnClickListener {
+        binding.buttonSignUp.setOnClickListener {
             findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
         }
 
-        binding.forgotPassword.setOnClickListener {
+        binding.buttonForgotPassword.setOnClickListener {
             findNavController().navigate(
                 SignInFragmentDirections.actionSignInFragmentToResetPasswordFragment(
-                    binding.email.editText?.text.toString()
+                    binding.textinputEmail.editText?.text.toString()
                 )
             )
         }
     }
 
     private fun addChangeListeners() {
-        binding.email.editText?.addTextChangedListener {
+        binding.textinputEmail.editText?.addTextChangedListener {
             validateEmail()
         }
-        binding.password.editText?.addTextChangedListener {
+        binding.textinputPassword.editText?.addTextChangedListener {
             validatePassword()
         }
     }
@@ -96,12 +96,12 @@ class SignInFragment : Fragment() {
     }
 
     private fun validateEmail() {
-        binding.email.error =
+        binding.textinputEmail.error =
             if (viewModel.updateEmail(email) == ProfileValidator.OK) null else getString(R.string.email_invalid)
     }
 
     private fun validatePassword() {
-        binding.password.error =
+        binding.textinputPassword.error =
             if (viewModel.updatePassword(password) == ProfileValidator.OK) null else getString(R.string.password_min_length)
     }
 

@@ -9,7 +9,7 @@ import android.widget.Filter
 import android.widget.TextView
 import com.google.android.material.textview.MaterialTextView
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Activity
 
 /**
  * Adapter for the activities dropdown.
@@ -17,7 +17,7 @@ import it.unibs.mp.horace.models.Activity
 class ActivitiesAdapter(
     context: Context,
     private val dataset: List<Activity>,
-) : ArrayAdapter<Activity>(context, R.layout.activity_item, dataset) {
+) : ArrayAdapter<Activity>(context, R.layout.item_select_activity, dataset) {
 
     // Contains only the items that match the search query.
     // The elements of the original dataset are copied.
@@ -32,7 +32,7 @@ class ActivitiesAdapter(
         return createViewFromResource(position, convertView, parent)
     }
 
-    override fun getFilter(): Filter {  // FIXME: Scrivendo sbomba perchè sembra
+    override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = when {
@@ -75,22 +75,22 @@ class ActivitiesAdapter(
     ): View {
         // If there is no view to reuse, inflate a new one
         val layout = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.activity_item, parent, false)
+            .inflate(R.layout.item_activity_dropdown, parent, false)
 
         // Get the views
-        val activity: TextView = layout.findViewById(R.id.activity)
-        val area: MaterialTextView = layout.findViewById(R.id.area)
+        val name: TextView = layout.findViewById(R.id.textview_name)
+        val area: MaterialTextView = layout.findViewById(R.id.textview_area)
 
         val item = filteredDataset[position]
 
-        activity.text = item.name
+        name.text = item.name
 
         // Hide the area chip if the activity has no area,
         // otherwise set the area name
         if (item.area == null) {
             area.visibility = View.GONE
         } else {
-            area.text = item.area?.name
+            area.text = item.area.name
             area.visibility = View.VISIBLE
         }
 

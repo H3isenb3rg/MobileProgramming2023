@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    tools:context=".ui.auth.AuthDialog">
+
+    <TextView
+        style="?attr/textAppearanceTitleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dialog_auth_title" />
+
+    <TextView
+        style="?attr/textAppearanceBodyLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dialog_auth_description" />
+
+    <TextView
+        style="?attr/textAppearanceTitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dialog_auth_continue_with" />
+
+    <Button
+        android:id="@+id/button_email_password"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dialog_auth_email_and_password"
+        app:icon="@drawable/ic_email" />
+
+    <Button
+        android:id="@+id/button_google"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dialog_auth_google"
+        app:icon="@drawable/ic_google"
+        app:iconTint="@null" />
+
+    <Button
+        android:id="@+id/button_facebook"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/dialog_auth_facebook"
+        app:icon="@drawable/ic_facebook"
+        app:iconTint="@null" />
+</LinearLayout>

@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import it.unibs.mp.horace.backend.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.models.Notification
 import it.unibs.mp.horace.databinding.FragmentNotificationsBinding
-import it.unibs.mp.horace.models.Notification
 import kotlinx.coroutines.launch
 
 class NotificationsFragment : Fragment() {
@@ -36,7 +37,7 @@ class NotificationsFragment : Fragment() {
         }
 
         val adapter = NotificationsAdapter(requireContext(), notifications, ::onAction)
-        binding.notificationsList.adapter = adapter
+        binding.recyclerviewNotifications.adapter = adapter
 
         // Load notification in background
         lifecycleScope.launch {
@@ -44,11 +45,11 @@ class NotificationsFragment : Fragment() {
 
             // If there are no notifications, show a message
             if (userNotifications.isEmpty()) {
-                binding.noNotificationsText.visibility = View.VISIBLE
+                binding.textviewNoNotifications.isVisible = true
                 return@launch
             }
 
-            binding.noNotificationsText.visibility = View.GONE
+            binding.textviewNoNotifications.isVisible = false
 
             // Add notification to list and notify the adapter
             notifications.addAll(userNotifications)

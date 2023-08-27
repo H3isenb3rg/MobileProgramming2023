@@ -7,7 +7,7 @@
     tools:context=".ui.notifications.NotificationsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notificationsList"
+        android:id="@+id/recyclerview_notifications"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
@@ -19,8 +19,8 @@
         tools:listitem="@layout/notification_friend_request" />
 
     <TextView
-        android:id="@+id/noNotificationsText"
-        style="?attr/textAppearanceBodyLarge"
+        android:id="@+id/textview_no_notifications"
+        style="?attr/textAppearanceBodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nothing_to_see_here"

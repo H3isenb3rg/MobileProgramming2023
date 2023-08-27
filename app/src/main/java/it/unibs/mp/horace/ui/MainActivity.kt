@@ -2,13 +2,14 @@ package it.unibs.mp.horace.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ViewGroup.MarginLayoutParams
+import android.widget.Filterable
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ShareCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,6 +18,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.google.firebase.auth.FirebaseAuth
@@ -24,8 +26,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.MainNavDirections
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.Settings
+import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 
 
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         // See https://developer.android.com/codelabs/android-navigation.
         // and https://developer.android.com/guide/navigation/integrations/ui
-        val host: NavHostFragment = binding.navHostFragment.getFragment() as NavHostFragment
+        val host: NavHostFragment = binding.viewFragmentContainer.getFragment() as NavHostFragment
         navController = host.navController
 
         // Lay out app behind system bars:
@@ -113,12 +115,17 @@ class MainActivity : AppCompatActivity() {
      * Hooks a search bar to the search view.
      */
     fun hookSearchBar(
-        searchBar: SearchBar, adapter: RecyclerView.Adapter<*>, onTextChange: (String) -> Unit
+        searchBar: SearchBar,
+        adapter: RecyclerView.Adapter<*>,
+        onOpen: () -> Unit = {},
+        onClose: () -> Unit = {}
     ) {
-        // Add the adapter to the recycler view
-        binding.searchContent.adapter = adapter
+        val adapterFilter = (adapter as Filterable).filter
 
-        binding.searchView.apply {
+        // Add the adapter to the recycler view
+        binding.recyclerviewSearchContent.adapter = adapter
+
+        binding.searchview.apply {
             // Copy the search bar hint to the search view
             setupWithSearchBar(searchBar)
             hint = searchBar.hint
@@ -136,21 +143,23 @@ class MainActivity : AppCompatActivity() {
                 if (newState == SearchView.TransitionState.SHOWING) {
                     closeSearchViewCallback.isEnabled = true
                     updateQuickActionsVisibility(false)
+                    onOpen()
                 } else if (newState == SearchView.TransitionState.HIDING) {
                     // Clear search text when hiding
-                    onTextChange("")
+                    adapterFilter.filter("")
                     closeSearchViewCallback.isEnabled = false
                     updateQuickActionsVisibility(true)
+                    onClose()
                 }
             }
 
             // Handle text changes
             editText.addTextChangedListener {
-                onTextChange(text.toString())
+                adapterFilter.filter(text.toString())
             }
 
             editText.setOnEditorActionListener { _, _, _ ->
-                onTextChange("")
+                adapterFilter.filter("")
                 true
             }
         }
@@ -163,7 +172,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupActionBar() {
         // Set material toolbar as action bar.
         // This is required to use the menu provider.
-        setSupportActionBar(binding.topAppBar)
+        setSupportActionBar(binding.toolbar)
 
         // Adds navigation config to the action bar.
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -173,8 +182,8 @@ class MainActivity : AppCompatActivity() {
      * Adds navigation to the bottom nav.
      */
     private fun setUpBottomNavigation() {
-        binding.bottomNav.setupWithNavController(navController)
-        binding.bottomNav.setOnItemSelectedListener { item ->
+        binding.bottomnavigation.setupWithNavController(navController)
+        binding.bottomnavigation.setOnItemSelectedListener { item ->
             val action = when (item.itemId) {
                 R.id.activitiesFragment -> MainNavDirections.actionGlobalActivities()
                 R.id.leaderboardFragment -> if (auth.currentUser == null) {
@@ -197,10 +206,29 @@ class MainActivity : AppCompatActivity() {
         // When the destination changes, update the visibility of the quick actions
         navController.addOnDestinationChangedListener { _, destination, _ ->
             updateQuickActionsVisibility(destination.id in QUICK_ACTIONS_DESTINATIONS)
+
+            val manualLogMargins = (binding.fabManualLog.layoutParams as MarginLayoutParams)
+
+            if (destination.id == R.id.homeFragment) {
+                binding.fabStartTimer.hide()
+                binding.fabManualLog.size = FloatingActionButton.SIZE_NORMAL
+                manualLogMargins.bottomMargin = (16f * resources.displayMetrics.density).toInt()
+            } else {
+                binding.fabManualLog.size = FloatingActionButton.SIZE_MINI
+                manualLogMargins.bottomMargin = (84f * resources.displayMetrics.density).toInt()
+            }
         }
 
-        binding.manualAdd.setOnClickListener {
+        binding.fabManualLog.setOnClickListener {
             navController.navigate(MainNavDirections.actionGlobalManualLog())
+        }
+
+        // When the user scrolls down, hide the quick actions.
+        // Only show them again when the user scrolls to the very top.
+        binding.scrollview.viewTreeObserver.addOnScrollChangedListener {
+            if (binding.scrollview.scrollY == 0) {
+                updateQuickActionsVisibility(true)
+            } else updateQuickActionsVisibility(false)
         }
     }
 
@@ -209,10 +237,13 @@ class MainActivity : AppCompatActivity() {
      * If the user disables quick actions in settings, they will always be hidden.
      */
     private fun updateQuickActionsVisibility(shouldShowActions: Boolean) {
-        val isVisible = shouldShowActions && settings.isQuickActionsEnabled
-
-        binding.startTimer.isVisible = isVisible
-        binding.manualAdd.isVisible = isVisible
+        if (shouldShowActions && settings.isQuickActionsEnabled) {
+            binding.fabStartTimer.show()
+            binding.fabManualLog.show()
+        } else {
+            binding.fabStartTimer.hide()
+            binding.fabManualLog.hide()
+        }
     }
 
     /**
@@ -220,7 +251,7 @@ class MainActivity : AppCompatActivity() {
      * where search results of search bars will be shown.
      */
     private fun setupSearchView() {
-        binding.searchView.apply {
+        binding.searchview.apply {
             closeSearchViewCallback = onBackPressedDispatcher.addCallback(this@MainActivity) {
                 if (isShowing) {
                     hide()

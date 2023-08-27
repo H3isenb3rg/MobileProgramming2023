@@ -21,7 +21,7 @@ class ResetPasswordFragment : Fragment() {
 
     private var _binding: FragmentResetPasswordBinding? = null
     private val binding get() = _binding!!
-    private val email get() = binding.email.editText?.text.toString()
+    private val email get() = binding.textinputEmail.editText?.text.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,10 +33,10 @@ class ResetPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         auth = Firebase.auth
         if (args.email != null) {
-            binding.email.editText?.setText(args.email)
+            binding.textinputEmail.editText?.setText(args.email)
         }
 
-        binding.sendResetLink.setOnClickListener {
+        binding.buttonSendResetLink.setOnClickListener {
             validateEmail()
 
             if (!viewModel.isEverythingValid) {
@@ -52,7 +52,7 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun validateEmail() {
-        binding.email.error =
+        binding.textinputEmail.error =
             if (viewModel.updateEmail(email)) null else getString(R.string.email_invalid)
     }
 

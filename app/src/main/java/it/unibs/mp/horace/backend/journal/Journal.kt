@@ -1,8 +1,8 @@
 package it.unibs.mp.horace.backend.journal
 
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.Area
-import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Area
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -34,18 +34,44 @@ interface Journal {
     suspend fun removeArea(area: Area)
 
     suspend fun streak(): Int {
-        // TODO
-        return 0
+        // Get the days with at least one entry
+        val days =
+            getAllTimeEntries().groupBy { entry -> entry.startTime.toLocalDate() }.keys.sortedDescending()
+
+        // If there are no entries, the streak is 0
+        if (days.isEmpty()) {
+            return 0
+        }
+
+        // If the first day is not today, the streak is 0
+        if (days.firstOrNull()?.equals(LocalDate.now()) == true) {
+            return 0
+        }
+
+        // Verify the number of consecutive days
+        var streak = 1
+        for (i in 1 until days.size) {
+            if (days[i].plusDays(1).equals(days[i - 1])) {
+                streak++
+            } else {
+                return 0
+            }
+        }
+        return streak
     }
 
-    suspend fun totalActivitiesInLastWeek(): Map<LocalDate, Int> {
-        return getAllTimeEntries().filter { entry -> entry.isInCurrentWeek() }
+    suspend fun totalHoursInLastWeek(): Map<LocalDate, Double> {
+        return getAllTimeEntries().filter { entry -> entry.isInCurrentWeek }
             .groupBy { entry -> entry.startTime.toLocalDate() }
-            .mapValues { group -> group.value.size }
+            .mapValues { group -> group.value.sumOf { it.durationInHours } }
     }
 
-    suspend fun activitiesFrequencyInLastWeek(): Map<Activity, Int> {
-        return getAllTimeEntries().filter { entry -> entry.activity != null && entry.isInCurrentWeek() }
+    suspend fun mostFrequentActivities(): Map<Activity, Int> {
+        return getAllTimeEntries().filter { entry -> entry.activity != null }
             .groupBy { entry -> entry.activity!! }.mapValues { group -> group.value.size }
+    }
+
+    suspend fun isEmpty(): Boolean {
+        return getAllTimeEntries().isEmpty() && getAllActivities().isEmpty() && getAllAreas().isEmpty()
     }
 }

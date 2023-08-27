@@ -16,7 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.MainNavDirections
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.backend.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.UserNotificationManager
 
 /**
  * A fragment that is a root of the navigation graph.
@@ -32,13 +32,13 @@ abstract class TopLevelFragment : Fragment() {
             @androidx.annotation.OptIn(com.google.android.material.badge.ExperimentalBadgeUtils::class)
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 if (Firebase.auth.currentUser != null) {
-                    menuInflater.inflate(R.menu.auth_app_menu, menu)
+                    menuInflater.inflate(R.menu.menu_top_auth, menu)
 
                     // Badge for new notifications
                     val badge = BadgeDrawable.create(requireActivity())
                     badge.isVisible = false
                     BadgeUtils.attachBadgeDrawable(
-                        badge, requireActivity().findViewById(R.id.topAppBar), R.id.notifications
+                        badge, requireActivity().findViewById(R.id.toolbar), R.id.notifications
                     )
 
                     // Show badge on notifications icon if there are new notifications
@@ -47,7 +47,7 @@ abstract class TopLevelFragment : Fragment() {
                         badge.isVisible = true
                     }
                 } else {
-                    menuInflater.inflate(R.menu.no_auth_app_menu, menu)
+                    menuInflater.inflate(R.menu.menu_top_no_auth, menu)
                 }
             }
 

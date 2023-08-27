@@ -21,35 +21,35 @@
             android:layout_marginHorizontal="16dp"
             android:text="@string/weekly_leaderboard" />
 
-        <!-- The actual leaderboard -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/weeklyLeaderboard"
+            android:id="@+id/recyclerview_weekly_leaderboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="5"
-            tools:listitem="@layout/leaderboard_item" />
+            tools:listitem="@layout/item_leaderboard" />
 
         <!-- Text shown if the user has no friends -->
         <LinearLayout
-            android:id="@+id/noFriends"
+            android:id="@+id/layout_no_friends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="64dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="40dp"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
-                style="?attr/textAppearanceBodyLarge"
+                style="?attr/textAppearanceBodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_friends_leaderboard" />
 
             <Button
-                android:id="@+id/shareProfile"
+                android:id="@+id/button_share_profile"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
 
     <!-- View all friends -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/viewAllFriends"
+        android:id="@+id/cardview_view_all_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -76,12 +76,12 @@
             android:paddingVertical="8dp">
 
             <ImageView
-                android:id="@+id/friends"
+                android:id="@+id/imageview_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/view_all_friends"
                 android:padding="8dp"
-                android:src="@drawable/baseline_people_alt_24"
+                android:src="@drawable/ic_people"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -91,9 +91,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/view_all_friends"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
+                style="?attr/textAppearanceBodyLarge"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/friends"
+                app:layout_constraintStart_toEndOf="@id/imageview_friends"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -101,12 +101,13 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/view_all_friends"
                 android:padding="8dp"
-                android:src="@drawable/baseline_arrow_forward_24"
+                android:src="@drawable/ic_arrow_forward"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Suggested friends -->
@@ -124,11 +125,11 @@
             android:text="@string/suggested_friends" />
 
         <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
-            android:id="@+id/suggestedFriends"
+            android:id="@+id/recyclerview_suggested_friends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            tools:listitem="@layout/suggested_friend_item" />
+            tools:listitem="@layout/item_suggested_friend" />
 
     </LinearLayout>
 

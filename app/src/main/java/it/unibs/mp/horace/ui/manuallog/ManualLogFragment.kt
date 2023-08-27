@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ class ManualLogFragment : Fragment() {
 
     // All the validation logic is in the ViewModel
     private val viewModel: ManualLogViewModel by activityViewModels {
-        ManualLogViewModelFactory(JournalFactory.getJournal(requireContext()))
+        ManualLogViewModelFactory(JournalFactory(requireContext()).getJournal())
     }
 
     override fun onCreateView(
@@ -47,44 +48,44 @@ class ManualLogFragment : Fragment() {
         setupActivitiesAutocomplete()
 
         // When the date EditText is clicked, show the date picker
-        binding.date.editText?.setOnClickListener {
+        binding.textinputDate.editText?.setOnClickListener {
             showDatePicker { date ->
                 viewModel.date = date
-                binding.date.editText?.setText(viewModel.date.toString())
-                binding.date.error = viewModel.dateError
+                binding.textinputDate.editText?.setText(viewModel.date.toString())
+                binding.textinputDate.error = viewModel.dateError
             }
         }
 
         // When the start time EditText is clicked, show the time picker
-        binding.startTime.editText?.setOnClickListener {
+        binding.textinputStartTime.editText?.setOnClickListener {
             showTimePicker { time ->
                 viewModel.startTime = time
-                binding.startTime.editText?.setText(viewModel.startTime.toString())
-                binding.startTime.error = viewModel.startTimeError
+                binding.textinputStartTime.editText?.setText(viewModel.startTime.toString())
+                binding.textinputStartTime.error = viewModel.startTimeError
             }
         }
 
         // When the end time EditText is clicked, show the time picker
-        binding.endTime.editText?.setOnClickListener {
+        binding.textinputEndTime.editText?.setOnClickListener {
             showTimePicker { time ->
                 viewModel.endTime = time
-                binding.endTime.editText?.setText(viewModel.endTime.toString())
-                binding.endTime.error = viewModel.endTimeError
+                binding.textinputEndTime.editText?.setText(viewModel.endTime.toString())
+                binding.textinputEndTime.error = viewModel.endTimeError
             }
         }
 
-        binding.description.editText?.addTextChangedListener {
+        binding.textinputDescription.editText?.addTextChangedListener {
             viewModel.description = it.toString()
-            binding.description.error = viewModel.descriptionError
+            binding.textinputDescription.error = viewModel.descriptionError
         }
 
-        binding.newActivity.setOnClickListener {
+        binding.buttonNewActivity.setOnClickListener {
             findNavController().navigate(
-                ManualLogFragmentDirections.actionManualLogFragmentToNewActivityFragment()
+                ManualLogFragmentDirections.actionGlobalNewActivity()
             )
         }
 
-        binding.save.setOnClickListener {
+        binding.buttonSave.setOnClickListener {
             // Save the time entry in background
             lifecycleScope.launch {
                 try {
@@ -95,11 +96,11 @@ class ManualLogFragment : Fragment() {
                     findNavController().navigateUp()
                 } catch (e: IllegalStateException) {
                     // Show the errors
-                    binding.activity.error = viewModel.activityError
-                    binding.date.error = viewModel.dateError
-                    binding.startTime.error = viewModel.startTimeError
-                    binding.endTime.error = viewModel.endTimeError
-                    binding.description.error = viewModel.descriptionError
+                    binding.textinputActivity.error = viewModel.activityError
+                    binding.textinputDate.error = viewModel.dateError
+                    binding.textinputStartTime.error = viewModel.startTimeError
+                    binding.textinputEndTime.error = viewModel.endTimeError
+                    binding.textinputDescription.error = viewModel.descriptionError
                 }
             }
         }
@@ -108,14 +109,15 @@ class ManualLogFragment : Fragment() {
     private fun setupActivitiesAutocomplete() {
         // Load the activities in background
         lifecycleScope.launch {
-            val autoCompleteTextView = binding.activity.editText as? AutoCompleteTextView
+            val autoCompleteTextView = binding.textinputActivity.editText as? AutoCompleteTextView
             val currActivities = viewModel.journal.getAllActivities()
 
             // When the user selects an activity, set it in the ViewModel and update ui
             autoCompleteTextView?.setOnItemClickListener { _, _, position, _ ->
+                Log.d("TEst", "test")
                 viewModel.activity = currActivities[position]
                 autoCompleteTextView.setText(currActivities[position].name, false)
-                binding.activity.error = viewModel.activityError
+                binding.textinputActivity.error = viewModel.activityError
             }
             // Adapter for the autocomplete
             val adapter = ActivitiesAdapter(requireContext(), currActivities)

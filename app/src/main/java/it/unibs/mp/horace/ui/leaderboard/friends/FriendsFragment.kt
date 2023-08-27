@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import it.unibs.mp.horace.backend.CurrentUser
+import androidx.navigation.fragment.findNavController
+import it.unibs.mp.horace.backend.Settings
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.FragmentFriendsBinding
-import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.ui.MainActivity
+import it.unibs.mp.horace.ui.SortFragment
 import it.unibs.mp.horace.ui.shareUserProfile
 import kotlinx.coroutines.launch
 
 
-class FriendsFragment : Fragment() {
+class FriendsFragment : SortFragment() {
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
 
@@ -28,20 +30,29 @@ class FriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val settings = Settings(requireContext())
+
         // Set friends initially to an empty list
         val friends = ArrayList<User>()
-        val adapter = FriendsAdapter(friends)
-        binding.fullFriendsList.adapter = adapter
+        val adapter = FriendsAdapter(friends) {
+            findNavController().navigate(
+                FriendsFragmentDirections.actionFriendsFragmentToFriendDetailsDialog(it.uid)
+            )
+        }
+        binding.recyclerviewFriends.adapter = adapter
 
         // Load friends in background
         lifecycleScope.launch {
             friends.addAll(CurrentUser().friends())
 
             if (friends.isEmpty()) {
-                binding.noFriends.visibility = View.VISIBLE
-                binding.shareProfile.setOnClickListener { requireContext().shareUserProfile() }
+                binding.layoutNoFriends.visibility = View.VISIBLE
+                binding.buttonShareProfile.setOnClickListener { requireContext().shareUserProfile() }
                 return@launch
             }
+
+            if (settings.isFriendsSortAscending) friends.sortBy { it.username }
+            else friends.sortByDescending { it.username }
 
             // Notify adapter of the new data
             adapter.notifyItemRangeInserted(0, friends.size)
@@ -49,9 +60,11 @@ class FriendsFragment : Fragment() {
 
         // Hook search bar to search view.
         // On text change, filter the adapter.
-        (requireActivity() as MainActivity).hookSearchBar(binding.searchBar, adapter) { text ->
-            adapter.filter.filter(text)
-        }
+        (requireActivity() as MainActivity).hookSearchBar(binding.searchbar, adapter)
+    }
+
+    override fun onSortSelected() {
+        findNavController().navigate(FriendsFragmentDirections.actionFriendsFragmentToSortFriendsDialog())
     }
 
     override fun onDestroyView() {

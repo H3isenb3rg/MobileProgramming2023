@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.activities.ActivitiesFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/viewJournal"
+        android:id="@+id/cardview_view_journal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:strokeWidth="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,24 +23,24 @@
             android:paddingVertical="8dp">
 
             <ImageView
-                android:id="@+id/notes"
+                android:id="@+id/imageview_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/view_journal"
                 android:padding="8dp"
-                android:src="@drawable/baseline_notes_24"
+                android:src="@drawable/ic_notes"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style="?attr/textAppearanceBodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/view_journal"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/notes"
+                app:layout_constraintStart_toEndOf="@id/imageview_icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -50,56 +48,117 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/view_journal"
                 android:padding="8dp"
-                android:src="@drawable/baseline_arrow_forward_24"
+                android:src="@drawable/ic_arrow_forward"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
-    <LinearLayout
-        android:id="@+id/recentActivitiesContainer"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_streak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewJournal">
+        android:layout_marginTop="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageview_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/view_journal"
+            android:padding="8dp"
+            android:src="@drawable/ic_star"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textview_streak"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/no_streak_yet"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textview_streak_start_date"
+            app:layout_constraintStart_toEndOf="@id/imageview_streak"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textview_streak_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/streak_start_date"
+            app:layout_constraintStart_toStartOf="@id/textview_streak"
+            app:layout_constraintTop_toBottomOf="@id/textview_streak" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical">
 
         <TextView
             style="?attr/textAppearanceTitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/activities_in_last_7_days" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/recentActivitiesChart"
+            android:id="@+id/chart_activities_last_week"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/textview_no_activities_last_week"
+            style="?attr/textAppearanceBodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:gravity="center"
+            android:text="@string/no_activities_last_seven_days"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recentActivitiesContainer">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="24dp"
+        android:orientation="vertical">
 
         <TextView
             style="?attr/textAppearanceTitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/most_frequent_activities" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/activitiesFrequencyChart"
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart_most_frequent_activities"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/textview_no_most_frequent_activities"
+            style="?attr/textAppearanceBodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:gravity="center"
+            android:text="@string/no_activities_yet"
+            android:visibility="gone" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

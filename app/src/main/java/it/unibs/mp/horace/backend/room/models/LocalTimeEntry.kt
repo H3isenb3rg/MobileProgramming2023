@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
 
 /**
  * Represents a time entry in the user's journal.

@@ -4,48 +4,56 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import it.unibs.mp.horace.backend.CurrentUser
-import it.unibs.mp.horace.backend.JournalDay
-import it.unibs.mp.horace.backend.journal.FirestoreJournal
+import androidx.navigation.fragment.findNavController
+import it.unibs.mp.horace.backend.Settings
+import it.unibs.mp.horace.backend.journal.JournalDay
+import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentJournalBinding
-import it.unibs.mp.horace.models.TimeEntry
+import it.unibs.mp.horace.ui.SortFragment
 import kotlinx.coroutines.launch
 
-class JournalFragment : Fragment() {
+class JournalFragment : SortFragment() {
     private var _binding: FragmentJournalBinding? = null
     private val binding get() = _binding!!
-
-    val user = CurrentUser()
-
-    // TODO: Usare factory per prendere journal
-    val firestoreJournal = FirestoreJournal()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentJournalBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var entries: List<TimeEntry> = ArrayList()
+
+        val settings = Settings(requireContext())
+
+        val journal = JournalFactory(requireContext()).getJournal()
         val journalDays: ArrayList<JournalDay> = ArrayList()
 
-        lifecycleScope.launch {
-            entries = firestoreJournal.getAllTimeEntries()
-        }.invokeOnCompletion {
-            if (entries.isEmpty()) {
-                return@invokeOnCompletion
-            }
-            journalDays.addAll(JournalDay.split(entries))
-            val adapter = JournalAdapter()
-            binding.journalsView.adapter = adapter
-            adapter.addData(journalDays)
+        val adapter = JournalAdapter(requireContext(), journalDays) {
+            findNavController().navigate(
+                JournalFragmentDirections.actionJournalFragmentToEntryOptionsDialog(it.id)
+            )
         }
+        binding.recyclerviewJournal.adapter = adapter
+
+        lifecycleScope.launch {
+            journalDays.addAll(JournalDay.fromTimeEntries(journal.getAllTimeEntries()))
+
+            if (settings.isJournalSortMostRecent) journalDays.sortByDescending { it.date }
+            else journalDays.sortBy { it.date }
+
+            adapter.notifyItemRangeInserted(0, journalDays.size)
+
+            binding.textviewNoEntries.isVisible = journalDays.isEmpty()
+        }
+    }
+
+    override fun onSortSelected() {
+        findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToSortJournalDialog())
     }
 
     override fun onDestroyView() {

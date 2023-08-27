@@ -9,21 +9,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.backend.CurrentUser
 import it.unibs.mp.horace.backend.LeaderboardItem
-import it.unibs.mp.horace.backend.UserNotificationManager
-import it.unibs.mp.horace.backend.journal.FirestoreJournal
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.UserNotificationManager
+import it.unibs.mp.horace.backend.firebase.models.User
 import it.unibs.mp.horace.databinding.FragmentLeaderboardBinding
-import it.unibs.mp.horace.models.User
 import it.unibs.mp.horace.ui.TopLevelFragment
+import it.unibs.mp.horace.ui.shareUserProfile
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class LeaderboardFragment : TopLevelFragment() {
     private var _binding: FragmentLeaderboardBinding? = null
     private val binding get() = _binding!!
-
-    private val journal = FirestoreJournal()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -35,7 +33,7 @@ class LeaderboardFragment : TopLevelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewAllFriends.setOnClickListener {
+        binding.cardviewViewAllFriends.setOnClickListener {
             findNavController().navigate(
                 LeaderboardFragmentDirections.actionLeaderboardFragmentToFriendsFragment()
             )
@@ -53,20 +51,23 @@ class LeaderboardFragment : TopLevelFragment() {
         val weeklyLeaderboard: MutableList<LeaderboardItem> = mutableListOf()
 
         val adapter = WeeklyLeaderboardAdapter(weeklyLeaderboard)
-        binding.weeklyLeaderboard.adapter = adapter
+        binding.recyclerviewWeeklyLeaderboard.adapter = adapter
 
         // Load the weekly leaderboard in background
         lifecycleScope.launch {
+            val user = CurrentUser()
+
             // Add the user leaderboard item to the list, sorted by points
             weeklyLeaderboard.addAll(
-                journal.weeklyLeaderboard().sortedWith(compareByDescending { it.points })
+                user.weeklyLeaderboard().sortedWith(compareByDescending { it.points })
             )
 
             // If the leaderboard is empty, show the "no friends" message,
             // otherwise notify the adapter of the new items.
             if (weeklyLeaderboard.isEmpty()) {
-                binding.weeklyLeaderboard.isVisible = false
-                binding.noFriends.isVisible = true
+                binding.recyclerviewWeeklyLeaderboard.isVisible = false
+                binding.buttonShareProfile.setOnClickListener { requireContext().shareUserProfile() }
+                binding.layoutNoFriends.isVisible = true
             } else {
                 adapter.notifyItemRangeInserted(0, weeklyLeaderboard.size)
             }
@@ -88,12 +89,15 @@ class LeaderboardFragment : TopLevelFragment() {
             lifecycleScope.launch {
                 manager.sendFriendRequest(it)
             }
-        }
 
-        binding.suggestedFriends.adapter = adapter
+            val index = suggestedFriends.indexOf(it)
+            binding.recyclerviewSuggestedFriends.adapter?.notifyItemRemoved(index)
+            suggestedFriends.removeAt(index)
+        }
+        binding.recyclerviewSuggestedFriends.adapter = adapter
 
         // Carousel settings
-        binding.suggestedFriends.apply {
+        binding.recyclerviewSuggestedFriends.apply {
             setFlat(true)
             setInfinite(true)
         }

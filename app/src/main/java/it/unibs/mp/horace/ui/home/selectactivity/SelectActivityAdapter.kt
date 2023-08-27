@@ -6,20 +6,23 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Activity
 
-class SelectActivityAdapter(private val dataset: List<Activity>) :
+class SelectActivityAdapter(
+    private val dataset: List<Activity>,
+    private val onItemClick: (Activity) -> Unit
+) :
     RecyclerView.Adapter<SelectActivityAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.name)
-        val area: TextView = view.findViewById(R.id.area)
+        val name: TextView = view.findViewById(R.id.textview_name)
+        val area: TextView = view.findViewById(R.id.textview_area)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.select_activity_item, parent, false)
+                .inflate(R.layout.item_select_activity, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }
@@ -33,9 +36,13 @@ class SelectActivityAdapter(private val dataset: List<Activity>) :
 
         holder.name.text = item.name
         if (item.area != null) {
-            holder.area.text = item.area!!.name
+            holder.area.text = item.area.name
         } else {
             holder.area.visibility = View.GONE
+        }
+
+        holder.itemView.setOnClickListener {
+            onItemClick(item)
         }
     }
 }

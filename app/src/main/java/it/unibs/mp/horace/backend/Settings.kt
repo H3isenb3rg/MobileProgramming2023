@@ -65,6 +65,97 @@ class Settings(val context: Context) {
         }
 
     /**
+     * The current activity id selected by the user in the home. The default value is `null`.
+     */
+    var activityId: String?
+        get() = prefs.getString(context.getString(R.string.preference_activity_id), null)
+        set(value) {
+            if (value == null) {
+                prefs.edit().remove(context.getString(R.string.preference_activity_id)).apply()
+                return
+            }
+            prefs.edit().putString(context.getString(R.string.preference_activity_id), value)
+                .apply()
+        }
+
+    /**
+     * Whether the activities should be sorted in ascending order (by name) or not.
+     */
+    var isSelectActivitySortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_select_activity_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(
+                    context.getString(R.string.preference_select_activity_sort_ascending),
+                    value
+                )
+                .apply()
+        }
+
+    /**
+     * Whether the workgroup should be sorted in ascending order (by username) or not.
+     */
+    var isWorkgroupSortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_workgroup_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(context.getString(R.string.preference_workgroup_sort_ascending), value)
+                .apply()
+        }
+
+    /**
+     * Whether the friends should be sorted in ascending order (by username) or not.
+     */
+    var isInviteFriendsSortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_invite_friends_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(
+                    context.getString(R.string.preference_invite_friends_sort_ascending),
+                    value
+                )
+                .apply()
+        }
+
+    /**
+     * Whether the friends should be sorted in ascending order (by username) or not.
+     */
+    var isJournalSortMostRecent: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_journal_sort_most_recent),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(context.getString(R.string.preference_journal_sort_most_recent), value)
+                .apply()
+        }
+
+    /**
+     * Whether the friends should be sorted in ascending order (by username) or not.
+     */
+    var isFriendsSortAscending: Boolean
+        get() = prefs.getBoolean(
+            context.getString(R.string.preference_friends_sort_ascending),
+            true
+        )
+        set(value) {
+            prefs.edit()
+                .putBoolean(context.getString(R.string.preference_friends_sort_ascending), value)
+                .apply()
+        }
+
+
+    /**
      * The current timer mode. The default value is [Mode.Pomodoro].
      */
     private var mode: Mode
@@ -98,7 +189,7 @@ class Settings(val context: Context) {
      * Whether the volume is enabled or not.
      * The default is `false`.
      */
-    var isVolumeOn: Boolean
+    var isVolumeEnabled: Boolean
         get() = prefs.getBoolean(context.getString(R.string.preference_volume_on), false)
         private set(value) {
             prefs.edit().putBoolean(context.getString(R.string.preference_volume_on), value).apply()
@@ -108,6 +199,6 @@ class Settings(val context: Context) {
      * Toggles the current volume on/off status.
      */
     fun toggleVolume() {
-        isVolumeOn = !isVolumeOn
+        isVolumeEnabled = !isVolumeEnabled
     }
 }

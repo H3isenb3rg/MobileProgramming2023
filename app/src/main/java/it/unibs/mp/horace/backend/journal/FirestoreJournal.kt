@@ -5,12 +5,11 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.unibs.mp.horace.backend.CurrentUser
-import it.unibs.mp.horace.backend.LeaderboardItem
-import it.unibs.mp.horace.models.Activity
-import it.unibs.mp.horace.models.Area
-import it.unibs.mp.horace.models.TimeEntry
-import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.backend.firebase.CurrentUser
+import it.unibs.mp.horace.backend.firebase.models.Activity
+import it.unibs.mp.horace.backend.firebase.models.Area
+import it.unibs.mp.horace.backend.firebase.models.TimeEntry
+import it.unibs.mp.horace.backend.firebase.models.User
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 
@@ -29,7 +28,7 @@ class FirestoreJournal : Journal {
     /**
      * User currently logged in.
      */
-    val user: CurrentUser = CurrentUser()
+    private val user: CurrentUser = CurrentUser()
 
     /**
      * The [DocumentReference] to the current user document.
@@ -179,40 +178,5 @@ class FirestoreJournal : Journal {
             }
         }
         return entry
-    }
-
-    suspend fun weeklyLeaderboard(): List<LeaderboardItem> {
-        val leaderboard: MutableList<LeaderboardItem> = mutableListOf()
-
-        // Add the current user to the leaderboard
-        val userPointsInLastWeek = getAllTimeEntries()
-            .filter { it.startTime.isAfter(LocalDateTime.now().minusWeeks(1)) }
-            .sumOf { it.points }
-        leaderboard.add(
-            LeaderboardItem(user.userData, userPointsInLastWeek)
-        )
-
-        // Get the friends ids
-        val friendsIds = userDocument.collection(User.FRIENDS_COLLECTION_NAME).get().await()
-            .mapNotNull { it.getString(User.UID_FIELD) }
-
-        // If the user has friends, add them to the leaderboard
-        if (friendsIds.isNotEmpty()) {
-            user.friends().forEach {
-                val friendEntries = db.collection(User.COLLECTION_NAME).document(it.uid)
-                    .collection(TimeEntry.COLLECTION_NAME).get().await()
-                    .mapNotNull { entry -> TimeEntry.parse(fillEntryMap(entry.data)) }
-
-                val lastWeekEntries = friendEntries.filter { entry ->
-                    entry.isInCurrentWeek()
-                }
-
-                leaderboard.add(
-                    LeaderboardItem(it, lastWeekEntries.sumOf { entry -> entry.points })
-                )
-            }
-        }
-
-        return leaderboard
     }
 }

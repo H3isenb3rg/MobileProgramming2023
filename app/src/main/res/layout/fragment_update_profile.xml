@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:gravity="end"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
+    android:layout_marginHorizontal="16dp"
     tools:context=".ui.settings.updateprofile.UpdateProfileFragment">
 
     <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username"
+        android:id="@+id/textinput_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -27,7 +27,7 @@
 
     <!-- Email -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email"
+        android:id="@+id/textinput_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -47,7 +47,7 @@
 
     <!-- Password -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password"
+        android:id="@+id/textinput_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -64,7 +64,7 @@
 
     <!-- Confirm password -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordConfirm"
+        android:id="@+id/textinput_password_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -81,7 +81,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/saveChanges"
+        android:id="@+id/button_save_changes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -93,7 +93,7 @@
         android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/deleteProfile"
+        android:id="@+id/button_delete_profile"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

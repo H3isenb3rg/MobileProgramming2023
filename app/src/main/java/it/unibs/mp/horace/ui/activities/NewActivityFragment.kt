@@ -21,7 +21,7 @@ class NewActivityFragment : Fragment() {
     // All the validation logic is in the ViewModel
     private val viewModel: NewActivityViewModel by activityViewModels {
         // Create the ViewModel with the Journal.
-        NewActivityViewModelFactory(JournalFactory.getJournal(requireContext()))
+        NewActivityViewModelFactory(JournalFactory(requireContext()).getJournal())
     }
 
     override fun onCreateView(
@@ -36,17 +36,17 @@ class NewActivityFragment : Fragment() {
 
         setupAreaAutocomplete()
 
-        binding.activity.editText?.addTextChangedListener {
+        binding.textinputActivity.editText?.addTextChangedListener {
             viewModel.activity = it.toString()
-            binding.activity.error = viewModel.activityError
+            binding.textinputActivity.error = viewModel.activityError
         }
 
-        binding.area.editText?.addTextChangedListener {
+        binding.textinputArea.editText?.addTextChangedListener {
             viewModel.area = it.toString()
-            binding.area.error = viewModel.areaError
+            binding.textinputArea.error = viewModel.areaError
         }
 
-        binding.add.setOnClickListener {
+        binding.buttonSave.setOnClickListener {
             // Save the time entry in background
             lifecycleScope.launch {
                 try {
@@ -57,24 +57,28 @@ class NewActivityFragment : Fragment() {
                     findNavController().navigateUp()
                 } catch (e: IllegalStateException) {
                     // Show the errors
-                    binding.activity.error = viewModel.activityError
-                    binding.area.error = viewModel.areaError
+                    binding.textinputActivity.error = viewModel.activityError
+                    binding.textinputActivity.error = viewModel.areaError
                 }
             }
+        }
+
+        binding.buttonNewArea.setOnClickListener {
+            findNavController().navigate(NewActivityFragmentDirections.actionNewActivityFragmentToNewAreaFragment())
         }
     }
 
     private fun setupAreaAutocomplete() {
         // Load the activities in background
         lifecycleScope.launch {
-            val autoCompleteTextView = binding.area.editText as? AutoCompleteTextView
+            val autoCompleteTextView = binding.textinputArea.editText as? AutoCompleteTextView
             val currAreas = viewModel.journal.getAllAreas()
 
             // When the user selects an activity, set it in the ViewModel and update ui
             autoCompleteTextView?.setOnItemClickListener { _, _, position, _ ->
                 viewModel.area = currAreas[position].name
                 autoCompleteTextView.setText(currAreas[position].name, false)
-                binding.activity.error = viewModel.areaError
+                binding.textinputArea.error = viewModel.areaError
             }
             // Adapter for the autocomplete
             val adapter = AreaAdapter(requireContext(), currAreas)

@@ -10,19 +10,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import it.unibs.mp.horace.R
-import it.unibs.mp.horace.models.User
+import it.unibs.mp.horace.backend.firebase.models.User
 
 /**
  * RecyclerView adapter for the friends list.
  * Implementing the Filterable interface allows us to filter the dataset.
  */
-class FriendsAdapter(private val dataset: ArrayList<User>) :
+class FriendsAdapter(
+    private val dataset: ArrayList<User>,
+    private val onItemClick: (User) -> Unit
+) :
     RecyclerView.Adapter<FriendsAdapter.ItemViewHolder>(), Filterable {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
-        val username: TextView = view.findViewById(R.id.username)
-        val email: TextView = view.findViewById(R.id.email)
+        val profilePhoto: ImageView = view.findViewById(R.id.image_view_photo)
+        val username: TextView = view.findViewById(R.id.textview_username)
+        val email: TextView = view.findViewById(R.id.textview_email)
     }
 
     // Contains only the items that match the search query.
@@ -32,7 +35,7 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     // Called when RecyclerView needs a new ViewHolder of the given type.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.friend_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_friend, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }
@@ -46,9 +49,13 @@ class FriendsAdapter(private val dataset: ArrayList<User>) :
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = filteredDataset[position]
 
-        holder.profilePhoto.load(item.photoUrl ?: R.drawable.default_profile_photo)
+        holder.profilePhoto.load(item.photoUrl ?: R.drawable.ic_default_profile_photo)
         holder.username.text = item.username
         holder.email.text = item.email
+
+        holder.itemView.setOnClickListener {
+            onItemClick(item)
+        }
     }
 
     // Returns a filter that can be used to search the dataset.

@@ -6,20 +6,23 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.Settings
+import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.TopLevelFragment
 import java.util.Locale
 
+import kotlinx.coroutines.launch
 
 class HomeFragment : TopLevelFragment() {
 
@@ -30,10 +33,12 @@ class HomeFragment : TopLevelFragment() {
     private lateinit var prefs: Settings
     private lateinit var journal: Journal
 
+    private var selectedActivity: Activity? = null
+
     // Timer related variables
     // Number of seconds displayed
     // on the stopwatch.
-    private var seconds: Int = 0
+    private var decs: Int = 0
 
     // Is the stopwatch running?
     private var running = false
@@ -44,9 +49,9 @@ class HomeFragment : TopLevelFragment() {
      * The current volume drawable, depends on whether the volume is enabled or not.
      */
     private val volumeDrawable: Int
-        get() = if (prefs.isVolumeOn) {
-            R.drawable.baseline_volume_up_24
-        } else R.drawable.baseline_volume_off_24
+        get() = if (prefs.isVolumeEnabled) {
+            R.drawable.ic_volume_on
+        } else R.drawable.ic_volume_off
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -60,7 +65,7 @@ class HomeFragment : TopLevelFragment() {
 
         auth = Firebase.auth
         prefs = Settings(requireContext())
-        journal = JournalFactory.getJournal(requireContext())
+        journal = JournalFactory(requireContext()).getJournal()
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         // Source is not read from navArgs because, for example,
@@ -70,9 +75,13 @@ class HomeFragment : TopLevelFragment() {
         // Removing the source argument solves this.
         // See https://stackoverflow.com/questions/62639146/android-navargs-clear-on-back.
         when (HomeFragmentArgs.fromBundle(requireArguments()).source) {
-            R.string.source_sign_in -> Snackbar.make(
-                view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
-            ).show()
+            R.string.source_sign_in -> {
+                Snackbar.make(
+                    view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
+                ).show()
+
+                showMigrationDialog()
+            }
 
             R.string.source_sign_up -> Snackbar.make(
                 view, getString(R.string.signed_up_successfully), Snackbar.LENGTH_SHORT
@@ -97,18 +106,32 @@ class HomeFragment : TopLevelFragment() {
             )
         }
 
+        // Read activity id from args, fall back to value stored in preferences.
+        val activityId =
+            HomeFragmentArgs.fromBundle(requireArguments()).activityId ?: prefs.activityId
+
+        // If the id is not null, update the activity in preferences and update the button text.
+        if (activityId != null) {
+            prefs.activityId = activityId
+            lifecycleScope.launch {
+                selectedActivity = journal.getActivity(activityId)
+                binding.buttonSelectActivity.text =
+                    selectedActivity?.name ?: getString(R.string.fragment_home_select_activity)
+            }
+        }
+
 
         // Set timer mode from value stored in preferences.
-        binding.modeSelector.check(
-            if (prefs.isModePomodoro) binding.pomodoro.id else binding.stopwatch.id
+        binding.togglegroupMode.check(
+            if (prefs.isModePomodoro) binding.buttonPomodoro.id else binding.buttonStopwatch.id
         )
 
         // Change mode in preferences on selector change.
-        binding.modeSelector.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        binding.togglegroupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) {
                 return@addOnButtonCheckedListener
             }
-            if (checkedId == binding.stopwatch.id) {
+            if (checkedId == binding.buttonStopwatch.id) {
                 prefs.switchModeToStopwatch()
             } else {
                 prefs.switchModeToPomodoro()
@@ -116,15 +139,15 @@ class HomeFragment : TopLevelFragment() {
         }
 
         // Set volume drawable from value stored in preferences.
-        binding.volumeToggle.setIconResource(volumeDrawable)
+        binding.buttonVolumeToggle.setIconResource(volumeDrawable)
 
         // Toggle volume in preferences on click.
-        binding.volumeToggle.setOnClickListener {
+        binding.buttonVolumeToggle.setOnClickListener {
             prefs.toggleVolume()
-            binding.volumeToggle.setIconResource(volumeDrawable)
+            binding.buttonVolumeToggle.setIconResource(volumeDrawable)
         }
 
-        binding.workGroup.setOnClickListener {
+        binding.buttonWorkgroup.setOnClickListener {
             findNavController().navigate(
                 if (auth.currentUser == null) {
                     HomeFragmentDirections.actionGlobalAuth()
@@ -134,17 +157,17 @@ class HomeFragment : TopLevelFragment() {
             )
         }
 
-        binding.activityPicker.setOnClickListener {
-            HomeFragmentDirections.actionHomeFragmentToSelectActivityBottomSheet()
+        binding.buttonSelectActivity.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityGraph())
         }
 
-        binding.timer.setOnClickListener {
+        binding.textviewTimeButton.setOnClickListener {
             if (running) {
-                binding.timerLabel.text = getString(R.string.tap_to_start)
+                binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_start)
                 running = false
             } else {
-                seconds = 0
-                binding.timerLabel.text = getString(R.string.tap_to_stop)
+                decs = 0
+                binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
                 running = true
             }
         }
@@ -157,7 +180,8 @@ class HomeFragment : TopLevelFragment() {
     // update the text view.
     private fun runTimer() {
         // Get the text view.
-        val timeView = binding.time as TextView
+        val timeView = binding.textviewTime
+        val timeDecsView = binding.textviewTimeDecs
 
         // Creates a new Handler
         val handler = Looper.myLooper()?.let { Handler(it) }
@@ -170,32 +194,54 @@ class HomeFragment : TopLevelFragment() {
         // will run almost immediately.
         handler?.post(object : Runnable {
             override fun run() {
-                val hours = seconds / 3600
-                val minutes = seconds % 3600 / 60
-                val secs = seconds % 60
+                val minutes = (decs / 600) % 60
+                val secs = (decs / 10) % 60
+                val decSecs = decs % 10
 
                 // Format the seconds into hours, minutes,
                 // and seconds.
                 val time = String.format(
                     Locale.getDefault(),
-                    "%d:%02d:%02d", hours,
+                    "%d:%02d",
                     minutes, secs
+                )
+                val decsTime = String.format(
+                    Locale.getDefault(),
+                    ".%01d",
+                    decSecs
                 )
 
                 // If running is true, increment the
                 // seconds variable.
                 if (running) {
-                    seconds++
+                    decs++
 
                     // Set the text view text.
                     timeView.text = time
+                    timeDecsView.text = decsTime
                 }
 
                 // Post the code again
                 // with a delay of 1 second.
-                handler.postDelayed(this, 1000)
+                handler.postDelayed(this, 100)
             }
         })
+    }
+
+    private fun showMigrationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.fragment_home_migrate_title))
+            .setMessage(resources.getString(R.string.fragment_home_migrate_description))
+            .setNegativeButton(resources.getString(R.string.fragment_home_migrate_decline)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.fragment_home_migrate_accept)) { dialog, _ ->
+                lifecycleScope.launch {
+                    JournalFactory(requireContext()).migrateLocalJournal()
+                    dialog.dismiss()
+                }
+            }
+            .show()
     }
 
     override fun onDestroyView() {
