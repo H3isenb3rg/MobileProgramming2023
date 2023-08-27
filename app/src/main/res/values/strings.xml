@@ -144,4 +144,5 @@
     <string name="add_new">Add New</string>
     <string name="add_new_activity">Add New Activity</string>
     <string name="search_activity">Search activity</string>
+    <string name="tap_to_stop">Tap to Stop</string>
 </resources>

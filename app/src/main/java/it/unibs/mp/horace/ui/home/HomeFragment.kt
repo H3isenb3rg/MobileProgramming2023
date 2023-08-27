@@ -1,9 +1,12 @@
 package it.unibs.mp.horace.ui.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +18,7 @@ import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.TopLevelFragment
+import java.util.Locale
 
 
 class HomeFragment : TopLevelFragment() {
@@ -25,6 +29,16 @@ class HomeFragment : TopLevelFragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var prefs: Settings
     private lateinit var journal: Journal
+
+    // Timer related variables
+    // Number of seconds displayed
+    // on the stopwatch.
+    private var seconds: Int = 0
+
+    // Is the stopwatch running?
+    private var running = false
+
+    private val wasRunning = false
 
     /**
      * The current volume drawable, depends on whether the volume is enabled or not.
@@ -123,6 +137,65 @@ class HomeFragment : TopLevelFragment() {
         binding.activityPicker.setOnClickListener {
             HomeFragmentDirections.actionHomeFragmentToSelectActivityBottomSheet()
         }
+
+        binding.timer.setOnClickListener {
+            if (running) {
+                binding.timerLabel.text = getString(R.string.tap_to_start)
+                running = false
+            } else {
+                seconds = 0
+                binding.timerLabel.text = getString(R.string.tap_to_stop)
+                running = true
+            }
+        }
+        runTimer()
+    }
+
+    // Sets the Number of seconds on the timer.
+    // The runTimer() method uses a Handler
+    // to increment the seconds and
+    // update the text view.
+    private fun runTimer() {
+        // Get the text view.
+        val timeView = binding.time as TextView
+
+        // Creates a new Handler
+        val handler = Looper.myLooper()?.let { Handler(it) }
+
+        // Call the post() method,
+        // passing in a new Runnable.
+        // The post() method processes
+        // code without a delay,
+        // so the code in the Runnable
+        // will run almost immediately.
+        handler?.post(object : Runnable {
+            override fun run() {
+                val hours = seconds / 3600
+                val minutes = seconds % 3600 / 60
+                val secs = seconds % 60
+
+                // Format the seconds into hours, minutes,
+                // and seconds.
+                val time = String.format(
+                    Locale.getDefault(),
+                    "%d:%02d:%02d", hours,
+                    minutes, secs
+                )
+
+                // If running is true, increment the
+                // seconds variable.
+                if (running) {
+                    seconds++
+
+                    // Set the text view text.
+                    timeView.text = time
+                }
+
+                // Post the code again
+                // with a delay of 1 second.
+                handler.postDelayed(this, 1000)
+            }
+        })
     }
 
     override fun onDestroyView() {
