@@ -26,7 +26,7 @@ class InviteFriendsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_work_group, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_invite_friend, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }
@@ -37,9 +37,12 @@ class InviteFriendsAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
-        holder.profilePhoto.load(item.photoUrl)
+        holder.profilePhoto.load(item.profilePhoto)
         holder.username.text = item.username
         holder.email.text = item.email
+        holder.itemView.setOnClickListener {
+            holder.select.isChecked = !holder.select.isChecked
+        }
         holder.select.setOnCheckedChangeListener { _, isChecked ->
             onSelect(item, isChecked)
         }

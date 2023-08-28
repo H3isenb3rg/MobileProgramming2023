@@ -171,6 +171,7 @@ class CurrentUser {
                 .collection(TimeEntry.COLLECTION_NAME).get().await()
                 .mapNotNull { entry ->
                     val data = entry.data
+                    // Set activity to null, so it's not parsed
                     data[TimeEntry.ACTIVITY_FIELD] = null
                     TimeEntry.parse(data)
                 }
@@ -186,7 +187,12 @@ class CurrentUser {
 
         // Add the current user to the leaderboard
         val userPointsInLastWeek = userDocument.collection(TimeEntry.COLLECTION_NAME).get().await()
-            .mapNotNull { TimeEntry.parse(it.data) }.sumOf { it.points }
+            .mapNotNull {
+                val data = it.data
+                // Set activity to null, so it's not parsed
+                data[TimeEntry.ACTIVITY_FIELD] = null
+                TimeEntry.parse(data)
+            }.sumOf { it.points }
 
         leaderboard.add(
             LeaderboardItem(userData, userPointsInLastWeek)
@@ -274,10 +280,6 @@ class CurrentUser {
             if (photoChanged) {
                 // Allows eliminating the photo if it's null
                 val url = if (userData.photoUrl != null) {
-                    // Remove current photo
-                    photoRef.delete().await()
-
-                    // Upload new photo
                     photoRef.putFile(userData.photoUrl!!).await()
                     photoRef.downloadUrl.await()
                 } else {
