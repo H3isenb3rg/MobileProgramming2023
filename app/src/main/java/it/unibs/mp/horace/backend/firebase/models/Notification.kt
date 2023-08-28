@@ -31,12 +31,12 @@ data class Notification(
 
         fun parse(data: Map<String, Any>): Notification {
             return Notification(
-                id = data["id"] as String,
-                type = (data["type"] as Long).toInt(),
-                senderUid = data["senderUid"] as String?,
-                timeSent = LocalDateTime.parse(data["dateSent"] as String),
-                isAccepted = data["isAccepted"] as Boolean? ?: false,
-                isRead = data["isRead"] as Boolean? ?: false
+                id = data[ID_FIELD] as String,
+                type = (data[TYPE_FIELD] as Long).toInt(),
+                senderUid = data[SENDER_UID_FIELD] as String?,
+                timeSent = LocalDateTime.parse(data[TIME_SENT_FIELD] as String),
+                isAccepted = data[IS_ACCEPTED_FIELD] as Boolean? ?: false,
+                isRead = data[IS_READ_FIELD] as Boolean? ?: false
             )
         }
     }
@@ -48,7 +48,7 @@ data class Notification(
     fun stringify(): HashMap<String, Any> {
         val entryMap: HashMap<String, Any> = hashMapOf(
             ID_FIELD to id,
-            TYPE_FIELD to type.toString(),
+            TYPE_FIELD to type,
             TIME_SENT_FIELD to timeSent.toString(),
             IS_ACCEPTED_FIELD to isAccepted,
             IS_READ_FIELD to isRead

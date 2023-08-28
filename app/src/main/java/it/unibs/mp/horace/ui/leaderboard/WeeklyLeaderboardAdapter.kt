@@ -1,5 +1,6 @@
 package it.unibs.mp.horace.ui.leaderboard
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,8 @@ import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.LeaderboardItem
 
 class WeeklyLeaderboardAdapter(
-    private val dataset: List<LeaderboardItem>
+    private val dataset: List<LeaderboardItem>,
+    private val context: Context
 ) : RecyclerView.Adapter<WeeklyLeaderboardAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -38,6 +40,6 @@ class WeeklyLeaderboardAdapter(
 
         holder.position.text = leaderboardPosition.toString()
         holder.username.text = item.user.username
-        holder.points.text = item.points.toString()
+        holder.points.text = context.getString(R.string.entry_points, item.points)
     }
 }

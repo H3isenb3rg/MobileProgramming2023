@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/textview_position"
             style="?attr/textAppearanceTitleMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="12dp"
             android:layout_height="wrap_content"
             android:text="@string/_1"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/textview_points"
-            style="?attr/textAppearanceBodyMedium"
+            style="?attr/textAppearanceLabelMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_100_pts"

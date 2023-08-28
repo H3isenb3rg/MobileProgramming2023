@@ -58,6 +58,11 @@ class FriendsAdapter(
         }
     }
 
+    fun notifyFriendsInserted(start: Int, end: Int) {
+        filteredDataset.addAll(start, dataset.subList(start, end))
+        notifyItemRangeInserted(start, end)
+    }
+
     // Returns a filter that can be used to search the dataset.
     override fun getFilter(): Filter {
         return object : Filter() {

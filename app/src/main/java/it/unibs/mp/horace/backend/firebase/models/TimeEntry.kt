@@ -36,7 +36,7 @@ data class TimeEntry(
             } else {
                 null
             }
-            val activity = data[ACTIVITY_FIELD] as Activity
+            val activity = data[ACTIVITY_FIELD] as Activity?
             val isPomodoro = data[POMODORO_FIELD] as Boolean
             val start = LocalDateTime.parse(data[START_FIELD].toString())
             val end = LocalDateTime.parse(data[END_FIELD].toString())

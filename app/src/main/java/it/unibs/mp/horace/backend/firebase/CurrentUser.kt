@@ -169,7 +169,11 @@ class CurrentUser {
         friends().forEach {
             val friendEntries = db.collection(User.COLLECTION_NAME).document(it.uid)
                 .collection(TimeEntry.COLLECTION_NAME).get().await()
-                .mapNotNull { entry -> TimeEntry.parse(entry.data) }
+                .mapNotNull { entry ->
+                    val data = entry.data
+                    data[TimeEntry.ACTIVITY_FIELD] = null
+                    TimeEntry.parse(data)
+                }
 
             val lastWeekEntries = friendEntries.filter { entry ->
                 entry.isInCurrentWeek
@@ -183,11 +187,12 @@ class CurrentUser {
         // Add the current user to the leaderboard
         val userPointsInLastWeek = userDocument.collection(TimeEntry.COLLECTION_NAME).get().await()
             .mapNotNull { TimeEntry.parse(it.data) }.sumOf { it.points }
+
         leaderboard.add(
             LeaderboardItem(userData, userPointsInLastWeek)
         )
 
-        return leaderboard
+        return leaderboard.sortedByDescending { it.points }
     }
 
     /**
