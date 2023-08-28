@@ -218,6 +218,18 @@ class CurrentUser {
             .await().mapNotNull { User.parse(it.data) }
     }
 
+    suspend fun removeFromWorkGroup(user: User) {
+        userDocument.collection(WORKGROUP_COLLECTION_NAME).document(user.uid).delete().await()
+
+        val removedUserWorkGroupDocument = db.collection(User.COLLECTION_NAME).document(user.uid)
+            .collection(WORKGROUP_COLLECTION_NAME)
+
+        removedUserWorkGroupDocument.get().await().mapNotNull { it.getString(User.UID_FIELD) }
+            .forEach {
+                removedUserWorkGroupDocument.document(it).delete().await()
+            }
+    }
+
     suspend fun friendsNotInWorkGroup(): List<User> {
         // Get the workgroup ids
         val workgroupIds = userDocument.collection(WORKGROUP_COLLECTION_NAME).get().await()

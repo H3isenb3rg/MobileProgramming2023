@@ -26,12 +26,16 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val settings = Settings(requireContext())
+        val user = CurrentUser()
+
         val workGroup: MutableList<User> = mutableListOf()
-        val adapter = WorkGroupAdapter(workGroup)
+        val adapter = WorkGroupAdapter(workGroup) {
+            lifecycleScope.launch { user.removeFromWorkGroup(it) }
+        }
+
         binding.recyclerviewWorkGroup.adapter = adapter
 
         lifecycleScope.launch {
-            val user = CurrentUser()
             workGroup.addAll(user.workGroup())
 
             // If the work group is empty, show a message
