@@ -26,6 +26,11 @@ class RoomJournal(context: Context) : Journal {
     }
 
     override suspend fun getTimeEntry(id: String): TimeEntry? {
+        // Check if the id can be cast to a Long, otherwise return null.
+        if (id.toLongOrNull() == null) {
+            return null
+        }
+
         return database.timeEntriesDao().getWithActivity(id.toLong()).map { it.toTimeEntry() }
             .firstOrNull()
     }
@@ -40,7 +45,7 @@ class RoomJournal(context: Context) : Journal {
     ): TimeEntry {
         val entry = LocalTimeEntry(
             description = description,
-            activityId = activity?.id?.toLong(),
+            activityId = activity?.id?.toLongOrNull(),
             isPomodoro = isPomodoro,
             startTime = startTime.toString(),
             endTime = endTime.toString(),
@@ -64,12 +69,16 @@ class RoomJournal(context: Context) : Journal {
     }
 
     override suspend fun getActivity(id: String): Activity? {
+        if (id.toLongOrNull() == null) {
+            return null
+        }
+
         return database.activitiesDao().getWithArea(id.toLong()).map { it.toActivity() }
             .firstOrNull()
     }
 
     override suspend fun addActivity(name: String, area: Area?): Activity {
-        val activity = LocalActivity(name = name, areaId = area?.id?.toLong())
+        val activity = LocalActivity(name = name, areaId = area?.id?.toLongOrNull())
         val id = database.activitiesDao().insert(activity)
         return database.activitiesDao().getWithArea(id).map { it.toActivity() }.first()
     }
@@ -87,6 +96,10 @@ class RoomJournal(context: Context) : Journal {
     }
 
     override suspend fun getArea(id: String): Area? {
+        if (id.toLongOrNull() == null) {
+            return null
+        }
+
         return database.areasDao().get(id.toLong()).map { it.toArea() }.firstOrNull()
     }
 

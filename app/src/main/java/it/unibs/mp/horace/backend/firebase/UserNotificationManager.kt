@@ -41,7 +41,7 @@ class UserNotificationManager {
 
         notification.isRead = true
         userDocument.collection(Notification.COLLECTION_NAME).document(notification.id)
-            .set(notification).await()
+            .set(notification.stringify()).await()
     }
 
     /**
@@ -83,7 +83,7 @@ class UserNotificationManager {
         // Update the invitation status
         notification.isAccepted = true
         userDocument.collection(Notification.COLLECTION_NAME).document(notification.id)
-            .set(notification).await()
+            .set(notification.stringify()).await()
     }
 
     /**
@@ -134,7 +134,7 @@ class UserNotificationManager {
 
         // Otherwise, send the invitation
         val ref = destInvitations.document()
-        ref.set(Notification(ref.id, type, user.uid)).await()
+        ref.set(Notification(ref.id, type, user.uid).stringify()).await()
     }
 
     /**

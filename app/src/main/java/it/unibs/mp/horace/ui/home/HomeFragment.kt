@@ -73,9 +73,15 @@ class HomeFragment : TopLevelFragment() {
                 view, getString(R.string.signed_up_successfully), Snackbar.LENGTH_SHORT
             ).show()
 
-            R.string.source_sign_out -> Snackbar.make(
-                view, getString(R.string.signed_out_successfully), Snackbar.LENGTH_SHORT
-            ).show()
+            R.string.source_sign_out -> {
+                Snackbar.make(
+                    view, getString(R.string.signed_out_successfully), Snackbar.LENGTH_SHORT
+                ).show()
+
+                // Remove activity id from args and preferences.
+                arguments?.remove("activityId")
+                prefs.activityId = null
+            }
 
             R.string.source_friend_request -> Snackbar.make(
                 view, getString(R.string.friend_request_successful), Snackbar.LENGTH_SHORT
