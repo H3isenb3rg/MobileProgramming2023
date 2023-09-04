@@ -66,7 +66,7 @@ class ActivitiesFragment : TopLevelFragment() {
         // Hide graphs until loaded,
         // so the default "No data" message is not shown.
         binding.chartMostFrequentActivities.visibility = View.INVISIBLE
-        binding.chartActivitiesLastWeek.visibility = View.INVISIBLE
+        //binding.chartActivitiesLastWeek.visibility = View.INVISIBLE
 
         lifecycleScope.launch {
             val streak = journal.streak()
@@ -102,11 +102,17 @@ class ActivitiesFragment : TopLevelFragment() {
         // Get the total times logged in the last 7 days.
         val chartEntries = journal.totalHoursInLastWeek().map {
             Entry(
-                it.key.dayOfMonth.toFloat(), it.value.toFloat()
+                it.key.dayOfYear.toFloat(), it.value.toFloat()
             )
         }
-        val max = chartEntries.maxByOrNull { it.y }?.y ?: 0f
-        val min = chartEntries.minByOrNull { it.y }?.y ?: 0f
+        var max = chartEntries.maxByOrNull { it.y }?.y ?: 0f
+        var min = chartEntries.minByOrNull { it.y }?.y ?: 0f
+
+        // If the min and max are the same, the chart will not be displayed correctly.
+        if (min == max) {
+            max *= 2
+            min = 0f
+        }
 
         if (chartEntries.isEmpty()) {
             binding.textviewNoActivitiesLastWeek.isVisible = true
@@ -147,8 +153,8 @@ class ActivitiesFragment : TopLevelFragment() {
             legend.isEnabled = false
 
             // X axis
-            xAxis.axisMinimum = LocalDate.now().minusDays(7).dayOfMonth.toFloat()
-            xAxis.axisMaximum = LocalDate.now().dayOfMonth.toFloat()
+            xAxis.axisMinimum = LocalDate.now().minusDays(7).dayOfYear.toFloat()
+            xAxis.axisMaximum = LocalDate.now().dayOfYear.toFloat()
             xAxis.yOffset = 10f
             xAxis.labelCount = 7
             xAxis.valueFormatter = LineChartDateFormatter(context)
@@ -255,7 +261,7 @@ class ActivitiesFragment : TopLevelFragment() {
                     view, com.google.android.material.R.attr.colorOnBackground
                 )
             )
-            setExtraOffsets(0f, 0f, 0f, 30f)
+            setExtraOffsets(0f, 10f, 0f, 20f)
         }
 
         binding.chartMostFrequentActivities.isVisible = true
@@ -271,8 +277,8 @@ class ActivitiesFragment : TopLevelFragment() {
 // Formatter for the dates on the X axis of the line chart.
 class LineChartDateFormatter(val context: Context) : IndexAxisValueFormatter() {
     override fun getFormattedValue(value: Float): String {
-        // Get the date of the day of the month corresponding to the value.
-        val date = LocalDate.now().withDayOfMonth(
+        // Get the date of the day of the year corresponding to the value.
+        val date = LocalDate.now().withDayOfYear(
             value.toInt()
         )
 
