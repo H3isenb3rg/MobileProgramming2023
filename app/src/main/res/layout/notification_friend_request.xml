@@ -11,9 +11,9 @@
     app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp">
 
@@ -39,14 +39,15 @@
 
         <TextView
             android:id="@+id/textview_message"
+            style="?attr/textAppearanceBodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/text_goes_here"
-            style="?attr/textAppearanceBodyMedium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/card_profile_photo"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_max="240dp" />
 
         <Button
             android:id="@+id/button_action"

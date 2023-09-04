@@ -14,8 +14,11 @@ import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.models.Activity
+import it.unibs.mp.horace.backend.journal.FirestoreJournal
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
+import it.unibs.mp.horace.backend.journal.JournalMigrator
+import it.unibs.mp.horace.backend.journal.RoomJournal
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.TopLevelFragment
 import kotlinx.coroutines.launch
@@ -66,7 +69,9 @@ class HomeFragment : TopLevelFragment() {
                     view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
                 ).show()
 
-                showMigrationDialog()
+                lifecycleScope.launch {
+                    showMigrationDialog()
+                }
             }
 
             R.string.source_sign_up -> Snackbar.make(
@@ -154,7 +159,14 @@ class HomeFragment : TopLevelFragment() {
         }
     }
 
-    private fun showMigrationDialog() {
+    private suspend fun showMigrationDialog() {
+        val localJournal = RoomJournal(requireContext())
+        if (localJournal.isEmpty()) {
+            return
+        }
+
+        val remoteJournal = FirestoreJournal()
+
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.fragment_home_migrate_title))
             .setMessage(resources.getString(R.string.fragment_home_migrate_description))
@@ -163,8 +175,7 @@ class HomeFragment : TopLevelFragment() {
             }
             .setPositiveButton(resources.getString(R.string.fragment_home_migrate_accept)) { dialog, _ ->
                 lifecycleScope.launch {
-                    JournalFactory(requireContext()).migrateLocalJournal()
-                    dialog.dismiss()
+                    JournalMigrator(localJournal, remoteJournal).migrate()
                 }
             }
             .show()

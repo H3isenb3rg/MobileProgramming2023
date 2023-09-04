@@ -30,7 +30,11 @@ class WorkGroupDialog : BottomSheetDialogFragment() {
 
         val workGroup: MutableList<User> = mutableListOf()
         val adapter = WorkGroupAdapter(workGroup) {
-            lifecycleScope.launch { user.removeFromWorkGroup(it) }
+            lifecycleScope.launch {
+                user.removeFromWorkGroup(it)
+                workGroup.remove(it)
+                binding.recyclerviewWorkGroup.adapter?.notifyItemRemoved(workGroup.indexOf(it))
+            }
         }
 
         binding.recyclerviewWorkGroup.adapter = adapter

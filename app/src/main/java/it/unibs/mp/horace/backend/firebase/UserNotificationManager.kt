@@ -78,7 +78,7 @@ class UserNotificationManager {
         // Generate a new notification ID
         val response = senderDocument.collection(Notification.COLLECTION_NAME).document()
         // Set actual content of the response notification
-        response.set(Notification(response.id, responseType, user.uid)).await()
+        response.set(Notification(response.id, responseType, user.uid).stringify()).await()
 
         // Update the invitation status
         notification.isAccepted = true

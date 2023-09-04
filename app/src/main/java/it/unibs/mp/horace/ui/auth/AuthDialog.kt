@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -26,7 +27,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
+import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.databinding.DialogAuthBinding
+import kotlinx.coroutines.launch
 
 
 class AuthDialog : BottomSheetDialogFragment() {
@@ -113,7 +116,14 @@ class AuthDialog : BottomSheetDialogFragment() {
                     auth.signInWithCredential(firebaseCredential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthDialogDirections.actionAuthDialogToHomeFragment()
+                                lifecycleScope.launch {
+                                    val currentUser = CurrentUser()
+                                    currentUser.username = credential.displayName
+                                    currentUser.update()
+                                    findNavController().navigate(
+                                        AuthDialogDirections.actionAuthDialogToHomeFragment()
+                                    )
+                                }
                             } else {
                                 // This should never happen
                                 throw IllegalStateException()
@@ -142,7 +152,14 @@ class AuthDialog : BottomSheetDialogFragment() {
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
-                                AuthDialogDirections.actionAuthDialogToHomeFragment()
+                                lifecycleScope.launch {
+                                    val currentUser = CurrentUser()
+                                    currentUser.username = auth.currentUser?.displayName
+                                    currentUser.update()
+                                    findNavController().navigate(
+                                        AuthDialogDirections.actionAuthDialogToHomeFragment()
+                                    )
+                                }
                             } else {
                                 throw IllegalStateException()
                             }

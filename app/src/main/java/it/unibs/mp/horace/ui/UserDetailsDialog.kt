@@ -46,7 +46,7 @@ class UserDetailsDialog : BottomSheetDialogFragment() {
         // Load the user's data.
         db.collection(User.COLLECTION_NAME).document(uid).get().addOnSuccessListener {
             // This should never fail
-            val user = it.toObject(User::class.java)!!
+            val user = User.parse(it.data!!)
 
             // load() is provided by the Coil library.
             binding.imageviewPhoto.load(user.profilePhoto)

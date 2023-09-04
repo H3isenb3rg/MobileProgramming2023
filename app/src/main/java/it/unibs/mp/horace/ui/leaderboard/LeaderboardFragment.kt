@@ -1,7 +1,6 @@
 package it.unibs.mp.horace.ui.leaderboard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +41,6 @@ class LeaderboardFragment : TopLevelFragment() {
 
         setupWeeklyLeaderboard()
         setupSuggestedFriends()
-        Log.d("HERE", "HERE")
     }
 
     /**
@@ -91,10 +89,6 @@ class LeaderboardFragment : TopLevelFragment() {
             lifecycleScope.launch {
                 manager.sendFriendRequest(it)
             }
-
-            val index = suggestedFriends.indexOf(it)
-            binding.recyclerviewSuggestedFriends.adapter?.notifyItemRemoved(index)
-            suggestedFriends.removeAt(index)
         }
         binding.recyclerviewSuggestedFriends.adapter = adapter
 
@@ -117,7 +111,12 @@ class LeaderboardFragment : TopLevelFragment() {
                 .whereNotIn(User.UID_FIELD, invalidIds)
                 .limit(5).get().await()
 
-            suggestedFriends.addAll(userNotFriends.toObjects(User::class.java))
+            if (userNotFriends.isEmpty) {
+                binding.recyclerviewSuggestedFriends.isVisible = false
+                return@launch
+            }
+
+            suggestedFriends.addAll(userNotFriends.mapNotNull { User.parse(it.data) })
             adapter.notifyItemRangeInserted(0, suggestedFriends.size)
         }
     }

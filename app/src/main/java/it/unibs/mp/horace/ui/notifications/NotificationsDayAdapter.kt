@@ -40,6 +40,10 @@ class NotificationsDayAdapter(
         val item = dataset[position]
 
         holder.date.text = dateTimeFormatter.formatDate(item.date)
-        holder.notifications.adapter = NotificationsAdapter(context, item.notifications, onAction)
+        holder.notifications.adapter = NotificationsAdapter(
+            context,
+            item.notifications.sortedByDescending { it.timeSent },
+            onAction
+        )
     }
 }

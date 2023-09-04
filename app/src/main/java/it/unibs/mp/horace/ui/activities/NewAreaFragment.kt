@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import it.unibs.mp.horace.backend.journal.JournalFactory
 import it.unibs.mp.horace.databinding.FragmentNewAreaBinding
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 class NewAreaFragment : Fragment() {
     private var _binding: FragmentNewAreaBinding? = null
@@ -39,7 +40,7 @@ class NewAreaFragment : Fragment() {
 
         binding.textinputSave.setOnClickListener {
             // Save the area in background.
-            runBlocking {
+            lifecycleScope.launch {
                 try {
                     viewModel.save()
                     findNavController().navigateUp()

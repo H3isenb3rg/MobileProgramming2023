@@ -219,14 +219,17 @@ class CurrentUser {
     }
 
     suspend fun removeFromWorkGroup(user: User) {
-        userDocument.collection(WORKGROUP_COLLECTION_NAME).document(user.uid).delete().await()
+        userDocument.collection(WORKGROUP_COLLECTION_NAME).whereEqualTo(User.UID_FIELD, user.uid)
+            .get()
+            .await().forEach {
+                it.reference.delete().await()
+            }
 
-        val removedUserWorkGroupDocument = db.collection(User.COLLECTION_NAME).document(user.uid)
+        db.collection(User.COLLECTION_NAME).document(user.uid)
             .collection(WORKGROUP_COLLECTION_NAME)
-
-        removedUserWorkGroupDocument.get().await().mapNotNull { it.getString(User.UID_FIELD) }
+            .whereEqualTo(User.UID_FIELD, uid).get().await()
             .forEach {
-                removedUserWorkGroupDocument.document(it).delete().await()
+                it.reference.delete().await()
             }
     }
 
@@ -248,11 +251,17 @@ class CurrentUser {
 
     suspend fun deleteFriend(friend: User) {
         // Delete from friends collection
-        userDocument.collection(FRIENDS_COLLECTION_NAME).document(friend.uid).delete().await()
+        userDocument.collection(FRIENDS_COLLECTION_NAME).whereEqualTo(User.UID_FIELD, friend.uid)
+            .get().await().forEach {
+                it.reference.delete().await()
+            }
 
         // Delete current user from friend's friends collection
         db.collection(User.COLLECTION_NAME).document(friend.uid)
-            .collection(FRIENDS_COLLECTION_NAME).document(uid).delete().await()
+            .collection(FRIENDS_COLLECTION_NAME).whereEqualTo(User.UID_FIELD, uid).get().await()
+            .forEach {
+                it.reference.delete().await()
+            }
     }
 
     /**

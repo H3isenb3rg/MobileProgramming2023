@@ -37,7 +37,7 @@ class WorkGroupAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
 
-        holder.profilePhoto.load(item.photoUrl)
+        holder.profilePhoto.load(item.profilePhoto)
         holder.username.text = item.username
 
         holder.remove.setOnClickListener {

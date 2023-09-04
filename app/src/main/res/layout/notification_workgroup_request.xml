@@ -37,6 +37,7 @@
             android:layout_marginStart="16dp"
             android:text="@string/text_goes_here"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_max="240dp"
             app:layout_constraintStart_toEndOf="@id/imageview_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
