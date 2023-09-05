@@ -10,7 +10,7 @@ import it.unibs.mp.horace.backend.firebase.models.Activity
 
 class SelectActivityAdapter(
     private val dataset: List<Activity>,
-    private val onItemClick: (Activity) -> Unit
+    private val onItemClick: (Activity, Boolean) -> Unit,
 ) :
     RecyclerView.Adapter<SelectActivityAdapter.ItemViewHolder>() {
 
@@ -42,7 +42,12 @@ class SelectActivityAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            onItemClick(item)
+            onItemClick(item, false)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onItemClick(item, true)
+            true
         }
     }
 }
