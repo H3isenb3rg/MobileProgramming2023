@@ -66,7 +66,7 @@ class ActivitiesFragment : TopLevelFragment() {
         // Hide graphs until loaded,
         // so the default "No data" message is not shown.
         binding.chartMostFrequentActivities.visibility = View.INVISIBLE
-        //binding.chartActivitiesLastWeek.visibility = View.INVISIBLE
+        binding.chartActivitiesLastWeek.visibility = View.INVISIBLE
 
         lifecycleScope.launch {
             val streak = journal.streak()
