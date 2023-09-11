@@ -1,6 +1,5 @@
 package it.unibs.mp.horace.ui.home
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -38,7 +38,6 @@ class HomeFragment : TopLevelFragment() {
     companion object {
         var POMODORO_WORK: Long = 25
         var POMODORO_PAUSE: Long = 5
-        var PAUSE_COLOR = Color.parseColor("#feff9e")
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -109,7 +108,8 @@ class HomeFragment : TopLevelFragment() {
         lifecycleScope.launch {
             if (mainActivity.currStartTime != null) {
                 Log.i("HOME", "Saving current time")
-                database.timerDao().insert(LocalTimer(startTime = mainActivity.currStartTime.toString()))
+                database.timerDao()
+                    .insert(LocalTimer(startTime = mainActivity.currStartTime.toString()))
                 Log.i("HOME", "Saved current time on fragment pause")
             } else {
                 database.timerDao().delete()
@@ -264,7 +264,6 @@ class HomeFragment : TopLevelFragment() {
     }
 
 
-
     // Sets the Number of seconds on the timer.
     // The runTimer() method uses a Handler
     // to increment the seconds and
@@ -301,9 +300,12 @@ class HomeFragment : TopLevelFragment() {
                             }
                             return
                         }
-                        millis = ChronoUnit.MILLIS.between(LocalDateTime.now(), pomodoroSectionEndTime)
+                        millis =
+                            ChronoUnit.MILLIS.between(LocalDateTime.now(), pomodoroSectionEndTime)
                     } else {
-                        millis = ChronoUnit.MILLIS.between(mainActivity.currStartTime, LocalDateTime.now())
+                        millis = ChronoUnit.MILLIS.between(
+                            mainActivity.currStartTime, LocalDateTime.now()
+                        )
                     }
                     decs = (millis / 100).toInt()
                 }
@@ -317,18 +319,14 @@ class HomeFragment : TopLevelFragment() {
 
     private suspend fun submitEntry(view: View) {
         journal.addTimeEntry(
-            null,
-            selectedActivity,
-            isPomodoro,
-            mainActivity.currStartTime!!,
-            LocalDateTime.now(),
-            0
+            null, selectedActivity, isPomodoro, mainActivity.currStartTime!!, LocalDateTime.now(), 0
         )
         //TODO: points system
         Snackbar.make(
             view, getString(R.string.time_entry_saved), Snackbar.LENGTH_SHORT
         ).show()
     }
+
     private fun updateMode() {
         if (isPomodoro) {
             prefs.switchModeToPomodoro()
@@ -346,13 +344,34 @@ class HomeFragment : TopLevelFragment() {
             true -> {
                 pomodoroSectionEndTime = LocalDateTime.now().plusSeconds(POMODORO_PAUSE)
                 binding.textViewTimePrompt.text = "Pause"
-                binding.cardviewTimer.setCardBackgroundColor(PAUSE_COLOR)
+                val backgroundColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorTertiaryContainer
+                )
+                val textColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorOnTertiaryContainer
+                )
+
+                binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
+                binding.textviewTime.setTextColor(textColor)
+                binding.textViewTimePrompt.setTextColor(textColor)
             }
+
             false -> {
-                pomodoroSectionEndTime = LocalDateTime.now().plusSeconds(POMODORO_WORK)  // TODO: change to plus minutes
+                pomodoroSectionEndTime =
+                    LocalDateTime.now().plusSeconds(POMODORO_WORK)  // TODO: change to plus minutes
                 binding.textViewTimePrompt.text = "Work"
-                binding.cardviewTimer.setCardBackgroundColor(resources.getColor(R.color.md_theme_light_primary))
+                val backgroundColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorPrimaryContainer
+                )
+                val textColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer
+                )
+
+                binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
+                binding.textviewTime.setTextColor(textColor)
+                binding.textViewTimePrompt.setTextColor(textColor)
             }
+
             else -> {
                 binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
             }
@@ -371,14 +390,10 @@ class HomeFragment : TopLevelFragment() {
         // Format the seconds into hours, minutes,
         // and seconds.
         val time = String.format(
-            Locale.getDefault(),
-            "%d:%02d",
-            minutes, secs
+            Locale.getDefault(), "%d:%02d", minutes, secs
         )
         val decsTime = String.format(
-            Locale.getDefault(),
-            ".%01d",
-            decSecs
+            Locale.getDefault(), ".%01d", decSecs
         )
 
         timeView.text = time
@@ -386,8 +401,7 @@ class HomeFragment : TopLevelFragment() {
     }
 
     private fun showMigrationDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.fragment_home_migrate_title))
+        MaterialAlertDialogBuilder(requireContext()).setTitle(resources.getString(R.string.fragment_home_migrate_title))
             .setMessage(resources.getString(R.string.fragment_home_migrate_description))
             .setNegativeButton(resources.getString(R.string.fragment_home_migrate_decline)) { dialog, _ ->
                 dialog.dismiss()
@@ -397,8 +411,7 @@ class HomeFragment : TopLevelFragment() {
                     // JournalFactory(requireContext()).migrateLocalJournal()
                     dialog.dismiss()
                 }
-            }
-            .show()
+            }.show()
     }
 
     override fun onDestroyView() {
