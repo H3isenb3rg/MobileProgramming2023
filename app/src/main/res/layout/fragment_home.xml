@@ -135,8 +135,23 @@
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_task"
         app:iconTint="?attr/colorOnSurface"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/pomodoro_stop"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardview_timer" />
+
+    <Button
+        android:id="@+id/pomodoro_stop"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/pomodoro_stop"
+        android:visibility="gone"
+        android:textAppearance="?attr/textAppearanceLabelLarge"
+        android:textColor="?attr/colorOnSurface"
+        app:iconTint="?attr/colorOnSurface"
+        app:layout_constraintStart_toEndOf="@id/button_select_activity"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardview_timer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

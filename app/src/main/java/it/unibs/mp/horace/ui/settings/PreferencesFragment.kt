@@ -69,7 +69,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
 
     private fun isUserProfileEditable(): Boolean {
         val providers = auth.currentUser?.providerData?.map { it.providerId } ?: return false
-        return !providers.contains("google.com")
+        return !providers.contains("google.com") && !providers.contains("facebook.com")
     }
 
     override fun onResume() {

@@ -29,7 +29,7 @@ class NotificationsAdapter(
     // The base class for the view holder.
     open class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var message: TextView = view.findViewById(R.id.textview_message)
-        var action: Button = view.findViewById(R.id.button_action)
+        var action: Button? = view.findViewById(R.id.button_action)
         var container: MaterialCardView = view.findViewById(R.id.notificationContainer)
     }
 
@@ -73,7 +73,7 @@ class NotificationsAdapter(
 
         if (item.isExpired) {
             holder.container.setBackgroundColor(com.google.android.material.R.attr.colorSurface)
-            holder.action.visibility = View.INVISIBLE
+            holder.action?.visibility = View.INVISIBLE
         }
 
         // If the notification has no sender, we can stop here.
@@ -84,7 +84,7 @@ class NotificationsAdapter(
         // Retrieve the sender's data.
         usersCollection.document(item.senderUid).get().addOnSuccessListener {
             // This should never fail.
-            val user = it.toObject(User::class.java)!!
+            val user = User.parse(it.data!!)
 
             // Populate the view holder depending on the notification type.
             when (item.type) {
@@ -92,8 +92,8 @@ class NotificationsAdapter(
                     (holder as FriendViewHolder).apply {
                         message.text = context.getString(R.string.friend_request, user.username)
                         profilePhoto.load(user.profilePhoto)
-                        action.isEnabled = !item.isExpired && !item.isAccepted
-                        action.setOnClickListener {
+                        action?.isEnabled = !item.isExpired && !item.isAccepted
+                        action?.setOnClickListener {
                             onAction(item)
                         }
                     }
@@ -102,8 +102,8 @@ class NotificationsAdapter(
                 Notification.TYPE_WORKGROUP_INVITATION -> {
                     (holder as WorkGroupViewHolder).apply {
                         message.text = context.getString(R.string.workgroup_request, user.username)
-                        action.isEnabled = !item.isExpired && !item.isAccepted
-                        action.setOnClickListener {
+                        action?.isEnabled = !item.isExpired && !item.isAccepted
+                        action?.setOnClickListener {
                             onAction(item)
                         }
                     }

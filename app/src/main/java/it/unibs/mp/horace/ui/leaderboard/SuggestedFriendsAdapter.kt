@@ -1,6 +1,5 @@
 package it.unibs.mp.horace.ui.leaderboard
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +39,6 @@ class SuggestedFriendsAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
 
-        Log.d("TEST", item.toString())
         holder.profilePhoto.load(item.profilePhoto)
         holder.username.text = item.username
         holder.email.text = item.email

@@ -19,14 +19,4 @@ class JournalFactory(val context: Context) {
             RoomJournal(context)
         }
     }
-
-    suspend fun migrateLocalJournal() {
-        val localJournal = RoomJournal(context)
-        if (localJournal.isEmpty()) {
-            return
-        }
-
-        val journal = getJournal()
-        JournalMigrator(localJournal, journal).migrate()
-    }
 }

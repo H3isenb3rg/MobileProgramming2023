@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/textview_position"
             style="?attr/textAppearanceTitleMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="12dp"
             android:layout_height="wrap_content"
             android:text="@string/_1"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,12 +38,11 @@
             app:strokeWidth="0dp">
 
             <ImageView
-                android:id="@+id/image_view_photo"
+                android:id="@+id/imageview_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/profile_photo"
-                android:padding="6dp"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_default_profile_photo" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -60,7 +59,7 @@
 
         <TextView
             android:id="@+id/textview_points"
-            style="?attr/textAppearanceBodyMedium"
+            style="?attr/textAppearanceLabelMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_100_pts"

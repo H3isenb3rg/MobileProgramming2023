@@ -6,12 +6,19 @@ data class Notification(
     val id: String,
     val type: Int,
     val senderUid: String?,
-    val dateSent: String = LocalDateTime.now().toString(),
+    val timeSent: LocalDateTime = LocalDateTime.now(),
     var isAccepted: Boolean = false,
     var isRead: Boolean = false
 ) {
     companion object {
         const val COLLECTION_NAME = "notifications"
+
+        const val ID_FIELD = "id"
+        const val TYPE_FIELD = "type"
+        const val SENDER_UID_FIELD = "senderUid"
+        const val TIME_SENT_FIELD = "timeSent"
+        const val IS_ACCEPTED_FIELD = "isAccepted"
+        const val IS_READ_FIELD = "isRead"
 
         const val TYPE_FRIEND_INVITATION = 0
         const val TYPE_WORKGROUP_INVITATION = 1
@@ -22,23 +29,37 @@ data class Notification(
         const val FRIEND_INVITATION_EXPIRATION_DAYS = 7
         const val WORKGROUP_INVITATION_EXPIRATION_DAYS = 1
 
-        const val IS_READ_FIELD = "isRead"
-
         fun parse(data: Map<String, Any>): Notification {
             return Notification(
-                id = data["id"] as String,
-                type = (data["type"] as Long).toInt(),
-                senderUid = data["senderUid"] as String?,
-                dateSent = data["dateSent"] as String,
-                isAccepted = data["isAccepted"] as Boolean,
-                isRead = data["isRead"] as Boolean
+                id = data[ID_FIELD] as String,
+                type = (data[TYPE_FIELD] as Long).toInt(),
+                senderUid = data[SENDER_UID_FIELD] as String?,
+                timeSent = LocalDateTime.parse(data[TIME_SENT_FIELD] as String),
+                isAccepted = data[IS_ACCEPTED_FIELD] as Boolean? ?: false,
+                isRead = data[IS_READ_FIELD] as Boolean? ?: false
             )
         }
     }
 
     // No-argument constructor required for Firestore.
     @Suppress("unused")
-    constructor() : this("", 0, null)
+    constructor() : this("", 0, "")
+
+    fun stringify(): HashMap<String, Any> {
+        val entryMap: HashMap<String, Any> = hashMapOf(
+            ID_FIELD to id,
+            TYPE_FIELD to type,
+            TIME_SENT_FIELD to timeSent.toString(),
+            IS_ACCEPTED_FIELD to isAccepted,
+            IS_READ_FIELD to isRead
+        )
+
+        senderUid?.let {
+            entryMap[SENDER_UID_FIELD] = senderUid.toString()
+        }
+
+        return entryMap
+    }
 
     private val expiresAfterDays = when (type) {
         TYPE_FRIEND_INVITATION -> FRIEND_INVITATION_EXPIRATION_DAYS
@@ -50,6 +71,6 @@ data class Notification(
      * Checks if the notification is expired.
      */
     val isExpired: Boolean
-        get() = LocalDateTime.parse(dateSent)
+        get() = timeSent
             .plusDays(expiresAfterDays.toLong()) < LocalDateTime.now()
 }

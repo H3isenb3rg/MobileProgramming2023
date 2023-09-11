@@ -50,7 +50,7 @@ class LeaderboardFragment : TopLevelFragment() {
         // List is initially empty
         val weeklyLeaderboard: MutableList<LeaderboardItem> = mutableListOf()
 
-        val adapter = WeeklyLeaderboardAdapter(weeklyLeaderboard)
+        val adapter = WeeklyLeaderboardAdapter(weeklyLeaderboard, requireContext())
         binding.recyclerviewWeeklyLeaderboard.adapter = adapter
 
         // Load the weekly leaderboard in background
@@ -59,7 +59,7 @@ class LeaderboardFragment : TopLevelFragment() {
 
             // Add the user leaderboard item to the list, sorted by points
             weeklyLeaderboard.addAll(
-                user.weeklyLeaderboard().sortedWith(compareByDescending { it.points })
+                user.weeklyLeaderboard()
             )
 
             // If the leaderboard is empty, show the "no friends" message,
@@ -89,10 +89,6 @@ class LeaderboardFragment : TopLevelFragment() {
             lifecycleScope.launch {
                 manager.sendFriendRequest(it)
             }
-
-            val index = suggestedFriends.indexOf(it)
-            binding.recyclerviewSuggestedFriends.adapter?.notifyItemRemoved(index)
-            suggestedFriends.removeAt(index)
         }
         binding.recyclerviewSuggestedFriends.adapter = adapter
 
@@ -106,20 +102,21 @@ class LeaderboardFragment : TopLevelFragment() {
         lifecycleScope.launch {
             val user = CurrentUser()
 
-            // Query all users that are not the current user
-            var query = Firebase.firestore.collection(User.COLLECTION_NAME)
-                .whereNotEqualTo(User.UID_FIELD, user.uid)
+            // Invalid ids are the user id and the ids of the user's friends
+            val invalidIds = mutableListOf(user.uid)
+            invalidIds.addAll(user.friends().map { it.uid })
 
-            val friendsIds = user.friends().map { it.uid }
-            // If the user has friends, exclude them from the query
-            if (friendsIds.isNotEmpty()) {
-                query = query.whereNotIn(User.UID_FIELD, friendsIds)
+            // Query all users that are not the current user
+            val userNotFriends = Firebase.firestore.collection(User.COLLECTION_NAME)
+                .whereNotIn(User.UID_FIELD, invalidIds)
+                .limit(5).get().await()
+
+            if (userNotFriends.isEmpty) {
+                binding.recyclerviewSuggestedFriends.isVisible = false
+                return@launch
             }
 
-            // Only get 5 users
-            val userNotFriends = query.limit(5).get().await()
-
-            suggestedFriends.addAll(userNotFriends.toObjects(User::class.java))
+            suggestedFriends.addAll(userNotFriends.mapNotNull { User.parse(it.data) })
             adapter.notifyItemRangeInserted(0, suggestedFriends.size)
         }
     }

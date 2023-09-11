@@ -65,10 +65,10 @@ class InviteFriendsDialog : BottomSheetDialogFragment() {
         binding.buttonInvite.setOnClickListener {
             lifecycleScope.launch {
                 invited.filter { it.value }.forEach { manager.sendWorkGroupRequest(it.key) }
+                findNavController().navigate(
+                    InviteFriendsDialogDirections.actionInviteFriendsDialogToWorkGroupDialog()
+                )
             }
-            findNavController().navigate(
-                InviteFriendsDialogDirections.actionInviteFriendsDialogToWorkGroupDialog()
-            )
         }
 
         binding.buttonSort.setOnClickListener {

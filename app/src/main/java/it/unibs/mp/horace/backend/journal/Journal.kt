@@ -44,7 +44,7 @@ interface Journal {
         }
 
         // If the first day is not today, the streak is 0
-        if (days.firstOrNull()?.equals(LocalDate.now()) == true) {
+        if (!days.first().equals(LocalDate.now())) {
             return 0
         }
 

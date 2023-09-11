@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/notificationContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="64dp"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="0dp"
@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp">
 
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/text_goes_here"
-            style="?attr/textAppearanceBodyLarge"
+            style="?attr/textAppearanceBodyMedium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageview_icon"
             app:layout_constraintTop_toTopOf="parent" />

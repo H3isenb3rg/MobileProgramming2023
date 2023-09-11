@@ -3,7 +3,6 @@ package it.unibs.mp.horace.ui.activities
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -67,7 +66,7 @@ class ActivitiesFragment : TopLevelFragment() {
         // Hide graphs until loaded,
         // so the default "No data" message is not shown.
         binding.chartMostFrequentActivities.visibility = View.INVISIBLE
-        binding.chartActivitiesLastWeek.visibility = View.INVISIBLE
+        //binding.chartActivitiesLastWeek.visibility = View.INVISIBLE
 
         lifecycleScope.launch {
             val streak = journal.streak()
@@ -103,8 +102,16 @@ class ActivitiesFragment : TopLevelFragment() {
         // Get the total times logged in the last 7 days.
         val chartEntries = journal.totalHoursInLastWeek().map {
             Entry(
-                it.key.dayOfMonth.toFloat(), it.value.toFloat()
+                it.key.dayOfYear.toFloat(), it.value.toFloat()
             )
+        }
+        var max = chartEntries.maxByOrNull { it.y }?.y ?: 0f
+        var min = chartEntries.minByOrNull { it.y }?.y ?: 0f
+
+        // If the min and max are the same, the chart will not be displayed correctly.
+        if (min == max) {
+            max *= 2
+            min = 0f
         }
 
         if (chartEntries.isEmpty()) {
@@ -146,8 +153,9 @@ class ActivitiesFragment : TopLevelFragment() {
             legend.isEnabled = false
 
             // X axis
-            xAxis.axisMinimum = LocalDate.now().minusDays(7).dayOfMonth.toFloat()
-            xAxis.axisMaximum = LocalDate.now().dayOfMonth.toFloat()
+            xAxis.axisMinimum = LocalDate.now().minusDays(7).dayOfYear.toFloat()
+            xAxis.axisMaximum = LocalDate.now().dayOfYear.toFloat()
+            xAxis.yOffset = 10f
             xAxis.labelCount = 7
             xAxis.valueFormatter = LineChartDateFormatter(context)
             xAxis.textColor = MaterialColors.getColor(
@@ -169,10 +177,14 @@ class ActivitiesFragment : TopLevelFragment() {
             )
             axisLeft.valueFormatter = LineChartHourFormatter(requireContext())
             axisLeft.setDrawAxisLine(false)
+            axisLeft.axisMaximum = max
+            axisLeft.axisMinimum = min
+            axisLeft.setLabelCount(6, true)
 
             // Right Y axis (disabled)
             axisRight.setDrawAxisLine(false)
             axisRight.setDrawGridLines(false)
+            axisRight.setDrawLabels(false)
         }
 
         // Refresh the chart
@@ -215,17 +227,16 @@ class ActivitiesFragment : TopLevelFragment() {
             // Put labels and values outside of the pie slices
             xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
             yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-            valueLinePart1OffsetPercentage = 50f
-            valueLinePart1Length = 0.8f
+            valueLinePart1OffsetPercentage = 100f
+            valueLinePart1Length = 0.9f
             valueLinePart2Length = 0f
             valueLineColor = ColorTemplate.COLOR_NONE
-            valueTextSize = 10f
             valueFormatter = PercentFormatter(binding.chartMostFrequentActivities)
         }
 
         binding.chartMostFrequentActivities.apply {
             data = PieData(dataset)
-            renderer = PieChartLabelRenderer(this, animator, viewPortHandler)
+            renderer = PieChartLabelRenderer(this, animator, viewPortHandler, requireContext())
 
             // Disable zooming, scrolling, etc.
             setTouchEnabled(false)
@@ -238,7 +249,7 @@ class ActivitiesFragment : TopLevelFragment() {
                     view, com.google.android.material.R.attr.colorSurface
                 )
             )
-            holeRadius = 50f
+            holeRadius = 40f
             transparentCircleRadius = 0f
 
             // Show percentage values
@@ -250,9 +261,7 @@ class ActivitiesFragment : TopLevelFragment() {
                     view, com.google.android.material.R.attr.colorOnBackground
                 )
             )
-            setEntryLabelTextSize(18f)
-            setEntryLabelTypeface(Typeface.DEFAULT_BOLD)
-            setExtraOffsets(0f, 0f, 0f, 30f)
+            setExtraOffsets(0f, 10f, 0f, 20f)
         }
 
         binding.chartMostFrequentActivities.isVisible = true
@@ -268,8 +277,8 @@ class ActivitiesFragment : TopLevelFragment() {
 // Formatter for the dates on the X axis of the line chart.
 class LineChartDateFormatter(val context: Context) : IndexAxisValueFormatter() {
     override fun getFormattedValue(value: Float): String {
-        // Get the date of the day of the month corresponding to the value.
-        val date = LocalDate.now().withDayOfMonth(
+        // Get the date of the day of the year corresponding to the value.
+        val date = LocalDate.now().withDayOfYear(
             value.toInt()
         )
 
@@ -332,7 +341,10 @@ class MultilineXAxisRenderer(
 
 // Renders the label of a pie slice on top of the value.
 class PieChartLabelRenderer(
-    chart: PieChart?, animator: ChartAnimator?, viewPortHandler: ViewPortHandler?
+    chart: PieChart?,
+    animator: ChartAnimator?,
+    viewPortHandler: ViewPortHandler?,
+    val context: Context
 ) : PieChartRenderer(chart, animator, viewPortHandler) {
     private var mHasLabelData = false
     private var mHasValueData = false
@@ -383,15 +395,16 @@ class PieChartLabelRenderer(
 
     private fun drawLabelAndValue() {
         //to show label on top of the value just swap the mEntryLabelY with mValueY
-        drawEntryLabelData(mEntryLabelCanvas, mEntryLabel, mEntryLabelX, mValueY)
+        drawEntryLabelData(mEntryLabelCanvas, mEntryLabel, mEntryLabelX, mValueY, mValueColor)
         drawValueData(mValueCanvas, mValueText, mValueX, mEntryLabelY, mValueColor)
     }
 
     //This is the same code used in super.drawEntryLabel(c, label, x, y) with any other customization you want in mEntryLabelsPaint
-    private fun drawEntryLabelData(c: Canvas?, label: String, x: Float, y: Float) {
+    private fun drawEntryLabelData(c: Canvas?, label: String, x: Float, y: Float, color: Int) {
         val mEntryLabelsPaint: Paint = paintEntryLabels
-        mEntryLabelsPaint.typeface = Typeface.DEFAULT
+        mEntryLabelsPaint.color = color
         mEntryLabelsPaint.textAlign = Paint.Align.CENTER
+        mEntryLabelsPaint.textSize = 12f * context.resources.displayMetrics.density
         c?.drawText(label, x, y, mEntryLabelsPaint)
     }
 
@@ -399,6 +412,7 @@ class PieChartLabelRenderer(
     private fun drawValueData(c: Canvas?, valueText: String, x: Float, y: Float, color: Int) {
         mValuePaint.color = color
         mValuePaint.textAlign = Paint.Align.CENTER
-        c?.drawText(valueText, x, y, mValuePaint)
+        mValuePaint.textSize = 12f * context.resources.displayMetrics.density
+        c?.drawText(valueText, x, y + 14, mValuePaint)
     }
 }

@@ -169,7 +169,12 @@ class CurrentUser {
         friends().forEach {
             val friendEntries = db.collection(User.COLLECTION_NAME).document(it.uid)
                 .collection(TimeEntry.COLLECTION_NAME).get().await()
-                .mapNotNull { entry -> TimeEntry.parse(entry.data) }
+                .mapNotNull { entry ->
+                    val data = entry.data
+                    // Set activity to null, so it's not parsed
+                    data[TimeEntry.ACTIVITY_FIELD] = null
+                    TimeEntry.parse(data)
+                }
 
             val lastWeekEntries = friendEntries.filter { entry ->
                 entry.isInCurrentWeek
@@ -182,12 +187,18 @@ class CurrentUser {
 
         // Add the current user to the leaderboard
         val userPointsInLastWeek = userDocument.collection(TimeEntry.COLLECTION_NAME).get().await()
-            .mapNotNull { TimeEntry.parse(it.data) }.sumOf { it.points }
+            .mapNotNull {
+                val data = it.data
+                // Set activity to null, so it's not parsed
+                data[TimeEntry.ACTIVITY_FIELD] = null
+                TimeEntry.parse(data)
+            }.sumOf { it.points }
+
         leaderboard.add(
             LeaderboardItem(userData, userPointsInLastWeek)
         )
 
-        return leaderboard
+        return leaderboard.sortedByDescending { it.points }
     }
 
     /**
@@ -205,6 +216,21 @@ class CurrentUser {
         // Get the workgroup data from the ids
         return db.collection(User.COLLECTION_NAME).whereIn(User.UID_FIELD, workgroupIds).get()
             .await().mapNotNull { User.parse(it.data) }
+    }
+
+    suspend fun removeFromWorkGroup(user: User) {
+        userDocument.collection(WORKGROUP_COLLECTION_NAME).whereEqualTo(User.UID_FIELD, user.uid)
+            .get()
+            .await().forEach {
+                it.reference.delete().await()
+            }
+
+        db.collection(User.COLLECTION_NAME).document(user.uid)
+            .collection(WORKGROUP_COLLECTION_NAME)
+            .whereEqualTo(User.UID_FIELD, uid).get().await()
+            .forEach {
+                it.reference.delete().await()
+            }
     }
 
     suspend fun friendsNotInWorkGroup(): List<User> {
@@ -225,11 +251,17 @@ class CurrentUser {
 
     suspend fun deleteFriend(friend: User) {
         // Delete from friends collection
-        userDocument.collection(FRIENDS_COLLECTION_NAME).document(friend.uid).delete().await()
+        userDocument.collection(FRIENDS_COLLECTION_NAME).whereEqualTo(User.UID_FIELD, friend.uid)
+            .get().await().forEach {
+                it.reference.delete().await()
+            }
 
         // Delete current user from friend's friends collection
         db.collection(User.COLLECTION_NAME).document(friend.uid)
-            .collection(FRIENDS_COLLECTION_NAME).document(uid).delete().await()
+            .collection(FRIENDS_COLLECTION_NAME).whereEqualTo(User.UID_FIELD, uid).get().await()
+            .forEach {
+                it.reference.delete().await()
+            }
     }
 
     /**
@@ -269,10 +301,6 @@ class CurrentUser {
             if (photoChanged) {
                 // Allows eliminating the photo if it's null
                 val url = if (userData.photoUrl != null) {
-                    // Remove current photo
-                    photoRef.delete().await()
-
-                    // Upload new photo
                     photoRef.putFile(userData.photoUrl!!).await()
                     photoRef.downloadUrl.await()
                 } else {

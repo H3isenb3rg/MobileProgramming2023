@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import it.unibs.mp.horace.backend.firebase.models.Area
 import it.unibs.mp.horace.backend.journal.Journal
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 /**
  * Factory for creating a [NewActivityViewModel] with a constructor that takes a [Journal].
@@ -41,7 +40,7 @@ class NewActivityViewModel(val journal: Journal) : ViewModel() {
         get() = _area
         set(value) {
             _area = value
-            validateArea()
+            viewModelScope.launch { validateArea() }
         }
 
     var activityError: String? = null
@@ -74,7 +73,6 @@ class NewActivityViewModel(val journal: Journal) : ViewModel() {
         journal.addActivity(activity!!, currArea)
     }
 
-    // TODO: Decidere se possono esistere activity con stesso nome in aree diverse o no
     private fun validateActivity() {
         activityError = when (_activity) {
             null -> ERROR_ACTIVITY_NULL
@@ -98,22 +96,12 @@ class NewActivityViewModel(val journal: Journal) : ViewModel() {
         }
     }
 
-    private fun validateArea(): Area? {
+    private suspend fun validateArea(): Area? {
         areaError = null
-        var currArea: Area?
 
-        runBlocking {
-            currArea = viewModelScope.run {
-                try {
-                    return@run journal.getAllAreas().single {
-                        it.name == _area
-                    }
-                } catch (e: NoSuchElementException) {
-                    return@run null
-                }
-            }
+        return journal.getAllAreas().firstOrNull {
+            it.name == _area
         }
-        return currArea
     }
 
 }

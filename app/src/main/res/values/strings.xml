@@ -278,6 +278,8 @@
     <string name="fragment_edit_entry_save">Save</string>
     <string name="destination_edit_entry">Edit entry</string>
     <string name="fragment_home_tap_to_stop">Tap to Stop</string>
+    <string name="time_entry_saved">New Time Entry Saved</string>
+    <string name="pomodoro_stop">Stop Pomodoro</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

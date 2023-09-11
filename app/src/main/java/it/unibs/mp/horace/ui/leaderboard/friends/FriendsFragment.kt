@@ -55,7 +55,7 @@ class FriendsFragment : SortFragment() {
             else friends.sortByDescending { it.username }
 
             // Notify adapter of the new data
-            adapter.notifyItemRangeInserted(0, friends.size)
+            adapter.notifyFriendsInserted(0, friends.size)
         }
 
         // Hook search bar to search view.
