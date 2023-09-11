@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.JournalFactory
@@ -29,19 +31,42 @@ class SelectActivityDialog : BottomSheetDialogFragment() {
         // The settings are required to retrieve the sort order.
         val settings = Settings(requireContext())
 
+        val journal = JournalFactory(requireContext()).getJournal()
+
         // Create the adapter and the list of activities.
         val activities: MutableList<Activity> = mutableListOf()
-        val adapter = SelectActivityAdapter(activities) { activity ->
-            findNavController().navigate(
-                SelectActivityDialogDirections.actionGlobalHome(activityId = activity.id)
-            )
+        val adapter = SelectActivityAdapter(activities) { activity, isLongClick ->
+            if (isLongClick) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(resources.getString(R.string.dialog_select_activity_delete_activity_title))
+                    .setMessage(resources.getString(R.string.dialog_select_activity_delete_activity_description))
+                    .setNegativeButton(
+                        resources.getString(R.string.dialog_select_activity_cancel),
+                        null
+                    )
+                    .setPositiveButton(resources.getString(R.string.dialog_select_activity_delete_activity_delete)) { _, _ ->
+                        lifecycleScope.launch {
+                            journal.removeActivity(activity)
+                            activities.remove(activity)
+                            binding.recyclerviewActivities.adapter?.notifyItemRemoved(
+                                activities.indexOf(
+                                    activity
+                                )
+                            )
+                        }
+                    }
+                    .show()
+            } else {
+                findNavController().navigate(
+                    SelectActivityDialogDirections.actionGlobalHome(activityId = activity.id)
+                )
+            }
         }
 
         binding.recyclerviewActivities.adapter = adapter
 
         lifecycleScope.launch {
             // Retrieve the activities from the journal.
-            val journal = JournalFactory(requireContext()).getJournal()
             activities.addAll(journal.getAllActivities())
 
             // Sort according to the settings.

@@ -123,6 +123,10 @@
     <string name="dialog_select_activity_add_new">Add new activity</string>
     <string name="dialog_select_activity_no_activities">No activities found.</string>
     <string name="dialog_select_activity_sort">Sort</string>
+    <string name="dialog_select_activity_delete_activity_title">Delete activity</string>
+    <string name="dialog_select_activity_delete_activity_description">This will delete the entries associated with this activity.</string>
+    <string name="dialog_select_activity_delete_activity_delete">Yes, delete</string>
+    <string name="dialog_select_activity_cancel">Cancel</string>
 
     <!-- Sort activities dialog -->
     <string name="dialog_sort_select_activity_radio_ascending">Name ascending</string>

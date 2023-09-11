@@ -5,6 +5,7 @@
     android:layout_height="56dp"
     android:clickable="true"
     android:focusable="true"
+    android:longClickable="true"
     app:cardCornerRadius="0dp"
     app:strokeWidth="0dp">
 

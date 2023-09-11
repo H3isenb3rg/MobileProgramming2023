@@ -38,12 +38,6 @@ class ManualLogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // lifecycleScope.launch {
-        //     viewModel.journal.addActivity(hashMapOf(
-        //         Activity.NAME_FIELD to "Mobile"
-        //     ))
-        // }.invokeOnCompletion {
-        // }
         setupActivitiesAutocomplete()
 
         // When the date EditText is clicked, show the date picker
