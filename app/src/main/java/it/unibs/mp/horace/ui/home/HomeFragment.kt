@@ -1,15 +1,20 @@
 package it.unibs.mp.horace.ui.home
 
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -37,9 +42,9 @@ class HomeFragment : TopLevelFragment() {
         var POMODORO_PAUSE: Long = 5
         var POM_PAUSE_END_MILLIS: Long = 30 * 1000
         var POM_WORK_END_MILLIS: Long = 25 * 1000
-        var PAUSE_COLOR = Color.parseColor("#feff9e")
         var WORK_LABEL = "Work"
         var PAUSE_LABEL = "Pause"
+        var VIBRATE_PATTERN = longArrayOf(300, 500, 300, 500)
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -49,6 +54,8 @@ class HomeFragment : TopLevelFragment() {
     private lateinit var prefs: Settings
     private lateinit var journal: Journal
     private lateinit var mainActivity: MainActivity
+    private var vibrator: Vibrator? = null
+    private var vibratorManager: VibratorManager? = null
 
     private var selectedActivity: Activity? = null
 
@@ -60,7 +67,7 @@ class HomeFragment : TopLevelFragment() {
     /**
      * Specifies if the pomodoro is currently in a work or pause section
      */
-    internal var isPomodoroPause: Boolean by Delegates.observable(false) { _, _, _ -> updatePomodoroSection() }
+    internal var isPomodoroPause: Boolean? by Delegates.observable(null) { _, _, _ -> updatePomodoroSection() }
 
     internal var isPomodoro: Boolean by Delegates.observable(false) { _, _, _ -> updateMode() }
 
@@ -76,10 +83,19 @@ class HomeFragment : TopLevelFragment() {
             R.drawable.ic_volume_on
         } else R.drawable.ic_volume_off
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        if (Build.VERSION.SDK_INT>=31) {
+            vibratorManager = getSystemService(requireContext(), VibratorManager::class.java);
+            vibrator = vibratorManager?.defaultVibrator;
+        }
+        else {
+            vibrator = getSystemService(requireContext(), Vibrator::class.java);
+        }
 
         return binding.root
     }
@@ -238,14 +254,22 @@ class HomeFragment : TopLevelFragment() {
                         val currDiff = diff % POM_PAUSE_END_MILLIS
                         if (currDiff <= POM_WORK_END_MILLIS) {
                             // work section
+                            if (isPomodoroPause == true) {
+                                vibrate()
+                            }
                             isPomodoroPause = false
                             millis = POM_WORK_END_MILLIS - currDiff
                         } else {
+                            if (isPomodoroPause == false) {
+                                vibrate()
+                            }
                             isPomodoroPause = true
                             millis = POM_PAUSE_END_MILLIS - currDiff
                         }
                     } else {
-                        millis = ChronoUnit.MILLIS.between(mainActivity.currStartTime, LocalDateTime.now())
+                        millis = ChronoUnit.MILLIS.between(
+                            mainActivity.currStartTime, LocalDateTime.now()
+                        )
                     }
                     decs = (millis / 100).toInt()
                 }
@@ -259,26 +283,19 @@ class HomeFragment : TopLevelFragment() {
 
     private suspend fun submitEntry(view: View) {
         journal.addTimeEntry(
-            null,
-            selectedActivity,
-            isPomodoro,
-            mainActivity.currStartTime!!,
-            LocalDateTime.now(),
-            0
+            null, selectedActivity, isPomodoro, mainActivity.currStartTime!!, LocalDateTime.now(), 0
         )
         //TODO: points system
         Snackbar.make(
             view, getString(R.string.time_entry_saved), Snackbar.LENGTH_SHORT
         ).show()
     }
+
     private fun updateMode() {
         if (isPomodoro) {
             prefs.switchModeToPomodoro()
-            binding.pomodoroStop.visibility = View.VISIBLE
-            isPomodoroPause = false
         } else {
             prefs.switchModeToStopwatch()
-            binding.pomodoroStop.visibility = View.GONE
             binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
         }
     }
@@ -287,11 +304,34 @@ class HomeFragment : TopLevelFragment() {
         when (isPomodoroPause) {
             true -> {
                 binding.textViewTimePrompt.text = PAUSE_LABEL
-                binding.cardviewTimer.setCardBackgroundColor(PAUSE_COLOR)
+                val backgroundColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorTertiaryContainer
+                )
+                val textColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorOnTertiaryContainer
+                )
+
+                binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
+                binding.textviewTime.setTextColor(textColor)
+                binding.textViewTimePrompt.setTextColor(textColor)
             }
+
             false -> {
                 binding.textViewTimePrompt.text = WORK_LABEL
-                binding.cardviewTimer.setCardBackgroundColor(resources.getColor(R.color.md_theme_light_primary))
+                val backgroundColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorPrimaryContainer
+                )
+                val textColor = MaterialColors.getColor(
+                    binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer
+                )
+
+                binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
+                binding.textviewTime.setTextColor(textColor)
+                binding.textViewTimePrompt.setTextColor(textColor)
+            }
+
+            else -> {
+
             }
         }
     }
@@ -308,14 +348,10 @@ class HomeFragment : TopLevelFragment() {
         // Format the seconds into hours, minutes,
         // and seconds.
         val time = String.format(
-            Locale.getDefault(),
-            "%d:%02d",
-            minutes, secs
+            Locale.getDefault(), "%d:%02d", minutes, secs
         )
         val decsTime = String.format(
-            Locale.getDefault(),
-            ".%01d",
-            decSecs
+            Locale.getDefault(), ".%01d", decSecs
         )
 
         timeView.text = time
@@ -323,8 +359,7 @@ class HomeFragment : TopLevelFragment() {
     }
 
     private fun showMigrationDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.fragment_home_migrate_title))
+        MaterialAlertDialogBuilder(requireContext()).setTitle(resources.getString(R.string.fragment_home_migrate_title))
             .setMessage(resources.getString(R.string.fragment_home_migrate_description))
             .setNegativeButton(resources.getString(R.string.fragment_home_migrate_decline)) { dialog, _ ->
                 dialog.dismiss()
@@ -334,12 +369,20 @@ class HomeFragment : TopLevelFragment() {
                     // JournalFactory(requireContext()).migrateLocalJournal()
                     dialog.dismiss()
                 }
-            }
-            .show()
+            }.show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    internal fun vibrate() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator?.vibrate(VibrationEffect.createWaveform(VIBRATE_PATTERN,-1));
+        }
+        else {
+            vibrator?.vibrate(VIBRATE_PATTERN,-1);
+        }
     }
 }

@@ -83,9 +83,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/textview_time"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </LinearLayout>
-
-
 
             <TextView
                 android:id="@+id/textView_time_prompt"
