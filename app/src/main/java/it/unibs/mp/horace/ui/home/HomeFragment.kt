@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +20,6 @@ import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
-import it.unibs.mp.horace.backend.room.LocalDatabase
-import it.unibs.mp.horace.backend.room.models.LocalTimer
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.MainActivity
 import it.unibs.mp.horace.ui.TopLevelFragment
@@ -38,13 +35,15 @@ class HomeFragment : TopLevelFragment() {
     companion object {
         var POMODORO_WORK: Long = 25
         var POMODORO_PAUSE: Long = 5
+        var POM_PAUSE_END_MILLIS: Long = 30 * 1000
+        var POM_WORK_END_MILLIS: Long = 25 * 1000
         var PAUSE_COLOR = Color.parseColor("#feff9e")
+        var WORK_LABEL = "Work"
+        var PAUSE_LABEL = "Pause"
     }
 
     private var _binding: FragmentHomeBinding? = null
     internal val binding get() = _binding!!
-
-    private val database: LocalDatabase by lazy { LocalDatabase.getInstance(requireContext()) }
 
     private lateinit var auth: FirebaseAuth
     private lateinit var prefs: Settings
@@ -59,21 +58,11 @@ class HomeFragment : TopLevelFragment() {
     internal var decs: Int by Delegates.observable(0) { _, _, _ -> updateTimer() }
 
     /**
-     * Counts the number of pomodoro iterations
-     */
-    private var pomodoroCount: Int = 0
-
-    /**
      * Specifies if the pomodoro is currently in a work or pause section
      */
-    internal var isPomodoroPause: Boolean? by Delegates.observable(null) { _, _, _ -> updatePomodoroSection() }
+    internal var isPomodoroPause: Boolean by Delegates.observable(false) { _, _, _ -> updatePomodoroSection() }
 
-    /**
-     * The time when the whole pomodoro session started
-     */
-    private var pomodoroStartTime: LocalDateTime? = null
     internal var isPomodoro: Boolean by Delegates.observable(false) { _, _, _ -> updateMode() }
-    var pomodoroSectionEndTime: LocalDateTime? = null
 
     // Get the text view.
     private lateinit var timeView: TextView
@@ -95,30 +84,6 @@ class HomeFragment : TopLevelFragment() {
         return binding.root
     }
 
-    private suspend fun getCachedTime(): LocalDateTime? {
-        return mainActivity.currStartTime
-        // val rawStartTime = database.timerDao().get(LocalTimer.ID).firstOrNull()
-        // return if (rawStartTime != null) {
-        //     LocalDateTime.parse(rawStartTime.startTime)
-        // } else {
-        //     null
-        // }
-    }
-
-    override fun onPause() {
-        lifecycleScope.launch {
-            if (mainActivity.currStartTime != null) {
-                Log.i("HOME", "Saving current time")
-                database.timerDao().insert(LocalTimer(startTime = mainActivity.currStartTime.toString()))
-                Log.i("HOME", "Saved current time on fragment pause")
-            } else {
-                database.timerDao().delete()
-            }
-        }
-
-        super.onPause()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -129,7 +94,6 @@ class HomeFragment : TopLevelFragment() {
 
         timeView = binding.textviewTime
         timeDecsView = binding.textviewTimeDecs
-
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         // Source is not read from navArgs because, for example,
@@ -228,38 +192,23 @@ class HomeFragment : TopLevelFragment() {
 
 
     private fun textViewTimeButtonListener(view: View) {
-        if (isPomodoro) {
-            // Set up pomodoro timer
-            if (mainActivity.currStartTime == null) {
-                decs = 0
-                mainActivity.currStartTime = LocalDateTime.now()
-                isPomodoroPause = false
-                binding.textViewTimePrompt.text = "Stop Pomodoro"
-            } else {
-                if (pomodoroSectionEndTime == null) {
-                    // Section ended and we should start the next one
-                    if (isPomodoroPause!!) {
-                        isPomodoroPause = false
-                    } else {
-                        isPomodoroPause = true
-                        pomodoroCount++ // Work session just ended we increment the count
-                    }
-                    decs = 0
-                }
+        if (mainActivity.currStartTime != null) {
+            binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_start)
+            lifecycleScope.launch {
+                submitEntry(view)
             }
+            mainActivity.currStartTime = null
             return
+        }
+        if (isPomodoro) {
+            // Start pomodoro timer
+            decs = 0
+            mainActivity.currStartTime = LocalDateTime.now()
+            isPomodoroPause = false
         } else {
-            // Set up stopwatch
-            if (mainActivity.currStartTime != null) {
-                binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_start)
-                lifecycleScope.launch {
-                    submitEntry(view)
-                }
-                mainActivity.currStartTime = null
-            } else {
-                decs = 0
-                mainActivity.currStartTime = LocalDateTime.now()
-            }
+            // Start up stopwatch
+            decs = 0
+            mainActivity.currStartTime = LocalDateTime.now()
         }
     }
 
@@ -285,23 +234,16 @@ class HomeFragment : TopLevelFragment() {
                 if (mainActivity.currStartTime != null) {
                     val millis: Long
                     if (isPomodoro) {
-                        if (pomodoroSectionEndTime == null) {
-                            // Waiting for user prompt
-                            return
+                        val diff = ChronoUnit.MILLIS.between(mainActivity.currStartTime, LocalDateTime.now())  // TODO: change to minutes
+                        val currDiff = diff % POM_PAUSE_END_MILLIS
+                        if (currDiff <= POM_WORK_END_MILLIS) {
+                            // work section
+                            isPomodoroPause = false
+                            millis = POM_WORK_END_MILLIS - currDiff
+                        } else {
+                            isPomodoroPause = true
+                            millis = POM_PAUSE_END_MILLIS - currDiff
                         }
-                        if (LocalDateTime.now().isAfter(pomodoroSectionEndTime)) {
-                            // End the current pomodoro section
-                            pomodoroSectionEndTime = null
-                            if (isPomodoroPause!!) {
-                                // Prompt start work
-                                binding.textViewTimePrompt.text = "Start Work Session"
-                            } else {
-                                // Prompt start pause
-                                binding.textViewTimePrompt.text = "Start Pause Session"
-                            }
-                            return
-                        }
-                        millis = ChronoUnit.MILLIS.between(LocalDateTime.now(), pomodoroSectionEndTime)
                     } else {
                         millis = ChronoUnit.MILLIS.between(mainActivity.currStartTime, LocalDateTime.now())
                     }
@@ -337,24 +279,19 @@ class HomeFragment : TopLevelFragment() {
         } else {
             prefs.switchModeToStopwatch()
             binding.pomodoroStop.visibility = View.GONE
-            isPomodoroPause = null
+            binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
         }
     }
 
     private fun updatePomodoroSection() {
         when (isPomodoroPause) {
             true -> {
-                pomodoroSectionEndTime = LocalDateTime.now().plusSeconds(POMODORO_PAUSE)
-                binding.textViewTimePrompt.text = "Pause"
+                binding.textViewTimePrompt.text = PAUSE_LABEL
                 binding.cardviewTimer.setCardBackgroundColor(PAUSE_COLOR)
             }
             false -> {
-                pomodoroSectionEndTime = LocalDateTime.now().plusSeconds(POMODORO_WORK)  // TODO: change to plus minutes
-                binding.textViewTimePrompt.text = "Work"
+                binding.textViewTimePrompt.text = WORK_LABEL
                 binding.cardviewTimer.setCardBackgroundColor(resources.getColor(R.color.md_theme_light_primary))
-            }
-            else -> {
-                binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
             }
         }
     }
