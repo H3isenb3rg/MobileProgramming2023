@@ -35,14 +35,11 @@ import java.util.Locale
 import kotlin.math.ceil
 import kotlin.properties.Delegates
 
-
 class HomeFragment : TopLevelFragment() {
 
     companion object {
         var POM_PAUSE_END_MILLIS: Long = 30 * 1000
         var POM_WORK_END_MILLIS: Long = 25 * 1000
-        var WORK_LABEL = "Work"
-        var PAUSE_LABEL = "Pause"
         var VIBRATE_PATTERN = longArrayOf(300, 500, 300, 500)
     }
 
@@ -53,26 +50,22 @@ class HomeFragment : TopLevelFragment() {
     private lateinit var prefs: Settings
     private lateinit var journal: Journal
     private lateinit var mainActivity: MainActivity
-    private var vibrator: Vibrator? = null
-    private var vibratorManager: VibratorManager? = null
+    private lateinit var timeTextView: TextView
 
+    // The vibrator service.
+    private var vibrator: Vibrator? = null
+
+    // The currently selected activity.
     private var selectedActivity: Activity? = null
 
-    // Timer related variables
-    // Number of seconds displayed
-    // on the stopwatch.
+    // Number of seconds displayed on the stopwatch.
     internal var decs: Int by Delegates.observable(0) { _, _, _ -> updateTimer() }
 
-    /**
-     * Specifies if the pomodoro is currently in a work or pause section
-     */
-    internal var isPomodoroPause: Boolean? by Delegates.observable(null) { _, _, _ -> updatePomodoroSection() }
+    // Specifies if the pomodoro is currently in a work or pause section
+    internal var isPomodoroPaused: Boolean? by Delegates.observable(null) { _, _, _ -> updatePomodoroSection() }
 
+    // Whether the timer is in pomodoro mode or not.
     internal var isPomodoro: Boolean by Delegates.observable(false) { _, _, _ -> updateMode() }
-
-    // Get the text view.
-    private lateinit var timeView: TextView
-    private lateinit var timeDecsView: TextView
 
     /**
      * The current volume drawable, depends on whether the volume is enabled or not.
@@ -82,20 +75,10 @@ class HomeFragment : TopLevelFragment() {
             R.drawable.ic_volume_on
         } else R.drawable.ic_volume_off
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        if (Build.VERSION.SDK_INT>=31) {
-            vibratorManager = getSystemService(requireContext(), VibratorManager::class.java);
-            vibrator = vibratorManager?.defaultVibrator;
-        }
-        else {
-            vibrator = getSystemService(requireContext(), Vibrator::class.java);
-        }
-
         return binding.root
     }
 
@@ -106,9 +89,14 @@ class HomeFragment : TopLevelFragment() {
         prefs = Settings(requireContext())
         journal = JournalFactory(requireContext()).getJournal()
         mainActivity = requireActivity() as MainActivity
+        timeTextView = binding.textviewTime
 
-        timeView = binding.textviewTime
-        timeDecsView = binding.textviewTimeDecs
+        vibrator = if (Build.VERSION.SDK_INT >= 31) {
+            val vibratorManager = getSystemService(requireContext(), VibratorManager::class.java)
+            vibratorManager?.defaultVibrator
+        } else {
+            getSystemService(requireContext(), Vibrator::class.java)
+        }
 
         // If the fragment is reached after a successful auth operation, show a snack bar.
         // Source is not read from navArgs because, for example,
@@ -163,6 +151,8 @@ class HomeFragment : TopLevelFragment() {
             }
         }
 
+        setupTimer()
+
         // Change mode in preferences on selector change.
         binding.togglegroupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) {
@@ -185,6 +175,13 @@ class HomeFragment : TopLevelFragment() {
             binding.buttonVolumeToggle.setIconResource(volumeDrawable)
         }
 
+        binding.textViewTimePrompt.text =
+            if (mainActivity.currStartTime != null) {
+                getString(R.string.fragment_home_tap_to_stop)
+            } else {
+                getString(R.string.fragment_home_tap_to_start)
+            }
+
         binding.buttonWorkgroup.setOnClickListener {
             findNavController().navigate(
                 if (auth.currentUser == null) {
@@ -200,13 +197,11 @@ class HomeFragment : TopLevelFragment() {
         }
 
         binding.textviewTimeButton.setOnClickListener {
-            textViewTimeButtonListener(it)
+            startStopTimer(it)
         }
-        runTimer()
     }
 
-
-    private fun textViewTimeButtonListener(view: View) {
+    private fun startStopTimer(view: View) {
         if (mainActivity.currStartTime != null) {
             binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_start)
             lifecycleScope.launch {
@@ -215,54 +210,51 @@ class HomeFragment : TopLevelFragment() {
             mainActivity.currStartTime = null
             return
         }
+
         if (isPomodoro) {
             // Start pomodoro timer
             decs = 0
             mainActivity.currStartTime = LocalDateTime.now()
-            isPomodoroPause = false
+            isPomodoroPaused = false
         } else {
             // Start up stopwatch
             decs = 0
             mainActivity.currStartTime = LocalDateTime.now()
         }
+
+        binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
     }
 
-
-
     // Sets the Number of seconds on the timer.
-    // The runTimer() method uses a Handler
-    // to increment the seconds and
-    // update the text view.
-    private fun runTimer() {
-
-        // Creates a new Handler
+    // The runTimer() method uses a Handler to increment the seconds and update the text view.
+    private fun setupTimer() {
+        // Create a new Handler
         val handler = Looper.myLooper()?.let { Handler(it) }
 
-        // Call the post() method,
-        // passing in a new Runnable.
-        // The post() method processes
-        // code without a delay,
-        // so the code in the Runnable
-        // will run almost immediately.
+        // Call the post() method, passing in a new Runnable.
+        // The post() method processes code without a delay,
+        // so the code in the Runnable will run almost immediately.
         handler?.post(object : Runnable {
             override fun run() {
                 if (mainActivity.currStartTime != null) {
                     val millis: Long
                     if (isPomodoro) {
-                        val diff = ChronoUnit.MILLIS.between(mainActivity.currStartTime, LocalDateTime.now())  // TODO: change to minutes
+                        val diff = ChronoUnit.MILLIS.between(
+                            mainActivity.currStartTime, LocalDateTime.now()
+                        )  // TODO: change to minutes
                         val currDiff = diff % POM_PAUSE_END_MILLIS
                         if (currDiff <= POM_WORK_END_MILLIS) {
                             // work section
-                            if (isPomodoroPause == true) {
+                            if (isPomodoroPaused == true) {
                                 vibrate()
                             }
-                            isPomodoroPause = false
+                            isPomodoroPaused = false
                             millis = POM_WORK_END_MILLIS - currDiff
                         } else {
-                            if (isPomodoroPause == false) {
+                            if (isPomodoroPaused == false) {
                                 vibrate()
                             }
-                            isPomodoroPause = true
+                            isPomodoroPaused = true
                             millis = POM_PAUSE_END_MILLIS - currDiff
                         }
                     } else {
@@ -273,17 +265,23 @@ class HomeFragment : TopLevelFragment() {
                     decs = (millis / 100).toInt()
                 }
 
-                // Post the code again
-                // with a delay of 1 second.
+                // Post the code again with a delay of 1 second.
                 handler.postDelayed(this, 100)
             }
         })
     }
 
     private suspend fun submitEntry(view: View) {
-        val diff = ChronoUnit.SECONDS.between(mainActivity.currStartTime!!, LocalDateTime.now())  // TODO: change to minutes
+        val diff = ChronoUnit.SECONDS.between(
+            mainActivity.currStartTime!!, LocalDateTime.now()
+        )  // TODO: change to minutes
         journal.addTimeEntry(
-            null, selectedActivity, isPomodoro, mainActivity.currStartTime!!, LocalDateTime.now(), computePoints(diff)
+            null,
+            selectedActivity,
+            isPomodoro,
+            mainActivity.currStartTime!!,
+            LocalDateTime.now(),
+            computePoints(diff)
         )
         Snackbar.make(
             view, getString(R.string.time_entry_saved), Snackbar.LENGTH_SHORT
@@ -304,7 +302,6 @@ class HomeFragment : TopLevelFragment() {
             prefs.switchModeToPomodoro()
         } else {
             prefs.switchModeToStopwatch()
-            binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
         }
     }
 
@@ -312,39 +309,32 @@ class HomeFragment : TopLevelFragment() {
         if (_binding == null) {
             return
         }
-        when (isPomodoroPause) {
-            true -> {
-                binding.textViewTimePrompt.text = PAUSE_LABEL
-                val backgroundColor = MaterialColors.getColor(
-                    binding.root, com.google.android.material.R.attr.colorTertiaryContainer
-                )
-                val textColor = MaterialColors.getColor(
-                    binding.root, com.google.android.material.R.attr.colorOnTertiaryContainer
-                )
 
-                binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
-                binding.textviewTime.setTextColor(textColor)
-                binding.textViewTimePrompt.setTextColor(textColor)
-            }
+        var backgroundColor = MaterialColors.getColor(
+            binding.root, com.google.android.material.R.attr.colorPrimaryContainer
+        )
+        var strokeColor = MaterialColors.getColor(
+            binding.root, com.google.android.material.R.attr.colorPrimary
+        )
+        var textColor = MaterialColors.getColor(
+            binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer
+        )
 
-            false -> {
-                binding.textViewTimePrompt.text = WORK_LABEL
-                val backgroundColor = MaterialColors.getColor(
-                    binding.root, com.google.android.material.R.attr.colorPrimaryContainer
-                )
-                val textColor = MaterialColors.getColor(
-                    binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer
-                )
-
-                binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
-                binding.textviewTime.setTextColor(textColor)
-                binding.textViewTimePrompt.setTextColor(textColor)
-            }
-
-            else -> {
-
-            }
+        if (isPomodoroPaused == true) {
+            backgroundColor = MaterialColors.getColor(
+                binding.root, com.google.android.material.R.attr.colorTertiaryContainer
+            )
+            strokeColor = MaterialColors.getColor(
+                binding.root, com.google.android.material.R.attr.colorTertiary
+            )
+            textColor = MaterialColors.getColor(
+                binding.root, com.google.android.material.R.attr.colorOnTertiaryContainer
+            )
         }
+
+        binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
+        binding.cardviewTimer.strokeColor = strokeColor
+        binding.textviewTime.setTextColor(textColor)
     }
 
     private fun updateTimer() {
@@ -358,15 +348,9 @@ class HomeFragment : TopLevelFragment() {
 
         // Format the seconds into hours, minutes,
         // and seconds.
-        val time = String.format(
-            Locale.getDefault(), "%d:%02d", minutes, secs
+        timeTextView.text = String.format(
+            Locale.getDefault(), "%02d:%02d:%02d", minutes, secs, decSecs
         )
-        val decsTime = String.format(
-            Locale.getDefault(), ".%01d", decSecs
-        )
-
-        timeView.text = time
-        timeDecsView.text = decsTime
     }
 
     private fun showMigrationDialog() {
@@ -390,10 +374,9 @@ class HomeFragment : TopLevelFragment() {
 
     internal fun vibrate() {
         if (Build.VERSION.SDK_INT >= 26) {
-            vibrator?.vibrate(VibrationEffect.createWaveform(VIBRATE_PATTERN,-1));
-        }
-        else {
-            vibrator?.vibrate(VIBRATE_PATTERN,-1);
+            vibrator?.vibrate(VibrationEffect.createWaveform(VIBRATE_PATTERN, -1))
+        } else {
+            @Suppress("DEPRECATION") vibrator?.vibrate(VIBRATE_PATTERN, -1)
         }
     }
 }
