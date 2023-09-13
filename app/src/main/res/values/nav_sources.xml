@@ -4,4 +4,6 @@
     <string name="source_sign_in">1</string>
     <string name="source_sign_up">2</string>
     <string name="source_sign_out">3</string>
+    <string name="source_friend_request">4</string>
+    <string name="source_quick_action">5</string>
 </resources>

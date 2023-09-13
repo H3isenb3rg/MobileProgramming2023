@@ -67,7 +67,11 @@ open class JournalAdapter(
             item.totalPoints
         )
 
-        holder.entries.adapter = EntriesAdapter(context, item.timeEntries, showEntryOptions)
+        holder.entries.adapter = EntriesAdapter(
+            context,
+            item.timeEntries.sortedByDescending { it.startTime },
+            showEntryOptions
+        )
     }
 
     override fun getItemCount(): Int = dataset.size

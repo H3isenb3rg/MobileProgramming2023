@@ -215,6 +215,12 @@ class MainActivity : AppCompatActivity() {
 
             val manualLogMargins = (binding.fabManualLog.layoutParams as MarginLayoutParams)
 
+            binding.fabStartTimer.text = if (currStartTime == null) {
+                getString(R.string.start_timer)
+            } else {
+                getString(R.string.stop_timer)
+            }
+
             if (destination.id == R.id.homeFragment) {
                 binding.fabStartTimer.hide()
                 binding.fabManualLog.size = FloatingActionButton.SIZE_NORMAL
@@ -227,6 +233,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.fabManualLog.setOnClickListener {
             navController.navigate(MainNavDirections.actionGlobalManualLog())
+        }
+
+        binding.fabStartTimer.setOnClickListener {
+            navController.navigate(MainNavDirections.actionGlobalHome(source = R.string.source_quick_action))
         }
 
         // When the user scrolls down, hide the quick actions.

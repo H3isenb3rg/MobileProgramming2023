@@ -35,7 +35,7 @@ class EntriesAdapter(
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val item = dataset[position]
 
-        holder.activityName.text = item.activity?.name
+        holder.activityName.text = item.activity?.name ?: context.getString(R.string.no_activity)
         holder.points.text = context.getString(R.string.entry_points, item.points)
         holder.duration.text = context.getString(
             R.string.activity_duration,

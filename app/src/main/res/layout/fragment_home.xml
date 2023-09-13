@@ -50,40 +50,31 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/textview_time_button">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textview_time"
+                style="?attr/textAppearanceDisplayMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/time_layout"
-                android:orientation="horizontal"
+                android:text="@string/fragment_home_time_zero"
+                android:textColor="?attr/colorOnPrimaryContainer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/textview_time"
-                    style="?attr/textAppearanceDisplayMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fragment_home_time_zero"
-                    android:textColor="?attr/colorOnPrimaryContainer" />
-
-            </LinearLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_time_prompt"
                 style="?attr/textAppearanceTitleMedium"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="12dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:text="@string/fragment_home_tap_to_start"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/time_layout" />
+                app:layout_constraintTop_toBottomOf="@id/textview_time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -122,8 +113,8 @@
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_task"
         app:iconTint="?attr/colorOnSurface"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardview_timer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

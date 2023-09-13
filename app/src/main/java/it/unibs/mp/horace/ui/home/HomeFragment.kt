@@ -99,36 +99,6 @@ class HomeFragment : TopLevelFragment() {
             getSystemService(requireContext(), Vibrator::class.java)
         }
 
-        // If the fragment is reached after a successful auth operation, show a snack bar.
-        // Source is not read from navArgs because, for example,
-        // if the user signs out from the settings fragment, they are redirected
-        // to the home and shown a snackbar. If they then go to Activities, and then press back,
-        // the snackbar is shown again.
-        // Removing the source argument solves this.
-        // See https://stackoverflow.com/questions/62639146/android-navargs-clear-on-back.
-        when (HomeFragmentArgs.fromBundle(requireArguments()).source) {
-            R.string.source_sign_in -> {
-                Snackbar.make(
-                    view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
-                ).show()
-
-                showMigrationDialog()
-            }
-
-            R.string.source_sign_up -> Snackbar.make(
-                view, getString(R.string.signed_up_successfully), Snackbar.LENGTH_SHORT
-            ).show()
-
-            R.string.source_sign_out -> Snackbar.make(
-                view, getString(R.string.signed_out_successfully), Snackbar.LENGTH_SHORT
-            ).show()
-
-            R.string.source_friend_request -> Snackbar.make(
-                view, getString(R.string.friend_request_successful), Snackbar.LENGTH_SHORT
-            ).show()
-        }
-        arguments?.remove("source")
-
         val uid = HomeFragmentArgs.fromBundle(requireArguments()).uid
         if (uid != null && auth.currentUser != null) {
             arguments?.remove("source")
@@ -160,6 +130,7 @@ class HomeFragment : TopLevelFragment() {
                 return@addOnButtonCheckedListener
             }
             isPomodoro = checkedId != binding.buttonStopwatch.id
+            binding.buttonVolumeToggle.isEnabled = isPomodoro
         }
 
         // Set timer mode from value stored in preferences.
@@ -169,6 +140,7 @@ class HomeFragment : TopLevelFragment() {
 
         // Set volume drawable from value stored in preferences.
         binding.buttonVolumeToggle.setIconResource(volumeDrawable)
+        binding.buttonVolumeToggle.isEnabled = isPomodoro
 
         // Toggle volume in preferences on click.
         binding.buttonVolumeToggle.setOnClickListener {
@@ -197,33 +169,64 @@ class HomeFragment : TopLevelFragment() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectActivityGraph())
         }
 
-        binding.textviewTimeButton.setOnClickListener {
+        binding.cardviewTimer.setOnClickListener {
             startStopTimer(it)
         }
+
+        // If the fragment is reached after a successful auth operation, show a snack bar.
+        // Source is not read from navArgs because, for example,
+        // if the user signs out from the settings fragment, they are redirected
+        // to the home and shown a snackbar. If they then go to Activities, and then press back,
+        // the snackbar is shown again.
+        // Removing the source argument solves this.
+        // See https://stackoverflow.com/questions/62639146/android-navargs-clear-on-back.
+        when (HomeFragmentArgs.fromBundle(requireArguments()).source) {
+            R.string.source_sign_in -> {
+                Snackbar.make(
+                    view, getString(R.string.signed_in_successfully), Snackbar.LENGTH_SHORT
+                ).show()
+
+                showMigrationDialog()
+            }
+
+            R.string.source_sign_up -> Snackbar.make(
+                view, getString(R.string.signed_up_successfully), Snackbar.LENGTH_SHORT
+            ).show()
+
+            R.string.source_sign_out -> Snackbar.make(
+                view, getString(R.string.signed_out_successfully), Snackbar.LENGTH_SHORT
+            ).show()
+
+            R.string.source_friend_request -> Snackbar.make(
+                view, getString(R.string.friend_request_successful), Snackbar.LENGTH_SHORT
+            ).show()
+
+            R.string.source_quick_action -> {
+                startStopTimer(view)
+            }
+        }
+        arguments?.remove("source")
     }
 
     private fun startStopTimer(view: View) {
         if (mainActivity.currStartTime != null) {
-            binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_start)
             lifecycleScope.launch {
                 submitEntry(view)
             }
+
+            binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_start)
             mainActivity.currStartTime = null
+
             return
         }
 
+        binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
+        decs = 0
+        mainActivity.currStartTime = LocalDateTime.now()
         if (isPomodoro) {
             // Start pomodoro timer
-            decs = 0
-            mainActivity.currStartTime = LocalDateTime.now()
             isPomodoroPaused = false
-        } else {
-            // Start up stopwatch
-            decs = 0
-            mainActivity.currStartTime = LocalDateTime.now()
         }
-
-        binding.textViewTimePrompt.text = getString(R.string.fragment_home_tap_to_stop)
     }
 
     // Sets the Number of seconds on the timer.
@@ -246,13 +249,13 @@ class HomeFragment : TopLevelFragment() {
                         val currDiff = diff % POM_PAUSE_END_MILLIS
                         if (currDiff <= POM_WORK_END_MILLIS) {
                             // work section
-                            if (isPomodoroPaused == true) {
+                            if (isPomodoro && isPomodoroPaused == true) {
                                 vibrate()
                             }
                             isPomodoroPaused = false
                             millis = POM_WORK_END_MILLIS - currDiff
                         } else {
-                            if (isPomodoroPaused == false) {
+                            if (isPomodoro && isPomodoroPaused == false) {
                                 vibrate()
                             }
                             isPomodoroPaused = true
@@ -336,6 +339,7 @@ class HomeFragment : TopLevelFragment() {
         binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
         binding.cardviewTimer.strokeColor = strokeColor
         binding.textviewTime.setTextColor(textColor)
+        binding.textViewTimePrompt.setTextColor(textColor)
     }
 
     private fun updateTimer() {
@@ -374,6 +378,10 @@ class HomeFragment : TopLevelFragment() {
     }
 
     internal fun vibrate() {
+        if (!prefs.isVolumeEnabled) {
+            return
+        }
+
         if (Build.VERSION.SDK_INT >= 26) {
             vibrator?.vibrate(VibrationEffect.createWaveform(VIBRATE_PATTERN, -1))
         } else {

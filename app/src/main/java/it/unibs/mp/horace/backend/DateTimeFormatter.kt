@@ -27,10 +27,13 @@ class DateTimeFormatter(val context: Context) {
         val hours = duration / 3600
         val minutes = (duration % 3600) / 60
 
+        val secondsString = context.getString(R.string.seconds, duration)
         val minutesString = context.resources.getQuantityString(R.plurals.minutes, minutes, minutes)
         val hoursString = context.resources.getQuantityString(R.plurals.hours, hours, hours)
 
-        return if (hours == 0) {
+        return if (duration < 60) {
+            secondsString
+        } else if (hours == 0) {
             minutesString
         } else if (minutes == 0) {
             hoursString

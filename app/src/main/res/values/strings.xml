@@ -99,7 +99,7 @@
     <string name="fragment_home_migrate_accept">Yes</string>
     <string name="fragment_home_time_zero">00:00:00</string>
     <string name="fragment_home_tap_to_stop">Tap to stop</string>
-    <string name="fragment_home_time_entry_saved">New Time Entry Saved</string>
+    <string name="fragment_home_time_entry_saved">New time entry saved</string>
 
     <!-- Manual log fragment -->
     <string name="fragment_manual_log_activity">Activity</string>
@@ -254,7 +254,6 @@
     <string name="share_with">Share profile with</string>
     <string name="request_friendship">Request friendship</string>
     <string name="email_already_used">Email already in use</string>
-    <string name="source_friend_request">4</string>
     <string name="friend_request_successful">Friend request sent</string>
     <string name="activities_in_last_7_days">Activities in last 7 days</string>
     <string name="most_frequent_activities">Most frequent activities</string>
@@ -286,6 +285,9 @@
     </plurals>
     <string name="streak_start_date">From %s to today. Good job!</string>
     <string name="no_streak_yet">No streak yet</string>
+    <string name="stop_timer">Stop timer</string>
+    <string name="fragment_home_tap_to_resume">Tap to resume</string>
+    <string name="no_activity">No activity</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>
@@ -294,4 +296,5 @@
         <item quantity="one">%1$d min</item>
         <item quantity="other">%1$d mins</item>
     </plurals>
+    <string name="seconds">%1$ds</string>
 </resources>
