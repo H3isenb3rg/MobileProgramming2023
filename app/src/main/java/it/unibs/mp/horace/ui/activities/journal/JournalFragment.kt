@@ -48,6 +48,9 @@ class JournalFragment : SortFragment() {
 
             adapter.notifyItemRangeInserted(0, journalDays.size)
 
+            if (_binding == null) {
+                return@launch
+            }
             binding.textviewNoEntries.isVisible = journalDays.isEmpty()
         }
     }

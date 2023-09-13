@@ -32,14 +32,13 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Locale
+import kotlin.math.ceil
 import kotlin.properties.Delegates
 
 
 class HomeFragment : TopLevelFragment() {
 
     companion object {
-        var POMODORO_WORK: Long = 25
-        var POMODORO_PAUSE: Long = 5
         var POM_PAUSE_END_MILLIS: Long = 30 * 1000
         var POM_WORK_END_MILLIS: Long = 25 * 1000
         var WORK_LABEL = "Work"
@@ -282,13 +281,22 @@ class HomeFragment : TopLevelFragment() {
     }
 
     private suspend fun submitEntry(view: View) {
+        val diff = ChronoUnit.SECONDS.between(mainActivity.currStartTime!!, LocalDateTime.now())  // TODO: change to minutes
         journal.addTimeEntry(
-            null, selectedActivity, isPomodoro, mainActivity.currStartTime!!, LocalDateTime.now(), 0
+            null, selectedActivity, isPomodoro, mainActivity.currStartTime!!, LocalDateTime.now(), computePoints(diff)
         )
-        //TODO: points system
         Snackbar.make(
             view, getString(R.string.time_entry_saved), Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    private suspend fun computePoints(diff: Long): Int {
+        var points = diff / 10
+        // TODO: Group work bonus
+        if (journal.streak() > 1) {
+            points += ceil(points * 0.2).toLong()
+        }
+        return points.toInt()
     }
 
     private fun updateMode() {
@@ -301,6 +309,9 @@ class HomeFragment : TopLevelFragment() {
     }
 
     private fun updatePomodoroSection() {
+        if (_binding == null) {
+            return
+        }
         when (isPomodoroPause) {
             true -> {
                 binding.textViewTimePrompt.text = PAUSE_LABEL

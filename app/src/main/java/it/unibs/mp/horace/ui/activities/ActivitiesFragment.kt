@@ -76,6 +76,9 @@ class ActivitiesFragment : TopLevelFragment() {
                 return@launch
             }
 
+            if (_binding == null) {
+                return@launch
+            }
             binding.layoutStreak.isVisible = true
             binding.textviewStreak.text = resources.getQuantityString(
                 R.plurals.streak, streak, streak
@@ -115,6 +118,9 @@ class ActivitiesFragment : TopLevelFragment() {
         }
 
         if (chartEntries.isEmpty()) {
+            if (_binding == null) {
+                return
+            }
             binding.textviewNoActivitiesLastWeek.isVisible = true
             binding.chartActivitiesLastWeek.isVisible = false
             return
@@ -143,6 +149,9 @@ class ActivitiesFragment : TopLevelFragment() {
             setDrawValues(false)
         }
 
+        if (_binding == null) {
+            return
+        }
         binding.chartActivitiesLastWeek.apply {
             data = LineData(dataset)
 
@@ -188,6 +197,9 @@ class ActivitiesFragment : TopLevelFragment() {
         }
 
         // Refresh the chart
+        if (_binding == null) {
+            return
+        }
         binding.chartActivitiesLastWeek.isVisible = true
         binding.chartActivitiesLastWeek.invalidate()
     }
@@ -203,6 +215,9 @@ class ActivitiesFragment : TopLevelFragment() {
                 }
 
         if (chartEntries.isEmpty()) {
+            if (_binding == null) {
+                return
+            }
             binding.textviewNoMostFrequentActivities.isVisible = true
             binding.chartMostFrequentActivities.isVisible = false
             return
@@ -231,9 +246,15 @@ class ActivitiesFragment : TopLevelFragment() {
             valueLinePart1Length = 0.9f
             valueLinePart2Length = 0f
             valueLineColor = ColorTemplate.COLOR_NONE
+            if (_binding == null) {
+                return
+            }
             valueFormatter = PercentFormatter(binding.chartMostFrequentActivities)
         }
 
+        if (_binding == null) {
+            return
+        }
         binding.chartMostFrequentActivities.apply {
             data = PieData(dataset)
             renderer = PieChartLabelRenderer(this, animator, viewPortHandler, requireContext())
@@ -264,6 +285,9 @@ class ActivitiesFragment : TopLevelFragment() {
             setExtraOffsets(0f, 10f, 0f, 20f)
         }
 
+        if (_binding == null) {
+            return
+        }
         binding.chartMostFrequentActivities.isVisible = true
         binding.chartMostFrequentActivities.invalidate()
     }
