@@ -49,7 +49,6 @@ data class TimeEntry(
     }
 
     // No-argument constructor required for Firestore.
-    @Suppress("unused")
     constructor() : this(
         "", null, null, false, LocalDateTime.now(), LocalDateTime.now(), 0
     )

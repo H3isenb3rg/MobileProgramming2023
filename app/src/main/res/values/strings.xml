@@ -73,6 +73,7 @@
     <string name="destination_sort_invite_friends">Sort invite friends</string>
     <string name="destination_sort_journal">Sort journal</string>
     <string name="destination_sort_friends">Sort friends</string>
+    <string name="destination_edit_entry">Edit entry</string>
 
     <!-- Menu items -->
     <string name="menu_settings">Settings</string>
@@ -96,6 +97,9 @@
     <string name="fragment_home_migrate_description">Would you like to move your local journal to the cloud?</string>
     <string name="fragment_home_migrate_decline">No, thanks</string>
     <string name="fragment_home_migrate_accept">Yes</string>
+    <string name="fragment_home_time_zero">00:00:00</string>
+    <string name="fragment_home_tap_to_stop">Tap to stop</string>
+    <string name="fragment_home_time_entry_saved">New Time Entry Saved</string>
 
     <!-- Manual log fragment -->
     <string name="fragment_manual_log_activity">Activity</string>
@@ -193,9 +197,19 @@
     <string name="dialog_sort_friends_radio_descending">Username descending</string>
 
     <!-- Journal entry options dialog -->
+    <string name="dialog_entry_options_title">Entry options</string>
     <string name="dialog_entry_options_edit">Edit entry</string>
     <string name="dialog_entry_options_delete">Delete entry</string>
     <string name="dialog_entry_options_deleted">Entry deleted</string>
+
+    <!-- Edit entry fragment -->
+    <string name="fragment_edit_entry_activity">Activity</string>
+    <string name="fragment_edit_entry_new_activity">New activity</string>
+    <string name="fragment_edit_entry_date">Date</string>
+    <string name="fragment_edit_entry_start_time">Start time</string>
+    <string name="fragment_edit_entry_end_time">End time</string>
+    <string name="fragment_edit_entry_description">Description (optional)</string>
+    <string name="fragment_edit_entry_save">Save</string>
 
     <string name="email">Email</string>
     <string name="username">Username</string>
@@ -272,19 +286,6 @@
     </plurals>
     <string name="streak_start_date">From %s to today. Good job!</string>
     <string name="no_streak_yet">No streak yet</string>
-    <string name="dialog_entry_options_title">Entry options</string>
-    <string name="fragment_edit_entry_activity">Activity</string>
-    <string name="fragment_edit_entry_new_activity">New activity</string>
-    <string name="fragment_edit_entry_date">Date</string>
-    <string name="fragment_edit_entry_start_time">Start time</string>
-    <string name="fragment_edit_entry_end_time">End time</string>
-    <string name="fragment_edit_entry_description">Description (optional)</string>
-    <string name="fragment_edit_entry_save">Save</string>
-    <string name="destination_edit_entry">Edit entry</string>
-    <string name="fragment_home_tap_to_stop">Tap to stop</string>
-    <string name="time_entry_saved">New Time Entry Saved</string>
-    <string name="pomodoro_stop">Stop Pomodoro</string>
-    <string name="fragment_home_time_zero">00:00:00</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>
         <item quantity="other">%1$d hrs</item>

@@ -166,6 +166,7 @@ class AuthDialog : BottomSheetDialogFragment() {
                         }
                 }
 
+                @Suppress("EmptyMethod")
                 override fun onCancel() {
                     return
                 }

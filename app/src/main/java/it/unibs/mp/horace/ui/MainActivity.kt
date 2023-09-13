@@ -2,8 +2,6 @@ package it.unibs.mp.horace.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Filterable
 import androidx.activity.OnBackPressedCallback
@@ -32,8 +30,6 @@ import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.databinding.ActivityMainBinding
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
-
 
 fun Context.shareUserProfile() {
     ShareCompat.IntentBuilder(this).setType("text/plain")
@@ -59,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
+
     /**
      * Variable used to hold the current start time of the displayed timer
      */

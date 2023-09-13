@@ -25,6 +25,7 @@ import it.unibs.mp.horace.backend.Settings
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
+import it.unibs.mp.horace.backend.journal.JournalMigrator
 import it.unibs.mp.horace.databinding.FragmentHomeBinding
 import it.unibs.mp.horace.ui.MainActivity
 import it.unibs.mp.horace.ui.TopLevelFragment
@@ -284,7 +285,7 @@ class HomeFragment : TopLevelFragment() {
             computePoints(diff)
         )
         Snackbar.make(
-            view, getString(R.string.time_entry_saved), Snackbar.LENGTH_SHORT
+            view, getString(R.string.fragment_home_time_entry_saved), Snackbar.LENGTH_SHORT
         ).show()
     }
 
@@ -361,7 +362,7 @@ class HomeFragment : TopLevelFragment() {
             }
             .setPositiveButton(resources.getString(R.string.fragment_home_migrate_accept)) { dialog, _ ->
                 lifecycleScope.launch {
-                    // JournalFactory(requireContext()).migrateLocalJournal()
+                    JournalMigrator.migrateLocalToRemote(requireContext())
                     dialog.dismiss()
                 }
             }.show()
