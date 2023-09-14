@@ -72,7 +72,6 @@ class NotificationsAdapter(
         val item = dataset[position]
 
         if (item.isExpired) {
-            holder.container.setBackgroundColor(com.google.android.material.R.attr.colorSurface)
             holder.action?.visibility = View.INVISIBLE
         }
 

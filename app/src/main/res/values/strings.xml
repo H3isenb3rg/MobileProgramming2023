@@ -286,7 +286,6 @@
     <string name="streak_start_date">From %s to today. Good job!</string>
     <string name="no_streak_yet">No streak yet</string>
     <string name="stop_timer">Stop timer</string>
-    <string name="fragment_home_tap_to_resume">Tap to resume</string>
     <string name="no_activity">No activity</string>
     <plurals name="hours">
         <item quantity="one">%1$d hr</item>

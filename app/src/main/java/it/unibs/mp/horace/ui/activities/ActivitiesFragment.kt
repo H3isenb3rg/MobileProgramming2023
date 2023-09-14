@@ -178,7 +178,7 @@ class ActivitiesFragment : TopLevelFragment() {
                     viewPortHandler, xAxis, getTransformer(YAxis.AxisDependency.LEFT)
                 )
             )
-            setExtraOffsets(0f, 0f, 0f, 20f)
+            setExtraOffsets(0f, 10f, 0f, 20f)
 
             // Left Y axis
             axisLeft.textColor = MaterialColors.getColor(
@@ -282,7 +282,7 @@ class ActivitiesFragment : TopLevelFragment() {
                     view, com.google.android.material.R.attr.colorOnBackground
                 )
             )
-            setExtraOffsets(0f, 10f, 0f, 20f)
+            setExtraOffsets(0f, 15f, 0f, 15f)
         }
 
         if (_binding == null) {
