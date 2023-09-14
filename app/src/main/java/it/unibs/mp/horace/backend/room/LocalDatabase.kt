@@ -7,14 +7,12 @@ import androidx.room.RoomDatabase
 import it.unibs.mp.horace.backend.room.daos.ActivitiesDao
 import it.unibs.mp.horace.backend.room.daos.AreasDao
 import it.unibs.mp.horace.backend.room.daos.TimeEntriesDao
-import it.unibs.mp.horace.backend.room.daos.TimerDao
 import it.unibs.mp.horace.backend.room.models.LocalActivity
 import it.unibs.mp.horace.backend.room.models.LocalArea
 import it.unibs.mp.horace.backend.room.models.LocalTimeEntry
-import it.unibs.mp.horace.backend.room.models.LocalTimer
 
 @Database(
-    entities = [LocalArea::class, LocalActivity::class, LocalTimeEntry::class, LocalTimer::class],
+    entities = [LocalArea::class, LocalActivity::class, LocalTimeEntry::class],
     version = 1,
     exportSchema = false
 )
@@ -22,7 +20,6 @@ abstract class LocalDatabase : RoomDatabase() {
     abstract fun areasDao(): AreasDao
     abstract fun activitiesDao(): ActivitiesDao
     abstract fun timeEntriesDao(): TimeEntriesDao
-    abstract fun timerDao(): TimerDao
 
     companion object {
         private const val DB_NAME = "horace_database"

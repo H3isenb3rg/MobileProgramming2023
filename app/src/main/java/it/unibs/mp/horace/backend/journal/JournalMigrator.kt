@@ -1,9 +1,15 @@
 package it.unibs.mp.horace.backend.journal
 
+import android.content.Context
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.firebase.models.Area
 
 class JournalMigrator(private val source: Journal, private val destination: Journal) {
+    companion object {
+        suspend fun migrateLocalToRemote(context: Context) {
+            JournalMigrator(RoomJournal(context), FirestoreJournal()).migrate()
+        }
+    }
 
     suspend fun migrate() {
         val sourceEntries = source.getAllTimeEntries()

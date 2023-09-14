@@ -20,7 +20,6 @@ data class Area(val id: String, val name: String) {
     }
 
     // No-argument constructor required for Firestore.
-    @Suppress("unused")
     constructor() : this("", "")
 
     /**
