@@ -22,6 +22,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.unibs.mp.horace.R
 import it.unibs.mp.horace.backend.Settings
+import it.unibs.mp.horace.backend.firebase.CurrentUser
 import it.unibs.mp.horace.backend.firebase.models.Activity
 import it.unibs.mp.horace.backend.journal.Journal
 import it.unibs.mp.horace.backend.journal.JournalFactory
@@ -296,12 +297,18 @@ class HomeFragment : TopLevelFragment() {
     }
 
     private suspend fun computePoints(diff: Long): Int {
-        var points = diff / 10
-        // TODO: Group work bonus
-        if (journal.streak() > 1) {
-            points += ceil(points * 0.2).toLong()
+        val originalPoints = diff / 10
+        var finalPoints = originalPoints
+        if (auth.currentUser != null) {
+            val currentUser = CurrentUser()
+            if (currentUser.workGroup().isNotEmpty()) {
+                finalPoints += ceil(originalPoints * 0.2).toLong()
+            }
         }
-        return points.toInt()
+        if (journal.streak() > 1) {
+            finalPoints += ceil(originalPoints * 0.2).toLong()
+        }
+        return finalPoints.toInt()
     }
 
     private fun updateMode() {
@@ -309,6 +316,7 @@ class HomeFragment : TopLevelFragment() {
             prefs.switchModeToPomodoro()
         } else {
             prefs.switchModeToStopwatch()
+            standardColoring()
         }
     }
 
@@ -317,27 +325,41 @@ class HomeFragment : TopLevelFragment() {
             return
         }
 
-        var backgroundColor = MaterialColors.getColor(
+        if (isPomodoroPaused == true) {
+            pauseColoring()
+        } else {
+            standardColoring()
+        }
+    }
+
+
+    private fun standardColoring() {
+        val backgroundColor = MaterialColors.getColor(
             binding.root, com.google.android.material.R.attr.colorPrimaryContainer
         )
-        var strokeColor = MaterialColors.getColor(
+        val strokeColor = MaterialColors.getColor(
             binding.root, com.google.android.material.R.attr.colorPrimary
         )
-        var textColor = MaterialColors.getColor(
+        val textColor = MaterialColors.getColor(
             binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer
         )
 
-        if (isPomodoroPaused == true) {
-            backgroundColor = MaterialColors.getColor(
-                binding.root, com.google.android.material.R.attr.colorTertiaryContainer
-            )
-            strokeColor = MaterialColors.getColor(
-                binding.root, com.google.android.material.R.attr.colorTertiary
-            )
-            textColor = MaterialColors.getColor(
-                binding.root, com.google.android.material.R.attr.colorOnTertiaryContainer
-            )
-        }
+        binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
+        binding.cardviewTimer.strokeColor = strokeColor
+        binding.textviewTime.setTextColor(textColor)
+        binding.textViewTimePrompt.setTextColor(textColor)
+    }
+
+    private fun pauseColoring() {
+        val backgroundColor = MaterialColors.getColor(
+            binding.root, com.google.android.material.R.attr.colorTertiaryContainer
+        )
+        val strokeColor = MaterialColors.getColor(
+            binding.root, com.google.android.material.R.attr.colorTertiary
+        )
+        val textColor = MaterialColors.getColor(
+            binding.root, com.google.android.material.R.attr.colorOnTertiaryContainer
+        )
 
         binding.cardviewTimer.setCardBackgroundColor(backgroundColor)
         binding.cardviewTimer.strokeColor = strokeColor
